@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/constants.dart';
 
 class PwdSave extends StatefulWidget {
   const PwdSave({Key? key}) : super(key: key);
@@ -23,8 +24,14 @@ class _PwdSaveState extends State<PwdSave> {
             });
           },
         ),
-        const Expanded(
-          child: Text("Mémoriser votre mot de passe ?"),
+        Expanded(
+          child: const Text(
+            "Rester connecté",
+            style: TextStyle(
+              color: kPrimaryColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ],
     );

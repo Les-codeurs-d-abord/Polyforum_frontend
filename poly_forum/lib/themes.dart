@@ -20,7 +20,8 @@ TextTheme textTheme() {
     headline1: TextStyle(
       fontSize: 60,
       fontWeight: FontWeight.bold,
-      color: kTextColor,
+      color: kButtonColor,
+      letterSpacing: -1,
     ),
   );
 }

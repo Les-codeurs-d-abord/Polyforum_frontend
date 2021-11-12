@@ -6,6 +6,6 @@ final RegExp emailValidatorRegExp =
 const kScaffoldColor = Colors.white;
 const kTextColor = Colors.black;
 //à voir
-const kPrimaryColor = Color(0xFF6E00B1);
-const kSecondaryColor = Colors.grey;
-const kContainerColor = Colors.white;
+const kPrimaryColor = Color(0xFF263238);
+const kSecondaryColor = Color(0xFFE3F3FD);
+const kButtonColor = Color(0xFF0D47A1);

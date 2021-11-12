@@ -14,10 +14,6 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kScaffoldColor,
-      appBar: AppBar(
-        title: const Text("Poly Forum"),
-        elevation: 0,
-      ),
       body: BlocProvider(
         create: (context) => SignInScreenCubit(Repository()),
         child: const Body(),

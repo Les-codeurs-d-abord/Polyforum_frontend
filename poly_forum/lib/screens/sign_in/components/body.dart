@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/constants.dart';
 import 'package:poly_forum/cubit/sign_in_screen_cubit.dart';
 import 'package:poly_forum/screens/home/home_screen.dart';
 import 'package:poly_forum/screens/sign_in/components/sign_form.dart';
@@ -32,39 +33,45 @@ class Body extends StatelessWidget {
   }
 
   Widget buildInitialScreen(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: Container(
-            color: Colors.white,
-            child: Center(
-              child: Image.asset(
-                "images/logo_temp.png",
-                width: 500,
-                height: 500,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            color: Colors.grey[200],
-            child: const Center(
-              child: SizedBox(
-                width: 600,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > 1080) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                width: 800,
                 child: SingleChildScrollView(
-                  child: Card(
-                    child: SignForm(),
+                  child: SignForm(),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  color: kSecondaryColor,
+                  child: Center(
+                    child: Image.asset(
+                      "images/interview_1.png",
+                      width: 700,
+                      height: 700,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
+            ],
+          );
+        } else {
+          return Expanded(
+            child: Container(
+              height: double.infinity,
+              color: kScaffoldColor,
+              child: SingleChildScrollView(
+                child: SignForm(),
+              ),
             ),
-          ),
-        ),
-      ],
+          );
+        }
+      },
     );
   }
 

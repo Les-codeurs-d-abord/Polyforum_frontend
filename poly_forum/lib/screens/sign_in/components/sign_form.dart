@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/constants.dart';
 import 'package:poly_forum/cubit/sign_in_screen_cubit.dart';
 import 'package:poly_forum/screens/sign_in/components/email_form_field.dart';
+import 'package:poly_forum/screens/sign_in/components/pwd_forget.dart';
 import 'package:poly_forum/screens/sign_in/components/pwd_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/screens/sign_in/components/pwd_save.dart';
@@ -20,63 +22,69 @@ class _SignFormState extends State<SignForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(25.0),
+      padding: const EdgeInsets.symmetric(
+        vertical: 25,
+        horizontal: 100,
+      ),
       child: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Image.asset(
+              "images/logo_temp.png",
+              width: 200,
+              height: 200,
+              fit: BoxFit.cover,
+            ),
             Text(
               "Connexion",
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headline1,
             ),
+            const SizedBox(height: 80),
             EmailFormField(_emailController),
             const SizedBox(height: 30),
             PwdFormField(_passwordController),
+            const SizedBox(height: 10),
             const PwdSave(),
-            const SizedBox(height: 30),
-            TextButton(
-              style: TextButton.styleFrom(
-                primary: Colors.white,
-                backgroundColor: Colors.orange,
-                onSurface: Colors.grey,
-                minimumSize: const Size(250, 60),
-              ),
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
+            const SizedBox(height: 70),
+            SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.white,
+                  backgroundColor: kButtonColor,
+                  onSurface: Colors.grey,
+                  // minimumSize: const Size(250, 60),
+                ),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
 
-                  BlocProvider.of<SignInScreenCubit>(context)
-                      .navigateToHomeScreenEvent(
-                          _emailController.text, _passwordController.text);
-                }
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "Se connecter",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 20,
-                  ),
+                    BlocProvider.of<SignInScreenCubit>(context)
+                        .navigateToHomeScreenEvent(
+                            _emailController.text, _passwordController.text);
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    SizedBox(),
+                    Text(
+                      "Se connecter",
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Icon(Icons.arrow_forward_outlined),
+                  ],
                 ),
               ),
             ),
             const SizedBox(height: 10),
-            TextButton(
-              onPressed: () => print("Mdp oublié"),
-              child: Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.blue,
-                      width: 1,
-                    ),
-                  ),
-                ),
-                child: const Text("Mot de passe oublié ?"),
-              ),
-            ),
+            const PwdForget(),
           ],
         ),
       ),
