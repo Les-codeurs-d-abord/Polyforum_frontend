@@ -36,6 +36,7 @@ dev_dependencies:
   equatable: ^2.0.3
   flutter_bloc: ^7.3.0
   flutter_lints: ^1.0.0
+  http: ^0.13.4
   flutter_test:
     sdk: flutter
 
