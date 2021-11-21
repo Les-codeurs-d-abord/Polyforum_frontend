@@ -1,47 +1,50 @@
+import 'package:poly_forum/constants.dart';
 import 'package:poly_forum/data/models/user_model.dart';
-import 'dart:io';
-import 'dart:convert' as convert;
+import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Repository {
+  final ip = "10.204.3.35:8080";
+
+// Create storage
+  final storage = new FlutterSecureStorage();
+
   Future<User> fetchUserToken(String mail, String password) async {
     print(mail);
 
-    var response =
-        await http.get(Uri.parse('http://10.42.140.18:8080/api/login/info'));
+    final response = await http.post(
+      Uri.parse('http://$ip/api/login/signin'),
+      body: {
+        'email': mail,
+        'password': password,
+      },
+    );
 
     if (response.statusCode == 200) {
-      var jsonResponse =
-          convert.jsonDecode(response.body) as Map<String, dynamic>;
-      print(jsonResponse);
-      /* var itemCount = jsonResponse['totalItems']; */
-      /* print('Number of books about http: $itemCount.'); */
+      print(response.body);
+      var data = jsonDecode(response.body);
+      String email = data["email"];
+      String token = data["token"];
+
+      // Save token
+      await storage.write(key: tokenPref, value: token);
+
+      return User(email);
     } else {
-      print('Request failed with status: ${response.statusCode}.');
+      switch (response.statusCode) {
+        case 400:
+          {
+            throw const NetworkException("Email ou mot de passe manquant.");
+          }
+        case 401:
+          {
+            throw const NetworkException("Email ou mot de passe incorrect.");
+          }
+      }
     }
 
-/*     HttpClient client = new HttpClient();
-    client
-        .getUrl(Uri.parse("http://10.42.140.18:8080/api/login/signin"))
-        .then((HttpClientRequest request) {
-      print("oui");
-      Map data = {'email': 'mika@gmail.com', 'password': 'mika'};
-
-      request.write(json.encode(data));
-
-      return request.close();
-    }).then((HttpClientResponse response) {
-      print(response);
-    }); */
-
-    return const User(mail: "mail");
-
-/*     return Future.delayed(
-      const Duration(seconds: 0),
-      () {
-        
-      },
-    ); */
+    throw const NetworkException("Impossible de se connecter.");
   }
 
   Future<User> fetchUserTokenWithError(String mail, String password) async {
@@ -57,7 +60,7 @@ class Repository {
     return Future.delayed(
       const Duration(seconds: 1),
       () {
-        return const User(mail: "mail");
+        return const User("mail");
       },
     );
   }
@@ -79,3 +82,8 @@ class NetworkException implements Exception {
 }
 
 class UserException implements Exception {}
+
+class EmailOrPasswordException implements Exception {
+  final String message;
+  const EmailOrPasswordException(this.message);
+}

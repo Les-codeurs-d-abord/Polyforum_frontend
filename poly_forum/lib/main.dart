@@ -16,13 +16,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Poly Forum',
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
       theme: theme(),
       initialRoute: SignInScreen.route,
       routes: {
-        WelcomeScreen.route: (context) => const WelcomeScreen(),
+        // WelcomeScreen.route: (context) => const WelcomeScreen(),
         SignInScreen.route: (context) => const SignInScreen(),
         HomeScreen.route: (context) => const HomeScreen(),
       },
