@@ -1,47 +1,28 @@
 import 'package:poly_forum/data/models/user_model.dart';
-import 'dart:io';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
 class Repository {
   Future<User> fetchUserToken(String mail, String password) async {
-    print(mail);
+    final body = {
+      'email': mail,
+      'password': password,
+    };
 
-    var response =
-        await http.get(Uri.parse('http://10.42.140.18:8080/api/login/info'));
+    final uri = Uri.http('10.42.144.92:8080', '/api/login/signin');
+    final response = await http.post(uri, body: body);
 
     if (response.statusCode == 200) {
       var jsonResponse =
           convert.jsonDecode(response.body) as Map<String, dynamic>;
-      print(jsonResponse);
-      /* var itemCount = jsonResponse['totalItems']; */
-      /* print('Number of books about http: $itemCount.'); */
+
+      return User(mail: jsonResponse['email']);
     } else {
-      print('Request failed with status: ${response.statusCode}.');
+      print(response.body);
+      print(response.statusCode);
+
+      throw const NetworkException("Erreur de réseaux générée !");
     }
-
-/*     HttpClient client = new HttpClient();
-    client
-        .getUrl(Uri.parse("http://10.42.140.18:8080/api/login/signin"))
-        .then((HttpClientRequest request) {
-      print("oui");
-      Map data = {'email': 'mika@gmail.com', 'password': 'mika'};
-
-      request.write(json.encode(data));
-
-      return request.close();
-    }).then((HttpClientResponse response) {
-      print(response);
-    }); */
-
-    return const User(mail: "mail");
-
-/*     return Future.delayed(
-      const Duration(seconds: 0),
-      () {
-        
-      },
-    ); */
   }
 
   Future<User> fetchUserTokenWithError(String mail, String password) async {
