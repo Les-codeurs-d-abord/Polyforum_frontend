@@ -18,31 +18,37 @@ class Body extends StatelessWidget {
               content: Text(state.message),
             ),
           );
+        } else if (state is SignInScreenInvalidUserError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+            ),
+          );
         } else if (state is SignInScreenLoaded) {
           Navigator.of(context).pushNamed(HomeScreen.route);
         }
       },
       builder: (context, state) {
         if (state is SignInScreenLoading) {
-          return buildLoading();
+          return buildInitialScreen(context, true);
         } else {
-          return buildInitialScreen(context);
+          return buildInitialScreen(context, false);
         }
       },
     );
   }
 
-  Widget buildInitialScreen(BuildContext context) {
+  Widget buildInitialScreen(BuildContext context, bool isLoading) {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 1080) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
+              SizedBox(
                 width: 800,
                 child: SingleChildScrollView(
-                  child: SignForm(),
+                  child: SignForm(isLoading),
                 ),
               ),
               Expanded(
@@ -66,18 +72,12 @@ class Body extends StatelessWidget {
               height: double.infinity,
               color: kScaffoldColor,
               child: SingleChildScrollView(
-                child: SignForm(),
+                child: SignForm(isLoading),
               ),
             ),
           );
         }
       },
-    );
-  }
-
-  Widget buildLoading() {
-    return const Center(
-      child: CircularProgressIndicator(),
     );
   }
 }

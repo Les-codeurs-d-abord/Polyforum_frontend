@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PwdSave extends StatefulWidget {
   const PwdSave({Key? key}) : super(key: key);
@@ -11,6 +12,20 @@ class PwdSave extends StatefulWidget {
 class _PwdSaveState extends State<PwdSave> {
   bool isChecked = false;
 
+  _dataRetriever() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isChecked = prefs.getBool('save_password') ?? false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _dataRetriever();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -21,11 +36,13 @@ class _PwdSaveState extends State<PwdSave> {
           onChanged: (bool? value) {
             setState(() {
               isChecked = value!;
+              SharedPreferences.getInstance()
+                  .then((prefs) => prefs.setBool('save_password', value));
             });
           },
         ),
-        Expanded(
-          child: const Text(
+        const Expanded(
+          child: Text(
             "Rester connecté",
             style: TextStyle(
               color: kPrimaryColor,

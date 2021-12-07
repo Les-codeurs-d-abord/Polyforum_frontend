@@ -8,7 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/screens/sign_in/components/pwd_save.dart';
 
 class SignForm extends StatefulWidget {
-  const SignForm({Key? key}) : super(key: key);
+  final bool isLoading;
+
+  const SignForm(this.isLoading, {Key? key}) : super(key: key);
 
   @override
   _SignFormState createState() => _SignFormState();
@@ -41,13 +43,13 @@ class _SignFormState extends State<SignForm> {
               "Connexion",
               style: Theme.of(context).textTheme.headline1,
             ),
-            const SizedBox(height: 80),
+            const SizedBox(height: 30),
             EmailFormField(_emailController),
             const SizedBox(height: 30),
             PwdFormField(_passwordController),
             const SizedBox(height: 10),
             const PwdSave(),
-            const SizedBox(height: 70),
+            const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
               height: 60,
@@ -58,16 +60,27 @@ class _SignFormState extends State<SignForm> {
                   onSurface: Colors.grey,
                   // minimumSize: const Size(250, 60),
                 ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
+                onPressed: widget.isLoading
+                    ? null
+                    : () {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
 
-                    BlocProvider.of<SignInScreenCubit>(context)
-                        .navigateToHomeScreenEvent(
-                            _emailController.text, _passwordController.text);
-                  }
-                },
-                child: Row(
+                          BlocProvider.of<SignInScreenCubit>(context)
+                              .navigateToHomeScreenEvent(_emailController.text,
+                                  _passwordController.text);
+                        }
+                      },
+                child: widget.isLoading
+                    ? const CircularProgressIndicator()
+                    : const Text(
+                        "Se connecter",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 20,
+                        ),
+                      ),
+/*                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
                     SizedBox(),
@@ -80,7 +93,7 @@ class _SignFormState extends State<SignForm> {
                     ),
                     Icon(Icons.arrow_forward_outlined),
                   ],
-                ),
+                ), */
               ),
             ),
             const SizedBox(height: 10),

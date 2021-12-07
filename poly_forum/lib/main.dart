@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
       theme: theme(),
       initialRoute: SignInScreen.route,
       routes: {
-        WelcomeScreen.route: (context) => const WelcomeScreen(),
         SignInScreen.route: (context) => const SignInScreen(),
+/*         WelcomeScreen.route: (context) => const WelcomeScreen(), */
         HomeScreen.route: (context) => const HomeScreen(),
       },
     );

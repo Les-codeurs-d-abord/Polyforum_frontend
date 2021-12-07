@@ -1,6 +1,7 @@
 import 'package:poly_forum/data/models/user_model.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Repository {
   Future<User> fetchUserToken(String mail, String password) async {
@@ -16,22 +17,20 @@ class Repository {
       var jsonResponse =
           convert.jsonDecode(response.body) as Map<String, dynamic>;
 
+      SharedPreferences.getInstance()
+          .then((value) => value.setString('token', jsonResponse['token']));
+
       return User(mail: jsonResponse['email']);
     } else {
       print(response.body);
       print(response.statusCode);
 
-      throw const NetworkException("Erreur de réseaux générée !");
-    }
-  }
+      if (response.statusCode == 401) {
+        throw const UnknowUserException("Identifiants incorrects.");
+      }
 
-  Future<User> fetchUserTokenWithError(String mail, String password) async {
-    return Future.delayed(
-      const Duration(seconds: 1),
-      () {
-        throw const NetworkException("Erreur de réseaux générée !");
-      },
-    );
+      throw const NetworkException("Une erreur est survenue.");
+    }
   }
 
   Future<User> fetchLocalUserToken() async {
@@ -42,21 +41,14 @@ class Repository {
       },
     );
   }
-
-  Future<User> fetchLocalUserTokenWithUserError() async {
-    return Future.delayed(
-      const Duration(seconds: 1),
-      () {
-        throw UserException();
-      },
-    );
-  }
 }
 
 class NetworkException implements Exception {
   final String message;
-
   const NetworkException(this.message);
 }
 
-class UserException implements Exception {}
+class UnknowUserException implements Exception {
+  final String message;
+  const UnknowUserException(this.message);
+}

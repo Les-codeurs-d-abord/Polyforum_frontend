@@ -24,9 +24,16 @@ class SignInScreenLoaded extends SignInScreenState {
   String toString() => "{ User: ${user.toString()} }";
 }
 
+class SignInScreenInvalidUserError extends SignInScreenState {
+  final String message;
+  const SignInScreenInvalidUserError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
 class SignInScreenError extends SignInScreenState {
   final String message;
-
   const SignInScreenError(this.message);
 
   @override

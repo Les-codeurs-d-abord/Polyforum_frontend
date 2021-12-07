@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PwdFormField extends StatefulWidget {
   final TextEditingController _textEditingController;
@@ -11,6 +12,26 @@ class PwdFormField extends StatefulWidget {
 
 class _PwdFormFieldState extends State<PwdFormField> {
   bool _obscureText = true;
+  bool _isPasswordSaved = false;
+
+  _passwordRetriever() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final password = prefs.getString('password') ?? '';
+    widget._textEditingController.text = password;
+  }
+
+  _savedPasswordRetriever() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isPasswordSaved = prefs.getBool('save_password') ?? false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _passwordRetriever();
+    _savedPasswordRetriever();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +48,7 @@ class _PwdFormFieldState extends State<PwdFormField> {
           },
         ),
         border: const OutlineInputBorder(),
-        // hintText: "Mot de passe",
         labelText: "Mot de passe",
-        // hintStyle: TextStyle(
-        //   fontSize: 20,
-        //   // color: kPrimaryColor,
-        // ),
       ),
       obscureText: _obscureText,
       style: const TextStyle(
@@ -43,7 +59,10 @@ class _PwdFormFieldState extends State<PwdFormField> {
       validator: (value) => validatePasswordl(value!),
       controller: widget._textEditingController,
       onSaved: (value) {
-        print("save pdw");
+        if (_isPasswordSaved) {
+          SharedPreferences.getInstance()
+              .then((prefs) => prefs.setString('password', value!));
+        }
       },
     );
   }
@@ -55,48 +74,7 @@ class _PwdFormFieldState extends State<PwdFormField> {
     if (value.length < 4) {
       return "Le mot de passe est trop court.";
     }
+
     return null;
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Text("Mot de passe", style: Theme.of(context).textTheme.headline6),
-  //       const SizedBox(height: 10),
-  //       Container(
-  //         padding: const EdgeInsets.symmetric(horizontal: 10),
-  //         decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(5),
-  //           border: Border.all(color: Colors.grey),
-  //         ),
-  //         child: TextFormField(
-  //           onSaved: null,
-  //           controller: widget._textEditingController,
-  //           style: const TextStyle(
-  //             fontWeight: FontWeight.normal,
-  //             fontSize: 25,
-  //           ),
-  //           decoration: InputDecoration(
-  //             border: InputBorder.none,
-  //             suffixIcon: IconButton(
-  //               icon: Icon(
-  //                 _obscureText ? Icons.visibility_off : Icons.visibility,
-  //               ),
-  //               onPressed: () {
-  //                 setState(() {
-  //                   _obscureText = !_obscureText;
-  //                 });
-  //               },
-  //             ),
-  //           ),
-  //           validator: (value) =>
-  //               value!.length < 4 ? "Le mot de passe est trop court." : null,
-  //           obscureText: _obscureText,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
 }

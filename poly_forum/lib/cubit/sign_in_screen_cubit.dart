@@ -20,6 +20,8 @@ class SignInScreenCubit extends Cubit<SignInScreenState> {
       emit(SignInScreenLoaded(user));
     } on NetworkException catch (exception) {
       emit(SignInScreenError(exception.message));
+    } on UnknowUserException catch (exception) {
+      emit(SignInScreenInvalidUserError(exception.message));
     }
   }
 }

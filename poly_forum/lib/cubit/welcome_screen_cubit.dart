@@ -15,13 +15,13 @@ class WelcomeScreenCubit extends Cubit<WelcomeScreenState> {
     try {
       emit(WelcomeScreenLoading());
 
-      final user = await _repository.fetchLocalUserTokenWithUserError();
+      final user = await _repository.fetchLocalUserToken();
 
       emit(WelcomeScreenLoaded(user));
       emit(WelcomeScreenInitial());
     } on NetworkException catch (exception) {
       emit(WelcomeScreenError(exception.message));
-    } on UserException {
+    } on UnknowUserException {
       emit(WelcomeScreenUserUnfound());
     }
   }
