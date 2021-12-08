@@ -15,3 +15,9 @@ const kSecondaryColor = Color(0xFFE3F3FD);
 
 //button (orange ?)
 const kButtonColor = Color(0xFF0D47A1);
+
+// Main color palette
+const kOrange = Color(0xFFF7931D);
+const kDarkBlue = Color(0xFF004876);
+const kBlue = Color(0xFF00AEEF);
+const kLightBlue = Color(0xFFA8E2FA);
