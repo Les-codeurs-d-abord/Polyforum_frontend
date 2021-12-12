@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  url_launcher: ^5.4.2
 
 dev_dependencies:
   bloc: ^7.2.0

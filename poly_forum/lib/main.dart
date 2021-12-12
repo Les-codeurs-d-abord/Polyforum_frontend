@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       //   primarySwatch: Colors.blue,
       // ),
       theme: theme(),
-      initialRoute: SignInScreen.route,
+      initialRoute: WelcomeScreen.route,
       routes: {
         WelcomeScreen.route: (context) => const WelcomeScreen(),
         SignInScreen.route: (context) => const SignInScreen(),
