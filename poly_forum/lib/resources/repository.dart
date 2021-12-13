@@ -10,7 +10,7 @@ class Repository {
       'password': password,
     };
 
-    final uri = Uri.http('10.42.144.92:8080', '/api/login/signin');
+    final uri = Uri.http('localhost:8080', '/api/login/signin');
     final response = await http.post(uri, body: body);
 
     if (response.statusCode == 200) {
@@ -22,8 +22,8 @@ class Repository {
 
       return User(mail: jsonResponse['email']);
     } else {
-      print(response.body);
-      print(response.statusCode);
+      // print(response.body);
+      // print(response.statusCode);
 
       if (response.statusCode == 401) {
         throw const UnknowUserException("Identifiants incorrects.");

@@ -9,9 +9,16 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+        onWillPop: () {
+          Navigator.pop(context);
+          return Future(() => true);
+        },
         child: const Scaffold(
           backgroundColor: kScaffoldColor,
-        ),
-        onWillPop: () async => true);
+        ));
+
+    // return Scaffold(
+    //   backgroundColor: kScaffoldColor,
+    // );
   }
 }
