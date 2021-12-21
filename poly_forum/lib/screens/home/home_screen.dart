@@ -14,16 +14,6 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () {
@@ -33,13 +23,50 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           extendBody: true,
           backgroundColor: kScaffoldColor,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(70),
+            child: Container(
+              color: Colors.blue,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 1;
+                      });
+                    },
+                    child: Container(
+                      width: 150,
+                      height: double.infinity,
+                      color: Colors.red,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        "Les offres",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
           body: IndexedStack(
             index: _selectedIndex,
             children: <Widget>[
-              Container(
-                width: 290,
-                height: 210,
-                color: Colors.green,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+                child: Container(
+                  width: 290,
+                  height: 210,
+                  color: Colors.green,
+                ),
               ),
               Container(
                 width: 250,

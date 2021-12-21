@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       // builder: (context, child) => HomePage(child: child!),
       // onGenerateRoute: RouteGenerator.generateRoute,
       // initialRoute: RoutesName.SIGN_IN_SCREEN,
-      home: const SignInScreen(),
+      home: const HomeScreen(),
     );
   }
 }
