@@ -1,22 +1,24 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:poly_forum/routes/routes_name.dart';
-import 'package:poly_forum/screens/home/home_screen.dart';
+import 'package:poly_forum/screens/navigation/navigation_screen.dart';
 import 'package:poly_forum/screens/sign_in/sign_in_screen.dart';
+import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    print(settings.name);
     var routeName = settings.name ?? "";
-    switch (settings.name) {
-      case RoutesName.SIGN_IN_SCREEN:
-        return _GeneratePageRoute(
-            widget: const SignInScreen(), routeName: routeName);
-      case RoutesName.PROFIL_CANDIDAT_SCREEN:
-        return _GeneratePageRoute(
-            widget: const HomeScreen(), routeName: routeName);
+    switch (routeName) {
+      case RoutesName.welcomeScreen:
+        return MaterialPageRoute(builder: (_) => const WelcomeScreen());
+      case RoutesName.signInScreen:
+        return MaterialPageRoute(builder: (_) => const SignInScreen());
+      case RoutesName.candidatScreen:
+        return MaterialPageRoute(builder: (_) => const NavigationScreen());
 
       default:
-        return _GeneratePageRoute(
-            widget: const SignInScreen(), routeName: routeName);
+        return MaterialPageRoute(builder: (_) => const SignInScreen());
     }
   }
 }

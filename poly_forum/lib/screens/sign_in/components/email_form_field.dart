@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/constants.dart';
+import 'package:poly_forum/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmailFormField extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/constants.dart';
+import 'package:poly_forum/utils/constants.dart';
 
 class PwdForget extends StatelessWidget {
   const PwdForget({Key? key}) : super(key: key);

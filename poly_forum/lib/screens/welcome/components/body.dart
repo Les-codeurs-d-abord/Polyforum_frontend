@@ -1,36 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/welcome_screen_cubit.dart';
-import 'package:poly_forum/screens/home/home_screen.dart';
-import 'package:poly_forum/screens/sign_in/sign_in_screen.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<WelcomeScreenCubit, WelcomeScreenState>(
-      listener: (context, state) {
-        if (state is WelcomeScreenError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-            ),
-          );
-        } else if (state is WelcomeScreenLoaded) {
-          Navigator.of(context).pushNamed(HomeScreen.route);
-        } else if (state is WelcomeScreenUserUnfound) {
-          Navigator.of(context).pushNamed(SignInScreen.route);
-        }
-      },
-      builder: (context, state) {
-        if (state is WelcomeScreenLoading) {
-          return buildLoading();
-        } else {
-          return buildInitialScreen(context);
-        }
-      },
-    );
+    return buildInitialScreen(context);
   }
 
   Widget buildInitialScreen(BuildContext context) {
