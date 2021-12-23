@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/candidate/choices/choices_screen.dart';
-import 'package:poly_forum/screens/candidate/offer/offer_screen.dart';
+import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
 import 'package:poly_forum/screens/candidate/planning/planning_screen.dart';
 import 'package:poly_forum/screens/navigation/components/tab_navigation_item.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
@@ -10,8 +10,6 @@ import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 import 'components/profil_btn.dart';
 
 class NavigationScreen extends StatefulWidget {
-  static const route = "/Home";
-
   const NavigationScreen({Key? key}) : super(key: key);
 
   @override
@@ -19,7 +17,7 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +46,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
           ),
           body: IndexedStack(
             index: _selectedIndex,
-            children: const <Widget>[
-              WelcomeScreen(),
-              OfferScreen(),
-              ChoicesScreen(),
-              PlanningScreen(),
+            children: <Widget>[
+              const WelcomeScreen(),
+              OffersScreen(),
+              const ChoicesScreen(),
+              const PlanningScreen(),
             ],
           ),
         ));
