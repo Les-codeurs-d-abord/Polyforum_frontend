@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/screens/candidate/offer_details/offer_details_screen.dart';
 import 'package:poly_forum/screens/navigation/navigation_screen.dart';
 import 'package:poly_forum/utils/custom_scroll_behavior.dart';
 import 'package:poly_forum/utils/themes.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: theme(),
       // onGenerateRoute: RouteGenerator.generateRoute,
       // initialRoute: RoutesName.signInScreen,
-      home: const NavigationScreen(),
+      home: const OfferDetailsScreen(),
     );
   }
 }
