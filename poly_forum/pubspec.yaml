@@ -31,6 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   url_launcher: ^5.4.2
+  footer:
+  google_maps_flutter:
 
 dev_dependencies:
   bloc: ^7.2.0
