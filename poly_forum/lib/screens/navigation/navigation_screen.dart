@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/candidate/choices/choices_screen.dart';
@@ -53,6 +54,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               OfferScreen(),
               ChoicesScreen(),
               PlanningScreen(),
+              CompanyListScreen(),
             ],
           ),
         ));
@@ -120,6 +122,17 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   },
                   text: "Mon planning",
                   isSelect: _selectedIndex == 3,
+                ),
+                TabNavigationItem(
+                  onPressed: () {
+                    setState(
+                          () {
+                        _selectedIndex = 4;
+                      },
+                    );
+                  },
+                  text: "(Admin) Entreprises",
+                  isSelect: _selectedIndex == 4,
                 ),
               ],
             ),

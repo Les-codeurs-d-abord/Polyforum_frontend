@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poly_forum/constants.dart';
+import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_list_screen_cubit.dart';
+import 'package:poly_forum/resources/company_repository.dart';
+import 'package:poly_forum/utils/constants.dart';
 
 import 'company_form_dialog.dart';
 
@@ -86,8 +88,12 @@ class Body extends StatelessWidget {
                                                 showDialog(
                                                   context: context,
                                                   builder: (BuildContext context) {
-                                                    return const CompanyFormDialog();
-                                                  }
+                                                    return BlocProvider(
+                                                      create: (context) => CompanyFormCubit(CompanyRepository()),
+                                                      child: const CompanyFormDialog(),
+                                                    );
+                                                  },
+                                                  barrierDismissible: false
                                                 );
                                               },
                                             )

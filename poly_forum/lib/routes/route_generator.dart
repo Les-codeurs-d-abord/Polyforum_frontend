@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/routes/routes_name.dart';
+import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
 import 'package:poly_forum/screens/navigation/navigation_screen.dart';
 import 'package:poly_forum/screens/sign_in/sign_in_screen.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
@@ -16,7 +17,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const SignInScreen());
       case RoutesName.candidatScreen:
         return MaterialPageRoute(builder: (_) => const NavigationScreen());
-
+      case RoutesName.companyListScreen:
+        return MaterialPageRoute(builder: (_) => const CompanyListScreen());
       default:
         return MaterialPageRoute(builder: (_) => const SignInScreen());
     }
