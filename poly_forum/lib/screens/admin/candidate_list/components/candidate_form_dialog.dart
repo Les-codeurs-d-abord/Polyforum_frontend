@@ -1,48 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
-import 'package:poly_forum/screens/shared/components/form/company_name_form_field.dart';
+import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
 import 'package:poly_forum/screens/shared/components/form/email_form_field.dart';
+import 'package:poly_forum/screens/shared/components/form/firstname_form_field.dart';
+import 'package:poly_forum/screens/shared/components/form/lastname_form_field.dart';
 import 'package:poly_forum/utils/constants.dart';
 
-class CompanyFormDialog extends StatefulWidget {
-  const CompanyFormDialog({Key? key}) : super(key: key);
+class CandidateFormDialog extends StatefulWidget {
+  const CandidateFormDialog({Key? key}) : super(key: key);
 
   @override
-  _CompanyFormDialogState createState() => _CompanyFormDialogState();
+  _CandidateFormDialogState createState() => _CandidateFormDialogState();
 }
 
-class _CompanyFormDialogState extends State<CompanyFormDialog> {
+class _CandidateFormDialogState extends State<CandidateFormDialog> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _companyNameController = TextEditingController();
+  final _lastnameController = TextEditingController();
+  final _firstnameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CompanyFormCubit, CompanyFormState>(
+    return BlocConsumer<CandidateFormCubit, CandidateFormState>(
         listener: (context, state) {
-          if (state is CompanyFormLoaded) {
+          if (state is CandidateFormLoaded) {
             Navigator.of(context).pop();
           }
         },
         builder: (context, state) {
-          if (state is CompanyFormLoading) {
-            return buildCompanyFormDialog(context, true);
-          } else if (state is CompanyFormError) {
-            return buildCompanyFormDialog(context, false, state.errorMessage);
+          if (state is CandidateFormLoading) {
+            return buildCandidateFormDialog(context, true);
+          } else if (state is CandidateFormError) {
+            return buildCandidateFormDialog(context, false, state.errorMessage);
           } else {
-            return buildCompanyFormDialog(context);
+            return buildCandidateFormDialog(context);
           }
         }
     );
   }
 
-  buildCompanyFormDialog(BuildContext context, [bool isLoading = false, String error = '']) {
+  buildCandidateFormDialog(BuildContext context, [bool isLoading = false, String error = '']) {
     return AlertDialog(
       title: Stack(
           children: [
             const Text(
-              "Ajouter une entreprise",
+              "Ajouter un candidat",
               style: TextStyle(
                   fontSize: 22
               ),
@@ -62,14 +64,27 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
       content: Form(
         key: _formKey,
         child: SizedBox(
-          width: 450,
+          width: 500,
           child: Wrap(
             children: [
               Container(
                 margin: const EdgeInsets.only(top: 10, bottom: 20),
                 child: EmailFormField(_emailController),
               ),
-              CompanyNameFormField(_companyNameController),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 10,
+                    child: LastnameFormField(_lastnameController),
+                  ),
+                  const Spacer(),
+                  Expanded(
+                    flex: 10,
+                    child:FirstnameFormField(_firstnameController),
+                  ),
+                ],
+              ),
               if (error.isNotEmpty)
                 Container(
                   alignment: Alignment.center,
@@ -77,8 +92,8 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
                   child: Text(
                     error,
                     style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 18
+                        color: Colors.red,
+                        fontSize: 18
                     ),
                   ),
                 )
@@ -135,11 +150,11 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
                 ),
               ),
               onPressed: isLoading ?
-                null : () {
+              null : () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  BlocProvider.of<CompanyFormCubit>(context)
-                      .createCompany(_emailController.text, _companyNameController.text);
+                  BlocProvider.of<CandidateFormCubit>(context)
+                      .createCandidate(_emailController.text, _lastnameController.text, _firstnameController.text);
                 }
               },
             )

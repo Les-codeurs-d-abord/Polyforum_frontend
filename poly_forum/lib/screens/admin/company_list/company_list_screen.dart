@@ -6,8 +6,6 @@ import 'package:poly_forum/screens/admin/company_list/components/body.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class CompanyListScreen extends StatelessWidget {
-  static const route = "/ListeEntreprise";
-
   const CompanyListScreen({Key? key}) : super(key: key);
 
   @override
