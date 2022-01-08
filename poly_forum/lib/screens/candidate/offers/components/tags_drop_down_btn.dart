@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/candidate/drop_down_offer_tag_cubit.dart';
+import 'package:poly_forum/data/models/tag_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TagsDropDownBtn extends StatefulWidget {
   const TagsDropDownBtn({Key? key}) : super(key: key);
@@ -8,10 +11,43 @@ class TagsDropDownBtn extends StatefulWidget {
 }
 
 class _TagsDropDownBtnState extends State<TagsDropDownBtn> {
-  String dropdownValue = "Tags";
+  late Tag _selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<DropDownOfferTagCubit>(context).offerTagsEvent();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<DropDownOfferTagCubit, DropDownOfferTagState>(
+      listener: (context, state) {
+        if (state is DropDownOfferTagLoaded) {
+          _selectedValue = state.tags[0];
+        }
+      },
+      builder: (context, state) {
+        if (state is DropDownOfferTagLoaded) {
+          if (state.tags.isNotEmpty) {
+            return buildScreen(state.tags);
+          } else {
+            return const SizedBox();
+          }
+        }
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+
+  Widget buildScreen(List<Tag> tags) {
+    List<DropdownMenuItem<Tag>> items = tags.map((item) {
+      return DropdownMenuItem<Tag>(
+        child: Text(item.label),
+        value: item,
+      );
+    }).toList();
+
     return DecoratedBox(
       decoration: const ShapeDecoration(
         shape: RoundedRectangleBorder(
@@ -25,8 +61,8 @@ class _TagsDropDownBtnState extends State<TagsDropDownBtn> {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: DropdownButton(
-          value: dropdownValue,
+        child: DropdownButton<Tag>(
+          value: _selectedValue,
           icon: const Icon(
             Icons.arrow_downward,
             color: Colors.black,
@@ -37,16 +73,10 @@ class _TagsDropDownBtnState extends State<TagsDropDownBtn> {
             color: Colors.black,
           ),
           hint: const Text("Tags"),
-          items: <String>["Tags", "Flutter", "C++", "C#", "Java", "etc"]
-              .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-          onChanged: (String? value) {
+          items: items,
+          onChanged: (value) {
             setState(() {
-              dropdownValue = value!;
+              _selectedValue = value!;
             });
           },
         ),

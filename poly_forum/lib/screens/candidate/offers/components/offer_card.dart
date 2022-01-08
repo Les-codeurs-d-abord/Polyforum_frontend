@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/candidate/offer_details/offer_details_screen.dart';
 import 'package:poly_forum/screens/candidate/offers/components/tags.dart';
 
 class OfferCard extends StatelessWidget {
-  const OfferCard({Key? key}) : super(key: key);
+  final Offer offer;
+
+  const OfferCard(this.offer, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,26 +31,28 @@ class OfferCard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      child: Image.asset(
-                        "images/inetum_logo.png",
-                        width: 50,
-                        height: 50,
-                      ),
+                    CachedNetworkImage(
+                      imageUrl: offer.icon,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      width: 50,
+                      height: 50,
                     ),
                     const SizedBox(width: 15),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
-                          "Consultant technique SAP",
-                          style: TextStyle(
+                          offer.name,
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          "Inetum",
-                          style: TextStyle(
+                          offer.companyName,
+                          style: const TextStyle(
                             color: Colors.grey,
                           ),
                         ),
@@ -57,13 +63,14 @@ class OfferCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 15),
-                const SizedBox(
+                Container(
+                  alignment: Alignment.topLeft,
                   height: 110,
                   child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    offer.description,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 7,
-                    style: TextStyle(),
+                    style: const TextStyle(),
                   ),
                 ),
                 const Spacer(),
@@ -72,13 +79,8 @@ class OfferCard extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    children: const [
-                      Tags(text: "Flutter"),
-                      Tags(text: "C++"),
-                      Tags(text: "Angular"),
-                      Tags(text: "C#"),
-                      Tags(text: "Angular"),
-                      Tags(text: "Angular"),
+                    children: [
+                      for (var tag in offer.tags) Tags(text: tag.label),
                     ],
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/data/models/user_model.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;

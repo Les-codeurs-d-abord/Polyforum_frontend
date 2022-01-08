@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/candidate/candidate_offer_screen_cubit.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:poly_forum/screens/sign_in/components/sign_form.dart';
 
