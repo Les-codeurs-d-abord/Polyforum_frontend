@@ -11,11 +11,11 @@ class CandidateFormCubit extends Cubit<CandidateFormState> {
 
   CandidateFormCubit(this._candidateRepository) : super(CandidateFormInitial());
 
-  Future<void> createCandidate(String email, String lastname, String firstname) async {
+  Future<void> createCandidate(String email, String lastName, String firstName) async {
     try {
       emit(CandidateFormLoading());
 
-      await _candidateRepository.createCandidate(email, lastname, firstname);
+      await _candidateRepository.createCandidate(email, lastName, firstName);
 
       emit(CandidateFormLoaded());
     } on NetworkException catch (exception) {

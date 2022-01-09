@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class FirstnameFormField extends StatefulWidget {
+class FirstNameFormField extends StatefulWidget {
   final TextEditingController _textEditingController;
 
-  const FirstnameFormField(this._textEditingController, {Key? key})
+  const FirstNameFormField(this._textEditingController, {Key? key})
       : super(key: key);
 
   @override
-  _FirstnameFormFieldState createState() => _FirstnameFormFieldState();
+  _FirstNameFormFieldState createState() => _FirstNameFormFieldState();
 }
 
-class _FirstnameFormFieldState extends State<FirstnameFormField> {
+class _FirstNameFormFieldState extends State<FirstNameFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(

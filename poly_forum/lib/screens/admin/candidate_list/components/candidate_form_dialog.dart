@@ -16,8 +16,8 @@ class CandidateFormDialog extends StatefulWidget {
 class _CandidateFormDialogState extends State<CandidateFormDialog> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _lastnameController = TextEditingController();
-  final _firstnameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _firstNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +76,12 @@ class _CandidateFormDialogState extends State<CandidateFormDialog> {
                 children: [
                   Expanded(
                     flex: 10,
-                    child: LastnameFormField(_lastnameController),
+                    child: LastNameFormField(_lastNameController),
                   ),
                   const Spacer(),
                   Expanded(
                     flex: 10,
-                    child:FirstnameFormField(_firstnameController),
+                    child:FirstNameFormField(_firstNameController),
                   ),
                 ],
               ),
@@ -154,7 +154,7 @@ class _CandidateFormDialogState extends State<CandidateFormDialog> {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
                   BlocProvider.of<CandidateFormCubit>(context)
-                      .createCandidate(_emailController.text, _lastnameController.text, _firstnameController.text);
+                      .createCandidate(_emailController.text, _lastNameController.text, _firstNameController.text);
                 }
               },
             )

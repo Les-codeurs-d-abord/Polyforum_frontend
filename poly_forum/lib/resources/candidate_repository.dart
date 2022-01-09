@@ -1,11 +1,11 @@
 import 'package:http/http.dart' as http;
 
 class CandidateRepository {
-  Future<void> createCandidate(String email, String lastname, String firstname) async {
+  Future<void> createCandidate(String email, String lastName, String firstName) async {
     final body = {
       'email': email,
-      'lastname': lastname,
-      'firstname': firstname
+      'lastName': lastName,
+      'firstName': firstName
     };
 
     // For flex purpose
