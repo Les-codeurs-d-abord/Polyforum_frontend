@@ -26,54 +26,25 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          SizedBox(
-            height: 100,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              child: BlocProvider(
-                create: (context) => DropDownOfferTagCubit(),
-                child: const TagsDropDownBtn(),
-              ),
-              // child: Row(
-              //   children: [
-              //     const Expanded(
-              //       child: TextField(
-              //         decoration: InputDecoration(
-              //           suffixIcon: Icon(Icons.search, size: 35),
-              //           border: OutlineInputBorder(),
-              //           labelText: "Rechercher...",
-              //         ),
-              //         style: TextStyle(
-              //           fontWeight: FontWeight.normal,
-              //           fontSize: 25,
-              //         ),
-              //       ),
-              //     ),
-              //     const Spacer(),
-              //     BlocProvider(
-              //       create: (context) => DropDownOfferTagCubit(),
-              //       child: const TagsDropDownBtn(),
-              //     )
-              //   ],
-              // ),
-            ),
-          ),
-          BlocConsumer<CandidateOfferScreenCubit, CandidateOfferScreenState>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              if (state is CandidateOfferScreenLoading) {
-                return buildloadingScreen();
-              } else if (state is CandidateOfferScreenLoaded) {
-                return buildLoadedScreen(state.offerList);
-              }
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            BlocConsumer<CandidateOfferScreenCubit, CandidateOfferScreenState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is CandidateOfferScreenLoading) {
+                  return buildloadingScreen();
+                } else if (state is CandidateOfferScreenLoaded) {
+                  return buildLoadedScreen(state.offerList);
+                }
 
-              return buildInitialOffers(context);
-            },
-          ),
-        ],
+                return buildInitialOffers(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -85,33 +56,52 @@ class _BodyState extends State<Body> {
   }
 
   Widget buildLoadedScreen(List<Offer> offerList) {
-    return SizedBox(
-      height: 2000,
-      child: ResponsiveGridList(
-        desiredItemWidth: 400,
-        minSpacing: 20,
+    return Center(
+      child: Column(
         children: [
+          Container(
+            width: 1000,
+            padding: const EdgeInsets.only(right: 200),
+            child: Row(
+              children: [
+                const Flexible(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      suffixIcon: Icon(Icons.search, size: 30),
+                      border: OutlineInputBorder(),
+                      labelText: "Rechercher...",
+                    ),
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 25),
+                BlocProvider(
+                  create: (context) => DropDownOfferTagCubit(),
+                  child: const TagsDropDownBtn(),
+                ),
+              ],
+            ),
+          ),
           for (var offer in offerList) OfferCard(offer),
         ],
       ),
     );
+    // return SizedBox(
+    //   height: 2000,
+    //   child: ResponsiveGridList(
+    //     desiredItemWidth: 400,
+    //     minSpacing: 20,
+    //     children: [
+    //       for (var offer in offerList) OfferCard(offer),
+    //     ],
+    //   ),
+    // );
   }
 
   Widget buildInitialOffers(BuildContext context) {
-    return SizedBox(
-      height: 2000,
-      child: ResponsiveGridList(
-        desiredItemWidth: 400,
-        minSpacing: 20,
-        children: const [
-          // OfferCard(),
-          // OfferCard(),
-          // OfferCard(),
-          // OfferCard(),
-          // OfferCard(),
-          // OfferCard(),
-        ],
-      ),
-    );
+    return const SizedBox();
   }
 }

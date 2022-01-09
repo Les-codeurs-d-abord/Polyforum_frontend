@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/screens/candidate/offers/components/tags.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -46,6 +49,30 @@ class Body extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // Image.network(
+                    //     "http://http://localhost:8080/data/CV/CV%20-%20Michael%20BUGNONE%202019.pdf"),
+                    WebView(
+                      initialUrl:
+                          ("http://localhost:8080/data/CV/CV%20-%20Michael%20BUGNONE%202019.pdf"),
+                      javascriptMode: JavascriptMode.unrestricted,
+                    )
+                    // CachedNetworkImage(
+                    //   imageUrl:
+                    //       "http://http://localhost:8080/data/CV/CV%20-%20Michael%20BUGNONE%202019.pdf",
+                    //   placeholder: (context, url) =>
+                    //       const CircularProgressIndicator(),
+                    //   errorWidget: (context, url, error) =>
+                    //       const Icon(Icons.error),
+                    //   width: 50,
+                    //   height: 50,
+                    // ),
+                    // PDF().cachedFromUrl(
+                    //   'http://localhost:8080/api/debug/data/CV/CV%20-%20Michael%20BUGNONE%202019.pdf',
+                    //   placeholder: (progress) =>
+                    //       Center(child: Text('$progress %')),
+                    //   errorWidget: (error) =>
+                    //       Center(child: Text(error.toString())),
+                    // )
                   ],
                 ),
               ),
