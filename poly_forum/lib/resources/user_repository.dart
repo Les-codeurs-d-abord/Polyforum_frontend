@@ -3,7 +3,7 @@ import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Repository {
+class UserRepository {
   Future<User> fetchUserToken(String mail, String password) async {
     final body = {
       'email': mail,
