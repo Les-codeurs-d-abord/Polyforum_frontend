@@ -4,7 +4,10 @@ import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TagsDropDownBtn extends StatefulWidget {
-  const TagsDropDownBtn({Key? key}) : super(key: key);
+  final Function(Tag) onDropDownValueChanged;
+
+  const TagsDropDownBtn(this.onDropDownValueChanged, {Key? key})
+      : super(key: key);
 
   @override
   _TagsDropDownBtnState createState() => _TagsDropDownBtnState();
@@ -77,6 +80,7 @@ class _TagsDropDownBtnState extends State<TagsDropDownBtn> {
           onChanged: (value) {
             setState(() {
               _selectedValue = value!;
+              widget.onDropDownValueChanged(_selectedValue);
             });
           },
         ),

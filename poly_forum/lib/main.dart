@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/screens/candidate/offer_details/offer_details_screen.dart';
 import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
 import 'package:poly_forum/screens/navigation/navigation_screen.dart';
 import 'package:poly_forum/utils/custom_scroll_behavior.dart';

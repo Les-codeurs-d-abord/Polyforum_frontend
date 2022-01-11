@@ -11,11 +11,11 @@ class CandidateOfferScreenCubit extends Cubit<CandidateOfferScreenState> {
 
   CandidateOfferScreenCubit() : super(CandidateOfferScreenInitial());
 
-  Future<void> offerListEvent(Tag tags) async {
+  Future<void> offerListEvent(Tag? tag, String? input) async {
     try {
       emit(CandidateOfferScreenLoading());
 
-      final offerList = await repository.fetchOfferList(tags);
+      final offerList = await repository.fetchOfferList(tag, input);
 
       emit(CandidateOfferScreenLoaded(offerList));
     } on NetworkException catch (exception) {

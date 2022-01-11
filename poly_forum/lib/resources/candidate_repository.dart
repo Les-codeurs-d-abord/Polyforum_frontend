@@ -5,35 +5,34 @@ import 'dart:convert';
 import 'package:poly_forum/data/models/tag_model.dart';
 
 class CandidateRepository {
-  Future<List<Offer>> fetchOfferList(Tag tag) async {
-    // return Future.delayed(const Duration(milliseconds: 500), () {
+  Future<List<Offer>> fetchOfferList(Tag? tag, String? input) async {
+    return Future.delayed(const Duration(milliseconds: 0), () async {
+      final queryParameters = {
+        'tag': tag?.id.toString(),
+        'input': input,
+      };
 
-    // });
+      final uri = Uri.http(
+        'localhost:8080',
+        '/api/debug/offers',
+        queryParameters,
+      );
+      final response = await http.get(uri);
 
-    final queryParameters = {
-      'tag': tag.label,
-    };
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
 
-    final uri = Uri.http(
-      'localhost:8080',
-      '/api/debug/offers',
-      tag.id > 0 ? queryParameters : null,
-    );
-    final response = await http.get(uri);
+        List<Offer> offerList = [];
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
+        for (Map<String, dynamic> i in data) {
+          offerList.add(Offer.fromJson(i));
+        }
 
-      List<Offer> offerList = [];
-
-      for (Map<String, dynamic> i in data) {
-        offerList.add(Offer.fromJson(i));
+        return offerList;
+      } else {
+        throw const NetworkException("Une erreur est survenue.");
       }
-
-      return offerList;
-    } else {
-      throw const NetworkException("Une erreur est survenue.");
-    }
+    });
   }
 
   Future<List<Tag>> fetchOfferTags() async {

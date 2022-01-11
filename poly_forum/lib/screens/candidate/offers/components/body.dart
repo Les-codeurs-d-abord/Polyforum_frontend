@@ -5,8 +5,9 @@ import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/screens/candidate/offers/components/offer_card.dart';
 import 'package:poly_forum/screens/candidate/offers/components/tags_drop_down_btn.dart';
-import 'package:responsive_grid/responsive_grid.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:shimmer/shimmer.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -20,85 +21,125 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
     BlocProvider.of<CandidateOfferScreenCubit>(context)
-        .offerListEvent(const Tag(id: 0, label: ""));
+        .offerListEvent(currentTag, currentInput);
+  }
+
+  Tag? currentTag;
+  String? currentInput;
+
+  void callOfferListEvent() {
+    BlocProvider.of<CandidateOfferScreenCubit>(context)
+        .offerListEvent(currentTag, currentInput);
+  }
+
+  void onDropDownValueChanged(Tag value) {
+    if (currentTag?.id != value.id) {
+      currentTag = value;
+      callOfferListEvent();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            BlocConsumer<CandidateOfferScreenCubit, CandidateOfferScreenState>(
-              listener: (context, state) {},
-              builder: (context, state) {
-                if (state is CandidateOfferScreenLoading) {
-                  return buildloadingScreen();
-                } else if (state is CandidateOfferScreenLoaded) {
-                  return buildLoadedScreen(state.offerList);
-                }
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                width: 1000,
+                padding: const EdgeInsets.only(right: 200),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: TextField(
+                        decoration: const InputDecoration(
+                          suffixIcon: Icon(Icons.search, size: 30),
+                          border: OutlineInputBorder(),
+                          labelText: "Rechercher...",
+                        ),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 20,
+                        ),
+                        onChanged: (value) {
+                          currentInput = value;
+                        },
+                        onSubmitted: (value) {
+                          callOfferListEvent();
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 25),
+                    BlocProvider(
+                      create: (context) => DropDownOfferTagCubit(),
+                      child: TagsDropDownBtn(onDropDownValueChanged),
+                    ),
+                  ],
+                ),
+              ),
+              BlocConsumer<CandidateOfferScreenCubit,
+                  CandidateOfferScreenState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  if (state is CandidateOfferScreenLoading) {
+                    return buildloadingScreen();
+                  } else if (state is CandidateOfferScreenLoaded) {
+                    return buildLoadedScreen(state.offerList);
+                  }
 
-                return buildInitialOffers(context);
-              },
-            ),
-          ],
+                  return buildInitialOffers(context);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget buildloadingScreen() {
-    return const Center(
-      child: CircularProgressIndicator(),
+    return SizedBox(
+      width: 1000,
+      height: 1000,
+      // color: Colors.red,
+      child: Shimmer.fromColors(
+        child: ListView.builder(
+          itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                for (int i = 0; i < 7; i++)
+                  Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 40.0,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+              ],
+            ),
+          ),
+          itemCount: 4,
+        ),
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+      ),
     );
   }
 
   Widget buildLoadedScreen(List<Offer> offerList) {
-    return Center(
-      child: Column(
-        children: [
-          Container(
-            width: 1000,
-            padding: const EdgeInsets.only(right: 200),
-            child: Row(
-              children: [
-                const Flexible(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.search, size: 30),
-                      border: OutlineInputBorder(),
-                      labelText: "Rechercher...",
-                    ),
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 25),
-                BlocProvider(
-                  create: (context) => DropDownOfferTagCubit(),
-                  child: const TagsDropDownBtn(),
-                ),
-              ],
-            ),
-          ),
-          for (var offer in offerList) OfferCard(offer),
-        ],
-      ),
+    return Column(
+      children: [
+        for (var offer in offerList) OfferCard(offer),
+      ],
     );
-    // return SizedBox(
-    //   height: 2000,
-    //   child: ResponsiveGridList(
-    //     desiredItemWidth: 400,
-    //     minSpacing: 20,
-    //     children: [
-    //       for (var offer in offerList) OfferCard(offer),
-    //     ],
-    //   ),
-    // );
   }
 
   Widget buildInitialOffers(BuildContext context) {
