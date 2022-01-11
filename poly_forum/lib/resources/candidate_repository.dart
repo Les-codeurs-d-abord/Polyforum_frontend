@@ -6,6 +6,23 @@ import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class CandidateRepository {
+  Future<void> createCandidate(
+      String email, String lastName, String firstName) async {
+    final body = {'email': email, 'lastName': lastName, 'firstName': firstName};
+
+    // For flex purpose
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final uri = Uri.http('localhost:8080', '/api/users/candidates');
+    final response = await http.post(uri, body: body);
+
+    if (response.statusCode != 201) {
+      if (response.statusCode == 400 || response.statusCode == 409) {
+        throw CandidateException(response.body);
+      }
+    }
+  }
+
   Future<List<Offer>> fetchOfferList(Tag? tag, String? input) async {
     try {
       final queryParameters = {
@@ -67,4 +84,9 @@ class CandidateRepository {
 class NetworkException implements Exception {
   final String message;
   const NetworkException(this.message);
+}
+
+class CandidateException implements Exception {
+  final String message;
+  const CandidateException(this.message);
 }
