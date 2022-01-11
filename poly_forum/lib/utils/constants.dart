@@ -15,3 +15,5 @@ const kSecondaryColor = Color(0xFFE3F3FD);
 
 //button (orange ?)
 const kButtonColor = Color(0xFF0D47A1);
+
+const kServer = "localhost:8080";

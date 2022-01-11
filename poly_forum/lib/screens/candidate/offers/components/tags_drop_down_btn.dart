@@ -35,9 +35,12 @@ class _TagsDropDownBtnState extends State<TagsDropDownBtn> {
           if (state.tags.isNotEmpty) {
             return buildScreen(state.tags);
           } else {
-            return const SizedBox();
+            return const Icon(Icons.error);
           }
+        } else if (state is DropDownOfferTagError) {
+          return const Icon(Icons.error);
         }
+
         return const CircularProgressIndicator();
       },
     );

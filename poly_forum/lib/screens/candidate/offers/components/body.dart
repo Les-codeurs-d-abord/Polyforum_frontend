@@ -82,15 +82,33 @@ class _BodyState extends State<Body> {
               ),
               BlocConsumer<CandidateOfferScreenCubit,
                   CandidateOfferScreenState>(
-                listener: (context, state) {},
+                listener: (context, state) {
+                  if (state is CandidateOfferScreenError) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.msg),
+                      ),
+                    );
+                  } else if (state is CandidateOfferScreenLoaded) {
+                    if (state.offerList.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Aucun résultat trouvé."),
+                        ),
+                      );
+                    }
+                  }
+                },
                 builder: (context, state) {
                   if (state is CandidateOfferScreenLoading) {
                     return buildloadingScreen();
                   } else if (state is CandidateOfferScreenLoaded) {
                     return buildLoadedScreen(state.offerList);
+                  } else if (state is CandidateOfferScreenError) {
+                    return buildErrorOffers();
                   }
 
-                  return buildInitialOffers(context);
+                  return buildInitialOffers();
                 },
               ),
             ],
@@ -135,14 +153,28 @@ class _BodyState extends State<Body> {
   }
 
   Widget buildLoadedScreen(List<Offer> offerList) {
-    return Column(
-      children: [
-        for (var offer in offerList) OfferCard(offer),
-      ],
+    return Container(
+      child: offerList.isNotEmpty
+          ? Column(
+              children: [
+                for (var offer in offerList) OfferCard(offer),
+              ],
+            )
+          : buildInitialOffers(),
     );
   }
 
-  Widget buildInitialOffers(BuildContext context) {
-    return const SizedBox();
+  Widget buildInitialOffers() {
+    return Image.asset(
+      "images/no_result.jpg",
+      width: 1200,
+    );
+  }
+
+  Widget buildErrorOffers() {
+    return Image.asset(
+      "images/error_500.jpg",
+      width: 1200,
+    );
   }
 }

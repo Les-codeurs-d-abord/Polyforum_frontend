@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: theme(),
       // onGenerateRoute: RouteGenerator.generateRoute,
       // initialRoute: RoutesName.signInScreen,
-      home: const OffersScreen(),
+      home: const NavigationScreen(),
     );
   }
 }
