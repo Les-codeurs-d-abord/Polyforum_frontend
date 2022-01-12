@@ -1,10 +1,10 @@
-import 'package:poly_forum/data/models/user_model.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
-  Future<User> fetchUserToken(String mail, String password) async {
+  Future<CandidateUser> fetchUserToken(String mail, String password) async {
     final body = {
       'email': mail,
       'password': password,
@@ -20,7 +20,15 @@ class UserRepository {
       SharedPreferences.getInstance()
           .then((value) => value.setString('token', jsonResponse['token']));
 
-      return User(mail: jsonResponse['email']);
+      // return CandidateUser(mail: jsonResponse['email']);
+      return const CandidateUser(
+        address: "26 boulevard jean mermoz",
+        description: "Je suis dispo h24.",
+        email: "bugnone.michael@gmail.com",
+        firstName: "Michael",
+        lastName: "Bugnone",
+        phoneNumber: "0617228153",
+      );
     } else {
       // print(response.body);
       // print(response.statusCode);
@@ -33,11 +41,18 @@ class UserRepository {
     }
   }
 
-  Future<User> fetchLocalUserToken() async {
+  Future<CandidateUser> fetchLocalUserToken() async {
     return Future.delayed(
       const Duration(seconds: 1),
       () {
-        return const User(mail: "mail");
+        return const CandidateUser(
+          address: "26 boulevard jean mermoz",
+          description: "Je suis dispo h24.",
+          email: "bugnone.michael@gmail.com",
+          firstName: "Michael",
+          lastName: "Bugnone",
+          phoneNumber: "0617228153",
+        );
       },
     );
   }

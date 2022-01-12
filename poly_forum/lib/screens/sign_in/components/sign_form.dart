@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/screens/navigation/navigation_screen.dart';
+import 'package:poly_forum/screens/candidate/candidate_navigation/candidate_navigation_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:poly_forum/cubit/sign_in_screen_cubit.dart';
 import 'package:poly_forum/screens/sign_in/components/email_form_field.dart';
@@ -40,7 +40,7 @@ class _SignFormState extends State<SignForm> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const NavigationScreen(),
+                builder: (context) => const CandidateNavigationScreen(),
               ));
         }
       },

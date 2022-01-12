@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/screens/admin/admin_navigation/components/profil_btn.dart';
+import 'package:poly_forum/screens/admin/admin_navigation/components/tab_navigation_item.dart';
 import 'package:poly_forum/screens/admin/candidate_list/candidate_list_screen.dart';
 import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:poly_forum/screens/candidate/choices/choices_screen.dart';
-import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
-import 'package:poly_forum/screens/candidate/planning/planning_screen.dart';
-import 'package:poly_forum/screens/navigation/components/tab_navigation_item.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 
-import 'components/profil_btn.dart';
-
-class NavigationScreen extends StatefulWidget {
-  const NavigationScreen({Key? key}) : super(key: key);
+class AdminNavigationScreen extends StatefulWidget {
+  const AdminNavigationScreen({Key? key}) : super(key: key);
 
   @override
-  State<NavigationScreen> createState() => _NavigationScreenState();
+  State<AdminNavigationScreen> createState() => _AdminNavigationScreenState();
 }
 
-class _NavigationScreenState extends State<NavigationScreen> {
+class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
   int _selectedIndex = 1;
 
   @override
@@ -50,9 +46,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
             index: _selectedIndex,
             children: const <Widget>[
               WelcomeScreen(),
-              OffersScreen(),
-              ChoicesScreen(),
-              PlanningScreen(),
               CompanyListScreen(),
               CandidateListScreen(),
             ],
@@ -87,6 +80,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         ),
         Expanded(
           child: SingleChildScrollView(
+            primary: false,
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
@@ -98,7 +92,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                       },
                     );
                   },
-                  text: "Les offres",
+                  text: "(Admin) Entreprises",
                   isSelect: _selectedIndex == 1,
                 ),
                 TabNavigationItem(
@@ -109,41 +103,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
                       },
                     );
                   },
-                  text: "Mes choix",
-                  isSelect: _selectedIndex == 2,
-                ),
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 3;
-                      },
-                    );
-                  },
-                  text: "Mon planning",
-                  isSelect: _selectedIndex == 3,
-                ),
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 4;
-                      },
-                    );
-                  },
-                  text: "(Admin) Entreprises",
-                  isSelect: _selectedIndex == 4,
-                ),
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 5;
-                      },
-                    );
-                  },
                   text: "(Admin) Candidats",
-                  isSelect: _selectedIndex == 5,
+                  isSelect: _selectedIndex == 2,
                 ),
               ],
             ),
