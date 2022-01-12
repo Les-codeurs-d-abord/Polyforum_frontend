@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:poly_forum/data/models/company_model.dart';
 
 class CompanyRepository {
   Future<void> createCompany(String email, String companyName) async {
@@ -20,6 +23,33 @@ class CompanyRepository {
         throw const NetworkException("Le serveur à rencontré un problème");
       }
     }
+  }
+
+  Future<List<Company>> fetchCompanyList() async {
+    // For flex purpose
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final uri = Uri.http('localhost:8080', '/api/users/companyList');
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      List<Company> companyList = [];
+
+      for (Map<String, dynamic> companyJson in data) {
+        companyList.add(Company.fromJson(companyJson));
+      }
+
+      return companyList;
+    } else {
+      if (response.statusCode == 500) {
+        throw CompanyException(response.body);
+      } else {
+        throw const NetworkException("Le serveur à rencontré un problème");
+      }
+    }
+
   }
 }
 

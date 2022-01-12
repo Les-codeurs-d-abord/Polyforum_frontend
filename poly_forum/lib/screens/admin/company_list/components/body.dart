@@ -3,26 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_list_screen_cubit.dart';
+import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
+import 'company_card.dart';
 import 'company_form_dialog.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<CompanyListScreenCubit, CompanyListScreenState>(
-        listener: (context, state) {
-        },
-        builder: (context, state) {
-          return buildCompanyListScreen(context);
-        }
-    );
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<CompanyListScreenCubit>(context).companyListEvent();
   }
 
-  buildCompanyListScreen(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (context, constraints) {
           return Row(
@@ -31,19 +36,39 @@ class Body extends StatelessWidget {
                 Expanded(
                     child: Container(
                         margin: const EdgeInsets.all(30),
-                        child: const Text(
-                            "Entreprises",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 40,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                                "Entreprises",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 40,
+                                )
+                            ),
+                            // TODO barre de recherche
+                            const Text("Search bar"),
+                            BlocConsumer<CompanyListScreenCubit, CompanyListScreenState>(
+                                listener: (context, state) {},
+                                builder: (context, state) {
+                                  if (state is CompanyListScreenLoading) {
+                                    return buildLoadingScreen(context);
+                                  } else if (state is CompanyListScreenLoaded) {
+                                    return buildLoadedScreen(context, state.companyList);
+                                  } else {
+                                    return buildInitialScreen(context);
+                                  }
+                                }
                             )
+                          ],
                         )
                     )
                 ),
                 SizedBox(
-                  width: 425,
+                    width: 425,
                     child: Container(
-                        margin: const EdgeInsets.only(left: 50, right: 50, top: 30, bottom: 30),
+                        margin: const EdgeInsets.only(
+                            left: 50, right: 50, top: 30, bottom: 30),
                         child: Column(
                           children: [
                             SizedBox(
@@ -71,9 +96,11 @@ class Body extends StatelessWidget {
                                         Container(
                                             width: 300,
                                             height: 60,
-                                            margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                                            margin: const EdgeInsets.only(
+                                                left: 20, right: 20, top: 20),
                                             decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(7)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(7)),
                                               color: kOrange,
                                             ),
                                             child: MaterialButton(
@@ -86,14 +113,14 @@ class Body extends StatelessWidget {
                                               ),
                                               onPressed: () {
                                                 showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return BlocProvider(
-                                                      create: (context) => CompanyFormCubit(CompanyRepository()),
-                                                      child: const CompanyFormDialog(),
-                                                    );
-                                                  },
-                                                  barrierDismissible: false
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return BlocProvider(
+                                                        create: (context) => CompanyFormCubit(CompanyRepository()),
+                                                        child: const CompanyFormDialog(),
+                                                      );
+                                                    },
+                                                    barrierDismissible: false
                                                 );
                                               },
                                             )
@@ -125,9 +152,11 @@ class Body extends StatelessWidget {
                                         Container(
                                             width: 300,
                                             height: 40,
-                                            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
+                                            margin: const EdgeInsets.only(
+                                                left: 20, right: 20, top: 10),
                                             decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(7)),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(7)),
                                               color: kBlue,
                                             ),
                                             child: MaterialButton(
@@ -152,7 +181,8 @@ class Body extends StatelessWidget {
                               width: double.infinity,
                               child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
                                     color: Colors.grey[200],
                                   ),
                                   margin: const EdgeInsets.only(top: 30),
@@ -168,5 +198,25 @@ class Body extends StatelessWidget {
           );
         }
     );
+  }
+
+  buildLoadingScreen(BuildContext context) {
+    return const CircularProgressIndicator();
+  }
+
+  buildLoadedScreen(BuildContext context, List<Company> companyList) {
+    return Expanded(
+      child: ListView(
+        padding: const EdgeInsets.only(right: 12),
+        primary: false,
+        children: [
+          for (var company in companyList) CompanyCard(company),
+        ],
+      ),
+    );
+  }
+
+  buildInitialScreen(BuildContext context) {
+    return const SizedBox();
   }
 }

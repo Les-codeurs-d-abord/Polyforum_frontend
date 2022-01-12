@@ -9,3 +9,24 @@ abstract class CompanyListScreenState extends Equatable {
 }
 
 class CompanyListScreenInitial extends CompanyListScreenState {}
+
+class CompanyListScreenLoading extends CompanyListScreenState {}
+
+class CompanyListScreenLoaded extends CompanyListScreenState {
+  final List<Company> companyList;
+
+  const CompanyListScreenLoaded(this.companyList);
+
+  @override
+  List<Object> get props => [companyList];
+}
+
+class CompanyListScreenError extends CompanyListScreenState {
+  final String errorMessage;
+
+  const CompanyListScreenError(this.errorMessage);
+
+  @override
+  List<Object> get props => [errorMessage];
+}
+
