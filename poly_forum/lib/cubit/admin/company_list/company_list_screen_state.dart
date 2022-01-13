@@ -13,12 +13,13 @@ class CompanyListScreenInitial extends CompanyListScreenState {}
 class CompanyListScreenLoading extends CompanyListScreenState {}
 
 class CompanyListScreenLoaded extends CompanyListScreenState {
+  final List<Company> companyListInitial;
   final List<Company> companyList;
 
-  const CompanyListScreenLoaded(this.companyList);
+  const CompanyListScreenLoaded(this.companyListInitial, this.companyList);
 
   @override
-  List<Object> get props => [companyList];
+  List<Object> get props => [companyListInitial, companyList];
 }
 
 class CompanyListScreenError extends CompanyListScreenState {

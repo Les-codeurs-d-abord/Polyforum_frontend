@@ -24,10 +24,8 @@ class CompanyCard extends StatelessWidget {
               children: [
                 CachedNetworkImage(
                   imageUrl: company.logo ?? '', // TODO utiliser une image par défaut
-                  placeholder: (context, url) =>
-                  const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) =>
-                  const Icon(Icons.error),
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                   width: 50,
                   height: 50,
                 ),
