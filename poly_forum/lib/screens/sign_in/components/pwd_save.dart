@@ -43,7 +43,7 @@ class _PwdSaveState extends State<PwdSave> {
         ),
         const Expanded(
           child: Text(
-            "Rester connecté",
+            "Sauvegarder le mot de passe ?",
             style: TextStyle(
               color: kPrimaryColor,
               fontWeight: FontWeight.bold,

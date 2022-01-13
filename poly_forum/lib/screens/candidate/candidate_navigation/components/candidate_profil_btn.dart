@@ -9,10 +9,10 @@ class PopupItem {
   PopupItem(this.value, this.name);
 }
 
-class ProfilBtn extends StatelessWidget {
+class CandidateProfilBtn extends StatelessWidget {
   final CandidateUser user;
 
-  const ProfilBtn({required this.user, Key? key}) : super(key: key);
+  const CandidateProfilBtn({required this.user, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -33,18 +33,18 @@ class Offer {
       tags.add(Tag.fromJson(i));
     }
     for (Map<String, dynamic> i in json['offer_links']) {
-      links.add(i['label']);
+      links.add(i['label'] ?? '');
     }
 
     return Offer(
-      companyId: json['companyProfileId'],
-      companyName: json['company_profile']['companyName'],
-      offerLink: json['offerLink'],
-      name: json['name'],
-      description: json['description'],
-      phoneNumber: json['phoneNumber'],
-      address: json['address'],
-      email: json['email'],
+      companyId: json['companyProfileId'] ?? '',
+      companyName: json['company_profile']['companyName'] ?? 0,
+      offerLink: json['offerLink'] ?? '',
+      name: json['name'] ?? '',
+      description: json['description'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      address: json['address'] ?? '',
+      email: json['email'] ?? '',
       links: links,
       tags: tags,
     );

@@ -12,7 +12,6 @@ class PwdFormField extends StatefulWidget {
 
 class _PwdFormFieldState extends State<PwdFormField> {
   bool _obscureText = true;
-  bool _isPasswordSaved = false;
 
   _passwordRetriever() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -20,17 +19,11 @@ class _PwdFormFieldState extends State<PwdFormField> {
     widget._textEditingController.text = password;
   }
 
-  _savedPasswordRetriever() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _isPasswordSaved = prefs.getBool('save_password') ?? false;
-  }
-
   @override
   void initState() {
     super.initState();
 
     _passwordRetriever();
-    _savedPasswordRetriever();
   }
 
   @override
@@ -59,10 +52,13 @@ class _PwdFormFieldState extends State<PwdFormField> {
       validator: (value) => validatePasswordl(value!),
       controller: widget._textEditingController,
       onSaved: (value) {
-        if (_isPasswordSaved) {
-          SharedPreferences.getInstance()
-              .then((prefs) => prefs.setString('password', value!));
-        }
+        SharedPreferences.getInstance().then((prefs) {
+          var isPasswordSaved = prefs.getBool('save_password') ?? false;
+          if (isPasswordSaved) {
+            SharedPreferences.getInstance()
+                .then((prefs) => prefs.setString('password', value!));
+          }
+        });
       },
     );
   }

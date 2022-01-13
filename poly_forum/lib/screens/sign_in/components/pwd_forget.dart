@@ -23,9 +23,7 @@ class PwdForget extends StatelessWidget {
             ),
           ),
         ),
-        child: Expanded(
-          child: const Text("Mot de passe oublié"),
-        ),
+        child: const Text("Mot de passe oublié"),
       ),
     );
   }

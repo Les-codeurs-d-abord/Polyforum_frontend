@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/screens/candidate/candidate_navigation/candidate_navigation_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:poly_forum/cubit/sign_in_screen_cubit.dart';
@@ -37,11 +38,17 @@ class _SignFormState extends State<SignForm> {
             ),
           );
         } else if (state is SignInScreenLoaded) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CandidateNavigationScreen(),
-              ));
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              if (state.user is CandidateUser) {
+                return CandidateNavigationScreen(
+                    user: state.user as CandidateUser);
+              } else {
+                return CandidateNavigationScreen(
+                    user: state.user as CandidateUser);
+              }
+            },
+          ));
         }
       },
       builder: (context, state) {
@@ -129,7 +136,7 @@ class _SignFormState extends State<SignForm> {
                               ),
                             ),
                           ),
-                          Icon(Icons.arrow_forward_outlined),
+                          // Icon(Icons.arrow_forward_outlined),
                         ],
                       ),
               ),

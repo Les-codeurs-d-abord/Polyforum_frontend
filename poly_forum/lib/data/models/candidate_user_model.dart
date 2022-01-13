@@ -1,10 +1,11 @@
-class CandidateUser {
+import 'package:poly_forum/data/models/user_model.dart';
+
+class CandidateUser extends User {
   final String firstName;
   final String lastName;
   final String phoneNumber;
   final String address;
   final String description;
-  final String email;
 
   const CandidateUser({
     required this.firstName,
@@ -12,17 +13,19 @@ class CandidateUser {
     required this.phoneNumber,
     required this.address,
     required this.description,
-    required this.email,
-  });
+    required email,
+    required role,
+  }) : super(email: email, role: role);
 
   factory CandidateUser.fromJson(Map<String, dynamic> json) {
     return CandidateUser(
-      firstName: json['companyProfileId'],
-      lastName: json['company_profile']['companyName'],
-      phoneNumber: json['offerLink'],
-      address: json['name'],
-      description: json['description'],
-      email: json['phoneNumber'],
+      firstName: json['firstName'] ?? '',
+      lastName: json['lastName'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      address: json['address'] ?? '',
+      description: json['description'] ?? '',
+      email: json['user']['email'] ?? '',
+      role: json['user']['role'] ?? 'CANDIDAT',
     );
   }
 

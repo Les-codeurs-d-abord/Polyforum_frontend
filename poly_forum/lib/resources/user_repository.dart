@@ -1,43 +1,59 @@
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:poly_forum/data/models/user_model.dart';
+import 'package:poly_forum/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
-  Future<CandidateUser> fetchUserToken(String mail, String password) async {
-    final body = {
-      'email': mail,
-      'password': password,
-    };
+  Future<User> fetchUser(String mail, String password) async {
+    try {
+      final body = {
+        'email': mail,
+        'password': password,
+      };
 
-    final uri = Uri.http('localhost:8080', '/api/login/signin');
-    final response = await http.post(uri, body: body);
+      final uri = Uri.http(kServer, '/api/login/signin');
+      final response = await http.post(uri, body: body);
 
-    if (response.statusCode == 200) {
-      var jsonResponse =
-          convert.jsonDecode(response.body) as Map<String, dynamic>;
+      if (response.statusCode == 200) {
+        var jsonUser = convert.jsonDecode(response.body)["payload"];
 
-      SharedPreferences.getInstance()
-          .then((value) => value.setString('token', jsonResponse['token']));
+        SharedPreferences.getInstance()
+            .then((value) => value.setString('token', jsonUser['token']));
 
-      // return CandidateUser(mail: jsonResponse['email']);
-      return const CandidateUser(
-        address: "26 boulevard jean mermoz",
-        description: "Je suis dispo h24.",
-        email: "bugnone.michael@gmail.com",
-        firstName: "Michael",
-        lastName: "Bugnone",
-        phoneNumber: "0617228153",
-      );
-    } else {
-      // print(response.body);
-      // print(response.statusCode);
+        switch (jsonUser["role"]) {
+          case "CANDIDAT":
+            final uriCandidate = Uri.http(
+              kServer,
+              "/api/candidates/${jsonUser["id"]}",
+              {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+            );
+            final resCandidate = await http.get(uriCandidate);
+            if (resCandidate.statusCode == 200) {
+              var jsonCandidate =
+                  convert.jsonDecode(resCandidate.body) as Map<String, dynamic>;
 
-      if (response.statusCode == 401) {
+              return CandidateUser.fromJson(jsonCandidate);
+            }
+            break;
+          case "ENTREPRISE":
+            return CandidateUser.fromJson(jsonUser);
+          case "ADMIN":
+            return CandidateUser.fromJson(jsonUser);
+          default:
+        }
+      } else if (response.statusCode == 401) {
         throw const UnknowUserException("Identifiants incorrects.");
       }
 
       throw const NetworkException("Une erreur est survenue.");
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
   }
 
@@ -52,6 +68,7 @@ class UserRepository {
           firstName: "Michael",
           lastName: "Bugnone",
           phoneNumber: "0617228153",
+          role: "CANDIDAT",
         );
       },
     );

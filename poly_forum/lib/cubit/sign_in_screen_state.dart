@@ -13,7 +13,7 @@ class SignInScreenInitial extends SignInScreenState {}
 class SignInScreenLoading extends SignInScreenState {}
 
 class SignInScreenLoaded extends SignInScreenState {
-  final CandidateUser user;
+  final User user;
 
   const SignInScreenLoaded(this.user);
 

@@ -18,13 +18,14 @@ class Body extends StatelessWidget {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                width: 800,
+              const Expanded(
+                flex: 4,
                 child: SingleChildScrollView(
                   child: SignForm(),
                 ),
               ),
               Expanded(
+                flex: 5,
                 child: Container(
                   color: kSecondaryColor,
                   child: Center(
@@ -40,14 +41,8 @@ class Body extends StatelessWidget {
             ],
           );
         } else {
-          return Expanded(
-            child: Container(
-              height: double.infinity,
-              color: kScaffoldColor,
-              child: const SingleChildScrollView(
-                child: SignForm(),
-              ),
-            ),
+          return const SingleChildScrollView(
+            child: SignForm(),
           );
         }
       },

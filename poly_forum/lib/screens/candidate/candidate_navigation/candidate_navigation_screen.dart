@@ -7,11 +7,13 @@ import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
 import 'package:poly_forum/screens/candidate/planning/planning_screen.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 
-import 'components/profil_btn.dart';
+import 'components/candidate_profil_btn.dart';
 import 'components/tab_navigation_item.dart';
 
 class CandidateNavigationScreen extends StatefulWidget {
-  const CandidateNavigationScreen({Key? key}) : super(key: key);
+  final CandidateUser user;
+  const CandidateNavigationScreen({required this.user, Key? key})
+      : super(key: key);
 
   @override
   State<CandidateNavigationScreen> createState() =>
@@ -59,14 +61,6 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
   }
 
   Widget buildWebVersion(BuildContext context) {
-    const user = CandidateUser(
-      address: "26 boulevard jean mermoz",
-      description: "Je suis dispo h24.",
-      email: "bugnone.michael@gmail.com",
-      firstName: "Michael",
-      lastName: "Bugnone",
-      phoneNumber: "0617228153",
-    );
     return Row(
       children: [
         MaterialButton(
@@ -135,7 +129,7 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
             ),
           ),
         ),
-        const ProfilBtn(user: user),
+        CandidateProfilBtn(user: widget.user),
       ],
     );
   }
