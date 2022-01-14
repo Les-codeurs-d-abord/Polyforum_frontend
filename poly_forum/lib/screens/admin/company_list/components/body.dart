@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -168,7 +167,9 @@ class _BodyState extends State<Body> {
                                                       );
                                                     },
                                                     barrierDismissible: false
-                                                );
+                                                ).then((value) {
+                                                  BlocProvider.of<CompanyListScreenCubit>(context).companyListEvent();
+                                                });
                                               },
                                             )
                                         ),
@@ -248,17 +249,23 @@ class _BodyState extends State<Body> {
   }
 
   buildLoadingScreen(BuildContext context) {
-    return const CircularProgressIndicator();
+    return const Expanded(
+      child: Center(
+        child: CircularProgressIndicator()
+      ),
+    );
   }
 
   buildLoadedScreen(BuildContext context, List<Company> companyList) {
     return Expanded(
-      child: ListView(
-        padding: const EdgeInsets.only(right: 12),
-        primary: false,
-        children: [
-          for (var company in companyList) CompanyCard(company),
-        ],
+      child: Container(
+        child: ListView(
+          padding: const EdgeInsets.only(right: 12),
+          primary: false,
+          children: [
+            for (var company in companyList) CompanyCard(company),
+          ],
+        ),
       ),
     );
   }

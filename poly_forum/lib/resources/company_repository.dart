@@ -13,7 +13,7 @@ class CompanyRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final uri = Uri.http('localhost:8080', '/api/users/companies');
+    final uri = Uri.http('localhost:8080', '/api/companies/');
     final response = await http.post(uri, body: body);
 
     if (response.statusCode != 201) {
