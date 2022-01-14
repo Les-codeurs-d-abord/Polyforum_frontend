@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 // ignore: must_be_immutable
-class CustomAvatar extends StatelessWidget {
+class InitialsAvatar extends StatelessWidget {
   String initials = "";
 
-  CustomAvatar(String text, {Key? key}) : super(key: key) {
+  InitialsAvatar(String text, {Key? key}) : super(key: key) {
     var nameparts = text.split(" ");
     if (nameparts.isNotEmpty) {
       initials = nameparts[0][0].toUpperCase();

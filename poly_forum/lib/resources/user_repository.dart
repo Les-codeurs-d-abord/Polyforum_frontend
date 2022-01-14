@@ -1,6 +1,8 @@
+import 'package:poly_forum/data/models/admin_model.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
+import 'package:poly_forum/data/models/company_user.dart';
 import 'package:poly_forum/data/models/user_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,10 +29,6 @@ class UserRepository {
             final uriCandidate = Uri.http(
               kServer,
               "/api/candidates/${jsonUser["id"]}",
-              {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-              },
             );
             final resCandidate = await http.get(uriCandidate);
             if (resCandidate.statusCode == 200) {
@@ -41,9 +39,20 @@ class UserRepository {
             }
             break;
           case "ENTREPRISE":
-            return CandidateUser.fromJson(jsonUser);
+            final uriCompany = Uri.http(
+              kServer,
+              "/api/companies/${jsonUser["id"]}",
+            );
+            final resCompany = await http.get(uriCompany);
+            if (resCompany.statusCode == 200) {
+              var jsonCompany =
+                  convert.jsonDecode(resCompany.body) as Map<String, dynamic>;
+
+              return CompanyUser.fromJson(jsonCompany);
+            }
+            break;
           case "ADMIN":
-            return CandidateUser.fromJson(jsonUser);
+            return AdminUser.fromJson(jsonUser);
           default:
         }
       } else if (response.statusCode == 401) {

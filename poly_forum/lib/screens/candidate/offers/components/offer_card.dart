@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/candidate/offers/components/tags.dart';
-import 'package:poly_forum/screens/components/custom_avatar.dart';
+import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -69,7 +69,7 @@ class OfferCard extends StatelessWidget {
                 placeholder: (context, url) =>
                     const CircularProgressIndicator(),
                 errorWidget: (context, url, error) {
-                  return CustomAvatar(offer.companyName);
+                  return InitialsAvatar(offer.companyName);
                 },
                 width: 50,
                 height: 50,

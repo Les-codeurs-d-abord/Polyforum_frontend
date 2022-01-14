@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/screens/admin/candidate_list/candidate_list_screen.dart';
-import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
+import 'package:poly_forum/data/models/company_user.dart';
+import 'package:poly_forum/screens/shared/components/profil_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 
-import 'components/profil_btn.dart';
-import 'components/tab_navigation_item.dart';
-
 class CompanyNavigationScreen extends StatefulWidget {
-  const CompanyNavigationScreen({Key? key}) : super(key: key);
+  final CompanyUser user;
+
+  const CompanyNavigationScreen({required this.user, Key? key})
+      : super(key: key);
 
   @override
   State<CompanyNavigationScreen> createState() =>
@@ -17,7 +17,7 @@ class CompanyNavigationScreen extends StatefulWidget {
 }
 
 class _CompanyNavigationScreenState extends State<CompanyNavigationScreen> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +46,7 @@ class _CompanyNavigationScreenState extends State<CompanyNavigationScreen> {
           ),
           body: IndexedStack(
             index: _selectedIndex,
-            children: const <Widget>[
-              WelcomeScreen(),
-              CompanyListScreen(),
-              CandidateListScreen(),
-            ],
+            children: const <Widget>[WelcomeScreen()],
           ),
         ));
   }
@@ -85,34 +81,14 @@ class _CompanyNavigationScreenState extends State<CompanyNavigationScreen> {
             primary: false,
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: [
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 1;
-                      },
-                    );
-                  },
-                  text: "(Admin) Entreprises",
-                  isSelect: _selectedIndex == 1,
-                ),
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 2;
-                      },
-                    );
-                  },
-                  text: "(Admin) Candidats",
-                  isSelect: _selectedIndex == 2,
-                ),
-              ],
+              children: [],
             ),
           ),
         ),
-        const ProfilBtn(),
+        ProfilBtn(
+          name: widget.user.companyName,
+          email: widget.user.email,
+        ),
       ],
     );
   }

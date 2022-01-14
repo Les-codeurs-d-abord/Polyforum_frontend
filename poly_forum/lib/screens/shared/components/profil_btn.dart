@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
 import 'package:poly_forum/screens/sign_in/sign_in_screen.dart';
 
 class PopupItem {
@@ -8,7 +9,11 @@ class PopupItem {
 }
 
 class ProfilBtn extends StatelessWidget {
-  const ProfilBtn({Key? key}) : super(key: key);
+  final String name;
+  final String email;
+
+  const ProfilBtn({required this.name, required this.email, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,19 +51,34 @@ class ProfilBtn extends StatelessWidget {
               (Route<dynamic> route) => false);
         }
       },
-      tooltip: "Menu déroulant",
-      child: Container(
-        height: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+      tooltip: "Profile",
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
-          children: const [
-            Icon(
-              Icons.account_circle_outlined,
-              size: 40,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(email),
+              ],
             ),
-            Icon(
-              Icons.arrow_drop_down,
-              size: 40,
+            Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    width: 70,
+                    child: InitialsAvatar(name),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
