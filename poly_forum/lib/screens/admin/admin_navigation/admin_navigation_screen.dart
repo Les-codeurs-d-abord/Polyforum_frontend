@@ -1,15 +1,21 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/data/models/admin_model.dart';
+import 'package:poly_forum/routes/application.dart';
+import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/admin/candidate_list/candidate_list_screen.dart';
 import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
+import 'package:poly_forum/screens/shared/components/profil_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 
-import 'components/profil_btn.dart';
 import 'components/tab_navigation_item.dart';
 
 class AdminNavigationScreen extends StatefulWidget {
-  const AdminNavigationScreen({Key? key}) : super(key: key);
+  final AdminUser user;
+
+  const AdminNavigationScreen({required this.user, Key? key}) : super(key: key);
 
   @override
   State<AdminNavigationScreen> createState() => _AdminNavigationScreenState();
@@ -22,7 +28,12 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () {
-          Navigator.pop(context);
+          Application.router.navigateTo(
+            context,
+            Routes.signInScreen,
+            clearStack: true,
+            transition: TransitionType.fadeIn,
+          );
           return Future(() => true);
         },
         child: Scaffold(
@@ -111,7 +122,10 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
             ),
           ),
         ),
-        const ProfilBtn(),
+        ProfilBtn(
+          email: widget.user.email,
+          name: "Admin",
+        ),
       ],
     );
   }

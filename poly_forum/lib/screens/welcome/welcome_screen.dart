@@ -3,8 +3,6 @@ import 'package:poly_forum/utils/constants.dart';
 import 'package:poly_forum/screens/welcome/components/body.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  static const route = "/";
-
   const WelcomeScreen({Key? key}) : super(key: key);
 
   @override

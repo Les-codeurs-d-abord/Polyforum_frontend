@@ -1,4 +1,7 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/routes/application.dart';
+import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
 import 'package:poly_forum/screens/sign_in/sign_in_screen.dart';
 
@@ -44,11 +47,16 @@ class ProfilBtn extends StatelessWidget {
       onSelected: (value) {
         if (value == 0) {
         } else if (value == 1) {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) => const SignInScreen(),
-              ),
-              (Route<dynamic> route) => false);
+          // Navigator.of(context).pushNamedAndRemoveUntil(
+          //   Routes.signInScreen,
+          //   (Route<dynamic> route) => false,
+          // );
+          Application.router.navigateTo(
+            context,
+            Routes.signInScreen,
+            clearStack: true,
+            transition: TransitionType.fadeIn,
+          );
         }
       },
       tooltip: "Profile",

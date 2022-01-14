@@ -1,5 +1,8 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/company_user.dart';
+import 'package:poly_forum/routes/application.dart';
+import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/shared/components/profil_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +26,12 @@ class _CompanyNavigationScreenState extends State<CompanyNavigationScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () {
-          Navigator.pop(context);
+          Application.router.navigateTo(
+            context,
+            Routes.signInScreen,
+            clearStack: true,
+            transition: TransitionType.fadeIn,
+          );
           return Future(() => true);
         },
         child: Scaffold(

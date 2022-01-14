@@ -29,6 +29,7 @@ environment:
 dependencies:
   cached_network_image: ^3.2.0
   cupertino_icons: ^1.0.2
+  fluro: ^2.0.3
   flutter:
     sdk: flutter
   flutter_cached_pdfview: ^0.4.1

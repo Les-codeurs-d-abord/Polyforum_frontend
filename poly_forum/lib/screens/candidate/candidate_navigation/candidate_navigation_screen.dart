@@ -1,5 +1,8 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/routes/application.dart';
+import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/candidate/choices/choices_screen.dart';
@@ -27,7 +30,17 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () {
-          Navigator.pop(context);
+          // Navigator.of(context).pushNamedAndRemoveUntil(
+          //   Routes.signInScreen,
+          //   (Route<dynamic> route) => false,
+          // );
+
+          Application.router.navigateTo(
+            context,
+            Routes.signInScreen,
+            clearStack: true,
+            transition: TransitionType.fadeIn,
+          );
           return Future(() => true);
         },
         child: Scaffold(

@@ -1,6 +1,10 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/data/models/admin_model.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/company_user.dart';
+import 'package:poly_forum/routes/application.dart';
+import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/candidate_navigation/candidate_navigation_screen.dart';
 import 'package:poly_forum/screens/company/company_navigation/company_navigation_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
@@ -40,19 +44,32 @@ class _SignFormState extends State<SignForm> {
             ),
           );
         } else if (state is SignInScreenLoaded) {
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              if (state.user is CandidateUser) {
-                return CandidateNavigationScreen(
-                    user: state.user as CandidateUser);
-              } else if (state.user is CompanyUser) {
-                return CompanyNavigationScreen(user: state.user as CompanyUser);
-              } else {
-                return CandidateNavigationScreen(
-                    user: state.user as CandidateUser);
-              }
-            },
-          ));
+          String? path;
+
+          if (state.user is CandidateUser) {
+            path = Routes.candidatScreen;
+          } else if (state.user is CompanyUser) {
+            path = Routes.companyScreen;
+          } else if (state.user is AdminUser) {
+            path = Routes.adminScreen;
+          }
+
+          if (path != null) {
+            Application.router.navigateTo(
+              context,
+              path,
+              routeSettings: RouteSettings(
+                arguments: state.user,
+              ),
+              transition: TransitionType.fadeIn,
+            );
+          } else {
+            Application.router.navigateTo(
+              context,
+              Routes.error500Screen,
+              transition: TransitionType.fadeIn,
+            );
+          }
         }
       },
       builder: (context, state) {
