@@ -15,7 +15,7 @@ class _PwdSaveState extends State<PwdSave> {
   _dataRetriever() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isChecked = prefs.getBool('save_password') ?? false;
+      isChecked = prefs.getBool(kSavePwd) ?? false;
     });
   }
 
@@ -37,7 +37,7 @@ class _PwdSaveState extends State<PwdSave> {
             setState(() {
               isChecked = value!;
               SharedPreferences.getInstance()
-                  .then((prefs) => prefs.setBool('save_password', value));
+                  .then((prefs) => prefs.setBool(kSavePwd, value));
             });
           },
         ),

@@ -5,8 +5,6 @@ import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/company_user.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
-import 'package:poly_forum/screens/candidate/candidate_navigation/candidate_navigation_screen.dart';
-import 'package:poly_forum/screens/company/company_navigation/company_navigation_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:poly_forum/cubit/sign_in_screen_cubit.dart';
 import 'package:poly_forum/screens/sign_in/components/email_form_field.dart';

@@ -15,7 +15,7 @@ class EmailFormField extends StatefulWidget {
 class _EmailFormFieldState extends State<EmailFormField> {
   _emailRetriever() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final email = prefs.getString('email') ?? '';
+    final email = prefs.getString(kEmailPref) ?? '';
     widget._textEditingController.text = email;
   }
 
@@ -44,7 +44,7 @@ class _EmailFormFieldState extends State<EmailFormField> {
       onSaved: (value) {
         if (emailValidatorRegExp.hasMatch(value!)) {
           SharedPreferences.getInstance()
-              .then((prefs) => prefs.setString('email', value));
+              .then((prefs) => prefs.setString(kEmailPref, value));
         }
       },
     );

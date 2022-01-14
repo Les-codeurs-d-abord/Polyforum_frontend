@@ -24,3 +24,9 @@ const kLightBlue = Color(0xFFA8E2FA);
 
 // Server IP
 const kServer = "localhost:8080";
+
+// Preferences name
+const kTokenPref = "token";
+const kEmailPref = "email";
+const kPwdPref = "password";
+const kSavePwd = "save_password";

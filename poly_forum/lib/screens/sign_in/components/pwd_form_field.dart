@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PwdFormField extends StatefulWidget {
@@ -15,7 +16,7 @@ class _PwdFormFieldState extends State<PwdFormField> {
 
   _passwordRetriever() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final password = prefs.getString('password') ?? '';
+    final password = prefs.getString(kPwdPref) ?? '';
     widget._textEditingController.text = password;
   }
 
@@ -56,7 +57,7 @@ class _PwdFormFieldState extends State<PwdFormField> {
           var isPasswordSaved = prefs.getBool('save_password') ?? false;
           if (isPasswordSaved) {
             SharedPreferences.getInstance()
-                .then((prefs) => prefs.setString('password', value!));
+                .then((prefs) => prefs.setString(kPwdPref, value!));
           }
         });
       },

@@ -1,6 +1,7 @@
+import 'dart:convert';
+
 import 'package:poly_forum/data/models/admin_model.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:poly_forum/data/models/company_user.dart';
 import 'package:poly_forum/data/models/user_model.dart';
@@ -19,10 +20,10 @@ class UserRepository {
       final response = await http.post(uri, body: body);
 
       if (response.statusCode == 200) {
-        var jsonUser = convert.jsonDecode(response.body)["payload"];
+        var jsonUser = jsonDecode(response.body)["payload"];
 
         SharedPreferences.getInstance()
-            .then((value) => value.setString('token', jsonUser['token']));
+            .then((value) => value.setString(kTokenPref, jsonUser['token']));
 
         switch (jsonUser["role"]) {
           case "CANDIDAT":
@@ -33,7 +34,7 @@ class UserRepository {
             final resCandidate = await http.get(uriCandidate);
             if (resCandidate.statusCode == 200) {
               var jsonCandidate =
-                  convert.jsonDecode(resCandidate.body) as Map<String, dynamic>;
+                  jsonDecode(resCandidate.body) as Map<String, dynamic>;
 
               return CandidateUser.fromJson(jsonCandidate);
             }
@@ -46,7 +47,7 @@ class UserRepository {
             final resCompany = await http.get(uriCompany);
             if (resCompany.statusCode == 200) {
               var jsonCompany =
-                  convert.jsonDecode(resCompany.body) as Map<String, dynamic>;
+                  jsonDecode(resCompany.body) as Map<String, dynamic>;
 
               return CompanyUser.fromJson(jsonCompany);
             }
@@ -66,21 +67,34 @@ class UserRepository {
     }
   }
 
-  Future<CandidateUser> fetchLocalUserToken() async {
-    return Future.delayed(
-      const Duration(seconds: 1),
-      () {
-        return const CandidateUser(
-          address: "26 boulevard jean mermoz",
-          description: "Je suis dispo h24.",
-          email: "bugnone.michael@gmail.com",
-          firstName: "Michael",
-          lastName: "Bugnone",
-          phoneNumber: "0617228153",
-          role: "CANDIDAT",
-        );
-      },
-    );
+  Future<User> fetchUserFromToken(String token) async {
+    try {
+      final uri = Uri.http(kServer, '/api/login/signin', {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        var jsonUser = jsonDecode(response.body);
+
+        switch (jsonUser["user"]["role"]) {
+          case "CANDIDAT":
+            return CandidateUser.fromJson(jsonUser);
+          case "ENTREPRISE":
+            return CompanyUser.fromJson(jsonUser);
+          case "ADMIN":
+            return AdminUser.fromJson(jsonUser);
+          default:
+        }
+      }
+
+      throw const NetworkException("Une erreur est survenue.");
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
   }
 }
 
