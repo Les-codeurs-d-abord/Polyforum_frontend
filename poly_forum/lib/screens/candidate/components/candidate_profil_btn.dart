@@ -1,9 +1,9 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
-import 'package:poly_forum/screens/sign_in/sign_in_screen.dart';
 
 class PopupItem {
   int value;
@@ -11,12 +11,10 @@ class PopupItem {
   PopupItem(this.value, this.name);
 }
 
-class ProfilBtn extends StatelessWidget {
-  final String name;
-  final String email;
+class CandidateProfilBtn extends StatelessWidget {
+  final CandidateUser user;
 
-  const ProfilBtn({required this.name, required this.email, Key? key})
-      : super(key: key);
+  const CandidateProfilBtn({required this.user, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +44,14 @@ class ProfilBtn extends StatelessWidget {
       ],
       onSelected: (value) {
         if (value == 0) {
+          Application.router.navigateTo(
+            context,
+            Routes.candidatProfilScreen,
+            routeSettings: RouteSettings(
+              arguments: user,
+            ),
+            transition: TransitionType.fadeIn,
+          );
         } else if (value == 1) {
           // Navigator.of(context).pushNamedAndRemoveUntil(
           //   Routes.signInScreen,
@@ -59,7 +65,7 @@ class ProfilBtn extends StatelessWidget {
           );
         }
       },
-      tooltip: "Profile",
+      tooltip: "Profil",
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
@@ -69,12 +75,18 @@ class ProfilBtn extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  name,
+                  user.firstName + " " + user.lastName,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
-                Text(email),
+                Text(
+                  user.email,
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
               ],
             ),
             Column(
@@ -83,7 +95,7 @@ class ProfilBtn extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     width: 70,
-                    child: InitialsAvatar(name),
+                    child: InitialsAvatar(user.firstName + " " + user.lastName),
                   ),
                 ),
               ],

@@ -10,8 +10,8 @@ import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
 import 'package:poly_forum/screens/candidate/planning/planning_screen.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 
-import '../../shared/components/profil_btn.dart';
-import 'components/tab_navigation_item.dart';
+import '../components/candidate_profil_btn.dart';
+import '../../shared/components/tab_navigation_item.dart';
 
 class CandidateNavigationScreen extends StatefulWidget {
   final CandidateUser user;
@@ -142,10 +142,7 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
             ),
           ),
         ),
-        ProfilBtn(
-          name: widget.user.firstName + " " + widget.user.lastName,
-          email: widget.user.email,
-        ),
+        CandidateProfilBtn(user: widget.user),
       ],
     );
   }

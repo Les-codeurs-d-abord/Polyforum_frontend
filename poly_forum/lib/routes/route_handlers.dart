@@ -8,6 +8,7 @@ import 'package:poly_forum/data/models/company_user.dart';
 import 'package:poly_forum/resources/user_repository.dart';
 import 'package:poly_forum/screens/admin/admin_navigation/admin_navigation_screen.dart';
 import 'package:poly_forum/screens/candidate/candidate_navigation/candidate_navigation_screen.dart';
+import 'package:poly_forum/screens/candidate/profil/candidate_profil_screen.dart';
 import 'package:poly_forum/screens/company/company_navigation/company_navigation_screen.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/sign_in/sign_in_screen.dart';
@@ -55,6 +56,27 @@ var candidateHandler = Handler(handlerFunc: (context, params) {
   //     }
   //   });
   // }
+
+  return const SignInScreen();
+});
+
+var candidateProfilHandler = Handler(handlerFunc: (context, params) {
+  final user = context!.settings!.arguments;
+  if (user != null && user is CandidateUser) {
+    return CandidateProfilScreen(user: user);
+  } else {
+    var test = CandidateUser(
+        firstName: "firstName",
+        lastName: "lastName",
+        phoneNumber: "phoneNumber",
+        address: "address",
+        description: "description",
+        email: "email",
+        role: "CANDIDATE",
+        links: [],
+        tags: []);
+    return CandidateProfilScreen(user: test);
+  }
 
   return const SignInScreen();
 });

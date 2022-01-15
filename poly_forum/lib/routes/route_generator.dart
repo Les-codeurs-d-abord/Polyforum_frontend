@@ -21,6 +21,8 @@ class RouteGenerator {
           lastName: "",
           phoneNumber: "",
           role: "",
+          tags: [],
+          links: [],
         );
         return MaterialPageRoute(
             builder: (_) => const CandidateNavigationScreen(user: test));

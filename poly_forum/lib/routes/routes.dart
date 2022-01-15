@@ -4,6 +4,7 @@ import './route_handlers.dart';
 class Routes {
   static const String signInScreen = "/connexion";
   static const String candidatScreen = "/candidat";
+  static const String candidatProfilScreen = "/candidat/profil";
   static const String companyScreen = "/entreprise";
   static const String adminScreen = "/admin";
   static const String error404Screen = "/error404";
@@ -14,6 +15,7 @@ class Routes {
 
     router.define(signInScreen, handler: signInHandler);
     router.define(candidatScreen, handler: candidateHandler);
+    router.define(candidatProfilScreen, handler: candidateProfilHandler);
     router.define(companyScreen, handler: companyHandler);
     router.define(adminScreen, handler: adminHandler);
 
