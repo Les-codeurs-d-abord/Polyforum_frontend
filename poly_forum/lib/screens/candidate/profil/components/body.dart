@@ -14,79 +14,79 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Center(
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 80),
+          margin: const EdgeInsets.all(30),
+          width: 1024,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
           child: Column(
             children: [
-              const Text(
-                "Modifier le profil",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               EditableAvatar(user.firstName + " " + user.lastName),
               ProfilForm(),
             ],
           ),
         ),
-        // child: IntrinsicHeight(
-        //   child: Row(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Expanded(
-        //         child: Column(
-        //           children: [
-        //             Text("Description"),
-        //             Expanded(
-        //               child: Container(
-        //                 decoration: BoxDecoration(
-        //                   border: Border.all(color: Colors.grey),
-        //                   borderRadius: BorderRadius.all(
-        //                     Radius.circular(5),
-        //                   ),
-        //                 ),
-        //                 child: Text(user.description),
-        //               ),
-        //             ),
-        //             TextButton(
-        //               style: TextButton.styleFrom(
-        //                 primary: Colors.white,
-        //                 backgroundColor: kButtonColor,
-        //                 onSurface: Colors.grey,
-        //               ),
-        //               onPressed: () {},
-        //               child: const Padding(
-        //                 padding:
-        //                     EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        //                 child: Text(
-        //                   "Ouvrir le CV",
-        //                   style: TextStyle(
-        //                     fontSize: 26,
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //       const VerticalDivider(
-        //         color: Colors.black,
-        //         thickness: 1,
-        //       ),
-        //       Expanded(
-        //         child: Column(
-        //           children: [
-        //             buildInfo(),
-        //           ],
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
       ),
+      // child: IntrinsicHeight(
+      //   child: Row(
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      //       Expanded(
+      //         child: Column(
+      //           children: [
+      //             Text("Description"),
+      //             Expanded(
+      //               child: Container(
+      //                 decoration: BoxDecoration(
+      //                   border: Border.all(color: Colors.grey),
+      //                   borderRadius: BorderRadius.all(
+      //                     Radius.circular(5),
+      //                   ),
+      //                 ),
+      //                 child: Text(user.description),
+      //               ),
+      //             ),
+      //             TextButton(
+      //               style: TextButton.styleFrom(
+      //                 primary: Colors.white,
+      //                 backgroundColor: kButtonColor,
+      //                 onSurface: Colors.grey,
+      //               ),
+      //               onPressed: () {},
+      //               child: const Padding(
+      //                 padding:
+      //                     EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      //                 child: Text(
+      //                   "Ouvrir le CV",
+      //                   style: TextStyle(
+      //                     fontSize: 26,
+      //                   ),
+      //                 ),
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //       const VerticalDivider(
+      //         color: Colors.black,
+      //         thickness: 1,
+      //       ),
+      //       Expanded(
+      //         child: Column(
+      //           children: [
+      //             buildInfo(),
+      //           ],
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 

@@ -20,8 +20,8 @@ class EditableAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 150,
-      height: 150,
+      width: 120,
+      height: 120,
       child: Stack(
         children: [
           Positioned.fill(
