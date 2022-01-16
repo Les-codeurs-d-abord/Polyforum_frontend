@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/screens/candidate/profil/components/add_link_modal.dart';
 import 'package:poly_forum/screens/candidate/profil/components/custom_text_field.dart';
@@ -7,8 +10,13 @@ import 'package:poly_forum/screens/candidate/profil/components/profile_tags.dart
 import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 
+import 'editable_avatar.dart';
+
+// ignore: must_be_immutable
 class ProfilForm extends StatefulWidget {
-  const ProfilForm({Key? key}) : super(key: key);
+  CandidateUser user;
+
+  ProfilForm({required this.user, Key? key}) : super(key: key);
 
   @override
   _ProfilFormState createState() => _ProfilFormState();
@@ -27,6 +35,8 @@ class _ProfilFormState extends State<ProfilForm> {
 
   List<String> links = [];
   List<String> tags = [];
+  File? fileLogo;
+  File? fileCV;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +44,8 @@ class _ProfilFormState extends State<ProfilForm> {
       key: _formKey,
       child: Column(
         children: [
+          EditableAvatar(widget.user.firstName + " " + widget.user.lastName,
+              file: fileLogo),
           const SizedBox(height: 15),
           Row(
             mainAxisSize: MainAxisSize.max,
