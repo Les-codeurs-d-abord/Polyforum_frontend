@@ -3,6 +3,7 @@ import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/screens/candidate/profil/components/add_link_modal.dart';
 import 'package:poly_forum/screens/candidate/profil/components/custom_text_field.dart';
 import 'package:poly_forum/screens/candidate/profil/components/profile_links.dart';
+import 'package:poly_forum/screens/candidate/profil/components/profile_tags.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class ProfilForm extends StatefulWidget {
@@ -90,7 +91,7 @@ class _ProfilFormState extends State<ProfilForm> {
           IntrinsicHeight(
             child: Row(
               children: [
-                buildTagsPart(),
+                ProfileTags(tags: tags),
                 const VerticalDivider(color: Colors.black, thickness: 1),
                 ProfileLinks(links: links),
               ],
@@ -114,48 +115,6 @@ class _ProfilFormState extends State<ProfilForm> {
             children: [
               buildSaveBtn(),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildTagsPart() {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text("Tags"),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
-            child: TextButton(
-              style: TextButton.styleFrom(
-                primary: Colors.white,
-                backgroundColor: kButtonColor,
-                onSurface: Colors.grey,
-              ),
-              onPressed: () {},
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Ajouter un Tag",
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ),
         ],
       ),

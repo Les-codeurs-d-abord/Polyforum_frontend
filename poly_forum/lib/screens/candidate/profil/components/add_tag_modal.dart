@@ -1,16 +1,13 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 
-import 'custom_text_field.dart';
-
-class AddLinkModal extends StatelessWidget {
+class AddTagModal extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final _linkController = TextEditingController();
-  final List<String> links;
+  final List<Tag> tags;
 
-  AddLinkModal({required this.links, Key? key}) : super(key: key);
+  AddTagModal({required this.tags, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +24,36 @@ class AddLinkModal extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              const Text(
+                "Ajouter un lien",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              const SizedBox(height: 10),
               Row(
                 children: [
-                  CustomTextField(
-                    text: "Lien",
-                    icon: Icons.link_outlined,
-                    controller: _linkController,
-                    isLocked: false,
-                    urls: links,
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                      controller: _linkController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return '* Champs Requis';
+                        } else if (!Uri.parse(_linkController.text)
+                            .isAbsolute) {
+                          return "Le format de l'URL n'est pas valide";
+                        } else if (tags.contains(_linkController.text)) {
+                          return "Cette URL a déjà été enregistré";
+                        }
+
+                        return null;
+                      },
+                    ),
                   )
                 ],
               ),

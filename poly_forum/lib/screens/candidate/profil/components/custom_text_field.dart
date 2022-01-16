@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
   final bool isLocked;
   final bool isObligatory;
   final bool isNumeric;
+  final List<String> urls;
   final int maxCharacters;
   final int minCharacters;
   final int maxLines;
@@ -19,6 +20,7 @@ class CustomTextField extends StatelessWidget {
       this.isLocked = true,
       this.isObligatory = true,
       this.isNumeric = false,
+      this.urls = const [],
       this.maxCharacters = 255,
       this.minCharacters = 0,
       this.maxLines = 1,
@@ -54,6 +56,7 @@ class CustomTextField extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           TextFormField(
+            controller: controller,
             enabled: !isLocked,
             keyboardType: isNumeric
                 ? TextInputType.number
@@ -92,6 +95,14 @@ class CustomTextField extends StatelessWidget {
     }
     if (value.length < minCharacters) {
       return "Ce champs nécessite au moins $minCharacters caractères";
+    }
+
+    if (urls.isNotEmpty) {
+      if (!Uri.parse(value).isAbsolute) {
+        return "Le format de l'URL n'est pas valide";
+      } else if (urls.contains(value)) {
+        return "Cette URL a déjà été enregistré";
+      }
     }
 
     return null;
