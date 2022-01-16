@@ -4,6 +4,7 @@ import 'package:poly_forum/screens/candidate/profil/components/add_link_modal.da
 import 'package:poly_forum/screens/candidate/profil/components/custom_text_field.dart';
 import 'package:poly_forum/screens/candidate/profil/components/profile_links.dart';
 import 'package:poly_forum/screens/candidate/profil/components/profile_tags.dart';
+import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class ProfilForm extends StatefulWidget {
@@ -25,7 +26,7 @@ class _ProfilFormState extends State<ProfilForm> {
   final _passwordController = TextEditingController();
 
   List<String> links = [];
-  List<Tag> tags = [];
+  List<String> tags = [];
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +93,11 @@ class _ProfilFormState extends State<ProfilForm> {
             child: Row(
               children: [
                 ProfileTags(tags: tags),
-                const VerticalDivider(color: Colors.black, thickness: 1),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child:
+                      const VerticalDivider(color: Colors.black, thickness: 1),
+                ),
                 ProfileLinks(links: links),
               ],
             ),
@@ -111,51 +116,17 @@ class _ProfilFormState extends State<ProfilForm> {
             ],
           ),
           const SizedBox(height: 30),
-          Row(
-            children: [
-              buildSaveBtn(),
-            ],
+          RowBtn(
+            text: "Sauvegarder",
+            fontSize: 20,
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                print(links);
+              }
+            },
           ),
         ],
       ),
     );
-  }
-
-  Widget buildSaveBtn() {
-    return Expanded(
-      child: TextButton(
-        style: TextButton.styleFrom(
-          primary: Colors.white,
-          backgroundColor: kButtonColor,
-          onSurface: Colors.grey,
-        ),
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            print(links);
-          }
-        },
-        child: const Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: Text(
-            "Sauvegarder",
-            style: TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 20,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  String? validateObligatoryField(String value) {
-    if (value.isEmpty) {
-      return "* Champs Requis";
-    }
-    if (value.length >= 500) {
-      return "Il y a trop de caractères";
-    }
-
-    return null;
   }
 }

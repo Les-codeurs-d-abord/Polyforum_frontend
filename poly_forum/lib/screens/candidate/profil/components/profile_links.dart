@@ -22,6 +22,8 @@ class _ProfilTagsState extends State<ProfileLinks> {
         children: [
           Row(
             children: [
+              const Icon(Icons.link_outlined),
+              const SizedBox(width: 5),
               const Text("Liens"),
               const SizedBox(width: 5),
               Text(
@@ -35,10 +37,7 @@ class _ProfilTagsState extends State<ProfileLinks> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.link_outlined,
-                  size: 25,
-                ),
+                const Icon(Icons.link_outlined),
                 const SizedBox(width: 10),
                 Expanded(
                   child: InkWell(
@@ -80,9 +79,11 @@ class _ProfilTagsState extends State<ProfileLinks> {
                                 return AddLinkModal(links: widget.links);
                               },
                             ).then((value) {
-                              setState(() {
-                                widget.links.add(value);
-                              });
+                              if (value != null) {
+                                setState(() {
+                                  widget.links.add(value);
+                                });
+                              }
                             });
                           }
                         : null,

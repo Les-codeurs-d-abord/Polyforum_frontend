@@ -6,7 +6,7 @@ import 'add_tag_modal.dart';
 
 class ProfileTags extends StatefulWidget {
   final int maxTags = 10;
-  final List<Tag> tags;
+  final List<String> tags;
   const ProfileTags({required this.tags, Key? key}) : super(key: key);
 
   @override
@@ -22,6 +22,8 @@ class _ProfilTagsState extends State<ProfileTags> {
         children: [
           Row(
             children: [
+              const Icon(Icons.tag_outlined),
+              const SizedBox(width: 5),
               const Text("Tags"),
               const SizedBox(width: 5),
               Text(
@@ -31,35 +33,37 @@ class _ProfilTagsState extends State<ProfileTags> {
             ],
           ),
           const SizedBox(height: 10),
-/*           for (var tag in widget.tags)
+          for (var tag in widget.tags)
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.link_outlined,
-                  size: 25,
-                ),
+                const Icon(Icons.tag_outlined),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: InkWell(
-                    child: Text(
-                      link,
-                      style: const TextStyle(color: Colors.blue),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: kSecondaryColor,
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    onTap: () => launch(link),
+                    child: Text(
+                      tag,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      widget.links.remove(link);
+                      widget.tags.remove(tag);
                     });
                   },
                   icon: const Icon(Icons.delete_outline),
                   tooltip: 'Supprimer le lien',
                 ),
               ],
-            ), */
+            ),
           SizedBox(height: widget.tags.isNotEmpty ? 20 : 0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 100),
@@ -80,9 +84,11 @@ class _ProfilTagsState extends State<ProfileTags> {
                                 return AddTagModal(tags: widget.tags);
                               },
                             ).then((value) {
-                              setState(() {
-                                widget.tags.add(value);
-                              });
+                              if (value != null) {
+                                setState(() {
+                                  widget.tags.add(value);
+                                });
+                              }
                             });
                           }
                         : null,

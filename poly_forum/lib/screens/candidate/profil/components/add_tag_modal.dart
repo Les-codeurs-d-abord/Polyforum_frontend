@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/tag_model.dart';
+import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
+
+import 'custom_text_field.dart';
 
 class AddTagModal extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  final _linkController = TextEditingController();
-  final List<Tag> tags;
+  final _tagController = TextEditingController();
+  final List<String> tags;
 
   AddTagModal({required this.tags, Key? key}) : super(key: key);
 
@@ -20,68 +23,30 @@ class AddTagModal extends StatelessWidget {
         key: _formKey,
         child: Container(
           padding: const EdgeInsets.all(30),
-          width: 600,
+          width: 300,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                "Ajouter un lien",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-              const SizedBox(height: 10),
               Row(
                 children: [
-                  Expanded(
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        isDense: true,
-                      ),
-                      controller: _linkController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return '* Champs Requis';
-                        } else if (!Uri.parse(_linkController.text)
-                            .isAbsolute) {
-                          return "Le format de l'URL n'est pas valide";
-                        } else if (tags.contains(_linkController.text)) {
-                          return "Cette URL a déjà été enregistré";
-                        }
-
-                        return null;
-                      },
-                    ),
-                  )
+                  CustomTextField(
+                    text: "Tag",
+                    icon: Icons.link_outlined,
+                    controller: _tagController,
+                    isLocked: false,
+                    stringFilters: tags,
+                    maxCharacters: 20,
+                  ),
                 ],
               ),
               const SizedBox(height: 30),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          Navigator.pop(context, _linkController.text);
-                        }
-                      },
-                      style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: kButtonColor,
-                        onSurface: Colors.grey,
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Text(
-                          "Valider",
-                          style: TextStyle(fontWeight: FontWeight.normal),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              RowBtn(
+                text: "Valider",
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.pop(context, _tagController.text);
+                  }
+                },
               ),
             ],
           ),
@@ -90,3 +55,143 @@ class AddTagModal extends StatelessWidget {
     );
   }
 }
+
+/* class AddTagModal extends StatelessWidget {
+  final List<Tag> tags;
+
+  AddTagModal({required this.tags, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 10,
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(30),
+          width: 600,
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("Tags existant"),
+                        Container(
+                          height: 400,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ListView.builder(
+                            itemCount: 15,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0, vertical: 5),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextButton(
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: kButtonColor,
+                                          onSurface: Colors.grey,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                        ),
+                                        child: Text("test"),
+                                        onPressed: () => {},
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 50),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text("Mes tags"),
+                        Container(
+                          height: 400,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: 15,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0, vertical: 5),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextButton(
+                                              style: TextButton.styleFrom(
+                                                primary: Colors.white,
+                                                backgroundColor: Colors.blue,
+                                                onSurface: Colors.grey,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                              ),
+                                              child: Text("test"),
+                                              onPressed: () => {},
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0, vertical: 5),
+                                child: RowBtn(
+                                  text: "Créer un tag",
+                                  onPressed: () => print("oui"),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              RowBtn(
+                text: "Valider",
+                onPressed: () => print("oui"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+ */

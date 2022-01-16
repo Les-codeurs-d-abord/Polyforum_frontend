@@ -8,7 +8,8 @@ class CustomTextField extends StatelessWidget {
   final bool isLocked;
   final bool isObligatory;
   final bool isNumeric;
-  final List<String> urls;
+  final bool isLink;
+  final List<String> stringFilters;
   final int maxCharacters;
   final int minCharacters;
   final int maxLines;
@@ -20,7 +21,8 @@ class CustomTextField extends StatelessWidget {
       this.isLocked = true,
       this.isObligatory = true,
       this.isNumeric = false,
-      this.urls = const [],
+      this.isLink = false,
+      this.stringFilters = const [],
       this.maxCharacters = 255,
       this.minCharacters = 0,
       this.maxLines = 1,
@@ -97,11 +99,15 @@ class CustomTextField extends StatelessWidget {
       return "Ce champs nécessite au moins $minCharacters caractères";
     }
 
-    if (urls.isNotEmpty) {
+    if (isLink) {
       if (!Uri.parse(value).isAbsolute) {
         return "Le format de l'URL n'est pas valide";
-      } else if (urls.contains(value)) {
-        return "Cette URL a déjà été enregistré";
+      }
+    }
+
+    if (stringFilters.isNotEmpty) {
+      if (stringFilters.contains(value)) {
+        return "Cette entrée a déjà été enregistré";
       }
     }
 

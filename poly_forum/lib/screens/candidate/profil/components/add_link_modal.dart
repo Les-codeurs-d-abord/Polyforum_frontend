@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 import 'custom_text_field.dart';
@@ -34,35 +35,19 @@ class AddLinkModal extends StatelessWidget {
                     icon: Icons.link_outlined,
                     controller: _linkController,
                     isLocked: false,
-                    urls: links,
+                    isLink: true,
+                    stringFilters: links,
                   )
                 ],
               ),
               const SizedBox(height: 30),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          Navigator.pop(context, _linkController.text);
-                        }
-                      },
-                      style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: kButtonColor,
-                        onSurface: Colors.grey,
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Text(
-                          "Valider",
-                          style: TextStyle(fontWeight: FontWeight.normal),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              RowBtn(
+                text: "Valider",
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.pop(context, _linkController.text);
+                  }
+                },
               ),
             ],
           ),
