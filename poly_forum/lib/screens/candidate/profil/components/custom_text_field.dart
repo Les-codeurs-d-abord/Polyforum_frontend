@@ -3,20 +3,24 @@ import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   final String text;
+  final IconData icon;
   final TextEditingController controller;
   final bool isLocked;
   final bool isObligatory;
   final bool isNumeric;
   final int maxCharacters;
+  final int minCharacters;
   final int maxLines;
 
   const CustomTextField(
       {required this.text,
+      required this.icon,
       required this.controller,
       this.isLocked = true,
       this.isObligatory = true,
       this.isNumeric = false,
       this.maxCharacters = 255,
+      this.minCharacters = 0,
       this.maxLines = 1,
       Key? key})
       : super(key: key);
@@ -27,19 +31,27 @@ class CustomTextField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          isObligatory
-              ? RichText(
-                  text: TextSpan(
-                    text: text,
-                    children: const [
-                      TextSpan(
-                        text: ' *',
-                        style: TextStyle(color: Colors.red),
+          Row(
+            children: [
+              Icon(icon),
+              const SizedBox(width: 5),
+              Expanded(
+                child: isObligatory
+                    ? RichText(
+                        text: TextSpan(
+                          text: text,
+                          children: const [
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(color: Colors.red),
+                            )
+                          ],
+                        ),
                       )
-                    ],
-                  ),
-                )
-              : Text(text),
+                    : Text(text),
+              ),
+            ],
+          ),
           const SizedBox(height: 10),
           TextFormField(
             enabled: !isLocked,
@@ -64,19 +76,22 @@ class CustomTextField extends StatelessWidget {
                     border: OutlineInputBorder(),
                     isDense: true,
                   ),
-            validator: (value) => validateObligatoryField(value!),
+            validator: (value) => validateField(value!),
           ),
         ],
       ),
     );
   }
 
-  String? validateObligatoryField(String value) {
+  String? validateField(String value) {
     if (isObligatory && value.isEmpty) {
       return "* Champs Requis";
     }
-    if (value.length >= maxCharacters) {
+    if (value.length > maxCharacters) {
       return "Il y a trop de caractères (${value.length - maxCharacters} en trop)";
+    }
+    if (value.length < minCharacters) {
+      return "Ce champs nécessite au moins $minCharacters caractères";
     }
 
     return null;
