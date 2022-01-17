@@ -14,6 +14,15 @@ class CompanyFormLoading extends CompanyFormState {}
 
 class CompanyFormLoaded extends CompanyFormState {}
 
+class CompanyDetailLoaded extends CompanyFormState {
+  final CompanyDetail company;
+
+  const CompanyDetailLoaded(this.company);
+
+  @override
+  List<Object> get props => [company];
+}
+
 class CompanyFormError extends CompanyFormState {
   final String errorMessage;
 

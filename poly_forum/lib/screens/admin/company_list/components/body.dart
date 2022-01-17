@@ -5,12 +5,17 @@ import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_list_screen_cubit.dart';
 import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
+import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
+import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
 import 'package:poly_forum/screens/shared/components/list/search_bar.dart';
 import 'package:poly_forum/screens/shared/components/list/sort_button.dart';
+import 'package:poly_forum/screens/shared/components/modals/error_modal.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 import 'company_card.dart';
-import 'company_form_dialog.dart';
+import 'company_create_form_dialog.dart';
+import 'company_detail_dialog.dart';
+import 'company_edit_form_dialog.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -27,7 +32,7 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<CompanyListScreenCubit>(context).companyListEvent();
+    BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
   }
 
   @override
@@ -95,12 +100,31 @@ class _BodyState extends State<Body> {
                                     companyListInitial = state.companyListInitial;
                                     companyList = state.companyList;
                                   }
+                                  if (state is CompanyListScreenErrorModal) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return ErrorModal(
+                                              title: state.errorTitle,
+                                              description: state.errorMessage
+                                          );
+                                        },
+                                        barrierDismissible: true
+                                    );
+                                  }
+                                  if (state is CompanyListScreenDelete) {
+                                    companyListInitial.remove(state.company);
+                                    companyList.remove(state.company);
+                                  }
                                 },
                                 builder: (context, state) {
                                   if (state is CompanyListScreenLoading) {
                                     return buildLoadingScreen(context);
-                                  } else if (state is CompanyListScreenLoaded) {
+                                  } else if (state is CompanyListScreenLoaded || state is CompanyListScreenErrorModal
+                                      || state is CompanyListScreenDelete) {
                                     return buildLoadedScreen(context, companyList);
+                                  } else if (state is CompanyListScreenError) {
+                                    return buildErrorScreen(context, state.errorMessage);
                                   } else {
                                     return buildInitialScreen(context);
                                   }
@@ -163,12 +187,14 @@ class _BodyState extends State<Body> {
                                                     builder: (BuildContext context) {
                                                       return BlocProvider(
                                                         create: (context) => CompanyFormCubit(CompanyRepository()),
-                                                        child: const CompanyFormDialog(),
+                                                        child: const CompanyCreateFormDialog(),
                                                       );
                                                     },
                                                     barrierDismissible: false
                                                 ).then((value) {
-                                                  BlocProvider.of<CompanyListScreenCubit>(context).companyListEvent();
+                                                  if (value == FormReturn.confirm) {
+                                                    BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
+                                                  }
                                                 });
                                               },
                                             )
@@ -216,7 +242,20 @@ class _BodyState extends State<Body> {
                                                 ),
                                               ),
                                               onPressed: () {
-
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return const ConfirmationModal(
+                                                        title: "Envoi d'un rappel",
+                                                        description: "Un mail de rappel va être envoyé à toutes les entreprises n'ayant pas complété leur profil ou n'ayant renseigné aucune offre.",
+                                                      );
+                                                    },
+                                                    barrierDismissible: false
+                                                ).then((value) {
+                                                  if (value == ModalReturn.confirm) {
+                                                    BlocProvider.of<CompanyListScreenCubit>(context).sendReminder();
+                                                  }
+                                                });
                                               },
                                             )
                                         )
@@ -258,14 +297,66 @@ class _BodyState extends State<Body> {
 
   buildLoadedScreen(BuildContext context, List<Company> companyList) {
     return Expanded(
-      child: Container(
-        child: ListView(
-          padding: const EdgeInsets.only(right: 12),
-          primary: false,
-          children: [
-            for (var company in companyList) CompanyCard(company),
-          ],
-        ),
+      child: ListView(
+        padding: const EdgeInsets.only(right: 12),
+        primary: false,
+        children: [
+          for (var company in companyList) CompanyCard(
+              company: company,
+              detailEvent: (company) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BlocProvider(
+                        create: (context) => CompanyFormCubit(CompanyRepository()),
+                        child: CompanyDetailDialog(company.id),
+                      );
+                    },
+                    barrierDismissible: false
+                );
+              },
+              editEvent: (company) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BlocProvider(
+                        create: (context) => CompanyFormCubit(CompanyRepository()),
+                        child: CompanyEditFormDialog(company),
+                      );
+                    },
+                    barrierDismissible: false
+                ).then((value) {
+                  if (value == FormReturn.confirm) {
+                    // BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
+                  }
+                });
+              },
+              deleteEvent: (company) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ConfirmationModal(
+                      title: "Suppression d'une entreprise",
+                      description: "Vous-êtes sur le point de supprimer l'entreprise ${company.companyName}, en êtes-vous sûr ?",
+                    );
+                  },
+                ).then((value) {
+                  if (value == ModalReturn.confirm) {
+                    BlocProvider.of<CompanyListScreenCubit>(context).deleteCompany(company);
+                  }
+                });
+              }
+          ),
+        ],
+      ),
+    );
+  }
+
+  buildErrorScreen(BuildContext context, String errorMessage) {
+    return Text(
+      errorMessage,
+      style: const TextStyle(
+        color: Colors.red
       ),
     );
   }

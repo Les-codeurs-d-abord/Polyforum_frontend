@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
-import 'package:poly_forum/screens/shared/components/form/company_name_form_field.dart';
+import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/screens/shared/components/form/email_form_field.dart';
+import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
 import 'package:poly_forum/utils/constants.dart';
 
-class CompanyFormDialog extends StatefulWidget {
-  const CompanyFormDialog({Key? key}) : super(key: key);
+class CompanyEditFormDialog extends StatefulWidget {
+  final Company company;
+
+  const CompanyEditFormDialog(this.company, {Key? key}) : super(key: key);
 
   @override
-  _CompanyFormDialogState createState() => _CompanyFormDialogState();
+  _CompanyEditFormDialogState createState() => _CompanyEditFormDialogState();
 }
 
-class _CompanyFormDialogState extends State<CompanyFormDialog> {
+class _CompanyEditFormDialogState extends State<CompanyEditFormDialog> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _companyNameController = TextEditingController();
+  late final _emailController = TextEditingController(text: widget.company.email);
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CompanyFormCubit, CompanyFormState>(
         listener: (context, state) {
           if (state is CompanyFormLoaded) {
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(FormReturn.confirm);
           }
         },
         builder: (context, state) {
@@ -42,7 +45,7 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
       title: Stack(
           children: [
             const Text(
-              "Ajouter une entreprise",
+              "Modifier une entreprise",
               style: TextStyle(
                   fontSize: 22
               ),
@@ -52,7 +55,7 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
               child: InkResponse(
                 radius: 20,
                 onTap: () {
-                  isLoading ? null : Navigator.of(context).pop();
+                  isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
                 },
                 child: const Icon(Icons.close, color: Colors.grey),
               ),
@@ -65,11 +68,7 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
           width: 450,
           child: Wrap(
             children: [
-              Container(
-                margin: const EdgeInsets.only(top: 10, bottom: 20),
-                child: EmailFormField(_emailController),
-              ),
-              CompanyNameFormField(_companyNameController),
+              EmailFormField(_emailController),
               if (error.isNotEmpty)
                 Container(
                   alignment: Alignment.center,
@@ -77,8 +76,8 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
                   child: Text(
                     error,
                     style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 18
+                        color: Colors.red,
+                        fontSize: 18
                     ),
                   ),
                 )
@@ -105,7 +104,7 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
                 ),
               ),
               onPressed: () {
-                isLoading ? null : Navigator.of(context).pop();
+                isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
               },
             )
         ),
@@ -135,11 +134,10 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
                 ),
               ),
               onPressed: isLoading ?
-                null : () {
+              null : () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  BlocProvider.of<CompanyFormCubit>(context)
-                      .createCompany(_emailController.text, _companyNameController.text);
+                  BlocProvider.of<CompanyFormCubit>(context).editCompany(widget.company, _emailController.text);
                 }
               },
             )

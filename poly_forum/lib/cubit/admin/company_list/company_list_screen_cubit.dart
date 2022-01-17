@@ -11,7 +11,7 @@ class CompanyListScreenCubit extends Cubit<CompanyListScreenState> {
 
   CompanyListScreenCubit(this._companyRepository) : super(CompanyListScreenInitial());
 
-  Future<void> companyListEvent() async {
+  Future<void> fetchCompanyList() async {
     try {
       emit(CompanyListScreenLoading());
 
@@ -70,5 +70,29 @@ class CompanyListScreenCubit extends Cubit<CompanyListScreenState> {
     ).toList();
 
     emit(CompanyListScreenLoaded(companyListInitial, companyList));
+  }
+
+  Future<void> sendReminder() async {
+    emit(CompanyListScreenLoading());
+
+    try {
+      await _companyRepository.sendReminder();
+    } on NetworkException catch (exception) {
+      emit(CompanyListScreenErrorModal("Envoi d'un rappel", exception.message));
+    }
+  }
+
+  Future<void> deleteCompany(Company company) async {
+    emit(CompanyListScreenLoading());
+
+    try {
+      await _companyRepository.deleteCompany(company);
+
+      emit(CompanyListScreenDelete(company));
+    } on CompanyException catch (exception) {
+      emit(CompanyListScreenErrorModal("Suppression d'une entreprise", exception.message));
+    } on NetworkException catch (exception) {
+      emit(CompanyListScreenErrorModal("Suppression d'une entreprise", exception.message));
+    }
   }
 }

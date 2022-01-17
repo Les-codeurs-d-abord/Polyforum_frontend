@@ -1,19 +1,28 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/company_model.dart';
+import 'package:poly_forum/screens/components/custom_avatar.dart';
 
 class CompanyCard extends StatelessWidget {
   final Company company;
+  final void Function(Company) detailEvent;
+  final void Function(Company) editEvent;
+  final void Function(Company) deleteEvent;
 
-  const CompanyCard(this.company, {Key? key}) : super(key: key);
+  const CompanyCard({
+    Key? key,
+    required this.company,
+    required this.detailEvent,
+    required this.editEvent,
+    required this.deleteEvent,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 10,
       child: InkWell(
-        onTap: () {
-        },
+        onTap: () => detailEvent(company),
         child: SizedBox(
           height: 75,
           child: Padding(
@@ -23,9 +32,9 @@ class CompanyCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CachedNetworkImage(
-                  imageUrl: company.logo ?? '', // TODO utiliser une image par défaut
+                  imageUrl: company.logo ?? '',
                   placeholder: (context, url) => const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  errorWidget: (context, url, error) => CustomAvatar(company.companyName),
                   width: 50,
                   height: 50,
                 ),
@@ -82,7 +91,12 @@ class CompanyCard extends StatelessWidget {
                         ),
                       ],
                       onSelected: (value) {
-                        // TODO
+                        switch(value) {
+                          case 0:
+                            return editEvent(company);
+                          case 1:
+                            return deleteEvent(company);
+                        }
                       },
                       tooltip: "Actions",
                       child: Container(
