@@ -8,6 +8,7 @@ import 'package:poly_forum/screens/candidate/profil/components/custom_text_field
 import 'package:poly_forum/screens/candidate/profil/components/profile_links.dart';
 import 'package:poly_forum/screens/candidate/profil/components/profile_tags.dart';
 import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
+import 'package:poly_forum/screens/candidate/profil/components/sized_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 import 'editable_avatar.dart';
@@ -35,8 +36,6 @@ class _ProfilFormState extends State<ProfilForm> {
 
   List<String> links = [];
   List<String> tags = [];
-  File? fileLogo;
-  File? fileCV;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +43,7 @@ class _ProfilFormState extends State<ProfilForm> {
       key: _formKey,
       child: Column(
         children: [
-          EditableAvatar(widget.user.firstName + " " + widget.user.lastName,
-              file: fileLogo),
+          EditableAvatar(widget.user.firstName + " " + widget.user.lastName),
           const SizedBox(height: 15),
           Row(
             mainAxisSize: MainAxisSize.max,
@@ -125,6 +123,20 @@ class _ProfilFormState extends State<ProfilForm> {
                 maxCharacters: 500,
                 maxLines: 10,
               ),
+            ],
+          ),
+          Row(
+            children: [
+              SizedBtn(
+                text: "Charger un CV",
+                fontSize: 20,
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    print(links);
+                  }
+                },
+              ),
+              const Text("ceci est un exemple de lien"),
             ],
           ),
           const SizedBox(height: 30),

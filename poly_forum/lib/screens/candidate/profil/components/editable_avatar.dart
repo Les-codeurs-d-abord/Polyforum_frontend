@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -5,14 +6,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:html' as html;
+import 'package:http_parser/http_parser.dart';
+import 'dart:async';
 
 // ignore: must_be_immutable
 class EditableAvatar extends StatefulWidget {
   String initials = "";
-  File? file;
 
-  EditableAvatar(String text, {required this.file, Key? key})
-      : super(key: key) {
+  EditableAvatar(String text, {Key? key}) : super(key: key) {
     if (text.contains(RegExp(r'[A-Z]'))) {
       var nameparts = text.split(" ");
       if (nameparts.isNotEmpty) {
@@ -32,6 +35,9 @@ class _EditableAvatarState extends State<EditableAvatar> {
   final ImagePicker _picker = ImagePicker();
   ImageProvider? _imageProvider;
   bool isErrorFileToBig = false;
+
+  List<int> _selectedFile = [];
+  Uint8List? _bytesData;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +69,9 @@ class _EditableAvatarState extends State<EditableAvatar> {
                   child: Material(
                     color: kButtonColor,
                     child: InkWell(
+                      /*  onTap: () async {
+                        /* startWebFilePicker(); */
+                      }, */
                       onTap: () async {
                         final XFile? imageFile = await _picker.pickImage(
                           source: ImageSource.gallery,
@@ -71,11 +80,13 @@ class _EditableAvatarState extends State<EditableAvatar> {
                         if (imageFile != null) {
                           var f = await imageFile.readAsBytes();
                           File file = File.fromRawPath(f);
+                          /* await sendFile(
+                              "$kServer/api/candidates/1/uploadLogo", file); */
 
                           if (f.length < 4000000) {
                             setState(() {
                               _imageProvider = MemoryImage(f);
-                              widget.file = file;
+                              /*  widget.file = file; */
                               isErrorFileToBig = false;
                             });
                           } else {
@@ -111,36 +122,47 @@ class _EditableAvatarState extends State<EditableAvatar> {
     );
   }
 
-  uploadFileFromDio(File photoFile) async {
-    var dio = Dio();
-    dio.options.baseUrl = kServer;
-    dio.options.connectTimeout = 5000;
-    dio.options.receiveTimeout = 5000;
-    /* dio.options.headers = <Header Json>; */
-    FormData formData = FormData();
-/*     formData.add("user_id", userProfile.userId);
-    formData.add("name", userProfile.name);
-    formData.add("email", userProfile.email); */
+  startWebFilePicker() async {
+    html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+    uploadInput.multiple = false;
+    uploadInput.draggable = true;
+    uploadInput.click();
 
-    if (photoFile != null &&
-        photoFile.path != null &&
-        photoFile.path.isNotEmpty) {
-      var formData = FormData.fromMap({
-        'user_picture': photoFile,
+    uploadInput.onChange.listen((e) {
+      final files = uploadInput.files;
+      final file = files![0];
+      final reader = new html.FileReader();
+
+      reader.onLoadEnd.listen((e) {
+        _handleResult(reader.result!);
       });
-/*       // Create a FormData
-      String fileName = basename(photoFile.path);
-      print("File Name : $fileName");
-      print("File Size : ${photoFile.lengthSync()}");
-      formData.add("user_picture", UploadFileInfo(photoFile, fileName)); */
-    }
-    var response = await dio.post("user/manage_profile",
-        data: formData,
-        options: Options(
-            method: 'POST',
-            responseType: ResponseType.json // or ResponseType.JSON
-            ));
-    print("Response status: ${response.statusCode}");
-    print("Response data: ${response.data}");
+      reader.readAsDataUrl(file);
+    });
+  }
+
+  void _handleResult(Object result) {
+    /* setState(() { */
+    _bytesData = Base64Decoder().convert(result.toString().split(",").last);
+    _selectedFile = _bytesData!;
+    /*  }); */
+
+    /*  print(_bytesData); */
+    print(_selectedFile);
+
+    upload(_selectedFile);
+  }
+
+  void upload(List<int> file) async {
+    var url = Uri.parse("$kServer/api/candidates/1/uploadLogo");
+    var request = new http.MultipartRequest("POST", url);
+    request.files.add(http.MultipartFile.fromBytes('file', file,
+        contentType: MediaType('application', 'octet-stream'),
+        filename: "file_up"));
+
+    request.send().then((response) {
+      print("test");
+      print(response.statusCode);
+      if (response.statusCode == 200) print("Uploaded!");
+    });
   }
 }
