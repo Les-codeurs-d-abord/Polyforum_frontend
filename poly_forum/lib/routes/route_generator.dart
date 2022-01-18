@@ -13,19 +13,20 @@ class RouteGenerator {
       case Routes.signInScreen:
         return MaterialPageRoute(builder: (_) => const SignInScreen());
       case Routes.candidatScreen:
-        const test = CandidateUser(
+        var test = CandidateUser(
+          id: 1,
           address: "",
           description: "",
           email: "",
           firstName: "",
           lastName: "",
-          phoneNumber: "",
+          phoneNumber: "0617228153",
           role: "",
           tags: [],
           links: [],
         );
         return MaterialPageRoute(
-            builder: (_) => const CandidateNavigationScreen(user: test));
+            builder: (_) => CandidateNavigationScreen(user: test));
       default:
         return MaterialPageRoute(builder: (_) => const SignInScreen());
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/screens/candidate/profil/components/sized_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -60,45 +61,30 @@ class _ProfilTagsState extends State<ProfileLinks> {
               ],
             ),
           SizedBox(height: widget.links.isNotEmpty ? 20 : 0),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: kButtonColor,
-                      onSurface: Colors.grey,
-                    ),
-                    onPressed: widget.links.length < widget.maxLinks
-                        ? () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AddLinkModal(links: widget.links);
+          Center(
+            child: SizedBtn(
+              text: "Ajouter un lien",
+              fontSize: 14,
+              onPressed: widget.links.length < widget.maxLinks
+                  ? () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AddLinkModal(links: widget.links);
+                        },
+                      ).then(
+                        (value) {
+                          if (value != null) {
+                            setState(
+                              () {
+                                widget.links.add(value);
                               },
-                            ).then((value) {
-                              if (value != null) {
-                                setState(() {
-                                  widget.links.add(value);
-                                });
-                              }
-                            });
+                            );
                           }
-                        : null,
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Ajouter un lien",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                        },
+                      );
+                    }
+                  : null,
             ),
           ),
         ],

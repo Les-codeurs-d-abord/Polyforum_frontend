@@ -3,7 +3,7 @@ import 'package:poly_forum/utils/constants.dart';
 
 class SizedBtn extends StatelessWidget {
   final String text;
-  final Function onPressed;
+  final Function? onPressed;
   final double fontSize;
 
   const SizedBtn(
@@ -16,7 +16,7 @@ class SizedBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => onPressed(),
+      onPressed: () => onPressed!(),
       style: TextButton.styleFrom(
         primary: Colors.white,
         backgroundColor: kButtonColor,

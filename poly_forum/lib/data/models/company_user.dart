@@ -5,13 +5,14 @@ class CompanyUser extends User {
   final String phoneNumber;
   final String description;
 
-  const CompanyUser({
+  CompanyUser({
     required this.companyName,
     required this.phoneNumber,
     required this.description,
+    required id,
     required email,
     required role,
-  }) : super(email: email, role: role);
+  }) : super(id: id, email: email, role: role);
 
   factory CompanyUser.fromJson(Map<String, dynamic> json) {
     return CompanyUser(
@@ -19,6 +20,7 @@ class CompanyUser extends User {
       companyName: json['companyName'] ?? '',
       description: json['description'] ?? '',
       email: json['user']['email'] ?? '',
+      id: json["id"],
       role: json['user']['role'] ?? 'ENTREPRISE',
     );
   }

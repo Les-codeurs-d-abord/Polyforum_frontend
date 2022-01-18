@@ -66,15 +66,16 @@ var candidateProfilHandler = Handler(handlerFunc: (context, params) {
     return CandidateProfilScreen(user: user);
   } else {
     var test = CandidateUser(
+        id: 1,
         firstName: "firstName",
         lastName: "lastName",
-        phoneNumber: "phoneNumber",
+        phoneNumber: "0617228153",
         address: "address",
         description: "description",
         email: "email",
         role: "CANDIDATE",
-        links: [],
-        tags: []);
+        links: ["http://localhost:63626/candidat/profil"],
+        tags: ["c++"]);
     return CandidateProfilScreen(user: test);
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/tag_model.dart';
+import 'package:poly_forum/screens/candidate/profil/components/sized_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 import 'add_tag_modal.dart';
@@ -65,45 +66,28 @@ class _ProfilTagsState extends State<ProfileTags> {
               ],
             ),
           SizedBox(height: widget.tags.isNotEmpty ? 20 : 0),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: kButtonColor,
-                      onSurface: Colors.grey,
-                    ),
-                    onPressed: widget.tags.length < widget.maxTags
-                        ? () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AddTagModal(tags: widget.tags);
-                              },
-                            ).then((value) {
-                              if (value != null) {
-                                setState(() {
-                                  widget.tags.add(value);
-                                });
-                              }
+          Center(
+            child: SizedBtn(
+              text: "Ajouter un tag",
+              fontSize: 14,
+              onPressed: widget.tags.length < widget.maxTags
+                  ? () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AddTagModal(tags: widget.tags);
+                        },
+                      ).then(
+                        (value) {
+                          if (value != null) {
+                            setState(() {
+                              widget.tags.add(value);
                             });
                           }
-                        : null,
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Ajouter des tags",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                        },
+                      );
+                    }
+                  : null,
             ),
           ),
         ],

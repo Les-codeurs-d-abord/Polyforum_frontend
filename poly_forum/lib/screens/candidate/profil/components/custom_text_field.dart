@@ -95,7 +95,8 @@ class CustomTextField extends StatelessWidget {
     if (value.length > maxCharacters) {
       return "Il y a trop de caractères (${value.length - maxCharacters} en trop)";
     }
-    if (value.length < minCharacters) {
+
+    if (value.isNotEmpty && value.length < minCharacters) {
       return "Ce champs nécessite au moins $minCharacters caractères";
     }
 

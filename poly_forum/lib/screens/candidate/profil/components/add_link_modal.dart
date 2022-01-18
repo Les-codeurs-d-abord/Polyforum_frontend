@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
+import 'package:poly_forum/screens/candidate/profil/components/sized_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 import 'custom_text_field.dart';
@@ -41,7 +42,7 @@ class AddLinkModal extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 30),
-              RowBtn(
+              SizedBtn(
                 text: "Valider",
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {

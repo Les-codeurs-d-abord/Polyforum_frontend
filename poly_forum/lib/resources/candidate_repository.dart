@@ -1,3 +1,4 @@
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -80,6 +81,23 @@ class CandidateRepository {
           tags.add(Tag.fromJson(i));
         }
         return tags;
+      } else {
+        throw const NetworkException("Une erreur est survenue.");
+      }
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<CandidateUser> updateUser(CandidateUser user) async {
+    try {
+      final uri = Uri.http(kServer, '/api/candidates/${user.id}');
+      final response = await http.put(uri).timeout(const Duration(seconds: 2));
+      print(response);
+      if (response.statusCode == 200) {
+        var jsonCandidate = jsonDecode(response.body) as Map<String, dynamic>;
+        return CandidateUser.fromJson(jsonCandidate);
       } else {
         throw const NetworkException("Une erreur est survenue.");
       }

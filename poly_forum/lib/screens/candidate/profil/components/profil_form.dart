@@ -1,15 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dropzone/flutter_dropzone.dart';
+import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/screens/candidate/profil/components/add_link_modal.dart';
 import 'package:poly_forum/screens/candidate/profil/components/custom_text_field.dart';
+import 'package:poly_forum/screens/candidate/profil/components/custom_drop_zone.dart';
 import 'package:poly_forum/screens/candidate/profil/components/profile_links.dart';
 import 'package:poly_forum/screens/candidate/profil/components/profile_tags.dart';
 import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
 import 'package:poly_forum/screens/candidate/profil/components/sized_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'editable_avatar.dart';
 
@@ -36,6 +40,20 @@ class _ProfilFormState extends State<ProfilForm> {
 
   List<String> links = [];
   List<String> tags = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _firstNameController.text = widget.user.firstName;
+    _lastNameController.text = widget.user.lastName;
+    _emailController.text = widget.user.email;
+    _phoneNumberController.text = widget.user.phoneNumber;
+    _addresController.text = widget.user.address;
+    _descriptionController.text = widget.user.description;
+    links = widget.user.links;
+    tags = widget.user.tags;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,25 +87,6 @@ class _ProfilFormState extends State<ProfilForm> {
               ),
               const SizedBox(width: 40),
               CustomTextField(
-                  text: "Mot de passe",
-                  icon: Icons.password_outlined,
-                  controller: _passwordController),
-            ],
-          ),
-          const SizedBox(height: 15),
-          Row(
-            children: [
-              CustomTextField(
-                text: "Code Postal",
-                icon: Icons.location_on_outlined,
-                controller: _addresController,
-                isLocked: false,
-                maxCharacters: 6,
-                minCharacters: 5,
-                isNumeric: true,
-              ),
-              const SizedBox(width: 40),
-              CustomTextField(
                 text: "Numéro de téléphone",
                 icon: Icons.phone_outlined,
                 controller: _phoneNumberController,
@@ -96,27 +95,44 @@ class _ProfilFormState extends State<ProfilForm> {
                 minCharacters: 10,
                 isNumeric: true,
               ),
+              // CustomTextField(
+              //     text: "Mot de passe",
+              //     icon: Icons.password_outlined,
+              //     controller: _passwordController),
             ],
           ),
+          // const SizedBox(height: 15),
+          // Row(
+          //   children: [
+          //     CustomTextField(
+          //       text: "Numéro de téléphone",
+          //       icon: Icons.phone_outlined,
+          //       controller: _phoneNumberController,
+          //       isLocked: false,
+          //       maxCharacters: 10,
+          //       minCharacters: 10,
+          //       isNumeric: true,
+          //     ),
+          //     const SizedBox(width: 40),
+          //     CustomTextField(
+          //       text: "Code Postal",
+          //       icon: Icons.location_on_outlined,
+          //       controller: _addresController,
+          //       isObligatory: false,
+          //       isLocked: false,
+          //       maxCharacters: 6,
+          //       minCharacters: 5,
+          //       isNumeric: true,
+          //     ),
+          //   ],
+          // ),
           const SizedBox(height: 15),
-          IntrinsicHeight(
-            child: Row(
-              children: [
-                ProfileTags(tags: tags),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child:
-                      const VerticalDivider(color: Colors.black, thickness: 1),
-                ),
-                ProfileLinks(links: links),
-              ],
-            ),
-          ),
+          const CustomDropZone(),
           const SizedBox(height: 15),
           Row(
             children: [
               CustomTextField(
-                text: "Présentation",
+                text: "Courte présentation",
                 icon: Icons.article_outlined,
                 controller: _descriptionController,
                 isLocked: false,
@@ -125,29 +141,77 @@ class _ProfilFormState extends State<ProfilForm> {
               ),
             ],
           ),
+          const SizedBox(height: 15),
+          IntrinsicHeight(
+            child: Row(
+              children: [
+                ProfileTags(tags: tags),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: VerticalDivider(color: Colors.black, thickness: 1),
+                ),
+                ProfileLinks(links: links),
+              ],
+            ),
+          ),
+          const SizedBox(height: 100),
           Row(
             children: [
-              SizedBtn(
-                text: "Charger un CV",
-                fontSize: 20,
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    print(links);
-                  }
-                },
+              Expanded(
+                child: BlocProvider(
+                  create: (context) => UpdateCandidateCubit(),
+                  child:
+                      BlocConsumer<UpdateCandidateCubit, UpdateCandidateState>(
+                    listener: (context, state) {
+                      if (state is UpdateCandidateLoaded) {
+                        widget.user = state.user;
+                        print(widget.user.toJson());
+                      }
+                    },
+                    builder: (context, state) {
+                      return TextButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            CandidateUser updatedUser = CandidateUser(
+                              firstName: _firstNameController.text,
+                              lastName: _lastNameController.text,
+                              phoneNumber: _phoneNumberController.text,
+                              address: _addresController.text,
+                              description: _descriptionController.text,
+                              id: widget.user.id,
+                              email: _emailController.text,
+                              role: widget.user.role,
+                              links: links,
+                              tags: tags,
+                            );
+
+                            print(updatedUser.toJson());
+
+                            BlocProvider.of<UpdateCandidateCubit>(context)
+                                .updateUserEvent(updatedUser);
+                          }
+                        },
+                        style: TextButton.styleFrom(
+                          primary: Colors.white,
+                          backgroundColor: kButtonColor,
+                          onSurface: Colors.grey,
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            "Sauvegarder",
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
-              const Text("ceci est un exemple de lien"),
             ],
-          ),
-          const SizedBox(height: 30),
-          RowBtn(
-            text: "Sauvegarder",
-            fontSize: 20,
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                print(links);
-              }
-            },
           ),
         ],
       ),

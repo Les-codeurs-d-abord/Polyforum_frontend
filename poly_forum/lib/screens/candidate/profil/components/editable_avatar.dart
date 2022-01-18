@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:poly_forum/utils/constants.dart';
@@ -16,14 +15,12 @@ class EditableAvatar extends StatefulWidget {
   String initials = "";
 
   EditableAvatar(String text, {Key? key}) : super(key: key) {
-    if (text.contains(RegExp(r'[A-Z]'))) {
-      var nameparts = text.split(" ");
-      if (nameparts.isNotEmpty) {
-        initials = nameparts[0][0].toUpperCase();
-      }
-      if (nameparts.length > 1) {
-        initials += nameparts[1][0].toUpperCase();
-      }
+    var nameparts = text.split(" ");
+    if (nameparts.isNotEmpty) {
+      initials = nameparts[0][0].toUpperCase();
+    }
+    if (nameparts.length > 1) {
+      initials += nameparts[1][0].toUpperCase();
     }
   }
 
