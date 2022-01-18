@@ -44,20 +44,19 @@ class CompanyListScreenCubit extends Cubit<CompanyListScreenState> {
     emit(CompanyListScreenLoaded(companyListInitial, companyList));
   }
 
-  Future<void> sortCompanyListByOfferCountEvent(List<Company> companyListInitial, List<Company> companyList, bool ascending) async {
+  Future<void> sortCompanyListByOffersCountEvent(List<Company> companyListInitial, List<Company> companyList, bool ascending) async {
     emit(CompanyListScreenLoading());
 
-    // TODO
-    // companyListInitial.sort((a, b) {
-    //   return ascending ?
-    //   a.companyName.toLowerCase().compareTo(b.companyName.toLowerCase()) :
-    //   b.companyName.toLowerCase().compareTo(a.companyName.toLowerCase());
-    // });
-    // companyList.sort((a, b) {
-    //   return ascending ?
-    //   a.companyName.toLowerCase().compareTo(b.companyName.toLowerCase()) :
-    //   b.companyName.toLowerCase().compareTo(a.companyName.toLowerCase());
-    // });
+    companyListInitial.sort((a, b) {
+      return ascending ?
+      a.offersCount.compareTo(b.offersCount) :
+      b.offersCount.compareTo(a.offersCount);
+    });
+    companyList.sort((a, b) {
+      return ascending ?
+      a.offersCount.compareTo(b.offersCount) :
+      b.offersCount.compareTo(a.offersCount);
+    });
 
     emit(CompanyListScreenLoaded(companyListInitial, companyList));
   }

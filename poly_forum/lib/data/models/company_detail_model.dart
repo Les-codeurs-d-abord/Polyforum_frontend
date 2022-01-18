@@ -5,6 +5,7 @@ class CompanyDetail {
   final String? description;
   final String? logo;
   final String email;
+  final List<String> links;
   final int userId;
 
   CompanyDetail({
@@ -14,10 +15,17 @@ class CompanyDetail {
     required this.description,
     required this.logo,
     required this.email,
+    required this.links,
     required this.userId,
   });
 
   factory CompanyDetail.fromJson(Map<String, dynamic> json) {
+    List<String> links = [];
+
+    for (Map<String, dynamic> link in json['company_links'] ?? []) {
+      links.add(link['label']);
+    }
+
     return CompanyDetail(
       id: json['id'],
       companyName: json['companyName'],
@@ -25,7 +33,8 @@ class CompanyDetail {
       description: json['description'],
       logo: json['logo'],
       email: json['user']['email'],
-      userId: json['userId'],
+      links: links,
+      userId: json['user']['id'],
     );
   }
 

@@ -50,11 +50,11 @@ class CompanyCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    "offer count",
+                    company.offersCount.toString(),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 15,
                       overflow: TextOverflow.ellipsis,

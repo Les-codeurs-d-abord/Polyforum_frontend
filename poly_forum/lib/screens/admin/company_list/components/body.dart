@@ -37,12 +37,15 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (context, constraints) {
-          return Row(
+    return SingleChildScrollView(
+        primary: false,
+        child: SizedBox(
+          height: 650,
+          child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
+                    flex: 2,
                     child: Container(
                         margin: const EdgeInsets.all(30),
                         child: Column(
@@ -59,9 +62,9 @@ class _BodyState extends State<Body> {
                               margin: const EdgeInsets.symmetric(vertical: 15),
                               width: 500,
                               child: SearchBar(
-                                searchCallback: (search) {
-                                  BlocProvider.of<CompanyListScreenCubit>(context).filterCompanyList(companyListInitial, companyList, search);
-                                }
+                                  searchCallback: (search) {
+                                    BlocProvider.of<CompanyListScreenCubit>(context).filterCompanyList(companyListInitial, companyList, search);
+                                  }
                               ),
                             ),
                             Container(
@@ -85,7 +88,7 @@ class _BodyState extends State<Body> {
                                     child: SortButton(
                                         label: "Nombre d'offres",
                                         sortCallback: (ascending) {
-                                          // TODO
+                                          BlocProvider.of<CompanyListScreenCubit>(context).sortCompanyListByOffersCountEvent(companyListInitial, companyList, ascending);
                                         }
                                     ),
                                   ),
@@ -134,163 +137,171 @@ class _BodyState extends State<Body> {
                         )
                     )
                 ),
-                SizedBox(
-                    width: 425,
+                const VerticalDivider(
+                  thickness: 1,
+                  indent: 25,
+                ),
+                Expanded(
+                    flex: 1,
                     child: Container(
                         margin: const EdgeInsets.only(
-                            left: 50, right: 50, top: 30, bottom: 30),
+                            left: 50, right: 50, top: 85, bottom: 30),
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: 300,
-                              width: double.infinity,
-                              child: Container(
-                                  padding: const EdgeInsets.all(30),
-                                  decoration: BoxDecoration(
+                            Container(
+                                padding: const EdgeInsets.all(30),
+                                decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                    color: Colors.grey[200],
-                                  ),
-                                  child: Column(
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.centerLeft,
-                                          child: const Text(
-                                            "Actions",
-                                            style: TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.bold
-                                            ),
+                                    // color: Colors.grey[100],
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.grey,
+                                    )
+                                ),
+
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.centerLeft,
+                                        child: const Text(
+                                          "Actions",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold
                                           ),
                                         ),
-                                        /* Bouton Ajouter */
-                                        Container(
-                                            width: 300,
-                                            height: 60,
-                                            margin: const EdgeInsets.only(
-                                                left: 20, right: 20, top: 20),
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(7)),
-                                              color: kOrange,
-                                            ),
-                                            child: MaterialButton(
-                                              child: const Text(
-                                                "Ajouter",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 22
-                                                ),
+                                      ),
+                                      /* Bouton Ajouter */
+                                      Container(
+                                          width: 300,
+                                          height: 60,
+                                          margin: const EdgeInsets.only(top: 20),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(7)),
+                                            color: kBlue,
+                                          ),
+                                          child: MaterialButton(
+                                            child: const Text(
+                                              "Ajouter",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 22
                                               ),
-                                              onPressed: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return BlocProvider(
-                                                        create: (context) => CompanyFormCubit(CompanyRepository()),
-                                                        child: const CompanyCreateFormDialog(),
-                                                      );
-                                                    },
-                                                    barrierDismissible: false
-                                                ).then((value) {
-                                                  if (value == FormReturn.confirm) {
-                                                    BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
-                                                  }
-                                                });
-                                              },
-                                            )
-                                        ),
-                                        /* Bouton extraire */
-                                        Container(
-                                            width: 300,
-                                            height: 40,
-                                            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(7)),
-                                              color: kBlue,
                                             ),
-                                            child: MaterialButton(
-                                              padding: const EdgeInsets.all(10),
-                                              child: const Text(
-                                                "Extraire",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18
-                                                ),
+                                            onPressed: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return BlocProvider(
+                                                      create: (context) => CompanyFormCubit(CompanyRepository()),
+                                                      child: const CompanyCreateFormDialog(),
+                                                    );
+                                                  },
+                                                  barrierDismissible: false
+                                              ).then((value) {
+                                                if (value == FormReturn.confirm) {
+                                                  BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
+                                                }
+                                              });
+                                            },
+                                          )
+                                      ),
+                                      /* Bouton extraire */
+                                      Container(
+                                          width: 300,
+                                          height: 40,
+                                          margin: const EdgeInsets.only(top: 10),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(7)),
+                                            color: kDarkBlue,
+                                          ),
+                                          child: MaterialButton(
+                                            padding: const EdgeInsets.all(10),
+                                            child: const Text(
+                                              "Extraire",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18
                                               ),
-                                              onPressed: () {
+                                            ),
+                                            onPressed: () {
 
-                                              },
-                                            )
-                                        ),
-                                        /* Bouton Rappel */
-                                        Container(
-                                            width: 300,
-                                            height: 40,
-                                            margin: const EdgeInsets.only(
-                                                left: 20, right: 20, top: 10),
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(7)),
-                                              color: kBlue,
-                                            ),
-                                            child: MaterialButton(
-                                              child: const Text(
-                                                "Rappel",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 18
-                                                ),
+                                            },
+                                          )
+                                      ),
+                                      /* Bouton Rappel */
+                                      Container(
+                                          width: 300,
+                                          height: 40,
+                                          margin: const EdgeInsets.only(top: 10),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(7)),
+                                            color: kDarkBlue,
+                                          ),
+                                          child: MaterialButton(
+                                            child: const Text(
+                                              "Rappel",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18
                                               ),
-                                              onPressed: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return const ConfirmationModal(
-                                                        title: "Envoi d'un rappel",
-                                                        description: "Un mail de rappel va être envoyé à toutes les entreprises n'ayant pas complété leur profil ou n'ayant renseigné aucune offre.",
-                                                      );
-                                                    },
-                                                    barrierDismissible: false
-                                                ).then((value) {
-                                                  if (value == ModalReturn.confirm) {
-                                                    BlocProvider.of<CompanyListScreenCubit>(context).sendReminder();
-                                                  }
-                                                });
-                                              },
-                                            )
-                                        )
-                                      ]
-                                  )
-                              ),
+                                            ),
+                                            onPressed: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return const ConfirmationModal(
+                                                      title: "Envoi d'un rappel",
+                                                      description: "Un mail de rappel va être envoyé à toutes les entreprises n'ayant pas complété leur profil ou n'ayant renseigné aucune offre.",
+                                                    );
+                                                  },
+                                                  barrierDismissible: false
+                                              ).then((value) {
+                                                if (value == ModalReturn.confirm) {
+                                                  BlocProvider.of<CompanyListScreenCubit>(context).sendReminder();
+                                                }
+                                              });
+                                            },
+                                          )
+                                      )
+                                    ]
+                                )
                             ),
-                            SizedBox(
-                              height: 100,
-                              width: double.infinity,
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
-                                    color: Colors.grey[200],
-                                  ),
-                                  margin: const EdgeInsets.only(top: 30),
-                                  padding: const EdgeInsets.all(10),
-                                  child: const Text("Chiffres clés")
-                              ),
+                            Container(
+                                height: 100,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.grey,
+                                    )
+                                ),
+                                margin: const EdgeInsets.only(top: 30),
+                                padding: const EdgeInsets.all(10),
+                                child: const Text("Chiffres clés")
                             )
                           ],
                         )
                     )
                 )
               ]
-          );
-        }
+          ),
+        )
     );
   }
 
   buildLoadingScreen(BuildContext context) {
     return const Expanded(
       child: Center(
-        child: CircularProgressIndicator()
+          child: CircularProgressIndicator()
       ),
     );
   }
@@ -300,6 +311,7 @@ class _BodyState extends State<Body> {
       child: ListView(
         padding: const EdgeInsets.only(right: 12),
         primary: false,
+        shrinkWrap: true,
         children: [
           for (var company in companyList) CompanyCard(
               company: company,
@@ -327,7 +339,7 @@ class _BodyState extends State<Body> {
                     barrierDismissible: false
                 ).then((value) {
                   if (value == FormReturn.confirm) {
-                    // BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
+                    BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
                   }
                 });
               },
@@ -356,7 +368,7 @@ class _BodyState extends State<Body> {
     return Text(
       errorMessage,
       style: const TextStyle(
-        color: Colors.red
+          color: Colors.red
       ),
     );
   }

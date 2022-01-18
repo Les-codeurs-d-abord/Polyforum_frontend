@@ -24,15 +24,14 @@ class _SortButtonState extends State<SortButton> {
       mainAxisAlignment: MainAxisAlignment.center,
         children: [
           MaterialButton(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Text(
-                      widget.label,
-                      overflow: TextOverflow.ellipsis,
-                  ),
+                Text(
+                    widget.label,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.clip,
                 ),
                 widget.ascending ? const Icon(Icons.arrow_downward) : const Icon(Icons.arrow_upward)
               ],

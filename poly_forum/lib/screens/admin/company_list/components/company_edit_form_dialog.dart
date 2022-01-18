@@ -113,7 +113,7 @@ class _CompanyEditFormDialogState extends State<CompanyEditFormDialog> {
             height: 40,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
-              color: kOrange,
+              color: kButtonColor,
             ),
             child: MaterialButton(
               child:
