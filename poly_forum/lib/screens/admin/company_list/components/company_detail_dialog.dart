@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/data/models/company_detail_model.dart';
-import 'package:poly_forum/screens/components/custom_avatar.dart';
+import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CompanyDetailDialog extends StatefulWidget {
@@ -91,7 +91,7 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
                                       placeholder: (context, url) =>
                                       const CircularProgressIndicator(),
                                       errorWidget: (context, url, error) {
-                                        return CustomAvatar(companyDetail?.companyName ?? '?');
+                                        return InitialsAvatar(companyDetail?.companyName ?? '?');
                                       },
                                       width: 100,
                                       height: 100,

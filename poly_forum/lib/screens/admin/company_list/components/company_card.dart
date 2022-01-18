@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/company_model.dart';
-import 'package:poly_forum/screens/components/custom_avatar.dart';
+import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
 
 class CompanyCard extends StatelessWidget {
   final Company company;
@@ -34,7 +34,7 @@ class CompanyCard extends StatelessWidget {
                 CachedNetworkImage(
                   imageUrl: company.logo ?? '',
                   placeholder: (context, url) => const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => CustomAvatar(company.companyName),
+                  errorWidget: (context, url, error) => InitialsAvatar(company.companyName),
                   width: 50,
                   height: 50,
                 ),
