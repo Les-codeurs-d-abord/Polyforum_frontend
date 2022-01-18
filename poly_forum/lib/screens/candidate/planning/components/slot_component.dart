@@ -8,32 +8,32 @@ class SlotPlanning extends StatelessWidget {
 
   final Slot slot;
 
-  // Widget buildEmptySlot() {
-  //   return SizedBox(
-  //     height: 90,
-  //     child: Row(
-  //       children: <Widget>[
-  //         SizedBox(
-  //           width: 100,
-  //           child: Text(
-  //             slot.period,
-  //             textAlign: TextAlign.center,
-  //             style: const TextStyle(fontSize: 15),
-  //           ),
-  //         ),
-  //         const VerticalDivider(
-  //           color: Colors.black45,
-  //           width: 1.5,
-  //         ),
-  //         Expanded(
-  //           child: Container(
-  //             color: Colors.black12,
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget buildEmptySlot() {
+    return SizedBox(
+      height: 50,
+      child: Row(
+        children: <Widget>[
+          SizedBox(
+            width: 100,
+            child: Text(
+              slot.period,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 15),
+            ),
+          ),
+          const VerticalDivider(
+            color: Colors.black45,
+            width: 1.5,
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.black12,
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
   Widget buildMeetingSlot() {
     return SizedBox(
@@ -75,10 +75,10 @@ class SlotPlanning extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // if (slot.companyName == null) {
-    //   return buildEmptySlot();
-    // } else {
-    return buildMeetingSlot();
-    // }
+    if (slot.companyName == null) {
+      return buildEmptySlot();
+    } else {
+      return buildMeetingSlot();
+    }
   }
 }

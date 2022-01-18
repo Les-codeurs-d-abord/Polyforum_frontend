@@ -97,7 +97,7 @@ class _BodyState extends State<Body> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: const EdgeInsets.only(left: 30),
+            padding: const EdgeInsets.only(left: 30, top: 20),
             child: Text(
               "Planning du 5 mars 2022",
               style: Theme.of(context).textTheme.headline3,
@@ -107,7 +107,7 @@ class _BodyState extends State<Body> {
           child: planning != null
               ? ListView.separated(
                   padding:
-                      const EdgeInsets.only(right: 200, left: 200, top: 50),
+                      const EdgeInsets.only(right: 200, left: 200, top: 30),
                   itemCount: planning.slots.length,
                   separatorBuilder: (BuildContext context, int index) =>
                       const Divider(
