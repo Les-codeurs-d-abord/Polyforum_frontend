@@ -1,6 +1,7 @@
 import 'package:poly_forum/data/models/user_model.dart';
 
 class CandidateUser extends User {
+  final int id;
   final String firstName;
   final String lastName;
   final String phoneNumber;
@@ -8,6 +9,7 @@ class CandidateUser extends User {
   final String description;
 
   const CandidateUser({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
@@ -19,6 +21,7 @@ class CandidateUser extends User {
 
   factory CandidateUser.fromJson(Map<String, dynamic> json) {
     return CandidateUser(
+      id: json['id'],
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
