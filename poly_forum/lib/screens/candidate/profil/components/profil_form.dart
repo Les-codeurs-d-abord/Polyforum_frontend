@@ -165,7 +165,17 @@ class _ProfilFormState extends State<ProfilForm> {
                     listener: (context, state) {
                       if (state is UpdateCandidateLoaded) {
                         widget.user = state.user;
-                        print(widget.user.toJson());
+                        var snackBar = const SnackBar(
+                          content: Text("Sauvegarde effectuée"),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else if (state is UpdateCandidateError) {
+                        var snackBar = SnackBar(
+                          content: Text(state.msg),
+                        );
+
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
                     builder: (context, state) {
@@ -184,8 +194,6 @@ class _ProfilFormState extends State<ProfilForm> {
                               links: links,
                               tags: tags,
                             );
-
-                            print(updatedUser.toJson());
 
                             BlocProvider.of<UpdateCandidateCubit>(context)
                                 .updateUserEvent(updatedUser);

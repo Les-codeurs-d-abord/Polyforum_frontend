@@ -92,17 +92,41 @@ class CandidateRepository {
 
   Future<CandidateUser> updateUser(CandidateUser user) async {
     try {
+/*       var body = {
+        "firstName": user.firstName,
+        "lastName": user.lastName,
+        "phoneNumber": user.phoneNumber,
+        "description": user.description,
+        "tags": user.tags.toString(),
+        "links": user.links.toString(),
+      }; */
+
+      /*     final body = {
+        "firstName": user.firstName,
+        "lastName": user.lastName,
+      };
+
+      String json = jsonEncode(user.toJson());
+      print(json); */
+
+      String json = jsonEncode(user.toJson());
+      final body = {
+        "data": json,
+      };
+      print(body);
+
       final uri = Uri.http(kServer, '/api/candidates/${user.id}');
-      final response = await http.put(uri).timeout(const Duration(seconds: 2));
-      print(response);
+      final response = await http.put(uri, body: body);
+
       if (response.statusCode == 200) {
         var jsonCandidate = jsonDecode(response.body) as Map<String, dynamic>;
+        print(jsonCandidate);
         return CandidateUser.fromJson(jsonCandidate);
       } else {
+        print(response.body);
         throw const NetworkException("Une erreur est survenue.");
       }
     } on Exception catch (e) {
-      print(e);
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
   }

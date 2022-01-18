@@ -112,101 +112,95 @@ class _CustomDropZoneState extends State<CustomDropZone> {
             ],
           ),
           const SizedBox(height: 10),
-          DottedBorder(
-            color: Colors.black,
-            strokeWidth: 1,
-            borderType: BorderType.RRect,
-            dashPattern: const [8, 4],
-            child: Container(
-              height: 200,
-              color: highlighted ? Colors.grey : Colors.grey.withAlpha(20),
-              child: Stack(
-                children: [
-                  buildZone1(context),
-                  fileDataModel != null
-                      ? Positioned(
-                          bottom: 1,
-                          child: Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {});
-                                },
-                                icon: const Icon(Icons.delete_outline),
-                                tooltip: 'Supprimer le CV',
+          Container(
+            height: 200,
+            color: highlighted ? Colors.grey : Colors.grey.withAlpha(20),
+            child: Stack(
+              children: [
+                buildZone1(context),
+                fileDataModel != null
+                    ? Positioned(
+                        bottom: 1,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.delete_outline),
+                              tooltip: 'Supprimer le CV',
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.visibility_outlined),
+                              tooltip: 'Ouvrir le CV',
+                            ),
+                          ],
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                Positioned.fill(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      fileDataModel == null
+                          ? const Text(
+                              "Déposez votre CV ici",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontStyle: FontStyle.italic,
                               ),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {});
-                                },
-                                icon: const Icon(Icons.visibility_outlined),
-                                tooltip: 'Ouvrir le CV',
+                            )
+                          : Column(
+                              children: [
+                                buildRichText("Nom: ", fileDataModel!.name),
+                                buildRichText("Type: ", fileDataModel!.mime),
+                                buildRichText("Size: ", fileDataModel!.size),
+                              ],
+                            ),
+                      const SizedBox(height: 10),
+                      TextButton(
+                        onPressed: !highlighted
+                            ? () async {
+                                final events = await controller.pickFiles(
+                                    mime: [
+                                      'image/jpeg',
+                                      'image/png',
+                                      'application/pdf'
+                                    ]);
+                                if (events.isEmpty) return;
+                                uploadedFile(events.first);
+                              }
+                            : null,
+                        style: TextButton.styleFrom(
+                          primary: Colors.white,
+                          backgroundColor: kButtonColor,
+                          onSurface: Colors.grey,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(Icons.file_upload_outlined),
+                              SizedBox(width: 5),
+                              Text(
+                                "Import",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 18,
+                                ),
                               ),
                             ],
                           ),
-                        )
-                      : const SizedBox.shrink(),
-                  Positioned.fill(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        fileDataModel == null
-                            ? const Text(
-                                "Déposez votre CV ici",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              )
-                            : Column(
-                                children: [
-                                  buildRichText("Nom: ", fileDataModel!.name),
-                                  buildRichText("Type: ", fileDataModel!.mime),
-                                  buildRichText("Size: ", fileDataModel!.size),
-                                ],
-                              ),
-                        const SizedBox(height: 10),
-                        TextButton(
-                          onPressed: !highlighted
-                              ? () async {
-                                  final events = await controller.pickFiles(
-                                      mime: [
-                                        'image/jpeg',
-                                        'image/png',
-                                        'application/pdf'
-                                      ]);
-                                  if (events.isEmpty) return;
-                                  uploadedFile(events.first);
-                                }
-                              : null,
-                          style: TextButton.styleFrom(
-                            primary: Colors.white,
-                            backgroundColor: kButtonColor,
-                            onSurface: Colors.grey,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Icon(Icons.file_upload_outlined),
-                                SizedBox(width: 5),
-                                Text(
-                                  "Import",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
