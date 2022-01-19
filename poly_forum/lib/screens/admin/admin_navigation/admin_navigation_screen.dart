@@ -104,7 +104,7 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                       },
                     );
                   },
-                  text: "(Admin) Entreprises",
+                  text: "Entreprises",
                   isSelect: _selectedIndex == 1,
                 ),
                 TabNavigationItem(
@@ -115,7 +115,7 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                       },
                     );
                   },
-                  text: "(Admin) Candidats",
+                  text: "Candidats",
                   isSelect: _selectedIndex == 2,
                 ),
               ],

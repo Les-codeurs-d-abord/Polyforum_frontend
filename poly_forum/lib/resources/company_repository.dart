@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:poly_forum/data/models/company_detail_model.dart';
+import 'package:poly_forum/data/models/company_model.dart';
 
 class CompanyRepository {
   Future<void> createCompany(String email, String companyName) async {
@@ -10,8 +14,10 @@ class CompanyRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final uri = Uri.http('localhost:8080', '/api/users/companies');
-    final response = await http.post(uri, body: body);
+    final uri = Uri.http('localhost:8080', '/api/companies/');
+    final response = await http.post(uri, body: body).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
 
     if (response.statusCode != 201) {
       if (response.statusCode == 400 || response.statusCode == 409) {
@@ -19,6 +25,100 @@ class CompanyRepository {
       } else {
         throw const NetworkException("Le serveur à rencontré un problème");
       }
+    }
+  }
+
+  Future<void> editCompany(Company company, String email) async {
+    final body = {
+      'email': email,
+    };
+
+    // For flex purpose
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final uri = Uri.http('localhost:8080', '/api/users/${company.id}');
+    final response = await http.put(uri, body: body).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode != 200) {
+      if (response.statusCode == 400 || response.statusCode == 409) {
+        throw CompanyException(response.body);
+      } else {
+        throw const NetworkException("Le serveur à rencontré un problème");
+      }
+    }
+  }
+
+  Future<void> deleteCompany(Company company) async {
+    final uri = Uri.http('localhost:8080', '/api/companies/${company.id}');
+    final response = await http.delete(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode != 200) {
+      if (response.statusCode == 404) {
+        throw CompanyException(response.body);
+      } else {
+        throw const NetworkException("Le serveur à rencontré un problème");
+      }
+    }
+  }
+
+  Future<List<Company>> fetchCompanyList() async {
+    // For flex purpose
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final uri = Uri.http('localhost:8080', '/api/companies');
+    final response = await http.get(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      List<Company> companyList = [];
+
+      for (Map<String, dynamic> companyJson in data) {
+        companyList.add(Company.fromJson(companyJson));
+      }
+
+      return companyList;
+    } else {
+      if (response.statusCode == 500) {
+        throw CompanyException(response.body);
+      } else {
+        throw const NetworkException("Le serveur à rencontré un problème");
+      }
+    }
+  }
+
+  Future<CompanyDetail> getCompanyDetail(int id) async {
+    final uri = Uri.http('localhost:8080', '/api/companies/$id');
+    final response = await http.get(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return CompanyDetail.fromJson(data);
+    } else {
+      if (response.statusCode == 404 || response.statusCode == 500) {
+        throw CompanyException(response.body);
+      } else {
+        throw const NetworkException("Le serveur à rencontré un problème");
+      }
+    }
+  }
+
+  Future<void> sendReminder() async {
+    final uri = Uri.http('localhost:8080', '/api/companies/reminder');
+    final response = await http.post(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable, l'envoi du rappel n'a pas pu être effectué");
+    });
+
+    if (response.statusCode != 201) {
+      throw const NetworkException("Le serveur a rencontré un problème, l'envoi du rappel n'a pas pu être effectué");
     }
   }
 }
