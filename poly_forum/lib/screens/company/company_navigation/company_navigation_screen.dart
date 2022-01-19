@@ -1,12 +1,14 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:poly_forum/data/models/company_user.dart';
+import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
+import 'package:poly_forum/screens/company/planning/planning_screen.dart';
 import 'package:poly_forum/screens/shared/components/profil_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
+import 'package:poly_forum/screens/company/company_navigation/components/tab_navigation_item.dart';
 
 class CompanyNavigationScreen extends StatefulWidget {
   final CompanyUser user;
@@ -54,7 +56,12 @@ class _CompanyNavigationScreenState extends State<CompanyNavigationScreen> {
           ),
           body: IndexedStack(
             index: _selectedIndex,
-            children: const <Widget>[WelcomeScreen()],
+            children: <Widget>[
+              const WelcomeScreen(),
+              PlanningScreen(
+                user: widget.user,
+              ),
+            ],
           ),
         ));
   }
@@ -89,7 +96,19 @@ class _CompanyNavigationScreenState extends State<CompanyNavigationScreen> {
             primary: false,
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: [],
+              children: [
+                TabNavigationItem(
+                  onPressed: () {
+                    setState(
+                      () {
+                        _selectedIndex = 1;
+                      },
+                    );
+                  },
+                  text: "Mon planning",
+                  isSelect: _selectedIndex == 1,
+                ),
+              ],
             ),
           ),
         ),
