@@ -13,21 +13,16 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Center(
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 80),
-          margin: const EdgeInsets.all(30),
-          width: 1024,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(5),
-            ),
-          ),
-          child: ProfilForm(user: user),
+    return Container(
+      padding: const EdgeInsets.all(20),
+/*         decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(5),
         ),
-      ),
+      ), */
+
+      child: ProfilForm(user: user),
     );
   }
 }

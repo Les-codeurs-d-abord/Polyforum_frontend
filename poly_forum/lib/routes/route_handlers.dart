@@ -39,9 +39,9 @@ var candidateHandler = Handler(handlerFunc: (context, params) {
   return const CandidateNavigationScreen();
 });
 
-var candidateProfilHandler = Handler(handlerFunc: (context, params) {
+/* var candidateProfilHandler = Handler(handlerFunc: (context, params) {
   return const CandidateProfilScreen();
-});
+}); */
 
 var companyHandler = Handler(handlerFunc: (context, params) {
   final user = context!.settings!.arguments;

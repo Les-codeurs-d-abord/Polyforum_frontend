@@ -15,7 +15,7 @@ class Routes {
 
     router.define(signInScreen, handler: signInHandler);
     router.define(candidatScreen, handler: candidateHandler);
-    router.define(candidatProfilScreen, handler: candidateProfilHandler);
+    /* router.define(candidatProfilScreen, handler: candidateProfilHandler); */
     router.define(companyScreen, handler: companyHandler);
     router.define(adminScreen, handler: adminHandler);
 
