@@ -3,16 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/screens/shared/components/form/company_name_form_field.dart';
 import 'package:poly_forum/screens/shared/components/form/email_form_field.dart';
+import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
 import 'package:poly_forum/utils/constants.dart';
 
-class CompanyFormDialog extends StatefulWidget {
-  const CompanyFormDialog({Key? key}) : super(key: key);
+class CompanyCreateFormDialog extends StatefulWidget {
+  const CompanyCreateFormDialog({Key? key}) : super(key: key);
 
   @override
-  _CompanyFormDialogState createState() => _CompanyFormDialogState();
+  _CompanyCreateFormDialogState createState() => _CompanyCreateFormDialogState();
 }
 
-class _CompanyFormDialogState extends State<CompanyFormDialog> {
+class _CompanyCreateFormDialogState extends State<CompanyCreateFormDialog> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _companyNameController = TextEditingController();
@@ -22,7 +23,7 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
     return BlocConsumer<CompanyFormCubit, CompanyFormState>(
         listener: (context, state) {
           if (state is CompanyFormLoaded) {
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(FormReturn.confirm);
           }
         },
         builder: (context, state) {
@@ -52,7 +53,7 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
               child: InkResponse(
                 radius: 20,
                 onTap: () {
-                  isLoading ? null : Navigator.of(context).pop();
+                  isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
                 },
                 child: const Icon(Icons.close, color: Colors.grey),
               ),
@@ -105,7 +106,7 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
                 ),
               ),
               onPressed: () {
-                isLoading ? null : Navigator.of(context).pop();
+                isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
               },
             )
         ),
@@ -114,7 +115,7 @@ class _CompanyFormDialogState extends State<CompanyFormDialog> {
             height: 40,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
-              color: kOrange,
+              color: kButtonColor,
             ),
             child: MaterialButton(
               child:
