@@ -1,16 +1,65 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/cubit/candidate/candidate_offer_screen_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/data/models/user_model.dart';
+import 'package:poly_forum/resources/user_repository.dart';
+import 'package:poly_forum/routes/application.dart';
+import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/components/candidate_profil_btn.dart';
-
+import 'package:poly_forum/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'components/body.dart';
 
-class CandidateProfilScreen extends StatelessWidget {
-  final CandidateUser user;
+class CandidateProfilScreen extends StatefulWidget {
+  const CandidateProfilScreen({Key? key}) : super(key: key);
 
-  const CandidateProfilScreen({required this.user, Key? key}) : super(key: key);
+  @override
+  State<CandidateProfilScreen> createState() => _CandidateProfilScreenState();
+}
+
+class _CandidateProfilScreenState extends State<CandidateProfilScreen> {
+  CandidateUser? candidateUser;
+
+  @override
+  void initState() {
+    super.initState();
+
+    User? currentUser = Application.user;
+
+    if (currentUser == null) {
+      SharedPreferences.getInstance().then((value) async {
+        try {
+          final token = value.getString(kTokenPref);
+          final user = await UserRepository().fetchUserFromToken(token!);
+
+          if (user is CandidateUser) {
+            Application.user = user;
+            candidateUser = user;
+          } else {
+            Application.router.navigateTo(
+              context,
+              Routes.signInScreen,
+              transition: TransitionType.fadeIn,
+            );
+          }
+        } on Exception catch (e) {
+          print(e.toString());
+          Application.router.navigateTo(
+            context,
+            Routes.signInScreen,
+            transition: TransitionType.fadeIn,
+          );
+        }
+      });
+    } else {
+      if (currentUser is CandidateUser) {
+        candidateUser = currentUser;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,20 +72,11 @@ class CandidateProfilScreen extends StatelessWidget {
             style: TextStyle(color: Colors.black),
           ),
           actions: [
-            CandidateProfilBtn(user: user),
+            CandidateProfilBtn(user: candidateUser!),
           ],
-          // child: LayoutBuilder(
-          //   builder: (context, constraints) {
-          //     if (constraints.maxWidth > 1080) {
-          //       return buildWebVersion();
-          //     } else {
-          //       return buildWebVersion();
-          //     }
-          //   },
-          // ),
         ),
       ),
-      body: Body(user: user),
+      body: Body(user: candidateUser!),
     );
   }
 
@@ -58,7 +98,7 @@ class CandidateProfilScreen extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        CandidateProfilBtn(user: user),
+        CandidateProfilBtn(user: candidateUser!),
       ],
     );
   }

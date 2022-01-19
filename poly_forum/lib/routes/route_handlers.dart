@@ -36,50 +36,11 @@ var error500Handler = Handler(
 });
 
 var candidateHandler = Handler(handlerFunc: (context, params) {
-  final user = context!.settings!.arguments;
-
-  if (user != null && user is CandidateUser) {
-    return CandidateNavigationScreen(user: user);
-  }
-  // else {
-  //   SharedPreferences.getInstance().then((value) async {
-  //     try {
-  //       final token = value.getString(kTokenPref);
-  //       final user = await UserRepository().fetchUserFromToken(token!);
-
-  //       if (user is CandidateUser) {
-  //         return CandidateNavigationScreen(user: user);
-  //       }
-  //     }
-  //     on Exception catch (e) {
-  //       print(e.toString());
-  //     }
-  //   });
-  // }
-
-  return const SignInScreen();
+  return const CandidateNavigationScreen();
 });
 
 var candidateProfilHandler = Handler(handlerFunc: (context, params) {
-  final user = context!.settings!.arguments;
-  if (user != null && user is CandidateUser) {
-    return CandidateProfilScreen(user: user);
-  } else {
-    var test = CandidateUser(
-        id: 1,
-        firstName: "firstName",
-        lastName: "lastName",
-        phoneNumber: "0617228153",
-        address: "address",
-        description: "description",
-        email: "email",
-        role: "CANDIDATE",
-        links: ["http://localhost:63626/candidat/profil"],
-        tags: ["c++"]);
-    return CandidateProfilScreen(user: test);
-  }
-
-  return const SignInScreen();
+  return const CandidateProfilScreen();
 });
 
 var companyHandler = Handler(handlerFunc: (context, params) {
@@ -88,22 +49,7 @@ var companyHandler = Handler(handlerFunc: (context, params) {
   if (user != null && user is CompanyUser) {
     return CompanyNavigationScreen(user: user);
   }
-  // else {
-  //   SharedPreferences.getInstance().then((value) async {
-  //     try {
-  //       final token = value.getString(kTokenPref);
-  //       final user = await UserRepository().fetchUserFromToken(token!);
 
-  //       if (user is CompanyUser) {
-  //         return CompanyNavigationScreen(user: user);
-  //       }
-  //     }
-  //     // ignore: empty_catches
-  //     on Exception catch (e) {
-  //       print(e.toString());
-  //     }
-  //   });
-  // }
   return const SignInScreen();
 });
 

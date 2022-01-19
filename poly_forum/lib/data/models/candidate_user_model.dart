@@ -27,10 +27,10 @@ class CandidateUser extends User {
     List<String> tags = [];
     List<String> links = [];
 
-    for (Map<String, dynamic> i in json['candidate_tags']) {
-      tags.add(i['tag']);
+    for (Map<String, dynamic> i in json['candidate_tags'] ?? []) {
+      tags.add(i['tag'] ?? '');
     }
-    for (Map<String, dynamic> i in json['candidate_links']) {
+    for (Map<String, dynamic> i in json['candidate_links'] ?? []) {
       links.add(i['label'] ?? '');
     }
 

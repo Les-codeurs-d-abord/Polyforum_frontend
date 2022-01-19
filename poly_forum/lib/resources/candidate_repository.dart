@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:http/http.dart' as http;
@@ -116,7 +118,10 @@ class CandidateRepository {
       print(body);
 
       final uri = Uri.http(kServer, '/api/candidates/${user.id}');
-      final response = await http.put(uri, body: body);
+      final response =
+          await http.put(uri, body: jsonEncode(user.toJson()), headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+      });
 
       if (response.statusCode == 200) {
         var jsonCandidate = jsonDecode(response.body) as Map<String, dynamic>;

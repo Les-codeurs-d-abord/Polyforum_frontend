@@ -25,8 +25,7 @@ class RouteGenerator {
           tags: [],
           links: [],
         );
-        return MaterialPageRoute(
-            builder: (_) => CandidateNavigationScreen(user: test));
+        return MaterialPageRoute(builder: (_) => CandidateNavigationScreen());
       default:
         return MaterialPageRoute(builder: (_) => const SignInScreen());
     }

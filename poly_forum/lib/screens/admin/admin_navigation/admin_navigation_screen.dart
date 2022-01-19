@@ -95,28 +95,28 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 1;
-                      },
-                    );
-                  },
-                  text: "(Admin) Entreprises",
-                  isSelect: _selectedIndex == 1,
-                ),
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 2;
-                      },
-                    );
-                  },
-                  text: "(Admin) Candidats",
-                  isSelect: _selectedIndex == 2,
-                ),
+                // TabNavigationItem(
+                //   onPressed: () {
+                //     setState(
+                //       () {
+                //         _selectedIndex = 1;
+                //       },
+                //     );
+                //   },
+                //   text: "(Admin) Entreprises",
+                //   isSelect: _selectedIndex == 1,
+                // ),
+                // TabNavigationItem(
+                //   onPressed: () {
+                //     setState(
+                //       () {
+                //         _selectedIndex = 2;
+                //       },
+                //     );
+                //   },
+                //   text: "(Admin) Candidats",
+                //   isSelect: _selectedIndex == 2,
+                // ),
               ],
             ),
           ),

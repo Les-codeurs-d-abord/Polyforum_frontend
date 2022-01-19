@@ -42,6 +42,7 @@ class _SignFormState extends State<SignForm> {
             ),
           );
         } else if (state is SignInScreenLoaded) {
+          Application.user = state.user;
           String? path;
 
           if (state.user is CandidateUser) {
@@ -56,9 +57,7 @@ class _SignFormState extends State<SignForm> {
             Application.router.navigateTo(
               context,
               path,
-              routeSettings: RouteSettings(
-                arguments: state.user,
-              ),
+              clearStack: true,
               transition: TransitionType.fadeIn,
             );
           } else {
