@@ -1,3 +1,4 @@
+import 'package:poly_forum/data/models/candidate_model.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:http/http.dart' as http;
@@ -111,6 +112,61 @@ class CandidateRepository {
     } on Exception catch (e) {
       print(e);
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<Planning> fetchPlanningWithUserId(int userId) async {
+    try {
+      String uriLink = 'api/planning/$userId';
+      final uri = Uri.http(kServer, uriLink);
+      final response = await http.get(uri).timeout(const Duration(seconds: 2));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        List<Slot> slots = [];
+        for (Map<String, dynamic> i in data) {
+          slots.add(Slot.fromJson(i));
+        }
+        Planning planning = Planning(slots: slots);
+        return planning;
+      } else {
+        throw const CandidateException("Planning introuvable");
+      }
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<List<Candidate>> getCandidates() async {
+    print('on est dans la methode du repo de Frofuuur');
+    print(kServer.toString());
+    final uri = Uri.http(kServer, '/api/candidates');
+    print(uri);
+    final response = await http.get(uri).timeout(const Duration(seconds: 2));
+
+    List<Candidate> candidates = [];
+
+    if (response.statusCode != 200) {
+      if (response.statusCode == 400 || response.statusCode == 409) {
+        throw CandidateException(response.body);
+      } else {
+        throw const NetworkException("Le serveur a rencontré un problème");
+      }
+    } else {
+      var result = "";
+
+      for (var i = 0; i < response.bodyBytes.length; i++) {
+        result += String.fromCharCode(response.bodyBytes[i]);
+      }
+      final body = jsonDecode(result);
+
+      for (var element in body) {
+        Candidate candidate = Candidate.fromJson(element);
+        ;
+        candidates.add(candidate);
+      }
+
+      return candidates;
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/admin/candidate_list/candidate_list_screen.dart';
 import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
+import 'package:poly_forum/screens/admin/planning/planning_candidates_screen.dart';
 import 'package:poly_forum/screens/shared/components/profil_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -60,6 +61,7 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
               WelcomeScreen(),
               CompanyListScreen(),
               CandidateListScreen(),
+              PlanningCandidatesScreen(),
             ],
           ),
         ));
@@ -117,6 +119,17 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                   },
                   text: "Candidats",
                   isSelect: _selectedIndex == 2,
+                ),
+                TabNavigationItem(
+                  onPressed: () {
+                    setState(
+                      () {
+                        _selectedIndex = 3;
+                      },
+                    );
+                  },
+                  text: "Planning candidats",
+                  isSelect: _selectedIndex == 3,
                 ),
               ],
             ),

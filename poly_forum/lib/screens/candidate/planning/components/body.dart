@@ -26,11 +26,6 @@ class _BodyState extends State<Body> {
         .planningEvent(widget.user);
   }
 
-  // void callOfferListEvent() {
-  //   BlocProvider.of<CandidatePlanningScreenCubit>(context)
-  //       .planningEvent(currentInput);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CandidatePlanningScreenCubit,

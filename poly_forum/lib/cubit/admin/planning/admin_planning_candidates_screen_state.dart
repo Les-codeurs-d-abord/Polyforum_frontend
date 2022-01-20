@@ -8,12 +8,15 @@ class AdminPlanningCandidatesInitial extends AdminPlanningCandidatesState {}
 class AdminPlanningCandidatesLoading extends AdminPlanningCandidatesState {}
 
 class AdminPlanningCandidatesLoaded extends AdminPlanningCandidatesState {
-  // final Planning planning;
+  final List<Candidate> listCandidates;
 
-  // AdminPlanningCandidatesLoaded(this.planning);
+  AdminPlanningCandidatesLoaded(this.listCandidates);
+}
 
-  // @override
-  // String toString() => "{ Planning: $planning }";
+class AdminPlanningCandidatesAndPlanningLoaded
+    extends AdminPlanningCandidatesState {
+  final Planning planning;
+  AdminPlanningCandidatesAndPlanningLoaded(this.planning);
 }
 
 class AdminPlanningCandidatesError extends AdminPlanningCandidatesState {
