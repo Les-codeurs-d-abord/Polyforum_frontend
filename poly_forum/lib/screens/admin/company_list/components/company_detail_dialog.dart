@@ -22,42 +22,42 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<CompanyFormCubit>(context).getCompanyDetail(widget.companyId);
+    BlocProvider.of<CompanyFormCubit>(context)
+        .getCompanyDetail(widget.companyId);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CompanyFormCubit, CompanyFormState>(
         listener: (context, state) {
-          if (state is CompanyDetailLoaded) {
-            companyDetail = state.company;
-          }
-        },
-        builder: (context, state) {
-          if (state is CompanyFormLoading) {
-            return buildCompanyDetailDialog(context, isLoading: true);
-          } else if (state is CompanyDetailLoaded) {
-            return buildCompanyDetailDialog(context, companyDetail: companyDetail);
-          } else if (state is CompanyFormError) {
-            return buildCompanyDetailDialog(context, error: state.errorMessage);
-          } else {
-            return buildCompanyDetailDialog(context);
-          }
-        }
-    );
+      if (state is CompanyDetailLoaded) {
+        companyDetail = state.company;
+      }
+    }, builder: (context, state) {
+      if (state is CompanyFormLoading) {
+        return buildCompanyDetailDialog(context, isLoading: true);
+      } else if (state is CompanyDetailLoaded) {
+        return buildCompanyDetailDialog(context, companyDetail: companyDetail);
+      } else if (state is CompanyFormError) {
+        return buildCompanyDetailDialog(context, error: state.errorMessage);
+      } else {
+        return buildCompanyDetailDialog(context);
+      }
+    });
   }
 
-  buildCompanyDetailDialog(BuildContext context, {CompanyDetail? companyDetail, bool isLoading = false, String error = ''}) {
+  buildCompanyDetailDialog(BuildContext context,
+      {CompanyDetail? companyDetail,
+      bool isLoading = false,
+      String error = ''}) {
     return AlertDialog(
-      alignment: AlignmentDirectional.center,
+      // alignment: AlignmentDirectional.center,
       title: Row(
         children: [
           Expanded(
             child: Text(
               "Détail de l'entreprise ${companyDetail?.companyName}",
-              style: const TextStyle(
-                  fontSize: 22
-              ),
+              style: const TextStyle(fontSize: 22),
             ),
           ),
           InkResponse(
@@ -84,88 +84,74 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
-                              child: Column(
-                                  children: [
-                                    CachedNetworkImage(
-                                      imageUrl: companyDetail?.logo ?? '',
-                                      placeholder: (context, url) =>
-                                      const CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) {
-                                        return InitialsAvatar(companyDetail?.companyName ?? '?');
-                                      },
-                                      width: 100,
-                                      height: 100,
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 5),
-                                      child: Text(
-                                          companyDetail?.companyName ?? '',
-                                          style: const TextStyle(
-                                            fontSize: 20,
-                                          )
-                                      ),
-                                    ),
-                                    const Text(
-                                        "Entreprise",
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            color: Colors.grey
-                                        )
-                                    ),
-                                  ]
-                              )
-                          ),
+                              child: Column(children: [
+                            CachedNetworkImage(
+                              imageUrl: companyDetail?.logo ?? '',
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) {
+                                return InitialsAvatar(
+                                    companyDetail?.companyName ?? '?');
+                              },
+                              width: 100,
+                              height: 100,
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 5),
+                              child: Text(companyDetail?.companyName ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                  )),
+                            ),
+                            const Text("Entreprise",
+                                style: TextStyle(
+                                    fontSize: 17, color: Colors.grey)),
+                          ])),
                           Container(
                             margin: const EdgeInsets.only(top: 15),
-                            child: const Text(
-                                "Informations",
-                                style: TextStyle(
-                                    fontSize: 20
-                                )
-                            ),
+                            child: const Text("Informations",
+                                style: TextStyle(fontSize: 20)),
                           ),
                           Row(
                             children: [
                               const Padding(
                                   padding: EdgeInsets.all(10),
-                                  child: Icon(Icons.mail)
-                              ),
+                                  child: Icon(Icons.mail)),
                               Expanded(
-                                  child: (companyDetail?.email.isNotEmpty == true) ?
-                                  Text(companyDetail?.email ?? '') :
-                                  const Text(
-                                    'Non renseigné',
-                                    style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: 15,
-                                      color: Colors.grey,
-                                    ),
-                                  )
-                              )
+                                  child:
+                                      (companyDetail?.email.isNotEmpty == true)
+                                          ? Text(companyDetail?.email ?? '')
+                                          : const Text(
+                                              'Non renseigné',
+                                              style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 15,
+                                                color: Colors.grey,
+                                              ),
+                                            ))
                             ],
                           ),
                           Row(
                             children: [
                               const Padding(
                                   padding: EdgeInsets.all(10),
-                                  child: Icon(Icons.phone)
-                              ),
+                                  child: Icon(Icons.phone)),
                               Expanded(
-                                  child: (companyDetail?.phoneNumber?.isNotEmpty == true) ?
-                                  Text(companyDetail?.phoneNumber ?? '') :
-                                  const Text(
-                                    'Non renseigné',
-                                    style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: 15,
-                                      color: Colors.grey,
-                                    ),
-                                  )
-                              )
+                                  child: (companyDetail
+                                              ?.phoneNumber?.isNotEmpty ==
+                                          true)
+                                      ? Text(companyDetail?.phoneNumber ?? '')
+                                      : const Text(
+                                          'Non renseigné',
+                                          style: TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            fontSize: 15,
+                                            color: Colors.grey,
+                                          ),
+                                        ))
                             ],
                           ),
-                        ]
-                    ),
+                        ]),
                   ),
                   const VerticalDivider(thickness: 1),
                   Expanded(
@@ -179,15 +165,13 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
                             Row(
                               children: const [
                                 Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 5),
-                                    child: Icon(Icons.notes)
-                                ),
-                                Text(
-                                    "Description",
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5),
+                                    child: Icon(Icons.notes)),
+                                Text("Description",
                                     style: TextStyle(
                                       fontSize: 20,
-                                    )
-                                ),
+                                    )),
                               ],
                             ),
                             Container(
@@ -207,62 +191,47 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
                                     companyDetail?.description ?? '',
                                     textAlign: TextAlign.justify,
                                   ),
-                                )
-                            ),
-                            const Text(
-                                "Liens",
-                                style: TextStyle(
-                                    fontSize: 18
-                                )
-                            ),
+                                )),
+                            const Text("Liens", style: TextStyle(fontSize: 18)),
                             Container(
-                                child: (companyDetail?.links.isNotEmpty == true) ?
-                                Column(
-                                    children: [
-                                      for (var link in companyDetail?.links ?? [])
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                                child: Wrap(
-                                                    children: [
-                                                      const Padding(
-                                                        padding: EdgeInsets.symmetric(horizontal: 5),
-                                                        child: Icon(Icons.link),
-                                                      ),
-                                                      TextButton(
-                                                        child: Text(
-                                                            link,
-                                                            overflow: TextOverflow.ellipsis
-                                                        ),
-                                                        onPressed: () {
-                                                          launch(link);
-                                                        },
-                                                      ),
-                                                    ]
-                                                )
-                                            )
-                                          ],
-                                        )
-                                    ]
-                                ) :
-                                const Text(
-                                    "Aucun lien",
-                                    style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: 15,
-                                      color: Colors.grey,
-                                    )
-                                )
-                            )
-                          ]
-                      ),
+                                child: (companyDetail?.links.isNotEmpty == true)
+                                    ? Column(children: [
+                                        for (var link
+                                            in companyDetail?.links ?? [])
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                  child: Wrap(children: [
+                                                const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                                  child: Icon(Icons.link),
+                                                ),
+                                                TextButton(
+                                                  child: Text(link,
+                                                      overflow: TextOverflow
+                                                          .ellipsis),
+                                                  onPressed: () {
+                                                    launch(link);
+                                                  },
+                                                ),
+                                              ]))
+                                            ],
+                                          )
+                                      ])
+                                    : const Text("Aucun lien",
+                                        style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 15,
+                                          color: Colors.grey,
+                                        )))
+                          ]),
                     ),
                   ),
                 ],
               ),
             ),
-          )
-      ),
+          )),
     );
   }
 }

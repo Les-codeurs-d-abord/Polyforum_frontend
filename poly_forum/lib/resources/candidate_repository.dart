@@ -94,12 +94,9 @@ class CandidateRepository {
 
   Future<Planning> fetchPlanning(CandidateUser candidateUser) async {
     try {
-      print('On va tapper l api');
-      print(candidateUser);
       String uriLink = 'api/planning/candidate/${candidateUser.id}';
       final uri = Uri.http(kServer, uriLink);
       final response = await http.get(uri).timeout(const Duration(seconds: 2));
-      print('resultat');
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         List<Slot> slots = [];
