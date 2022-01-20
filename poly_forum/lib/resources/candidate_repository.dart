@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:poly_forum/data/models/planning_model.dart';
+import 'package:poly_forum/data/models/slot_model.dart';
 import 'dart:convert';
 
 import 'package:poly_forum/data/models/tag_model.dart';
@@ -61,6 +63,28 @@ class CandidateRepository {
         return offerList;
       } else {
         throw const NetworkException("Une erreur est survenue.");
+      }
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<Planning> fetchPlanning(CandidateUser candidateUser) async {
+    try {
+      String uriLink = 'api/planning/candidate/${candidateUser.id}';
+      final uri = Uri.http(kServer, uriLink);
+      final response = await http.get(uri).timeout(const Duration(seconds: 2));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        List<Slot> slots = [];
+        for (Map<String, dynamic> i in data) {
+          slots.add(Slot.fromJson(i));
+        }
+        Planning planning = Planning(slots: slots);
+        return planning;
+      } else {
+        throw const CandidateException("Planning introuvable");
       }
     } on Exception catch (e) {
       print(e);

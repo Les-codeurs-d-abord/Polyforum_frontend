@@ -98,7 +98,7 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
       },
       child: Scaffold(
         extendBody: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blue[300],
         body: Row(
           children: [
             Column(
@@ -163,7 +163,7 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
                             text: "Mes choix",
                             iconData: Icons.local_offer_outlined,
                           ),
-                          const SizedBox(height: 20),
+/*                           const SizedBox(height: 20),
                           TabNavigationItem(
                             onPressed: () {
                               setState(() {
@@ -173,15 +173,15 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
                             isSelect: _selectedIndex == 3,
                             text: "Mon planning",
                             iconData: Icons.local_offer_outlined,
-                          ),
+                          ), */
                           const SizedBox(height: 20),
                           TabNavigationItem(
                             onPressed: () {
                               setState(() {
-                                _selectedIndex = 4;
+                                _selectedIndex = 3;
                               });
                             },
-                            isSelect: _selectedIndex == 4,
+                            isSelect: _selectedIndex == 3,
                             text: "Mon profil",
                             iconData: Icons.local_offer_outlined,
                           ),
@@ -213,7 +213,7 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
                                 const WelcomeScreen(),
                                 const OffersScreen(),
                                 const ChoicesScreen(),
-                                const PlanningScreen(),
+                                /* PlanningScreen(user: candidateUser!), */
                                 CandidateProfilScreen(
                                     candidateUser: candidateUser!),
                               ],

@@ -4,6 +4,7 @@ import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/candidate_navigation/components/candidate_profil_btn.dart';
+import 'package:poly_forum/screens/candidate/planning/planning_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
@@ -56,9 +57,9 @@ class _CompanyNavigationScreenState extends State<CompanyNavigationScreen> {
             index: _selectedIndex,
             children: <Widget>[
               const WelcomeScreen(),
-              PlanningScreen(
+              /*    PlanningScreen(
                 user: widget.user,
-              ),
+              ), */
             ],
           ),
         ));
@@ -95,7 +96,7 @@ class _CompanyNavigationScreenState extends State<CompanyNavigationScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                TabNavigationItem(
+                /*                TabNavigationItem(
                   onPressed: () {
                     setState(
                       () {
@@ -105,7 +106,7 @@ class _CompanyNavigationScreenState extends State<CompanyNavigationScreen> {
                   },
                   text: "Mon planning",
                   isSelect: _selectedIndex == 1,
-                ),
+                ), */
               ],
             ),
           ),
