@@ -52,7 +52,7 @@ class _BodyState extends State<Body> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                                "Entreprises",
+                                "Candidats",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 40,

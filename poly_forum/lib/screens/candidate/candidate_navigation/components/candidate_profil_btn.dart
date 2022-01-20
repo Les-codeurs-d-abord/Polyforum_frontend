@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
-import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
+import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class PopupItem {

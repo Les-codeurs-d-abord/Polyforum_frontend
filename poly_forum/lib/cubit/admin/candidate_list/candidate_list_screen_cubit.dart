@@ -80,7 +80,20 @@ class CandidateListScreenCubit extends Cubit<CandidateListScreenState> {
   }
 
   Future<void> sortCandidateListByCompletionEvent(List<CandidateUser> candidateListInitial, List<CandidateUser> candidateList, bool ascending) async {
-    // TODO
+    emit(CandidateListScreenLoading());
+
+    candidateListInitial.sort((a, b) {
+      return ascending ?
+      a.status.toLowerCase().compareTo(b.status.toLowerCase()) :
+      b.status.toLowerCase().compareTo(a.status.toLowerCase());
+    });
+    candidateList.sort((a, b) {
+      return ascending ?
+      a.status.toLowerCase().compareTo(b.status.toLowerCase()) :
+      b.status.toLowerCase().compareTo(a.status.toLowerCase());
+    });
+
+    emit(CandidateListScreenLoaded(candidateListInitial, candidateList));
   }
 
 }

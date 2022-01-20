@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
+import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 
 class CandidateCard extends StatelessWidget {
   final CandidateUser candidate;
@@ -32,12 +31,11 @@ class CandidateCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CachedNetworkImage(
-                  imageUrl: '', // TODO
-                  placeholder: (context, url) => const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => InitialsAvatar(candidate.lastName + " " + candidate.firstName),
-                  width: 50,
-                  height: 50,
+                ProfilePicture(
+                    uri: candidate.logo,
+                    defaultText: candidate.lastName + " " + candidate.firstName,
+                    width: 50,
+                    height: 50
                 ),
                 const Spacer(),
                 Expanded(
@@ -50,16 +48,31 @@ class CandidateCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                const Expanded(
-                  child: Text(
-                    "Complétion", // TODO
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 15,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+                Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          color: getColorByStatus(candidate.status),
+                          size: 15,
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Text(
+                              candidate.status,
+                              style: TextStyle(
+                                color: getColorByStatus(candidate.status),
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                 ),
                 const Spacer(),
                 ClipRRect(
@@ -112,5 +125,18 @@ class CandidateCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color getColorByStatus(String status) {
+    switch (status) {
+      case "Jamais connecté":
+        return Colors.red;
+      case "Incomplet":
+        return Colors.orange;
+      case "Complet":
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
   }
 }

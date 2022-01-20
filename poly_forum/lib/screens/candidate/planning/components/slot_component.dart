@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/slot_model.dart';
-import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
+import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 
 class SlotPlanning extends StatelessWidget {
   const SlotPlanning({Key? key, required this.slot}) : super(key: key);
