@@ -1,8 +1,10 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
+import 'package:poly_forum/utils/constants.dart';
 
 class PopupItem {
   int value;
@@ -10,11 +12,12 @@ class PopupItem {
   PopupItem(this.value, this.name);
 }
 
-class ProfilBtn extends StatelessWidget {
-  final String name;
-  final String email;
+class CandidateProfilBtn extends StatelessWidget {
+  final CandidateUser user;
+  final Function onProfileSelected;
 
-  const ProfilBtn({required this.name, required this.email, Key? key})
+  const CandidateProfilBtn(
+      {required this.user, required this.onProfileSelected, Key? key})
       : super(key: key);
 
   @override
@@ -45,11 +48,8 @@ class ProfilBtn extends StatelessWidget {
       ],
       onSelected: (value) {
         if (value == 0) {
+          onProfileSelected();
         } else if (value == 1) {
-          // Navigator.of(context).pushNamedAndRemoveUntil(
-          //   Routes.signInScreen,
-          //   (Route<dynamic> route) => false,
-          // );
           Application.router.navigateTo(
             context,
             Routes.signInScreen,
@@ -58,31 +58,43 @@ class ProfilBtn extends StatelessWidget {
           );
         }
       },
-      tooltip: "Profile",
+      tooltip: "Profil",
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(
           children: [
             Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(email),
-              ],
-            ),
-            Column(
               children: [
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(8),
-                    width: 70,
-                    child: InitialsAvatar(name),
+                    width: 60,
+                    child: InitialsAvatar(user.firstName + " " + user.lastName),
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      user.firstName + " " + user.lastName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: kButtonColor,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    const Icon(Icons.arrow_drop_down_outlined),
+                  ],
+                ),
+                const Text(
+                  "Candidat",
+                  style: TextStyle(
+                    color: Colors.grey,
                   ),
                 ),
               ],

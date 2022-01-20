@@ -6,15 +6,14 @@ class InitialsAvatar extends StatelessWidget {
   String initials = "";
 
   InitialsAvatar(String text, {Key? key}) : super(key: key) {
-    if (text.contains(RegExp(r'[A-Z]'))) {
-      var nameparts = text.split(" ");
-      if (nameparts.isNotEmpty) {
-        initials = nameparts[0][0].toUpperCase();
-      }
-      if (nameparts.length > 1) {
-        initials += nameparts[1][0].toUpperCase();
-      }
+    var nameparts = text.split(" ");
+    if (nameparts.isNotEmpty) {
+      initials = nameparts[0][0].toUpperCase();
     }
+    if (nameparts.length > 1) {
+      initials += nameparts[1][0].toUpperCase();
+    }
+    // if (text.contains(RegExp(r'[A-Z]'))) {}
   }
 
   @override

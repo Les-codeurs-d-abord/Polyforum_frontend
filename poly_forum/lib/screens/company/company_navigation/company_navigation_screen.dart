@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
-import 'package:poly_forum/screens/company/planning/planning_screen.dart';
-import 'package:poly_forum/screens/shared/components/profil_btn.dart';
+import 'package:poly_forum/screens/candidate/candidate_navigation/components/candidate_profil_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
-import 'package:poly_forum/screens/company/company_navigation/components/tab_navigation_item.dart';
 
 class CompanyNavigationScreen extends StatefulWidget {
   final CompanyUser user;
@@ -112,10 +110,10 @@ class _CompanyNavigationScreenState extends State<CompanyNavigationScreen> {
             ),
           ),
         ),
-        ProfilBtn(
-          name: widget.user.companyName,
-          email: widget.user.email,
-        ),
+        // CandidateProfilBtn(
+        //   name: widget.user.companyName,
+        //   email: widget.user.email,
+        // ),
       ],
     );
   }

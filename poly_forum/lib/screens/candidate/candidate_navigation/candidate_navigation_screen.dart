@@ -1,22 +1,26 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/data/models/user_model.dart';
+import 'package:poly_forum/resources/user_repository.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
+import 'package:poly_forum/screens/candidate/candidate_navigation/components/candidate_nav_bar.dart';
+import 'package:poly_forum/screens/candidate/profil/candidate_profil_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/candidate/choices/choices_screen.dart';
 import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
 import 'package:poly_forum/screens/candidate/planning/planning_screen.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
+import 'package:poly_forum/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../shared/components/profil_btn.dart';
-import 'components/tab_navigation_item.dart';
+import 'components/candidate_profil_btn.dart';
+import '../../shared/components/tab_navigation_item.dart';
 
 class CandidateNavigationScreen extends StatefulWidget {
-  final CandidateUser user;
-  const CandidateNavigationScreen({required this.user, Key? key})
-      : super(key: key);
+  const CandidateNavigationScreen({Key? key}) : super(key: key);
 
   @override
   State<CandidateNavigationScreen> createState() =>
@@ -26,129 +30,214 @@ class CandidateNavigationScreen extends StatefulWidget {
 class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
   int _selectedIndex = 0;
 
-  @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () {
-          // Navigator.of(context).pushNamedAndRemoveUntil(
-          //   Routes.signInScreen,
-          //   (Route<dynamic> route) => false,
-          // );
+  CandidateUser? candidateUser;
 
+  @override
+  void initState() {
+    super.initState();
+
+    User? currentUser = Application.user;
+
+    if (currentUser == null) {
+      SharedPreferences.getInstance().then((value) async {
+        try {
+          final token = value.getString(kTokenPref);
+          if (token != null) {
+            final user = await UserRepository().fetchUserFromToken(token);
+
+            if (user is CandidateUser) {
+              Application.user = user;
+              setState(() {
+                candidateUser = user;
+              });
+            } else {
+              Application.router.navigateTo(
+                context,
+                Routes.signInScreen,
+                transition: TransitionType.fadeIn,
+              );
+            }
+          } else {
+            Application.router.navigateTo(
+              context,
+              Routes.signInScreen,
+              transition: TransitionType.fadeIn,
+            );
+          }
+        } on Exception catch (e) {
+          // print(e.toString());
           Application.router.navigateTo(
             context,
             Routes.signInScreen,
-            clearStack: true,
             transition: TransitionType.fadeIn,
           );
-          return Future(() => true);
-        },
-        child: Scaffold(
-          extendBody: true,
-          backgroundColor: kScaffoldColor,
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(70),
-            child: Material(
-              elevation: 1,
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  if (constraints.maxWidth > 1080) {
-                    return buildWebVersion(context);
-                  } else {
-                    return buildWebVersion(context);
-                  }
-                },
-              ),
-            ),
-          ),
-          body: IndexedStack(
-            index: _selectedIndex,
-            children: <Widget>[
-              const WelcomeScreen(),
-              const OffersScreen(),
-              const ChoicesScreen(),
-              PlanningScreen(
-                user: widget.user,
-              ),
-            ],
-          ),
-        ));
+        }
+      });
+    } else {
+      if (currentUser is CandidateUser) {
+        candidateUser = currentUser;
+      }
+    }
   }
 
-  Widget buildWebVersion(BuildContext context) {
-    return Row(
-      children: [
-        MaterialButton(
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 0;
-            });
-          },
-          child: Container(
-            width: 150,
-            height: double.infinity,
-            alignment: Alignment.center,
-            child: Text(
-              "PolyForum",
-              style: GoogleFonts.pacifico(fontSize: 30),
-            ),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: VerticalDivider(
-            thickness: 1,
-            color: Colors.black,
-          ),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            primary: false,
-            scrollDirection: Axis.horizontal,
-            child: Row(
+  @override
+  Widget build(BuildContext context) {
+    if (candidateUser == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return WillPopScope(
+      onWillPop: () {
+        Application.router.navigateTo(
+          context,
+          Routes.signInScreen,
+          clearStack: true,
+          transition: TransitionType.fadeIn,
+        );
+        return Future(() => true);
+      },
+      child: Scaffold(
+        extendBody: true,
+        backgroundColor: Colors.blue,
+        body: Row(
+          children: [
+            Column(
               children: [
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 1;
-                      },
-                    );
-                  },
-                  text: "Les offres",
-                  isSelect: _selectedIndex == 1,
-                ),
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 2;
-                      },
-                    );
-                  },
-                  text: "Mes choix",
-                  isSelect: _selectedIndex == 2,
-                ),
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 3;
-                      },
-                    );
-                  },
-                  text: "Mon planning",
-                  isSelect: _selectedIndex == 3,
+                Expanded(
+                  child: SizedBox(
+                    width: 300,
+                    child: SingleChildScrollView(
+                      primary: false,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Image.asset(
+                                'images/logo.png',
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.contain,
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                "PolyForum",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 26,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          TabNavigationItem(
+                            onPressed: () {
+                              setState(() {
+                                _selectedIndex = 0;
+                              });
+                            },
+                            isSelect: _selectedIndex == 0,
+                            text: "PolyForum",
+                            iconData: Icons.local_offer_outlined,
+                          ),
+                          const SizedBox(height: 20),
+                          TabNavigationItem(
+                            onPressed: () {
+                              setState(() {
+                                _selectedIndex = 1;
+                              });
+                            },
+                            isSelect: _selectedIndex == 1,
+                            text: "Les offres",
+                            iconData: Icons.local_offer_outlined,
+                          ),
+                          const SizedBox(height: 20),
+                          TabNavigationItem(
+                            onPressed: () {
+                              setState(() {
+                                _selectedIndex = 2;
+                              });
+                            },
+                            isSelect: _selectedIndex == 2,
+                            text: "Mes choix",
+                            iconData: Icons.local_offer_outlined,
+                          ),
+                          const SizedBox(height: 20),
+                          TabNavigationItem(
+                            onPressed: () {
+                              setState(() {
+                                _selectedIndex = 3;
+                              });
+                            },
+                            isSelect: _selectedIndex == 3,
+                            text: "Mon planning",
+                            iconData: Icons.local_offer_outlined,
+                          ),
+                          const SizedBox(height: 20),
+                          TabNavigationItem(
+                            onPressed: () {
+                              setState(() {
+                                _selectedIndex = 4;
+                              });
+                            },
+                            isSelect: _selectedIndex == 4,
+                            text: "Mon profil",
+                            iconData: Icons.local_offer_outlined,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.white,
+                ),
+                margin: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 70),
+                          Expanded(
+                            child: IndexedStack(
+                              index: _selectedIndex,
+                              children: <Widget>[
+                                const WelcomeScreen(),
+                                const OffersScreen(),
+                                const ChoicesScreen(),
+                                const PlanningScreen(),
+                                CandidateProfilScreen(
+                                    candidateUser: candidateUser!),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    CandidateNavBar(
+                      user: candidateUser!,
+                      onProfileSelected: () {
+                        setState(() {
+                          _selectedIndex = 4;
+                        });
+                      },
+                      paths: ["Profil", "Test", "oui"],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-        ProfilBtn(
-          name: widget.user.firstName + " " + widget.user.lastName,
-          email: widget.user.email,
-        ),
-      ],
+      ),
     );
   }
 }

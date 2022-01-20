@@ -5,12 +5,11 @@ import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/admin/candidate_list/candidate_list_screen.dart';
 import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
-import 'package:poly_forum/screens/shared/components/profil_btn.dart';
+import 'package:poly_forum/screens/candidate/candidate_navigation/components/candidate_profil_btn.dart';
+import 'package:poly_forum/screens/shared/components/tab_navigation_item.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
-
-import 'components/tab_navigation_item.dart';
 
 class AdminNavigationScreen extends StatefulWidget {
   final AdminUser user;
@@ -96,36 +95,36 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 1;
-                      },
-                    );
-                  },
-                  text: "Entreprises",
-                  isSelect: _selectedIndex == 1,
-                ),
-                TabNavigationItem(
-                  onPressed: () {
-                    setState(
-                      () {
-                        _selectedIndex = 2;
-                      },
-                    );
-                  },
-                  text: "Candidats",
-                  isSelect: _selectedIndex == 2,
-                ),
+                // TabNavigationItem(
+                //   onPressed: () {
+                //     setState(
+                //       () {
+                //         _selectedIndex = 1;
+                //       },
+                //     );
+                //   },
+                //   text: "(Admin) Entreprises",
+                //   isSelect: _selectedIndex == 1,
+                // ),
+                // TabNavigationItem(
+                //   onPressed: () {
+                //     setState(
+                //       () {
+                //         _selectedIndex = 2;
+                //       },
+                //     );
+                //   },
+                //   text: "(Admin) Candidats",
+                //   isSelect: _selectedIndex == 2,
+                // ),
               ],
             ),
           ),
         ),
-        ProfilBtn(
-          email: widget.user.email,
-          name: "Admin",
-        ),
+        // CandidateProfilBtn(
+        //   email: widget.user.email,
+        //   name: "Admin",
+        // ),
       ],
     );
   }
