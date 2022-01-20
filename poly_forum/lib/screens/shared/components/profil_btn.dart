@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
-import 'package:poly_forum/screens/sign_in/sign_in_screen.dart';
 
 class PopupItem {
   int value;

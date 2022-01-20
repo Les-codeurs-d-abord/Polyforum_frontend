@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/candidate/candidate_planning_screen_cubit.dart';
-import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/cubit/company/company_planning_screen_cubit.dart';
+import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poly_forum/screens/candidate/planning/components/slot_component.dart';
+import 'package:poly_forum/screens/company/planning/components/slot_component.dart';
 
 import 'package:shimmer/shimmer.dart';
 
 class Body extends StatefulWidget {
-  final CandidateUser user;
+  final CompanyUser user;
 
   const Body({Key? key, required this.user}) : super(key: key);
 
@@ -22,29 +22,29 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<CandidatePlanningScreenCubit>(context)
+    BlocProvider.of<CompanyPlanningScreenCubit>(context)
         .planningEvent(widget.user);
   }
 
   // void callOfferListEvent() {
-  //   BlocProvider.of<CandidatePlanningScreenCubit>(context)
+  //   BlocProvider.of<CompanyPlanningScreenCubit>(context)
   //       .planningEvent(currentInput);
   // }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CandidatePlanningScreenCubit,
-        CandidatePlanningScreenState>(listener: (context, state) {
-      if (state is CandidatePlanningScreenError) {
-      } else if (state is CandidatePlanningScreenLoaded) {
+    return BlocConsumer<CompanyPlanningScreenCubit, CompanyPlanningScreenState>(
+        listener: (context, state) {
+      if (state is CompanyPlanningScreenError) {
+      } else if (state is CompanyPlanningScreenLoaded) {
         planning = state.planning;
       }
     }, builder: (context, state) {
-      if (state is CandidatePlanningScreenLoading) {
+      if (state is CompanyPlanningScreenLoading) {
         return buildloadingScreen();
-      } else if (state is CandidatePlanningScreenLoaded) {
+      } else if (state is CompanyPlanningScreenLoaded) {
         return buildLoadedScreen(state.planning);
-      } else if (state is CandidatePlanningScreenError) {
+      } else if (state is CompanyPlanningScreenError) {
         return buildErrorOffers();
       }
       return buildInitialPlanning();

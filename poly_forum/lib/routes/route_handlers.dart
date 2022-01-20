@@ -4,15 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:poly_forum/data/models/admin_model.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/data/models/company_user.dart';
-import 'package:poly_forum/resources/user_repository.dart';
+import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/screens/admin/admin_navigation/admin_navigation_screen.dart';
 import 'package:poly_forum/screens/candidate/candidate_navigation/candidate_navigation_screen.dart';
 import 'package:poly_forum/screens/company/company_navigation/company_navigation_screen.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/sign_in/sign_in_screen.dart';
-import 'package:poly_forum/utils/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 var notFoundHandler = Handler(
     handlerFunc: (BuildContext? context, Map<String, List<String>> params) {

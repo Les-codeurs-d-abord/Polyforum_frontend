@@ -1,6 +1,10 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:poly_forum/data/models/company_user_model.dart';
+import 'package:poly_forum/data/models/planning_model.dart';
+import 'package:poly_forum/data/models/slot_model.dart';
+import 'package:poly_forum/utils/constants.dart';
 import 'package:poly_forum/data/models/company_detail_model.dart';
 import 'package:poly_forum/data/models/company_model.dart';
 
@@ -15,7 +19,8 @@ class CompanyRepository {
     await Future.delayed(const Duration(milliseconds: 500));
 
     final uri = Uri.http('localhost:8080', '/api/companies/');
-    final response = await http.post(uri, body: body).onError((error, stackTrace) {
+    final response =
+        await http.post(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -28,6 +33,28 @@ class CompanyRepository {
     }
   }
 
+  Future<Planning> fetchPlanning(CompanyUser companyUser) async {
+    try {
+      String uriLink = 'api/planning/company/${companyUser.id}';
+      final uri = Uri.http(kServer, uriLink);
+      final response = await http.get(uri).timeout(const Duration(seconds: 2));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        List<Slot> slots = [];
+        for (Map<String, dynamic> i in data) {
+          slots.add(Slot.fromJson(i));
+        }
+        Planning planning = Planning(slots: slots);
+        return planning;
+      } else {
+        throw const CompanyException("Planning introuvable");
+      }
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
   Future<void> editCompany(Company company, String email) async {
     final body = {
       'email': email,
@@ -37,7 +64,8 @@ class CompanyRepository {
     await Future.delayed(const Duration(milliseconds: 500));
 
     final uri = Uri.http('localhost:8080', '/api/users/${company.id}');
-    final response = await http.put(uri, body: body).onError((error, stackTrace) {
+    final response =
+        await http.put(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -114,11 +142,13 @@ class CompanyRepository {
   Future<void> sendReminder() async {
     final uri = Uri.http('localhost:8080', '/api/companies/reminder');
     final response = await http.post(uri).onError((error, stackTrace) {
-      throw const NetworkException("Le serveur est injoignable, l'envoi du rappel n'a pas pu être effectué");
+      throw const NetworkException(
+          "Le serveur est injoignable, l'envoi du rappel n'a pas pu être effectué");
     });
 
     if (response.statusCode != 201) {
-      throw const NetworkException("Le serveur a rencontré un problème, l'envoi du rappel n'a pas pu être effectué");
+      throw const NetworkException(
+          "Le serveur a rencontré un problème, l'envoi du rappel n'a pas pu être effectué");
     }
   }
 }

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:poly_forum/data/models/admin_model.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:poly_forum/data/models/company_user.dart';
+import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/user_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';

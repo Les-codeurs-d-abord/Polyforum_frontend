@@ -63,11 +63,13 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
           ),
           body: IndexedStack(
             index: _selectedIndex,
-            children: const <Widget>[
-              WelcomeScreen(),
-              OffersScreen(),
-              ChoicesScreen(),
-              PlanningScreen(),
+            children: <Widget>[
+              const WelcomeScreen(),
+              const OffersScreen(),
+              const ChoicesScreen(),
+              PlanningScreen(
+                user: widget.user,
+              ),
             ],
           ),
         ));
