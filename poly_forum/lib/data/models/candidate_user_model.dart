@@ -37,7 +37,7 @@ class CandidateUser extends User {
     }
 
     return CandidateUser(
-      id: json['id'],
+      id: json['user']['id'],
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',

@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/screens/shared/components/form/email_form_field.dart';
-import 'package:poly_forum/screens/shared/components/form/firstname_form_field.dart';
 import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
-import 'package:poly_forum/screens/shared/components/form/lastname_form_field.dart';
 import 'package:poly_forum/utils/constants.dart';
 
-class CandidateCreateFormDialog extends StatefulWidget {
-  const CandidateCreateFormDialog({Key? key}) : super(key: key);
+class CandidateEditFormDialog extends StatefulWidget {
+  final CandidateUser candidate;
+
+  const CandidateEditFormDialog(this.candidate, {Key? key}) : super(key: key);
 
   @override
-  _CandidateCreateFormDialogState createState() => _CandidateCreateFormDialogState();
+  _CandidateEditFormDialogState createState() => _CandidateEditFormDialogState();
 }
 
-class _CandidateCreateFormDialogState extends State<CandidateCreateFormDialog> {
+class _CandidateEditFormDialogState extends State<CandidateEditFormDialog> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _lastNameController = TextEditingController();
-  final _firstNameController = TextEditingController();
+  late final _emailController = TextEditingController(text: widget.candidate.email);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _CandidateCreateFormDialogState extends State<CandidateCreateFormDialog> {
       title: Stack(
           children: [
             const Text(
-              "Ajouter un candidat",
+              "Modifier un candidat",
               style: TextStyle(
                   fontSize: 22
               ),
@@ -65,27 +65,10 @@ class _CandidateCreateFormDialogState extends State<CandidateCreateFormDialog> {
       content: Form(
         key: _formKey,
         child: SizedBox(
-          width: 500,
+          width: 450,
           child: Wrap(
             children: [
-              Container(
-                margin: const EdgeInsets.only(top: 10, bottom: 20),
-                child: EmailFormField(_emailController),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 10,
-                    child: LastNameFormField(_lastNameController),
-                  ),
-                  const Spacer(),
-                  Expanded(
-                    flex: 10,
-                    child:FirstNameFormField(_firstNameController),
-                  ),
-                ],
-              ),
+              EmailFormField(_emailController),
               if (error.isNotEmpty)
                 Container(
                   alignment: Alignment.center,
@@ -154,8 +137,7 @@ class _CandidateCreateFormDialogState extends State<CandidateCreateFormDialog> {
               null : () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  BlocProvider.of<CandidateFormCubit>(context)
-                      .createCandidate(_emailController.text, _lastNameController.text, _firstNameController.text);
+                  BlocProvider.of<CandidateFormCubit>(context).editCandidate(widget.candidate, _emailController.text);
                 }
               },
             )
