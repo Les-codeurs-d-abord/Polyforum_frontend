@@ -7,6 +7,9 @@ class ChoicesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Body();
+    return SingleChildScrollView(
+      primary: false,
+      child: const Body(),
+    );
   }
 }

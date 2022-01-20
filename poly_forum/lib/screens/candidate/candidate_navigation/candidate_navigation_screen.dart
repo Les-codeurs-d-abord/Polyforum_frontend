@@ -94,7 +94,7 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
       },
       child: Scaffold(
         extendBody: true,
-        backgroundColor: Colors.blue[300],
+        backgroundColor: kPrimaryColor,
         body: Row(
           children: [
             Column(
@@ -189,45 +189,46 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
               ],
             ),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+                child: Material(
+                  elevation: 20,
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.white,
-                ),
-                margin: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 70),
-                          Expanded(
-                            child: IndexedStack(
-                              index: _selectedIndex,
-                              children: <Widget>[
-                                const WelcomeScreen(),
-                                const OffersScreen(),
-                                const ChoicesScreen(),
-                                /* PlanningScreen(user: candidateUser!), */
-                                CandidateProfilScreen(
-                                    candidateUser: candidateUser!),
-                              ],
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 70),
+                            Expanded(
+                              child: IndexedStack(
+                                index: _selectedIndex,
+                                children: <Widget>[
+                                  const WelcomeScreen(),
+                                  const OffersScreen(),
+                                  const ChoicesScreen(),
+                                  /* PlanningScreen(user: candidateUser!), */
+                                  CandidateProfilScreen(
+                                      candidateUser: candidateUser!),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    CandidateNavBar(
-                      user: candidateUser!,
-                      onProfileSelected: () {
-                        setState(() {
-                          _selectedIndex = 4;
-                        });
-                      },
-                      paths: ["Profil", "Test", "oui"],
-                    ),
-                  ],
+                      CandidateNavBar(
+                        user: candidateUser!,
+                        onProfileSelected: () {
+                          setState(() {
+                            _selectedIndex = 4;
+                          });
+                        },
+                        paths: ["Profil", "Test", "oui"],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -45,7 +45,7 @@ class _PwdSaveState extends State<PwdSave> {
           child: Text(
             "Sauvegarder le mot de passe ?",
             style: TextStyle(
-              color: kPrimaryColor,
+              color: Color(0xFF263238),
               fontWeight: FontWeight.bold,
             ),
           ),
