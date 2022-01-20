@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/data/models/user_model.dart';
 
@@ -28,7 +30,7 @@ class CandidateUser extends User {
     List<String> links = [];
 
     for (Map<String, dynamic> i in json['candidate_tags'] ?? []) {
-      tags.add(i['tag'] ?? '');
+      tags.add(i['label'] ?? '');
     }
     for (Map<String, dynamic> i in json['candidate_links'] ?? []) {
       links.add(i['label'] ?? '');
@@ -65,6 +67,6 @@ class CandidateUser extends User {
 
   @override
   String toString() {
-    return "FirstName: $firstName, LastName: $lastName";
+    return jsonEncode(toJson());
   }
 }

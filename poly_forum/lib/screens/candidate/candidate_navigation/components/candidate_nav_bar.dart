@@ -34,38 +34,36 @@ class CandidateNavBar extends StatelessWidget {
         ],
       ),
       height: 70,
-      child: Expanded(
-        child: Row(
-          children: [
-            Row(
-              children: [
-                for (int i = 0; i < paths.length - 1; i++)
-                  Row(
-                    children: [
-                      Text(
-                        paths[i],
-                        style: TextStyle(color: kButtonColor),
-                      ),
-                      const Icon(Icons.arrow_right),
-                      Text(
-                        paths[i + 1],
-                        style: TextStyle(color: kButtonColor),
-                      ),
-                    ],
-                  ),
-              ],
-            ),
-            Spacer(),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.notifications),
-            ),
-            CandidateProfilBtn(
-              user: user,
-              onProfileSelected: onProfileSelected,
-            ),
-          ],
-        ),
+      child: Row(
+        children: [
+          Row(
+            children: [
+              for (int i = 0; i < paths.length - 1; i++)
+                Row(
+                  children: [
+                    Text(
+                      paths[i],
+                      style: TextStyle(color: kButtonColor),
+                    ),
+                    const Icon(Icons.arrow_right),
+                    Text(
+                      paths[i + 1],
+                      style: TextStyle(color: kButtonColor),
+                    ),
+                  ],
+                ),
+            ],
+          ),
+          Spacer(),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.notifications),
+          ),
+          CandidateProfilBtn(
+            user: user,
+            onProfileSelected: onProfileSelected,
+          ),
+        ],
       ),
     );
   }

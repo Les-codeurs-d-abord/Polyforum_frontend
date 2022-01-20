@@ -115,20 +115,14 @@ class CandidateRepository {
       final body = {
         "data": json,
       };
-      print(body);
 
       final uri = Uri.http(kServer, '/api/candidates/${user.id}');
-      final response =
-          await http.put(uri, body: jsonEncode(user.toJson()), headers: {
-        HttpHeaders.contentTypeHeader: 'application/json',
-      });
+      final response = await http.put(uri, body: body);
 
       if (response.statusCode == 200) {
         var jsonCandidate = jsonDecode(response.body) as Map<String, dynamic>;
-        print(jsonCandidate);
         return CandidateUser.fromJson(jsonCandidate);
       } else {
-        print(response.body);
         throw const NetworkException("Une erreur est survenue.");
       }
     } on Exception catch (e) {

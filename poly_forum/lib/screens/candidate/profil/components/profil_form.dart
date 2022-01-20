@@ -44,7 +44,6 @@ class _ProfilFormState extends State<ProfilForm> {
   @override
   void initState() {
     super.initState();
-
     _firstNameController.text = widget.user.firstName;
     _lastNameController.text = widget.user.lastName;
     _emailController.text = widget.user.email;
