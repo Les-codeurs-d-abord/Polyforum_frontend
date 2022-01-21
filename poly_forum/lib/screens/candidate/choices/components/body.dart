@@ -20,76 +20,74 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
-    final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
-
     return Center(
       child: Column(
         children: [
-          const SizedBox(height: 100),
-          Material(
-            borderRadius: BorderRadius.circular(20),
-            elevation: 10,
-            child: Container(
-              width: 1000,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Text(
-                      "Organisation des voeux",
-                      style: TextStyle(
-                        color: kButtonColor,
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            child: Material(
+              borderRadius: BorderRadius.circular(20),
+              elevation: 10,
+              child: Container(
+                width: 1000,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Text(
+                        "Organisation des voeux",
+                        style: TextStyle(
+                          color: kButtonColor,
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  ReorderableListView(
-                    shrinkWrap: true,
-                    primary: false,
-                    padding: const EdgeInsets.all(15),
-                    children: <Widget>[
-                      for (int index = 0; index < _items.length; index++)
-                        Card(
-                          elevation: 15,
-                          key: Key('$index'),
-                          child: InkWell(
-                            onTap: () {},
-                            child: ListTile(
-                              title: Padding(
-                                padding: const EdgeInsets.only(right: 30),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    InitialsAvatar("Inetum"),
-                                    Text("Consusltant technique SAP"),
-                                    Text("Inetum"),
-                                    Text(index.toString()),
-                                  ],
+                    ReorderableListView(
+                      shrinkWrap: true,
+                      primary: false,
+                      padding: const EdgeInsets.all(15),
+                      children: <Widget>[
+                        for (int index = 0; index < _items.length; index++)
+                          Card(
+                            elevation: 15,
+                            key: Key('$index'),
+                            child: InkWell(
+                              onTap: () {},
+                              child: ListTile(
+                                title: Padding(
+                                  padding: const EdgeInsets.only(right: 30),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      InitialsAvatar("Inetum"),
+                                      Text("Consusltant technique SAP"),
+                                      Text("Inetum"),
+                                      Text(index.toString()),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                    ],
-                    onReorder: (int oldIndex, int newIndex) {
-                      setState(() {
-                        if (oldIndex < newIndex) {
-                          newIndex -= 1;
-                        }
-                        final int item = _items.removeAt(oldIndex);
-                        _items.insert(newIndex, item);
-                      });
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: RowBtn(text: 'Sauvegarder', onPressed: () {}),
-                  ),
-                ],
+                      ],
+                      onReorder: (int oldIndex, int newIndex) {
+                        setState(() {
+                          if (oldIndex < newIndex) {
+                            newIndex -= 1;
+                          }
+                          final int item = _items.removeAt(oldIndex);
+                          _items.insert(newIndex, item);
+                        });
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: RowBtn(text: 'Sauvegarder', onPressed: () {}),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
