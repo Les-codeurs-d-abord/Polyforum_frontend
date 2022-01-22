@@ -83,7 +83,7 @@ class UserRepository {
       if (response.statusCode == 200) {
         var jsonUser = jsonDecode(response.body);
 
-        switch (jsonUser["user"]["role"]) {
+        switch (jsonUser["role"]) {
           case "CANDIDAT":
             return CandidateUser.fromJson(jsonUser);
           case "ENTREPRISE":
