@@ -1,20 +1,23 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/data/models/offer_model.dart';
+import 'package:poly_forum/resources/candidate_repository.dart';
 
 part 'candidate_choices_state.dart';
 
 class CandidateChoicesCubit extends Cubit<CandidateChoicesState> {
-  final CandidateChoicesCubit repository = CandidateChoicesCubit();
+  final CandidateRepository repository = CandidateRepository();
 
-  CandidateChoicesCubit() : super(CandidateOfferScreenInitial());
+  CandidateChoicesCubit() : super(CandidateChoicesInitial());
 
-  Future<void> offerListEvent(Tag? tag, String? input) async {
+  Future<void> offerChoicesListEvent(CandidateUser user) async {
     try {
-      emit(CandidateOfferScreenLoading());
+      emit(CandidateChoicesScreenLoading());
 
-      final offerList = await repository.fetchOfferList(tag, input);
+      final List<Offer> offerList = await repository.fetchChoicesOffer(user);
 
-      emit(CandidateOfferScreenLoaded(offerList));
+      emit(CandidateChoicesScreenLoaded(offerList));
     } on NetworkException catch (exception) {
       emit(CandidateOfferScreenError(exception.message));
     }

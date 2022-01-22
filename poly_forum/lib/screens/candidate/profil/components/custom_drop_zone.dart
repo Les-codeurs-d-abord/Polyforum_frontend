@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:poly_forum/screens/candidate/profil/components/sized_btn.dart';

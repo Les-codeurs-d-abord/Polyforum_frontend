@@ -192,7 +192,7 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
                 child: Material(
-                  elevation: 20,
+                  elevation: 10,
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.white,
                   child: Stack(
@@ -207,8 +207,8 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
                                 index: _selectedIndex,
                                 children: <Widget>[
                                   const WelcomeScreen(),
-                                  const OffersScreen(),
-                                  const ChoicesScreen(),
+                                  OffersScreen(user: candidateUser!),
+                                  ChoicesScreen(user: candidateUser!),
                                   /* PlanningScreen(user: candidateUser!), */
                                   CandidateProfilScreen(
                                       candidateUser: candidateUser!),

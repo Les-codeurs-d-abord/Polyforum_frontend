@@ -1,5 +1,3 @@
-import 'package:poly_forum/data/models/tag_model.dart';
-
 class Offer {
   final String name;
   final String description;
@@ -10,7 +8,7 @@ class Offer {
   final String companyName;
   final int companyId;
   final List<String> links;
-  final List<Tag> tags;
+  final List<String> tags;
   final DateTime createdAt;
 
   const Offer({
@@ -28,11 +26,11 @@ class Offer {
   });
 
   factory Offer.fromJson(Map<String, dynamic> json) {
-    List<Tag> tags = [];
     List<String> links = [];
+    List<String> tags = [];
 
     for (Map<String, dynamic> i in json['offer_tags']) {
-      tags.add(Tag.fromJson(i));
+      tags.add(i['label'] ?? '');
     }
     for (Map<String, dynamic> i in json['offer_links']) {
       links.add(i['label'] ?? '');

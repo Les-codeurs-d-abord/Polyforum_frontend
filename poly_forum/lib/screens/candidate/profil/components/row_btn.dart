@@ -3,7 +3,7 @@ import 'package:poly_forum/utils/constants.dart';
 
 class RowBtn extends StatelessWidget {
   final String text;
-  final Function onPressed;
+  final VoidCallback? onPressed;
   final double fontSize;
 
   const RowBtn(
@@ -19,7 +19,7 @@ class RowBtn extends StatelessWidget {
       children: [
         Expanded(
           child: TextButton(
-            onPressed: () => onPressed(),
+            onPressed: onPressed,
             style: TextButton.styleFrom(
               primary: Colors.white,
               backgroundColor: kButtonColor,

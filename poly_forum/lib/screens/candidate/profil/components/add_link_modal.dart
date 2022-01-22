@@ -42,7 +42,7 @@ class AddLinkModal extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 30),
-              SizedBtn(
+              RowBtn(
                 text: "Valider",
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/data/models/user_model.dart';
 
 class CandidateUser extends User {

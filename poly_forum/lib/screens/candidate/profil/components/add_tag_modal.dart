@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
-import 'package:poly_forum/utils/constants.dart';
 
 import 'custom_text_field.dart';
 

@@ -279,7 +279,7 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                                         runSpacing: 2,
                                         children: [
                                           for (var tag in offer.tags)
-                                            SmallTag(tag.label)
+                                            SmallTag(tag)
                                         ]
                                     ),
                                   ) else Container(
