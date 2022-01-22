@@ -51,9 +51,5 @@ var companyHandler = Handler(handlerFunc: (context, params) {
 });
 
 var adminHandler = Handler(handlerFunc: (context, params) {
-  final user = context!.settings!.arguments;
-  if (user != null && user is AdminUser) {
-    return AdminNavigationScreen(user: user);
-  }
-  return const SignInScreen();
+  return AdminNavigationScreen();
 });

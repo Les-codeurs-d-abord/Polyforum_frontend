@@ -76,6 +76,7 @@ class _BodyState extends State<Body> {
                                   const SizedBox(width: 50),
                                   const Spacer(),
                                   Expanded(
+                                    flex: 3,
                                     child: SortButton(
                                         label: "Nom prénom",
                                         sortCallback: (ascending) {
@@ -85,6 +86,7 @@ class _BodyState extends State<Body> {
                                   ),
                                   const Spacer(),
                                   Expanded(
+                                    flex: 3,
                                     child: SortButton(
                                         label: "Complétion",
                                         sortCallback: (ascending) {

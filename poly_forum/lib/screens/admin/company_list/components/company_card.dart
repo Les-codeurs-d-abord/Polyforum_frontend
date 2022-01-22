@@ -38,6 +38,7 @@ class CompanyCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Expanded(
+                  flex: 3,
                   child: Text(
                       company.companyName,
                       textAlign: TextAlign.center,
@@ -48,6 +49,7 @@ class CompanyCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Expanded(
+                  flex: 3,
                   child: Text(
                     company.offersCount.toString(),
                     textAlign: TextAlign.center,

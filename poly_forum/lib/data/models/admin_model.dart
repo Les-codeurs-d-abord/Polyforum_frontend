@@ -10,8 +10,8 @@ class AdminUser extends User {
   factory AdminUser.fromJson(Map<String, dynamic> json) {
     return AdminUser(
       id: json["id"],
-      email: json['user']['email'] ?? '',
-      role: json['user']['role'] ?? 'ADMIN',
+      email: json['email'] ?? '',
+      role: json['role'] ?? 'ADMIN',
     );
   }
 }

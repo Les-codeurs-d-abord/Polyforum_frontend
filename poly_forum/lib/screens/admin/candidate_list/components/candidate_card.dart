@@ -39,6 +39,7 @@ class CandidateCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Expanded(
+                  flex: 3,
                   child: Text(
                       candidate.lastName + " " + candidate.firstName,
                       textAlign: TextAlign.center,
@@ -49,6 +50,7 @@ class CandidateCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Expanded(
+                    flex: 3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
