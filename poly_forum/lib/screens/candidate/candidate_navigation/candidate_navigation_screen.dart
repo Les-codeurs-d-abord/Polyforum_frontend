@@ -6,17 +6,13 @@ import 'package:poly_forum/resources/user_repository.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/candidate_navigation/components/candidate_nav_bar.dart';
-import 'package:poly_forum/screens/candidate/profil/candidate_profil_screen.dart';
-import 'package:poly_forum/utils/constants.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:poly_forum/screens/candidate/choices/choices_screen.dart';
 import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
-import 'package:poly_forum/screens/candidate/planning/planning_screen.dart';
+import 'package:poly_forum/screens/candidate/profil/candidate_profil_screen.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'components/candidate_profil_btn.dart';
 import '../../shared/components/tab_navigation_item.dart';
 
 class CandidateNavigationScreen extends StatefulWidget {

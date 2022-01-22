@@ -14,6 +14,15 @@ class CandidateFormLoading extends CandidateFormState {}
 
 class CandidateFormLoaded extends CandidateFormState {}
 
+class CandidateDetailLoaded extends CandidateFormState {
+  final CandidateDetail candidate;
+
+  const CandidateDetailLoaded(this.candidate);
+
+  @override
+  List<Object> get props => [candidate];
+}
+
 class CandidateFormError extends CandidateFormState {
   final String errorMessage;
 

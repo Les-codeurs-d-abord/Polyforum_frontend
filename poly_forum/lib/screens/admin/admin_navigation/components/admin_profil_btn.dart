@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/data/models/admin_model.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
@@ -12,11 +12,11 @@ class PopupItem {
   PopupItem(this.value, this.name);
 }
 
-class CandidateProfilBtn extends StatelessWidget {
-  final CandidateUser user;
+class AdminProfilBtn extends StatelessWidget {
+  final AdminUser user;
   final Function onProfileSelected;
 
-  const CandidateProfilBtn(
+  const AdminProfilBtn(
       {required this.user, required this.onProfileSelected, Key? key})
       : super(key: key);
 
@@ -69,7 +69,7 @@ class CandidateProfilBtn extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     width: 60,
-                    child: InitialsAvatar(user.firstName + " " + user.lastName),
+                    child: InitialsAvatar(user.email),
                   ),
                 ),
               ],
@@ -81,7 +81,7 @@ class CandidateProfilBtn extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      user.firstName + " " + user.lastName,
+                      user.email,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: kButtonColor,
@@ -92,7 +92,7 @@ class CandidateProfilBtn extends StatelessWidget {
                   ],
                 ),
                 const Text(
-                  "Candidat",
+                  "Organisateur",
                   style: TextStyle(
                     color: Colors.grey,
                   ),

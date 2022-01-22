@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/data/models/candidate_detail_model.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:poly_forum/data/models/planning_model.dart';
@@ -11,29 +13,121 @@ import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class CandidateRepository {
-  Future<void> createCandidate(
-      String email, String lastName, String firstName) async {
-    try {
-      final body = {
-        'email': email,
-        'lastName': lastName,
-        'firstName': firstName
-      };
+  Future<void> createCandidate(String email, String lastName, String firstName) async {
+    final body = {
+      'email': email,
+      'lastName': lastName,
+      'firstName': firstName
+    };
 
-      // For flex purpose
-      await Future.delayed(const Duration(milliseconds: 500));
+    // For flex purpose
+    await Future.delayed(const Duration(milliseconds: 500));
 
-      final uri = Uri.http('localhost:8080', '/api/users/candidates');
-      final response = await http.post(uri, body: body);
+    final uri = Uri.http('localhost:8080', '/api/candidates');
+    final response = await http.post(uri, body: body).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
 
-      if (response.statusCode != 201) {
-        if (response.statusCode == 400 || response.statusCode == 409) {
-          throw CandidateException(response.body);
-        }
+    if (response.statusCode != 201) {
+      if (response.statusCode == 400 || response.statusCode == 409) {
+        throw CandidateException(response.body);
+      } else {
+        throw const NetworkException("Le serveur à rencontré un problème");
       }
-    } on Exception catch (e) {
-      print(e);
-      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<void> editCandidate(CandidateUser candidate, String email) async {
+    final body = {
+      'email': email,
+    };
+
+    // For flex purpose
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final uri = Uri.http('localhost:8080', '/api/users/${candidate.id}');
+    final response = await http.put(uri, body: body).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode != 200) {
+      if (response.statusCode == 400 || response.statusCode == 409) {
+        throw CandidateException(response.body);
+      } else {
+        throw const NetworkException("Le serveur à rencontré un problème");
+      }
+    }
+  }
+
+  Future<void> deleteCandidate(CandidateUser candidate) async {
+    final uri = Uri.http('localhost:8080', '/api/candidates/${candidate.id}');
+    final response = await http.delete(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode != 200) {
+      if (response.statusCode == 404) {
+        throw CandidateException(response.body);
+      } else {
+        throw const NetworkException("Le serveur à rencontré un problème");
+      }
+    }
+  }
+
+  Future<List<CandidateUser>> fetchCandidateList() async {
+    // For flex purpose
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final uri = Uri.http('localhost:8080', '/api/candidates');
+    final response = await http.get(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      List<CandidateUser> candidateList = [];
+
+      for (Map<String, dynamic> candidateJson in data) {
+        candidateList.add(CandidateUser.fromJson(candidateJson));
+      }
+
+      return candidateList;
+    } else {
+      if (response.statusCode == 500) {
+        throw CandidateException(response.body);
+      } else {
+        throw const NetworkException("Le serveur à rencontré un problème");
+      }
+    }
+  }
+
+  Future<CandidateDetail> getCandidateDetail(int id) async {
+    final uri = Uri.http('localhost:8080', '/api/candidates/$id');
+    final response = await http.get(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return CandidateDetail.fromJson(data);
+    } else {
+      if (response.statusCode == 404 || response.statusCode == 500) {
+        throw CandidateException(response.body);
+      } else {
+        throw const NetworkException("Le serveur à rencontré un problème");
+      }
+    }
+  }
+
+  Future<void> sendReminder() async {
+    final uri = Uri.http('localhost:8080', '/api/candidates/reminder');
+    final response = await http.post(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable, l'envoi du rappel n'a pas pu être effectué");
+    });
+
+    if (response.statusCode != 201) {
+      throw const NetworkException("Le serveur a rencontré un problème, l'envoi du rappel n'a pas pu être effectué");
     }
   }
 

@@ -4,13 +4,15 @@ import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/data/models/user_model.dart';
 
 class CandidateUser extends User {
-  String firstName;
-  String lastName;
-  String phoneNumber;
-  String address;
-  String description;
-  List<String> links;
-  List<String> tags;
+  final String firstName;
+  final String lastName;
+  final String phoneNumber;
+  final String address;
+  final String description;
+  final String logo;
+  final String status;
+  final List<String> links;
+  final List<String> tags;
 
   CandidateUser({
     required this.firstName,
@@ -19,6 +21,8 @@ class CandidateUser extends User {
     required this.address,
     required this.description,
     required id,
+    required this.logo,
+    required this.status,
     required email,
     required role,
     required this.links,
@@ -37,12 +41,14 @@ class CandidateUser extends User {
     }
 
     return CandidateUser(
-      id: json['id'],
+      id: json['user']['id'],
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
       address: json['address'] ?? '',
       description: json['description'] ?? '',
+      logo: json['logo'] ?? '',
+      status: json['status'] ?? '',
       email: json['user']['email'] ?? '',
       role: json['user']['role'] ?? 'CANDIDAT',
       links: links,

@@ -1,16 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:poly_forum/data/models/company_model.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 
-class CompanyCard extends StatelessWidget {
-  final Company company;
-  final void Function(Company) detailEvent;
-  final void Function(Company) editEvent;
-  final void Function(Company) deleteEvent;
+class CandidateCard extends StatelessWidget {
+  final CandidateUser candidate;
+  final void Function(CandidateUser) detailEvent;
+  final void Function(CandidateUser) editEvent;
+  final void Function(CandidateUser) deleteEvent;
 
-  const CompanyCard({
+  const CandidateCard({
     Key? key,
-    required this.company,
+    required this.candidate,
     required this.detailEvent,
     required this.editEvent,
     required this.deleteEvent,
@@ -21,7 +22,7 @@ class CompanyCard extends StatelessWidget {
     return Card(
       elevation: 10,
       child: InkWell(
-        onTap: () => detailEvent(company),
+        onTap: () => detailEvent(candidate),
         child: SizedBox(
           height: 75,
           child: Padding(
@@ -31,16 +32,16 @@ class CompanyCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ProfilePicture(
-                  uri: company.logo ?? '',
-                  defaultText: company.companyName,
-                  width: 50,
-                  height: 50,
+                    uri: candidate.logo,
+                    defaultText: candidate.lastName + " " + candidate.firstName,
+                    width: 50,
+                    height: 50
                 ),
                 const Spacer(),
                 Expanded(
                   flex: 3,
                   child: Text(
-                      company.companyName,
+                      candidate.lastName + " " + candidate.firstName,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 20,
@@ -49,16 +50,31 @@ class CompanyCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Expanded(
-                  flex: 3,
-                  child: Text(
-                    company.offersCount.toString(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 15,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+                    flex: 3,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          color: getColorByStatus(candidate.status),
+                          size: 15,
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Text(
+                              candidate.status,
+                              style: TextStyle(
+                                color: getColorByStatus(candidate.status),
+                                fontSize: 15,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                 ),
                 const Spacer(),
                 ClipRRect(
@@ -92,9 +108,9 @@ class CompanyCard extends StatelessWidget {
                       onSelected: (value) {
                         switch(value) {
                           case 0:
-                            return editEvent(company);
+                            return editEvent(candidate);
                           case 1:
-                            return deleteEvent(company);
+                            return deleteEvent(candidate);
                         }
                       },
                       tooltip: "Actions",
@@ -111,5 +127,18 @@ class CompanyCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color getColorByStatus(String status) {
+    switch (status) {
+      case "Jamais connecté":
+        return Colors.red;
+      case "Incomplet":
+        return Colors.orange;
+      case "Complet":
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
   }
 }

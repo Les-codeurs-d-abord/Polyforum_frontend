@@ -3,17 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
 import 'package:poly_forum/screens/shared/components/form/email_form_field.dart';
 import 'package:poly_forum/screens/shared/components/form/firstname_form_field.dart';
+import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/form/lastname_form_field.dart';
 import 'package:poly_forum/utils/constants.dart';
 
-class CandidateFormDialog extends StatefulWidget {
-  const CandidateFormDialog({Key? key}) : super(key: key);
+class CandidateCreateFormDialog extends StatefulWidget {
+  const CandidateCreateFormDialog({Key? key}) : super(key: key);
 
   @override
-  _CandidateFormDialogState createState() => _CandidateFormDialogState();
+  _CandidateCreateFormDialogState createState() => _CandidateCreateFormDialogState();
 }
 
-class _CandidateFormDialogState extends State<CandidateFormDialog> {
+class _CandidateCreateFormDialogState extends State<CandidateCreateFormDialog> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -24,7 +25,7 @@ class _CandidateFormDialogState extends State<CandidateFormDialog> {
     return BlocConsumer<CandidateFormCubit, CandidateFormState>(
         listener: (context, state) {
           if (state is CandidateFormLoaded) {
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(FormReturn.confirm);
           }
         },
         builder: (context, state) {
@@ -54,7 +55,7 @@ class _CandidateFormDialogState extends State<CandidateFormDialog> {
               child: InkResponse(
                 radius: 20,
                 onTap: () {
-                  isLoading ? null : Navigator.of(context).pop();
+                  isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
                 },
                 child: const Icon(Icons.close, color: Colors.grey),
               ),
@@ -120,7 +121,7 @@ class _CandidateFormDialogState extends State<CandidateFormDialog> {
                 ),
               ),
               onPressed: () {
-                isLoading ? null : Navigator.of(context).pop();
+                isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
               },
             )
         ),
@@ -129,7 +130,7 @@ class _CandidateFormDialogState extends State<CandidateFormDialog> {
             height: 40,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
-              color: kOrange,
+              color: kButtonColor,
             ),
             child: MaterialButton(
               child:

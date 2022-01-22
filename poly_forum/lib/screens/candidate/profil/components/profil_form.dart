@@ -1,19 +1,13 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dropzone/flutter_dropzone.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/data/models/tag_model.dart';
-import 'package:poly_forum/screens/candidate/profil/components/add_link_modal.dart';
-import 'package:poly_forum/screens/candidate/profil/components/custom_text_field.dart';
 import 'package:poly_forum/screens/candidate/profil/components/custom_drop_zone.dart';
+import 'package:poly_forum/screens/candidate/profil/components/custom_text_field.dart';
 import 'package:poly_forum/screens/candidate/profil/components/profile_links.dart';
 import 'package:poly_forum/screens/candidate/profil/components/profile_tags.dart';
-import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
-import 'package:poly_forum/screens/candidate/profil/components/sized_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'editable_avatar.dart';
 
@@ -192,6 +186,8 @@ class _ProfilFormState extends State<ProfilForm> {
                               role: widget.user.role,
                               links: links,
                               tags: tags,
+                              logo: widget.user.logo,
+                              status: widget.user.status,
                             );
 
                             BlocProvider.of<UpdateCandidateCubit>(context)
