@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_offers_list_dialog_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 
+import 'company_offers_list.dart';
+
 class CompanyOffersListDialog extends StatefulWidget {
   final Company company;
 
@@ -68,7 +70,7 @@ class _CompanyOffersListDialogState extends State<CompanyOffersListDialog> {
         ],
       ),
       content: SizedBox(
-          width: 900,
+          width: 800,
           height: 500,
           child: isLoading ?
           Row(
@@ -91,7 +93,10 @@ class _CompanyOffersListDialogState extends State<CompanyOffersListDialog> {
             ),
           ) :
           SingleChildScrollView(
-            child: Container(),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: CompanyOffersList(offersList: offersList),
+            ),
           )
       ),
     );

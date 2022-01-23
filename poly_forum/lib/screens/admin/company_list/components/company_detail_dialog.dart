@@ -142,7 +142,7 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
                             children: [
                               const Padding(
                                   padding: EdgeInsets.all(10),
-                                  child: Icon(Icons.mail)
+                                  child: Icon(Icons.mail_outline)
                               ),
                               Expanded(
                                   child: (companyDetail?.email.isNotEmpty == true) ?

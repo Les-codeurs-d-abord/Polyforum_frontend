@@ -79,8 +79,9 @@ class CompanyCard extends StatelessWidget {
                             ],
                           ),
                         ),
+                        const PopupMenuDivider(),
                         PopupMenuItem(
-                          value: 0,
+                          value: 1,
                           child: Row(
                             children: const [
                               Icon(Icons.edit),
@@ -91,7 +92,7 @@ class CompanyCard extends StatelessWidget {
                         ),
                         const PopupMenuDivider(),
                         PopupMenuItem(
-                          value: 1,
+                          value: 2,
                           child: Row(
                             children: const [
                               Icon(Icons.close),

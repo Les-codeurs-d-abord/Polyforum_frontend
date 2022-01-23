@@ -19,7 +19,7 @@ class OfferCard extends StatelessWidget {
         elevation: 20,
         child: InkWell(
           onTap: () {
-            launch(offer.offerLink);
+            launch("http://localhost:8080/api/res/${offer.offerFile}");
           },
           child: Container(
             padding: const EdgeInsets.all(15),

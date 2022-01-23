@@ -166,7 +166,7 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
                                 children: [
                                   const Padding(
                                       padding: EdgeInsets.all(10),
-                                      child: Icon(Icons.mail)
+                                      child: Icon(Icons.mail_outline)
                                   ),
                                   Expanded(
                                       child: (candidateDetail?.email.isNotEmpty == true) ?

@@ -7,8 +7,8 @@ import 'initials_avatar.dart';
 class ProfilePicture extends StatelessWidget {
   final String uri;
   final String defaultText;
-  final double? width;
-  final double? height;
+  final double width;
+  final double height;
 
   const ProfilePicture({
     Key? key,
@@ -22,7 +22,17 @@ class ProfilePicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: uri.isNotEmpty == true ? 'http://localhost:8080/api/res/$uri' : '',
-      placeholder: (context, url) => const CircularProgressIndicator(),
+      placeholder: (context, url) => Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: width * 0.5,
+              height: height * 0.5,
+              child: const CircularProgressIndicator(),
+            )
+          ]
+      ),
       errorWidget: (context, url, error) => InitialsAvatar(defaultText),
       width: width,
       height: height,
