@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_list_screen_cubit.dart';
+import 'package:poly_forum/cubit/admin/company_list/company_offers_list_dialog_cubit.dart';
 import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
 import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
@@ -16,6 +17,7 @@ import 'company_card.dart';
 import 'company_create_form_dialog.dart';
 import 'company_detail_dialog.dart';
 import 'company_edit_form_dialog.dart';
+import 'company_offers_list_dialog.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -324,6 +326,18 @@ class _BodyState extends State<Body> {
                       return BlocProvider(
                         create: (context) => CompanyFormCubit(CompanyRepository()),
                         child: CompanyDetailDialog(company.id),
+                      );
+                    },
+                    barrierDismissible: false
+                );
+              },
+              offersEvent: (company) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BlocProvider(
+                        create: (context) => CompanyOffersListDialogCubit(CompanyRepository()),
+                        child: CompanyOffersListDialog(company),
                       );
                     },
                     barrierDismissible: false

@@ -9,8 +9,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      label: json['tag']['label'] ?? '',
-      id: json['tag']['id'] ?? 0,
+      label: json['label'] ?? '',
+      id: json['id'] ?? 0,
     );
   }
 

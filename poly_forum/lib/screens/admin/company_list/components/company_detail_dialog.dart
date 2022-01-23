@@ -70,7 +70,27 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
       content: SizedBox(
           width: 900,
           height: 500,
-          child: SingleChildScrollView(
+          child: isLoading ?
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: CircularProgressIndicator(),
+                )
+              ]
+          ) :
+          error.isNotEmpty ?
+          Text(
+            error,
+            style: const TextStyle(
+                color: Colors.red,
+                fontSize: 18
+            ),
+          ) :
+          SingleChildScrollView(
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +142,7 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
                             children: [
                               const Padding(
                                   padding: EdgeInsets.all(10),
-                                  child: Icon(Icons.mail)
+                                  child: Icon(Icons.mail_outline)
                               ),
                               Expanded(
                                   child: (companyDetail?.email.isNotEmpty == true) ?

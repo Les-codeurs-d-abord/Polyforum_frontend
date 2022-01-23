@@ -32,7 +32,7 @@ class CandidateRepository {
       if (response.statusCode == 400 || response.statusCode == 409) {
         throw CandidateException(response.body);
       } else {
-        throw const NetworkException("Le serveur à rencontré un problème");
+        throw const NetworkException("Le serveur a rencontré un problème");
       }
     }
   }
@@ -54,7 +54,7 @@ class CandidateRepository {
       if (response.statusCode == 400 || response.statusCode == 409) {
         throw CandidateException(response.body);
       } else {
-        throw const NetworkException("Le serveur à rencontré un problème");
+        throw const NetworkException("Le serveur a rencontré un problème");
       }
     }
   }
@@ -69,7 +69,7 @@ class CandidateRepository {
       if (response.statusCode == 404) {
         throw CandidateException(response.body);
       } else {
-        throw const NetworkException("Le serveur à rencontré un problème");
+        throw const NetworkException("Le serveur a rencontré un problème");
       }
     }
   }
@@ -97,7 +97,7 @@ class CandidateRepository {
       if (response.statusCode == 500) {
         throw CandidateException(response.body);
       } else {
-        throw const NetworkException("Le serveur à rencontré un problème");
+        throw const NetworkException("Le serveur a rencontré un problème");
       }
     }
   }
@@ -115,7 +115,7 @@ class CandidateRepository {
       if (response.statusCode == 404 || response.statusCode == 500) {
         throw CandidateException(response.body);
       } else {
-        throw const NetworkException("Le serveur à rencontré un problème");
+        throw const NetworkException("Le serveur a rencontré un problème");
       }
     }
   }
