@@ -71,7 +71,27 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
       content: SizedBox(
           width: 900,
           height: 510,
-          child: SingleChildScrollView(
+          child: isLoading ?
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: CircularProgressIndicator(),
+                )
+              ]
+          ) :
+          error.isNotEmpty ?
+          Text(
+            error,
+            style: const TextStyle(
+                color: Colors.red,
+                fontSize: 18
+            ),
+          ) :
+          SingleChildScrollView(
             child: Column(
               children: [
                 IntrinsicHeight(

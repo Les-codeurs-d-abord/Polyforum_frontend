@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:poly_forum/data/models/company_user_model.dart';
+import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:poly_forum/data/models/slot_model.dart';
 import 'package:poly_forum/utils/constants.dart';
@@ -28,7 +29,7 @@ class CompanyRepository {
       if (response.statusCode == 400 || response.statusCode == 409) {
         throw CompanyException(response.body);
       } else {
-        throw const NetworkException("Le serveur à rencontré un problème");
+        throw const NetworkException("Le serveur a rencontré un problème");
       }
     }
   }
@@ -73,7 +74,7 @@ class CompanyRepository {
       if (response.statusCode == 400 || response.statusCode == 409) {
         throw CompanyException(response.body);
       } else {
-        throw const NetworkException("Le serveur à rencontré un problème");
+        throw const NetworkException("Le serveur a rencontré un problème");
       }
     }
   }
@@ -88,7 +89,7 @@ class CompanyRepository {
       if (response.statusCode == 404) {
         throw CompanyException(response.body);
       } else {
-        throw const NetworkException("Le serveur à rencontré un problème");
+        throw const NetworkException("Le serveur a rencontré un problème");
       }
     }
   }
@@ -116,7 +117,7 @@ class CompanyRepository {
       if (response.statusCode == 500) {
         throw CompanyException(response.body);
       } else {
-        throw const NetworkException("Le serveur à rencontré un problème");
+        throw const NetworkException("Le serveur a rencontré un problème");
       }
     }
   }
@@ -134,7 +135,33 @@ class CompanyRepository {
       if (response.statusCode == 404 || response.statusCode == 500) {
         throw CompanyException(response.body);
       } else {
-        throw const NetworkException("Le serveur à rencontré un problème");
+        throw const NetworkException("Le serveur a rencontré un problème");
+      }
+    }
+  }
+
+  Future<List<Offer>> fetchOffersFromCompany(int id) async {
+    final uri = Uri.http('localhost:8080', '/api/companies/$id/offer');
+
+    final response = await http.get(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      List<Offer> offersList = [];
+
+      for (Map<String, dynamic> offerJson in data) {
+        offersList.add(Offer.fromJson(offerJson));
+      }
+
+      return offersList;
+    } else {
+      if (response.statusCode == 404 || response.statusCode == 500) {
+        throw CompanyException(response.body);
+      } else {
+        throw const NetworkException("Le serveur a rencontré un problème");
       }
     }
   }

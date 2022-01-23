@@ -5,6 +5,7 @@ import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 class CompanyCard extends StatelessWidget {
   final Company company;
   final void Function(Company) detailEvent;
+  final void Function(Company) offersEvent;
   final void Function(Company) editEvent;
   final void Function(Company) deleteEvent;
 
@@ -12,6 +13,7 @@ class CompanyCard extends StatelessWidget {
     Key? key,
     required this.company,
     required this.detailEvent,
+    required this.offersEvent,
     required this.editEvent,
     required this.deleteEvent,
   }) : super(key: key);
@@ -71,6 +73,16 @@ class CompanyCard extends StatelessWidget {
                           value: 0,
                           child: Row(
                             children: const [
+                              Icon(Icons.speaker_notes_outlined),
+                              SizedBox(width: 20),
+                              Text("Offres"),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 0,
+                          child: Row(
+                            children: const [
                               Icon(Icons.edit),
                               SizedBox(width: 20),
                               Text("Modifier"),
@@ -92,8 +104,10 @@ class CompanyCard extends StatelessWidget {
                       onSelected: (value) {
                         switch(value) {
                           case 0:
-                            return editEvent(company);
+                            return offersEvent(company);
                           case 1:
+                            return editEvent(company);
+                          case 2:
                             return deleteEvent(company);
                         }
                       },
