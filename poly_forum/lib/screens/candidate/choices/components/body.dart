@@ -4,10 +4,9 @@ import 'package:poly_forum/cubit/candidate/candidate_choices_save_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/candidate/choices/components/save_choices_offer_btn.dart';
-import 'package:poly_forum/screens/candidate/choices/components/save_choices_offer_btn.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
+import 'package:poly_forum/screens/shared/components/base_screen.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
-import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,74 +53,43 @@ class _BodyState extends State<Body> {
   }
 
   Widget buildLoaded(bool isLoading) {
-    return SingleChildScrollView(
-      primary: false,
-      child: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              child: Material(
-                borderRadius: BorderRadius.circular(20),
-                elevation: 10,
-                child: SizedBox(
-                  width: 1000,
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Text(
-                          "Organisation des voeux",
-                          style: TextStyle(
-                            color: kButtonColor,
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      isLoading ? buildloading() : buildList(),
-                      !isLoading
-                          ? BlocProvider(
-                              create: (context) => CandidateChoicesSaveCubit(),
-                              child: SaveChoicesOfferBtn(
-                                  offers: offers!, isModify: isModify),
-                            )
-                          : const SizedBox(height: 15),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    Widget child = Column(
+      children: [
+        isLoading ? buildloading() : buildList(),
+        !isLoading
+            ? BlocProvider(
+                create: (context) => CandidateChoicesSaveCubit(),
+                child: SaveChoicesOfferBtn(offers: offers!, isModify: isModify),
+              )
+            : const SizedBox(height: 15),
+      ],
     );
+
+    return BaseScreen(
+        child: child, title: "Organisation des voeux", width: 1000);
   }
 
   Widget buildloading() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Shimmer.fromColors(
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                for (int i = 0; i < 7; i++)
-                  Container(
-                    height: 5.0,
-                    color: Colors.white,
-                  ),
-              ],
-            ),
+    return Shimmer.fromColors(
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              for (int i = 0; i < 7; i++)
+                Container(
+                  height: 5.0,
+                  color: Colors.white,
+                ),
+            ],
           ),
-          itemCount: 10,
         ),
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
+        itemCount: 10,
       ),
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
     );
   }
 
@@ -130,82 +98,89 @@ class _BodyState extends State<Body> {
     return ReorderableListView(
       shrinkWrap: true,
       primary: false,
-      padding: const EdgeInsets.all(15),
       children: <Widget>[
         for (int i = 0; i < localOfferList.length; i++)
-          Card(
-            elevation: 15,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
             key: Key('$i'),
-            child: InkWell(
-              onTap: () {},
-              child: ListTile(
-                title: Padding(
-                  padding: const EdgeInsets.only(right: 30),
-                  child: SizedBox(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 30),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    InitialsAvatar(localOfferList[i].companyName),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          localOfferList[i].name,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
+            child: Card(
+              elevation: 15,
+              child: InkWell(
+                onTap: () {},
+                child: ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(right: 30, top: 5),
+                    child: SizedBox(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 30),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      InitialsAvatar(localOfferList[i].companyName),
+                                      const SizedBox(width: 10),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            localOfferList[i].name,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Text(
-                                          localOfferList[i].companyName,
-                                          style: const TextStyle(
-                                            color: Colors.grey,
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            localOfferList[i].companyName,
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                            ),
                                           ),
-                                        ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const Divider(),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Wrap(
+                                      direction: Axis.horizontal,
+                                      spacing: 10,
+                                      runSpacing: 10,
+                                      children: <Widget>[
+                                        for (int index = 0;
+                                            index <
+                                                localOfferList[i].tags.length;
+                                            index++)
+                                          Tags(
+                                            text: localOfferList[i].tags[index],
+                                          ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                                const Divider(),
-                                Wrap(
-                                  direction: Axis.horizontal,
-                                  spacing: 10,
-                                  runSpacing: 10,
-                                  children: <Widget>[
-                                    for (int index = 0;
-                                        index < localOfferList[i].tags.length;
-                                        index++)
-                                      Tags(
-                                        text: localOfferList[i].tags[index],
-                                      ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        CircleAvatar(
-                          backgroundColor: kSecondaryColor,
-                          radius: 25,
-                          child: Text(
-                            "${i + 1}",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 26,
+                          CircleAvatar(
+                            backgroundColor: kSecondaryColor,
+                            radius: 25,
+                            child: Text(
+                              "${i + 1}",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 26,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

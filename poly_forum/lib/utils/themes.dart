@@ -7,6 +7,7 @@ ThemeData theme() {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     appBarTheme: appBarTheme(),
     textTheme: textTheme(),
+    canvasColor: kPrimaryColor,
   );
 }
 

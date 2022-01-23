@@ -128,7 +128,7 @@ class CandidateRepository {
     }
   }
 
-  Future<List<Offer>> fetchOfferList(String? input) async {
+  Future<List<Offer>> fetchOfferList() async {
     try {
       return Future.delayed(const Duration(seconds: 2), () {
         List<Offer> offers = [];
@@ -228,14 +228,9 @@ class CandidateRepository {
     }
 
     try {
-      final queryParameters = {
-        'input': input,
-      };
-
       final uri = Uri.http(
         kServer,
         '/api/offer',
-        queryParameters,
       );
       final response = await http.get(uri).timeout(const Duration(seconds: 2));
 

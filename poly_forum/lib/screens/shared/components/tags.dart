@@ -9,18 +9,23 @@ class Tags extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      height: 20,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: kButtonColor,
+        color: kSecondaryColor.withAlpha(50),
       ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          // fontWeight: FontWeight.bold,
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            text,
+            style: const TextStyle(
+              color: kButtonColor,
+              // fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
       // child: Tags(
       //   text: localOfferList[i].tags[index],

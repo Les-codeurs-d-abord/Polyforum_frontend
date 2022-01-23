@@ -11,9 +11,11 @@ class CandidateOfferScreenLoaded extends CandidateOfferScreenState {
   final List<Offer> offerList;
 
   CandidateOfferScreenLoaded(this.offerList);
+}
 
-  @override
-  String toString() => "{ User: ${offerList.toString()} }";
+class CandidateOfferScreenLoadedWithFilter extends CandidateOfferScreenState {
+  final List<Offer> offerList;
+  CandidateOfferScreenLoadedWithFilter(this.offerList);
 }
 
 class CandidateOfferScreenError extends CandidateOfferScreenState {

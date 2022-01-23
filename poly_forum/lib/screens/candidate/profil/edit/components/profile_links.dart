@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/screens/candidate/profil/components/sized_btn.dart';
-import 'package:poly_forum/utils/constants.dart';
+import 'package:poly_forum/screens/candidate/profil/edit/components/sized_btn.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'add_link_modal.dart';

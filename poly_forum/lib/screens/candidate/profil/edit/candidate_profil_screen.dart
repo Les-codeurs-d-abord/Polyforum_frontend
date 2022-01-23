@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
+
 import 'components/body.dart';
 
 class CandidateProfilScreen extends StatelessWidget {

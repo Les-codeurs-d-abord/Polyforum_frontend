@@ -1,9 +1,6 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:poly_forum/screens/candidate/profil/components/row_btn.dart';
-import 'package:poly_forum/screens/candidate/profil/components/sized_btn.dart';
-import 'package:poly_forum/utils/constants.dart';
+import 'package:poly_forum/screens/candidate/profil/edit/components/row_btn.dart';
 
 import 'custom_text_field.dart';
 

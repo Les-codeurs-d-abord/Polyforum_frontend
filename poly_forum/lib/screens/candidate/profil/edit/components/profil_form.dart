@@ -1,20 +1,18 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/routes/application.dart';
-import 'package:poly_forum/screens/candidate/profil/components/custom_text_field.dart';
-import 'package:poly_forum/screens/candidate/profil/components/custom_drop_zone.dart';
-import 'package:poly_forum/screens/candidate/profil/components/custom_text_field.dart';
-import 'package:poly_forum/screens/candidate/profil/components/profile_links.dart';
-import 'package:poly_forum/screens/candidate/profil/components/profile_tags.dart';
+import 'package:poly_forum/screens/candidate/profil/edit/components/profile_links.dart';
+import 'package:poly_forum/screens/candidate/profil/edit/components/profile_tags.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import 'custom_drop_zone.dart';
+import 'custom_text_field.dart';
 import 'editable_avatar.dart';
+import 'html_description.dart';
 
 // ignore: must_be_immutable
 class ProfilForm extends StatefulWidget {
@@ -34,7 +32,8 @@ class _ProfilFormState extends State<ProfilForm> {
   final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   final _addresController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  // final _descriptionController = TextEditingController();
+  final _descriptionController = HtmlEditorController();
 
   List<String> links = [];
   List<String> tags = [];
@@ -42,18 +41,21 @@ class _ProfilFormState extends State<ProfilForm> {
   @override
   void initState() {
     super.initState();
+    // _descriptionController.reloadWeb();
     _firstNameController.text = widget.user.firstName;
     _lastNameController.text = widget.user.lastName;
     _emailController.text = widget.user.email;
     _phoneNumberController.text = widget.user.phoneNumber;
     _addresController.text = widget.user.address;
-    _descriptionController.text = widget.user.description;
+
+    _descriptionController.setText(widget.user.description);
     links = widget.user.links;
     tags = widget.user.tags;
   }
 
   @override
   Widget build(BuildContext context) {
+    _descriptionController.setText(widget.user.description);
     return Form(
       key: _formKey,
       child: Column(
@@ -126,16 +128,17 @@ class _ProfilFormState extends State<ProfilForm> {
           const SizedBox(height: 15),
           const CustomDropZone(),
           const SizedBox(height: 15),
+          HTMLDescription(descriptionController: _descriptionController),
           Row(
             children: [
-              CustomTextField(
-                text: "Courte présentation",
-                icon: Icons.article_outlined,
-                controller: _descriptionController,
-                isLocked: false,
-                maxCharacters: 500,
-                maxLines: 10,
-              ),
+              // CustomTextField(
+              //   text: "Courte présentation",
+              //   icon: Icons.article_outlined,
+              //   controller: _descriptionController,
+              //   isLocked: false,
+              //   maxCharacters: 500,
+              //   maxLines: 10,
+              // ),
             ],
           ),
           const SizedBox(height: 15),
@@ -158,14 +161,17 @@ class _ProfilFormState extends State<ProfilForm> {
                 child: SizedBox(
                   height: 50,
                   child: TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        String description =
+                            await _descriptionController.getText();
+
                         CandidateUser updatedUser = CandidateUser(
                           firstName: _firstNameController.text,
                           lastName: _lastNameController.text,
                           phoneNumber: _phoneNumberController.text,
                           address: _addresController.text,
-                          description: _descriptionController.text,
+                          description: description,
                           id: widget.user.id,
                           email: _emailController.text,
                           role: widget.user.role,
