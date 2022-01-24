@@ -78,249 +78,252 @@ class Body extends StatelessWidget {
           final List<Company> companyList = state.companies;
           final List<Candidate> candidateList = state.candidates;
           final List<Offer> offerList = state.offers;
-          
+
+          final int company_NB_indicator = companyList.length;
+          final int candidate_NB_indicator = candidateList.length;
+          final int offer_NB_indicator = offerList.length;
+
+          final int zero_connection = candidateList
+              .where((candidate) => candidate.status.contains("Jamais"))
+              .length;
+          final int incomplete_profile = candidateList
+              .where((candidate) => candidate.status == "Incomplet")
+              .length;
+          final int complete_profile = candidateList
+              .where((candidate) => candidate.status == "Complet")
+              .length;
+
           return LayoutBuilder(builder: (context, constraints) {
-            return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(children: [
-                    Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.all(30),
-                            child: const Text("Tableau de bord",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 40,
-                                ))))
-                  ]),
-                  Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 50,
-                            horizontal: 50,
-                          ),
-                          child: ResponsiveGridRow(
-                            children: [
-                              // INDICATEUR NB ENTREPRISES
-                              ResponsiveGridCol(
-                                xs: 6,
-                                md: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 50,
-                                    horizontal: 50,
+            return SizedBox(
+                //width: 1200,
+                height: 1200,
+                child: SingleChildScrollView(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [
+                      Expanded(
+                          child: Container(
+                              margin: const EdgeInsets.all(30),
+                              child: const Text("Tableau de bord",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 40,
+                                  ))))
+                    ]),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Wrap(
+                          children: [
+                            // INDICATEUR NB ENTREPRISES
+                            Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 50,
+                                  horizontal: 50,
+                                ),
+                                child: Container(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
+                                    color: Colors.grey[200],
                                   ),
-                                  child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5)),
-                                      color: Colors.grey[200],
-                                    ),
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 50,
-                                          horizontal: 50,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Text(companyList.length.toString(),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 40)),
-                                            Text("Entreprises")
-                                          ],
-                                        )),
-                                  )),
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 50,
+                                        horizontal: 50,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(company_NB_indicator.toString(),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 40)),
+                                          Text("Entreprises")
+                                        ],
+                                      )),
+                                )),
+                            //),
+                            // INDICATEUR NB CANDIDATS
+                            Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 50,
+                                  horizontal: 50,
+                                ),
+                                child: Container(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
+                                    color: Colors.blueGrey[100],
+                                  ),
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 50,
+                                        horizontal: 50,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                              candidate_NB_indicator.toString(),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 40)),
+                                          Text("Candidats")
+                                        ],
+                                      )),
+                                )),
+                            // INDICATEUR NB OFFRES
+                            //),
+                            Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 50,
+                                  horizontal: 50,
+                                ),
+                                child: Container(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
+                                    color: Colors.grey[200],
+                                  ),
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 50,
+                                        horizontal: 50,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(offer_NB_indicator.toString(),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 40)),
+                                          Text("Offres")
+                                        ],
+                                      )),
+                                )),
+                            // INDICATEUR NB JAMAIS CO
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 50,
+                                horizontal: 50,
                               ),
-                              // INDICATEUR NB CANDIDATS
-                              ResponsiveGridCol(
-                                xs: 6,
-                                md: 3,
+                              child: Container(
+                                height: 200,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5)),
+                                  color: Colors.blueGrey[100],
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 50,
-                                    horizontal: 50,
-                                  ),
-                                  child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5)),
-                                      color: Colors.blueGrey[100],
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 50,
+                                      horizontal: 50,
                                     ),
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 50,
-                                          horizontal: 50,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Text(candidateList.length.toString(),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 40)),
-                                            Text("Candidats")
-                                          ],
-                                        )),
-                                  )),
-                              // INDICATEUR NB OFFRES
-                              ),
-                              ResponsiveGridCol(
-                                xs: 6,
-                                md: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 50,
-                                    horizontal: 50,
-                                  ),
-                                  child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5)),
-                                      color: Colors.grey[200],
-                                    ),
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 50,
-                                          horizontal: 50,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Text(offerList.length.toString(),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 40)),
-                                            Text("Offres")
-                                          ],
-                                        )),
-                                  )),
-                              // INDICATEUR 4
-                              ),
-                              ResponsiveGridCol(
-                                xs: 6,
-                                md: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 50,
-                                    horizontal: 50,
-                                  ),
-                                  child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5)),
-                                      color: Colors.blueGrey[100],
-                                    ),
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 50,
-                                          horizontal: 50,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Text(companyList.length.toString(),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 40)),
-                                            Text("Entreprises ont complété leur profil",
+                                    child: Column(
+                                      children: [
+                                        Text(zero_connection.toString(),
                                             style: TextStyle(
-                                              
-                                            ),)
-                                          ],
-                                        )),
-                                  )),
-                              // INDICATEUR 5
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 40)),
+                                        Text(
+                                          "Candidats ne se sont jamais connectés",
+                                          style: TextStyle(),
+                                        )
+                                      ],
+                                    )),
                               ),
-                              ResponsiveGridCol(
-                                xs: 6,
-                                md: 3,
-                                child :Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 50,
-                                    horizontal: 50,
+                            ),
+                            // INDICATEUR NB CONNECTE
+                            Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 50,
+                                  horizontal: 50,
+                                ),
+                                child: Container(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
+                                    color: Colors.grey[200],
                                   ),
-                                  child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5)),
-                                      color: Colors.grey[200],
-                                    ),
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 50,
-                                          horizontal: 50,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Text(companyList.length.toString(),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 40)),
-                                            Text("Candidats ont complété leur profil")
-                                          ],
-                                        )),
-                                  )),
-                              // INDICATEUR 6
-                              ),
-                              ResponsiveGridCol(
-                                xs: 6,
-                                md: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 50,
-                                    horizontal: 50,
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 50,
+                                        horizontal: 50,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(incomplete_profile.toString(),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 40)),
+                                          Text("Profils candidats incomplets")
+                                        ],
+                                      )),
+                                )),
+                            // INDICATEUR NB COMPLET
+                            Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 50,
+                                  horizontal: 50,
+                                ),
+                                child: Container(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
+                                    color: Colors.blueGrey[100],
                                   ),
-                                  child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(5)),
-                                      color: Colors.blueGrey[100],
-                                    ),
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 50,
-                                          horizontal: 50,
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Text(companyList.length.toString(),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 40)),
-                                            Text("Entreprises")
-                                          ],
-                                        )),
-                                  ))
-                              )
-                            ],
-                          ))),
-                  Container(
-                      width: 200,
-                      height: 50,
-                      margin:
-                          const EdgeInsets.only(left: 20, right: 20, top: 20),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(7)),
-                        color: kOrange,
-                      ),
-                      child: MaterialButton(
-                        onPressed: () => {},
-                        child: const Text(
-                          "Clôturer la saisie",
-                          style: TextStyle(color: Colors.white, fontSize: 22),
-                        ),
-                      ))
-                ]);
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 50,
+                                        horizontal: 50,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(complete_profile.toString(),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 40)),
+                                          Text("Profils candidats complets")
+                                        ],
+                                      )),
+                                ))
+                          ],
+                        )),
+                        Container(
+                            width: 400,
+                            alignment: Alignment.center,
+                            child: Container(
+                                width: 200,
+                                height: 50,
+                                margin: const EdgeInsets.only(
+                                    left: 20, right: 20, top: 20),
+                                decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(7)),
+                                  color: kOrange,
+                                ),
+                                child: MaterialButton(
+                                  onPressed: () => {},
+                                  child: const Text(
+                                    "Clôturer la saisie",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 22),
+                                  ),
+                                )))
+                      ],
+                    )
+                  ],
+                )));
           });
         } else {
           return Container();
