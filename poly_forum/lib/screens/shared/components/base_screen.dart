@@ -28,11 +28,11 @@ class BaseScreen extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
               child: Material(
                 color: Colors.grey[50],
                 borderRadius: BorderRadius.circular(20),
-                elevation: 15,
+                elevation: 5,
                 child: SizedBox(
                   width: width,
                   child: Padding(
