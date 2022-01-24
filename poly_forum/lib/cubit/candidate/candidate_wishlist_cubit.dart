@@ -13,9 +13,9 @@ class CandidateWishlistCubit extends Cubit<CandidateWishlistState> {
 
   Future<void> addWishlist(Offer offer, CandidateUser user) async {
     try {
-      emit(CandidateWishlistInitial());
+      emit(CandidateWishlistLoading());
 
-      await repository.fetchOfferList();
+      await repository.createWish(offer, user);
 
       emit(CandidateWishlistLoaded());
     } on NetworkException catch (exception) {

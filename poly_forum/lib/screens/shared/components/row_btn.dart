@@ -20,7 +20,7 @@ class RowBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 50,
       child: Row(
         children: [
           Expanded(
@@ -33,7 +33,7 @@ class RowBtn extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: isLoading
+                child: !isLoading
                     ? Text(
                         text,
                         style: TextStyle(

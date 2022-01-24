@@ -341,16 +341,20 @@ class CandidateRepository {
   //wishlist
   Future<void> createWish(Offer offer, CandidateUser user) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 1000));
 
-      final body = {'candidateId': user.candidateId, 'offerId': offer.id};
+      final body = {
+        'candidateId': user.candidateId.toString(),
+        'offerId': offer.id.toString()
+      };
 
       final uri = Uri.http(kServer, '/api/wishcandidate');
       final response =
           await http.post(uri, body: body).onError((error, stackTrace) {
+        print(error);
         throw const NetworkException("Le serveur est injoignable");
       });
-
+      print(response.statusCode);
       if (response.statusCode != 201) {
         throw NetworkException(
             "Une erreur est survenue, status code: ${response.statusCode}");
@@ -360,26 +364,26 @@ class CandidateRepository {
     }
   }
 
-/*     Future<void> deleteWish(Wish wish) async {
+  Future<void> deleteWish(Wish wish) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 1000));
 
-      final uri = Uri.http('localhost:8080', '/api/candidates/${candidate.id}');
-    final response = await http.delete(uri).onError((error, stackTrace) {
-      throw const NetworkException("Le serveur est injoignable");
-    });
+      //   final uri = Uri.http(kServer, '/api/candidates/${candidate.id}');
+      // final response = await http.delete(uri).onError((error, stackTrace) {
+      //   throw const NetworkException("Le serveur est injoignable");
+      // });
 
-    if (response.statusCode != 200) {
-      if (response.statusCode == 404) {
-        throw CandidateException(response.body);
-      } else {
-        throw const NetworkException("Le serveur a rencontré un problème");
-      }
-    }
+      // if (response.statusCode != 200) {
+      //   if (response.statusCode == 404) {
+      //     throw CandidateException(response.body);
+      //   } else {
+      //     throw const NetworkException("Le serveur a rencontré un problème");
+      //   }
+      // }
     } on Exception catch (e) {
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
-  } */
+  }
 }
 
 class NetworkException implements Exception {
