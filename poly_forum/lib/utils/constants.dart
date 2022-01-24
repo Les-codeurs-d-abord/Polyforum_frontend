@@ -8,7 +8,7 @@ const kTextColor = Colors.black;
 
 //à voir
 //text (noir - bleu foncé)
-const kPrimaryColor = Color(0xFF263238);
+final kPrimaryColor = Colors.blue[300];
 
 //background (bleu clair)
 const kSecondaryColor = Colors.blue;

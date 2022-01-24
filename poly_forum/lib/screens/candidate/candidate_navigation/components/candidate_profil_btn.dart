@@ -5,6 +5,7 @@ import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PopupItem {
   int value;
@@ -50,6 +51,8 @@ class CandidateProfilBtn extends StatelessWidget {
         if (value == 0) {
           onProfileSelected();
         } else if (value == 1) {
+          SharedPreferences.getInstance()
+              .then((value) => value.setString(kTokenPref, ""));
           Application.router.navigateTo(
             context,
             Routes.signInScreen,

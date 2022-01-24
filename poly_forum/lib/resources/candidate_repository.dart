@@ -1,15 +1,12 @@
-import 'dart:io';
 
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/candidate_detail_model.dart';
-import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:poly_forum/data/models/slot_model.dart';
 import 'dart:convert';
 
-import 'package:poly_forum/data/models/tag_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class CandidateRepository {
@@ -131,17 +128,109 @@ class CandidateRepository {
     }
   }
 
-  Future<List<Offer>> fetchOfferList(Tag? tag, String? input) async {
+  Future<List<Offer>> fetchOfferList() async {
     try {
-      final queryParameters = {
-        'tag': tag?.id.toString(),
-        'input': input,
-      };
+      return Future.delayed(const Duration(seconds: 2), () {
+        List<Offer> offers = [];
+        offers.add(
+          Offer(
+            companyId: 1,
+            offerFile:
+                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
+            companyName: "Inetum",
+            name: "Consulatant technique SAP",
+            description: "description",
+            phoneNumber: "0601228153",
+            address: "address",
+            email: "inetum@gmail.com",
+            links: ["lien1"],
+            tags: [
+              "tag1",
+              "oui oui oui",
+              "c'est un long tag quand même",
+              "c'est un long tag quand même",
+              "c'est un long tag quand même",
+              "c'est un long tag quand même",
+            ],
+            createdAt: DateTime.now(),
+          ),
+        );
+        offers.add(
+          Offer(
+            companyId: 2,
+            offerFile:
+                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
+            companyName: "Gfi",
+            name: "Gfi recrute",
+            description: "description",
+            phoneNumber: "0601228153",
+            address: "address",
+            email: "inetum@gmail.com",
+            links: ["lien1"],
+            tags: ["tag1"],
+            createdAt: DateTime.now(),
+          ),
+        );
+        offers.add(
+          Offer(
+            companyId: 3,
+            offerFile:
+                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
+            companyName: "Mikapps",
+            name: "Meilleur job ever",
+            description: "description",
+            phoneNumber: "0601228153",
+            address: "address",
+            email: "inetum@gmail.com",
+            links: ["lien1"],
+            tags: ["tag1"],
+            createdAt: DateTime.now(),
+          ),
+        );
+        offers.add(
+          Offer(
+            companyId: 4,
+            offerFile:
+                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
+            companyName: "Troll master",
+            name: "Apprend à trool avec style",
+            description: "description",
+            phoneNumber: "0601228153",
+            address: "address",
+            email: "inetum@gmail.com",
+            links: ["lien1"],
+            tags: ["tag1"],
+            createdAt: DateTime.now(),
+          ),
+        );
+        offers.add(
+          Offer(
+            companyId: 4,
+            offerFile:
+                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
+            companyName: "Troll master",
+            name: "Apprend à trool avec style",
+            description: "description",
+            phoneNumber: "0601228153",
+            address: "address",
+            email: "inetum@gmail.com",
+            links: ["lien1"],
+            tags: ["tag1"],
+            createdAt: DateTime.now(),
+          ),
+        );
 
+        return offers;
+      });
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+
+    try {
       final uri = Uri.http(
         kServer,
         '/api/offer',
-        queryParameters,
       );
       final response = await http.get(uri).timeout(const Duration(seconds: 2));
 
@@ -186,49 +275,8 @@ class CandidateRepository {
     }
   }
 
-  Future<List<Tag>> fetchOfferTags() async {
-    try {
-      final uri = Uri.http(kServer, '/api/offer/tag');
-      final response = await http.get(uri).timeout(const Duration(seconds: 2));
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-
-        List<Tag> tags = [];
-        tags.add(const Tag(id: 0, label: "Tags"));
-
-        for (Map<String, dynamic> i in data) {
-          tags.add(Tag.fromJson(i));
-        }
-        return tags;
-      } else {
-        throw const NetworkException("Une erreur est survenue.");
-      }
-    } on Exception catch (e) {
-      print(e);
-      throw NetworkException("Une erreur est survenue: ${e.toString()}");
-    }
-  }
-
   Future<CandidateUser> updateUser(CandidateUser user) async {
     try {
-/*       var body = {
-        "firstName": user.firstName,
-        "lastName": user.lastName,
-        "phoneNumber": user.phoneNumber,
-        "description": user.description,
-        "tags": user.tags.toString(),
-        "links": user.links.toString(),
-      }; */
-
-      /*     final body = {
-        "firstName": user.firstName,
-        "lastName": user.lastName,
-      };
-
-      String json = jsonEncode(user.toJson());
-      print(json); */
-
       String json = jsonEncode(user.toJson());
       final body = {
         "data": json,
@@ -244,6 +292,146 @@ class CandidateRepository {
         throw const NetworkException("Une erreur est survenue.");
       }
     } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<List<Offer>> fetchChoicesOffer(CandidateUser user) async {
+    try {
+      return Future.delayed(const Duration(seconds: 2), () {
+        List<Offer> offers = [];
+        offers.add(
+          Offer(
+            companyId: 1,
+            offerFile:
+                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
+            companyName: "Inetum",
+            name: "Consulatant technique SAP",
+            description: "description",
+            phoneNumber: "0601228153",
+            address: "address",
+            email: "inetum@gmail.com",
+            links: ["lien1"],
+            tags: [
+              "tag1",
+              "oui oui oui",
+              "c'est un long tag quand même",
+              "c'est un long tag quand même",
+              "c'est un long tag quand même",
+              "c'est un long tag quand même",
+            ],
+            createdAt: DateTime.now(),
+          ),
+        );
+        offers.add(
+          Offer(
+            companyId: 2,
+            offerFile:
+                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
+            companyName: "Gfi",
+            name: "Gfi recrute",
+            description: "description",
+            phoneNumber: "0601228153",
+            address: "address",
+            email: "inetum@gmail.com",
+            links: ["lien1"],
+            tags: ["tag1"],
+            createdAt: DateTime.now(),
+          ),
+        );
+        offers.add(
+          Offer(
+            companyId: 3,
+            offerFile:
+                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
+            companyName: "Mikapps",
+            name: "Meilleur job ever",
+            description: "description",
+            phoneNumber: "0601228153",
+            address: "address",
+            email: "inetum@gmail.com",
+            links: ["lien1"],
+            tags: ["tag1"],
+            createdAt: DateTime.now(),
+          ),
+        );
+        offers.add(
+          Offer(
+            companyId: 4,
+            offerFile:
+                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
+            companyName: "Troll master",
+            name: "Apprend à trool avec style",
+            description: "description",
+            phoneNumber: "0601228153",
+            address: "address",
+            email: "inetum@gmail.com",
+            links: ["lien1"],
+            tags: ["tag1"],
+            createdAt: DateTime.now(),
+          ),
+        );
+        offers.add(
+          Offer(
+            companyId: 4,
+            offerFile:
+                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
+            companyName: "Troll master",
+            name: "Apprend à trool avec style",
+            description: "description",
+            phoneNumber: "0601228153",
+            address: "address",
+            email: "inetum@gmail.com",
+            links: ["lien1"],
+            tags: ["tag1"],
+            createdAt: DateTime.now(),
+          ),
+        );
+
+        return offers;
+      });
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+
+    try {
+      final queryParameters = {
+        'id': user.id,
+      };
+
+      final uri = Uri.http(
+        kServer,
+        '/api/offer',
+        queryParameters,
+      );
+      final response = await http.get(uri).timeout(const Duration(seconds: 2));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        List<Offer> offerList = [];
+
+        for (Map<String, dynamic> i in data) {
+          offerList.add(Offer.fromJson(i));
+        }
+
+        return offerList;
+      } else {
+        throw const NetworkException("Une erreur est survenue.");
+      }
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<void> saveChoicesOffer(List<Offer> offerList) async {
+    throw NetworkException("Une erreur est survenue");
+    try {
+      return Future.delayed(const Duration(seconds: 1));
+    } on Exception catch (e) {
+      print(e);
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
   }

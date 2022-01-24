@@ -1,9 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
-import 'package:poly_forum/screens/candidate/profil/components/sized_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class FileDataModel {
@@ -114,7 +112,12 @@ class _CustomDropZoneState extends State<CustomDropZone> {
           const SizedBox(height: 10),
           Container(
             height: 200,
-            color: highlighted ? Colors.grey : Colors.grey.withAlpha(20),
+            decoration: BoxDecoration(
+              color: highlighted ? Colors.grey : Colors.grey.withAlpha(20),
+              border: Border.all(
+                color: Colors.black,
+              ),
+            ),
             child: Stack(
               children: [
                 buildZone1(context),
@@ -213,8 +216,6 @@ class _CustomDropZoneState extends State<CustomDropZone> {
           operation: DragOperation.copy,
           cursor: CursorType.grab,
           onCreated: (ctrl) => controller = ctrl,
-          onLoaded: () => print('Zone 1 loaded'),
-          onError: (ev) => print('Zone 1 error: $ev'),
           onHover: () {
             setState(() => highlighted = true);
           },

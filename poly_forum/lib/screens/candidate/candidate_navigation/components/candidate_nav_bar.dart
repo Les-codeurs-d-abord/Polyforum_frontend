@@ -6,7 +6,7 @@ import 'package:poly_forum/utils/constants.dart';
 class CandidateNavBar extends StatelessWidget {
   final CandidateUser user;
   final Function onProfileSelected;
-  final List<String> paths;
+  final List<Widget> paths;
 
   const CandidateNavBar(
       {required this.user,
@@ -19,7 +19,7 @@ class CandidateNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),
@@ -35,26 +35,22 @@ class CandidateNavBar extends StatelessWidget {
       ),
       height: 70,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Row(
             children: [
-              for (int i = 0; i < paths.length - 1; i++)
+              for (int i = 0; i < paths.length; i++)
                 Row(
                   children: [
-                    Text(
-                      paths[i],
-                      style: TextStyle(color: kButtonColor),
-                    ),
-                    const Icon(Icons.arrow_right),
-                    Text(
-                      paths[i + 1],
-                      style: TextStyle(color: kButtonColor),
-                    ),
+                    paths[i],
+                    i < paths.length - 1
+                        ? const Icon(Icons.arrow_right)
+                        : const SizedBox.shrink(),
                   ],
                 ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.notifications),

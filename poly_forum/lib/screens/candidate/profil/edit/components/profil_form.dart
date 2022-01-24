@@ -1,15 +1,18 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/screens/candidate/profil/components/custom_drop_zone.dart';
-import 'package:poly_forum/screens/candidate/profil/components/custom_text_field.dart';
-import 'package:poly_forum/screens/candidate/profil/components/profile_links.dart';
-import 'package:poly_forum/screens/candidate/profil/components/profile_tags.dart';
+import 'package:poly_forum/screens/candidate/profil/edit/components/profile_links.dart';
+import 'package:poly_forum/screens/candidate/profil/edit/components/profile_tags.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import 'custom_drop_zone.dart';
+import 'custom_text_field.dart';
 import 'editable_avatar.dart';
+import 'html_description.dart';
 
 // ignore: must_be_immutable
 class ProfilForm extends StatefulWidget {
@@ -29,8 +32,8 @@ class _ProfilFormState extends State<ProfilForm> {
   final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   final _addresController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _passwordController = TextEditingController();
+  // final _descriptionController = TextEditingController();
+  final _descriptionController = HtmlEditorController();
 
   List<String> links = [];
   List<String> tags = [];
@@ -38,18 +41,21 @@ class _ProfilFormState extends State<ProfilForm> {
   @override
   void initState() {
     super.initState();
+    // _descriptionController.reloadWeb();
     _firstNameController.text = widget.user.firstName;
     _lastNameController.text = widget.user.lastName;
     _emailController.text = widget.user.email;
     _phoneNumberController.text = widget.user.phoneNumber;
     _addresController.text = widget.user.address;
-    _descriptionController.text = widget.user.description;
+
+    _descriptionController.setText(widget.user.description);
     links = widget.user.links;
     tags = widget.user.tags;
   }
 
   @override
   Widget build(BuildContext context) {
+    _descriptionController.setText(widget.user.description);
     return Form(
       key: _formKey,
       child: Column(
@@ -63,7 +69,7 @@ class _ProfilFormState extends State<ProfilForm> {
                   text: "Prénom",
                   icon: Icons.person_outline,
                   controller: _firstNameController),
-              const SizedBox(width: 40),
+              const SizedBox(width: 100),
               CustomTextField(
                   text: "Nom",
                   icon: Icons.person_outline,
@@ -78,7 +84,7 @@ class _ProfilFormState extends State<ProfilForm> {
                 icon: Icons.mail_outline,
                 controller: _emailController,
               ),
-              const SizedBox(width: 40),
+              const SizedBox(width: 100),
               CustomTextField(
                 text: "Numéro de téléphone",
                 icon: Icons.phone_outlined,
@@ -122,16 +128,17 @@ class _ProfilFormState extends State<ProfilForm> {
           const SizedBox(height: 15),
           const CustomDropZone(),
           const SizedBox(height: 15),
+          HTMLDescription(descriptionController: _descriptionController),
           Row(
             children: [
-              CustomTextField(
-                text: "Courte présentation",
-                icon: Icons.article_outlined,
-                controller: _descriptionController,
-                isLocked: false,
-                maxCharacters: 500,
-                maxLines: 10,
-              ),
+              // CustomTextField(
+              //   text: "Courte présentation",
+              //   icon: Icons.article_outlined,
+              //   controller: _descriptionController,
+              //   isLocked: false,
+              //   maxCharacters: 500,
+              //   maxLines: 10,
+              // ),
             ],
           ),
           const SizedBox(height: 15),
@@ -151,66 +158,78 @@ class _ProfilFormState extends State<ProfilForm> {
           Row(
             children: [
               Expanded(
-                child: BlocProvider(
-                  create: (context) => UpdateCandidateCubit(),
-                  child:
-                      BlocConsumer<UpdateCandidateCubit, UpdateCandidateState>(
-                    listener: (context, state) {
-                      if (state is UpdateCandidateLoaded) {
-                        widget.user = state.user;
-                        var snackBar = const SnackBar(
-                          content: Text("Sauvegarde effectuée"),
+                child: SizedBox(
+                  height: 50,
+                  child: TextButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        String description =
+                            await _descriptionController.getText();
+
+                        CandidateUser updatedUser = CandidateUser(
+                          firstName: _firstNameController.text,
+                          lastName: _lastNameController.text,
+                          phoneNumber: _phoneNumberController.text,
+                          address: _addresController.text,
+                          description: description,
+                          id: widget.user.id,
+                          email: _emailController.text,
+                          role: widget.user.role,
+                          links: links,
+                          tags: tags,
+                          logo: widget.user.logo,
+                          status: widget.user.status,
                         );
 
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      } else if (state is UpdateCandidateError) {
-                        var snackBar = SnackBar(
-                          content: Text(state.msg),
-                        );
-
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        BlocProvider.of<UpdateCandidateCubit>(context)
+                            .updateUserEvent(updatedUser);
                       }
                     },
-                    builder: (context, state) {
-                      return TextButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            CandidateUser updatedUser = CandidateUser(
-                              firstName: _firstNameController.text,
-                              lastName: _lastNameController.text,
-                              phoneNumber: _phoneNumberController.text,
-                              address: _addresController.text,
-                              description: _descriptionController.text,
-                              id: widget.user.id,
-                              email: _emailController.text,
-                              role: widget.user.role,
-                              links: links,
-                              tags: tags,
-                              logo: widget.user.logo,
-                              status: widget.user.status,
-                            );
-
-                            BlocProvider.of<UpdateCandidateCubit>(context)
-                                .updateUserEvent(updatedUser);
-                          }
-                        },
-                        style: TextButton.styleFrom(
-                          primary: Colors.white,
-                          backgroundColor: kButtonColor,
-                          onSurface: Colors.grey,
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            "Sauvegarder",
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 20,
+                    style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: kButtonColor,
+                      onSurface: Colors.grey,
+                    ),
+                    child: BlocConsumer<UpdateCandidateCubit,
+                        UpdateCandidateState>(
+                      listener: (context, state) {
+                        if (state is UpdateCandidateLoaded) {
+                          widget.user = state.user;
+                          showTopSnackBar(
+                            context,
+                            const Padding(
+                              padding: EdgeInsets.only(left: 300, right: 10),
+                              child: CustomSnackBar.success(
+                                message: "Sauvegarde effectuée avec succès !",
+                              ),
                             ),
+                          );
+                        } else if (state is UpdateCandidateError) {
+                          showTopSnackBar(
+                            context,
+                            const Padding(
+                              padding: EdgeInsets.only(left: 300, right: 10),
+                              child: CustomSnackBar.error(
+                                message:
+                                    "Un problème est survenue, la sauvegarde ne s'est pas effectuée...",
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is UpdateCandidateLoading) {
+                          return const CircularProgressIndicator();
+                        }
+                        return const Text(
+                          "Sauvegarder",
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 20,
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),

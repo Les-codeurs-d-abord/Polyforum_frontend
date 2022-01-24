@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
+
 import 'components/body.dart';
 
 class CandidateProfilScreen extends StatelessWidget {
@@ -11,10 +12,7 @@ class CandidateProfilScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        primary: false,
-        child: Body(user: candidateUser),
-      ),
+      body: Body(user: candidateUser),
     );
   }
 }
