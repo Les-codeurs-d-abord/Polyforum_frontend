@@ -16,9 +16,12 @@ class CandidateChoicesCubit extends Cubit<CandidateChoicesState> {
       emit(CandidateChoicesScreenLoading());
 
       final List<Offer> offerList = await repository.fetchChoicesOffer(user);
+      print(offerList);
+      print("oui");
 
       emit(CandidateChoicesScreenLoaded(offerList));
     } on NetworkException catch (exception) {
+      print("non");
       emit(CandidateOfferScreenError(exception.message));
     }
   }

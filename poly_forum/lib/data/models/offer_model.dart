@@ -1,4 +1,5 @@
 class Offer {
+  final int id;
   final String name;
   final String description;
   final String offerFile;
@@ -12,6 +13,7 @@ class Offer {
   final DateTime createdAt;
 
   const Offer({
+    required this.id,
     required this.companyId,
     required this.companyName,
     required this.offerFile,
@@ -37,6 +39,7 @@ class Offer {
     }
 
     return Offer(
+      id: json['id'] ?? '',
       companyId: json['companyProfileId'] ?? '',
       companyName: json['company_profile']?['companyName'] ?? '',
       offerFile: json['offerFile'] ?? '',

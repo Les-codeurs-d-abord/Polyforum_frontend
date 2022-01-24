@@ -1,15 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/candidate/candidate_wishlist_cubit.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
+import 'package:poly_forum/routes/application.dart';
+import 'package:poly_forum/screens/candidate/offers/components/add_wishlist_btn.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
-import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OfferCard extends StatelessWidget {
   final Offer offer;
+  final CandidateUser user;
 
-  const OfferCard(this.offer, {Key? key}) : super(key: key);
+  const OfferCard(this.offer, this.user, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -119,21 +124,11 @@ class OfferCard extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        TextButton(
-          style: TextButton.styleFrom(
-            primary: Colors.white,
-            backgroundColor: kButtonColor,
-            onSurface: Colors.grey,
-          ),
-          onPressed: () {},
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text(
-              "Continuer pour postuler",
-              style: TextStyle(
-                fontSize: 26,
-              ),
-            ),
+        BlocProvider(
+          create: (context) => CandidateWishlistCubit(),
+          child: AddWishlistBtn(
+            offer: offer,
+            user: user,
           ),
         ),
       ],

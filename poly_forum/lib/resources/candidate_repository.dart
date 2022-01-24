@@ -1,27 +1,25 @@
-
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/candidate_detail_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:poly_forum/data/models/slot_model.dart';
+import 'package:poly_forum/data/models/wish_model.dart';
 import 'dart:convert';
 
 import 'package:poly_forum/utils/constants.dart';
 
 class CandidateRepository {
-  Future<void> createCandidate(String email, String lastName, String firstName) async {
-    final body = {
-      'email': email,
-      'lastName': lastName,
-      'firstName': firstName
-    };
+  Future<void> createCandidate(
+      String email, String lastName, String firstName) async {
+    final body = {'email': email, 'lastName': lastName, 'firstName': firstName};
 
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 500));
 
     final uri = Uri.http('localhost:8080', '/api/candidates');
-    final response = await http.post(uri, body: body).onError((error, stackTrace) {
+    final response =
+        await http.post(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -43,7 +41,8 @@ class CandidateRepository {
     await Future.delayed(const Duration(milliseconds: 500));
 
     final uri = Uri.http('localhost:8080', '/api/users/${candidate.id}');
-    final response = await http.put(uri, body: body).onError((error, stackTrace) {
+    final response =
+        await http.put(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -120,113 +119,17 @@ class CandidateRepository {
   Future<void> sendReminder() async {
     final uri = Uri.http('localhost:8080', '/api/candidates/reminder');
     final response = await http.post(uri).onError((error, stackTrace) {
-      throw const NetworkException("Le serveur est injoignable, l'envoi du rappel n'a pas pu être effectué");
+      throw const NetworkException(
+          "Le serveur est injoignable, l'envoi du rappel n'a pas pu être effectué");
     });
 
     if (response.statusCode != 201) {
-      throw const NetworkException("Le serveur a rencontré un problème, l'envoi du rappel n'a pas pu être effectué");
+      throw const NetworkException(
+          "Le serveur a rencontré un problème, l'envoi du rappel n'a pas pu être effectué");
     }
   }
 
   Future<List<Offer>> fetchOfferList() async {
-    try {
-      return Future.delayed(const Duration(seconds: 2), () {
-        List<Offer> offers = [];
-        offers.add(
-          Offer(
-            companyId: 1,
-            offerFile:
-                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
-            companyName: "Inetum",
-            name: "Consulatant technique SAP",
-            description: "description",
-            phoneNumber: "0601228153",
-            address: "address",
-            email: "inetum@gmail.com",
-            links: ["lien1"],
-            tags: [
-              "tag1",
-              "oui oui oui",
-              "c'est un long tag quand même",
-              "c'est un long tag quand même",
-              "c'est un long tag quand même",
-              "c'est un long tag quand même",
-            ],
-            createdAt: DateTime.now(),
-          ),
-        );
-        offers.add(
-          Offer(
-            companyId: 2,
-            offerFile:
-                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
-            companyName: "Gfi",
-            name: "Gfi recrute",
-            description: "description",
-            phoneNumber: "0601228153",
-            address: "address",
-            email: "inetum@gmail.com",
-            links: ["lien1"],
-            tags: ["tag1"],
-            createdAt: DateTime.now(),
-          ),
-        );
-        offers.add(
-          Offer(
-            companyId: 3,
-            offerFile:
-                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
-            companyName: "Mikapps",
-            name: "Meilleur job ever",
-            description: "description",
-            phoneNumber: "0601228153",
-            address: "address",
-            email: "inetum@gmail.com",
-            links: ["lien1"],
-            tags: ["tag1"],
-            createdAt: DateTime.now(),
-          ),
-        );
-        offers.add(
-          Offer(
-            companyId: 4,
-            offerFile:
-                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
-            companyName: "Troll master",
-            name: "Apprend à trool avec style",
-            description: "description",
-            phoneNumber: "0601228153",
-            address: "address",
-            email: "inetum@gmail.com",
-            links: ["lien1"],
-            tags: ["tag1"],
-            createdAt: DateTime.now(),
-          ),
-        );
-        offers.add(
-          Offer(
-            companyId: 4,
-            offerFile:
-                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
-            companyName: "Troll master",
-            name: "Apprend à trool avec style",
-            description: "description",
-            phoneNumber: "0601228153",
-            address: "address",
-            email: "inetum@gmail.com",
-            links: ["lien1"],
-            tags: ["tag1"],
-            createdAt: DateTime.now(),
-          ),
-        );
-
-        return offers;
-      });
-    } on Exception catch (e) {
-      print(e);
-      throw NetworkException("Une erreur est survenue: ${e.toString()}");
-    }
-
     try {
       final uri = Uri.http(
         kServer,
@@ -297,7 +200,7 @@ class CandidateRepository {
   }
 
   Future<List<Offer>> fetchChoicesOffer(CandidateUser user) async {
-    try {
+    /* try {
       return Future.delayed(const Duration(seconds: 2), () {
         List<Offer> offers = [];
         offers.add(
@@ -393,17 +296,12 @@ class CandidateRepository {
     } on Exception catch (e) {
       print(e);
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
-    }
+    } */
 
     try {
-      final queryParameters = {
-        'id': user.id,
-      };
-
       final uri = Uri.http(
         kServer,
-        '/api/offer',
-        queryParameters,
+        "/api/wishcandidate/${user.candidateId}",
       );
       final response = await http.get(uri).timeout(const Duration(seconds: 2));
 
@@ -411,6 +309,10 @@ class CandidateRepository {
         final data = json.decode(response.body);
 
         List<Offer> offerList = [];
+
+        for (Map<String, dynamic> i in data) {
+          offerList.add(Offer.fromJson(i['offer'] ?? ''));
+        }
 
         for (Map<String, dynamic> i in data) {
           offerList.add(Offer.fromJson(i));
@@ -435,6 +337,49 @@ class CandidateRepository {
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
   }
+
+  //wishlist
+  Future<void> createWish(Offer offer, CandidateUser user) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      final body = {'candidateId': user.candidateId, 'offerId': offer.id};
+
+      final uri = Uri.http(kServer, '/api/wishcandidate');
+      final response =
+          await http.post(uri, body: body).onError((error, stackTrace) {
+        throw const NetworkException("Le serveur est injoignable");
+      });
+
+      if (response.statusCode != 201) {
+        throw NetworkException(
+            "Une erreur est survenue, status code: ${response.statusCode}");
+      }
+    } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+/*     Future<void> deleteWish(Wish wish) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      final uri = Uri.http('localhost:8080', '/api/candidates/${candidate.id}');
+    final response = await http.delete(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode != 200) {
+      if (response.statusCode == 404) {
+        throw CandidateException(response.body);
+      } else {
+        throw const NetworkException("Le serveur a rencontré un problème");
+      }
+    }
+    } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  } */
 }
 
 class NetworkException implements Exception {

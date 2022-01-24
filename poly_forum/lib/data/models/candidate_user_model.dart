@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:poly_forum/data/models/user_model.dart';
 
 class CandidateUser extends User {
+  final int candidateId;
   final String firstName;
   final String lastName;
   final String phoneNumber;
@@ -19,6 +20,7 @@ class CandidateUser extends User {
     required this.phoneNumber,
     required this.address,
     required this.description,
+    required this.candidateId,
     required id,
     required this.logo,
     required this.status,
@@ -41,6 +43,7 @@ class CandidateUser extends User {
 
     return CandidateUser(
       id: json['user']['id'],
+      candidateId: json['id'],
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',

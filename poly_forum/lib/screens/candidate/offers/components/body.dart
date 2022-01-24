@@ -7,7 +7,6 @@ import 'package:poly_forum/screens/candidate/offers/components/offer_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
-import 'package:poly_forum/utils/constants.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Body extends StatefulWidget {
@@ -118,7 +117,7 @@ class _BodyState extends State<Body> {
       child: offerList.isNotEmpty
           ? Column(
               children: [
-                for (var offer in offerList) OfferCard(offer),
+                for (var offer in offerList) OfferCard(offer, widget.user),
               ],
             )
           : const Padding(

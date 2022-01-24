@@ -173,6 +173,7 @@ class _ProfilFormState extends State<ProfilForm> {
                           address: _addresController.text,
                           description: description,
                           id: widget.user.id,
+                          candidateId: widget.user.candidateId,
                           email: _emailController.text,
                           role: widget.user.role,
                           links: links,
