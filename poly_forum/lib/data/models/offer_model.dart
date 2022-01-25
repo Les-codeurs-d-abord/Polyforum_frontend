@@ -12,7 +12,7 @@ class Offer {
   final List<String> tags;
   final DateTime createdAt;
 
-  const Offer({
+  Offer({
     required this.id,
     required this.companyId,
     required this.companyName,
@@ -31,10 +31,10 @@ class Offer {
     List<String> links = [];
     List<String> tags = [];
 
-    for (Map<String, dynamic> i in json['offer_tags']) {
+    for (Map<String, dynamic> i in json['offer_tags'] ?? []) {
       tags.add(i['label'] ?? '');
     }
-    for (Map<String, dynamic> i in json['offer_links']) {
+    for (Map<String, dynamic> i in json['offer_links'] ?? []) {
       links.add(i['label'] ?? '');
     }
 

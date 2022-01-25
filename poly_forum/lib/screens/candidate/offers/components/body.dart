@@ -35,6 +35,15 @@ class _BodyState extends State<Body> {
           offerListSaved = state.offerList;
         }
       },
+      // buildWhen: (previous, current) {
+      //   print(previous);
+      //   print(current);
+      //   if (previous is CandidateOfferScreenLoaded &&
+      //       current is CandidateOfferScreenLoading) {
+      //     return false;
+      //   }
+      //   return true;
+      // },
       builder: (context, state) {
         if (state is CandidateOfferScreenLoaded) {
           return buildLoaded(state.offerList, false);

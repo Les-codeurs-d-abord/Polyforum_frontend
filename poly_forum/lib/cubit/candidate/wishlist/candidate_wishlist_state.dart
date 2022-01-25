@@ -11,6 +11,5 @@ class CandidateWishlistLoaded extends CandidateWishlistState {}
 
 class CandidateWishlistError extends CandidateWishlistState {
   final String msg;
-
   CandidateWishlistError(this.msg);
 }

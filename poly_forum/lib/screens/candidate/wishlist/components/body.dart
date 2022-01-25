@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/candidate/candidate_choices_cubit.dart';
 import 'package:poly_forum/cubit/candidate/candidate_choices_save_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/data/models/offer_model.dart';
-import 'package:poly_forum/screens/candidate/choices/components/save_choices_offer_btn.dart';
+import 'package:poly_forum/data/models/wish_model.dart';
+import 'package:poly_forum/screens/candidate/wishlist/components/save_choices_offer_btn.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
@@ -22,8 +22,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  List<Offer>? offers;
-  bool isModify = false;
+  List<Wish>? wishlist;
 
   @override
   void initState() {
@@ -37,13 +36,13 @@ class _BodyState extends State<Body> {
     return BlocConsumer<CandidateChoicesCubit, CandidateChoicesState>(
       listener: (context, state) {
         if (state is CandidateChoicesScreenLoaded) {
-          offers = state.offerList;
+          wishlist = state.offerList;
         }
       },
       builder: (context, state) {
         if (state is CandidateChoicesScreenLoaded) {
           return buildLoaded(false);
-        } else if (state is CandidateOfferScreenError) {
+        } else if (state is CandidateChoicesScreenError) {
           return const ErrorScreen("error_500.jpg");
         }
 
@@ -59,7 +58,7 @@ class _BodyState extends State<Body> {
         !isLoading
             ? BlocProvider(
                 create: (context) => CandidateChoicesSaveCubit(),
-                child: SaveChoicesOfferBtn(offers: offers!, isModify: isModify),
+                child: SaveWishlistBtn(user: widget.user, wishlist: wishlist!),
               )
             : const SizedBox(height: 15),
       ],
@@ -94,12 +93,12 @@ class _BodyState extends State<Body> {
   }
 
   ReorderableListView buildList() {
-    List<Offer> localOfferList = offers ?? [];
+    List<Wish> localwishlist = wishlist ?? [];
     return ReorderableListView(
       shrinkWrap: true,
       primary: false,
       children: <Widget>[
-        for (int i = 0; i < localOfferList.length; i++)
+        for (int i = 0; i < localwishlist.length; i++)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             key: Key('$i'),
@@ -122,21 +121,22 @@ class _BodyState extends State<Body> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      InitialsAvatar(localOfferList[i].companyName),
+                                      InitialsAvatar(
+                                          localwishlist[i].offer.companyName),
                                       const SizedBox(width: 10),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            localOfferList[i].name,
+                                            localwishlist[i].offer.name,
                                             style: const TextStyle(
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           const SizedBox(width: 10),
                                           Text(
-                                            localOfferList[i].companyName,
+                                            localwishlist[i].offer.companyName,
                                             style: const TextStyle(
                                               color: Colors.grey,
                                             ),
@@ -156,10 +156,15 @@ class _BodyState extends State<Body> {
                                       children: <Widget>[
                                         for (int index = 0;
                                             index <
-                                                localOfferList[i].tags.length;
+                                                localwishlist[i]
+                                                    .offer
+                                                    .tags
+                                                    .length;
                                             index++)
                                           Tags(
-                                            text: localOfferList[i].tags[index],
+                                            text: localwishlist[i]
+                                                .offer
+                                                .tags[index],
                                           ),
                                       ],
                                     ),
@@ -190,12 +195,11 @@ class _BodyState extends State<Body> {
       ],
       onReorder: (int oldIndex, int newIndex) {
         setState(() {
-          isModify = true;
           if (oldIndex < newIndex) {
             newIndex -= 1;
           }
-          final Offer item = offers!.removeAt(oldIndex);
-          offers!.insert(newIndex, item);
+          final Wish item = wishlist!.removeAt(oldIndex);
+          wishlist!.insert(newIndex, item);
         });
       },
     );

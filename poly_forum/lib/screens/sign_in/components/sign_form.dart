@@ -42,7 +42,6 @@ class _SignFormState extends State<SignForm> {
             ),
           );
         } else if (state is SignInScreenLoaded) {
-          Application.user = state.user;
           String? path;
 
           if (state.user is CandidateUser) {

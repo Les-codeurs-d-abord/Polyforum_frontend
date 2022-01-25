@@ -140,9 +140,17 @@ class CandidateRepository {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
 
+        // List<Wish> wishlist = await getWishlist(user);
         List<Offer> offerList = [];
 
         for (Map<String, dynamic> i in data) {
+          // bool isInWishlist = false;
+          // for (Wish wish in wishlist) {
+          //   if (wish.offerId == i['id']) {
+          //     isInWishlist = true;
+          //     break;
+          //   }
+          // }
           offerList.add(Offer.fromJson(i));
         }
 
@@ -199,149 +207,10 @@ class CandidateRepository {
     }
   }
 
-  Future<List<Offer>> fetchChoicesOffer(CandidateUser user) async {
-    /* try {
-      return Future.delayed(const Duration(seconds: 2), () {
-        List<Offer> offers = [];
-        offers.add(
-          Offer(
-            companyId: 1,
-            offerFile:
-                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
-            companyName: "Inetum",
-            name: "Consulatant technique SAP",
-            description: "description",
-            phoneNumber: "0601228153",
-            address: "address",
-            email: "inetum@gmail.com",
-            links: ["lien1"],
-            tags: [
-              "tag1",
-              "oui oui oui",
-              "c'est un long tag quand même",
-              "c'est un long tag quand même",
-              "c'est un long tag quand même",
-              "c'est un long tag quand même",
-            ],
-            createdAt: DateTime.now(),
-          ),
-        );
-        offers.add(
-          Offer(
-            companyId: 2,
-            offerFile:
-                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
-            companyName: "Gfi",
-            name: "Gfi recrute",
-            description: "description",
-            phoneNumber: "0601228153",
-            address: "address",
-            email: "inetum@gmail.com",
-            links: ["lien1"],
-            tags: ["tag1"],
-            createdAt: DateTime.now(),
-          ),
-        );
-        offers.add(
-          Offer(
-            companyId: 3,
-            offerFile:
-                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
-            companyName: "Mikapps",
-            name: "Meilleur job ever",
-            description: "description",
-            phoneNumber: "0601228153",
-            address: "address",
-            email: "inetum@gmail.com",
-            links: ["lien1"],
-            tags: ["tag1"],
-            createdAt: DateTime.now(),
-          ),
-        );
-        offers.add(
-          Offer(
-            companyId: 4,
-            offerFile:
-                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
-            companyName: "Troll master",
-            name: "Apprend à trool avec style",
-            description: "description",
-            phoneNumber: "0601228153",
-            address: "address",
-            email: "inetum@gmail.com",
-            links: ["lien1"],
-            tags: ["tag1"],
-            createdAt: DateTime.now(),
-          ),
-        );
-        offers.add(
-          Offer(
-            companyId: 4,
-            offerFile:
-                "http://localhost:8080/api/res/offers/CV%20-%20Michael%20BUGNONE%202019.pdf",
-            companyName: "Troll master",
-            name: "Apprend à trool avec style",
-            description: "description",
-            phoneNumber: "0601228153",
-            address: "address",
-            email: "inetum@gmail.com",
-            links: ["lien1"],
-            tags: ["tag1"],
-            createdAt: DateTime.now(),
-          ),
-        );
-
-        return offers;
-      });
-    } on Exception catch (e) {
-      print(e);
-      throw NetworkException("Une erreur est survenue: ${e.toString()}");
-    } */
-
-    try {
-      final uri = Uri.http(
-        kServer,
-        "/api/wishcandidate/${user.candidateId}",
-      );
-      final response = await http.get(uri).timeout(const Duration(seconds: 2));
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-
-        List<Offer> offerList = [];
-
-        for (Map<String, dynamic> i in data) {
-          offerList.add(Offer.fromJson(i['offer'] ?? ''));
-        }
-
-        for (Map<String, dynamic> i in data) {
-          offerList.add(Offer.fromJson(i));
-        }
-
-        return offerList;
-      } else {
-        throw const NetworkException("Une erreur est survenue.");
-      }
-    } on Exception catch (e) {
-      print(e);
-      throw NetworkException("Une erreur est survenue: ${e.toString()}");
-    }
-  }
-
-  Future<void> saveChoicesOffer(List<Offer> offerList) async {
-    throw NetworkException("Une erreur est survenue");
-    try {
-      return Future.delayed(const Duration(seconds: 1));
-    } on Exception catch (e) {
-      print(e);
-      throw NetworkException("Une erreur est survenue: ${e.toString()}");
-    }
-  }
-
   //wishlist
   Future<void> createWish(Offer offer, CandidateUser user) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(const Duration(milliseconds: 500));
 
       final body = {
         'candidateId': user.candidateId.toString(),
@@ -364,23 +233,109 @@ class CandidateRepository {
     }
   }
 
-  Future<void> deleteWish(Wish wish) async {
+  Future<void> deleteWish(Offer offer, CandidateUser user) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(const Duration(milliseconds: 500));
 
-      //   final uri = Uri.http(kServer, '/api/candidates/${candidate.id}');
-      // final response = await http.delete(uri).onError((error, stackTrace) {
-      //   throw const NetworkException("Le serveur est injoignable");
-      // });
+      final body = {
+        'candidateId': user.candidateId.toString(),
+        'offerId': offer.id.toString()
+      };
 
-      // if (response.statusCode != 200) {
-      //   if (response.statusCode == 404) {
-      //     throw CandidateException(response.body);
-      //   } else {
-      //     throw const NetworkException("Le serveur a rencontré un problème");
-      //   }
-      // }
+      final uri = Uri.http(kServer, '/api/wishcandidate');
+      final response =
+          await http.delete(uri, body: body).onError((error, stackTrace) {
+        throw const NetworkException("Le serveur est injoignable");
+      });
+
+      if (response.statusCode != 200) {
+        throw const NetworkException("Une erreur est survenue.");
+      }
     } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<bool> isOfferInWishlist(Offer offer, CandidateUser user) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      return false;
+      final params = {'candidateId': user.candidateId, 'offerId': offer.id};
+
+      final uri = Uri.http(kServer, '/api/wishcandidate', params);
+      final response = await http.get(uri).onError((error, stackTrace) {
+        throw const NetworkException("Le serveur est injoignable");
+      });
+
+      if (response.statusCode == 200) {
+        return true;
+      } else if (response.statusCode == 404) {
+        return false;
+      } else {
+        throw NetworkException(
+            "Une erreur est survenue, status code: ${response.statusCode}");
+      }
+    } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<List<Wish>> getWishlist(CandidateUser user) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      final uri = Uri.http(kServer, '/api/wishcandidate/${user.candidateId}');
+      final response = await http.get(uri).onError((error, stackTrace) {
+        throw const NetworkException("Le serveur est injoignable");
+      });
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        List<Wish> wishlist = [];
+
+        for (Map<String, dynamic> i in data) {
+          Offer offer = Offer.fromJson(i['offer'] ?? '');
+          wishlist.add(Wish.fromJson(i, offer));
+        }
+
+        return wishlist;
+      } else {
+        throw NetworkException(
+            "Une erreur est survenue, status code: ${response.statusCode}");
+      }
+    } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<void> saveChoicesOffer(CandidateUser user, List<Wish> wishlist) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      try {
+        List<int> offerIdList = [];
+
+        for (Wish wish in wishlist) {
+          offerIdList.add(wish.offerId);
+        }
+
+        final body = {
+          "data": jsonEncode(offerIdList),
+        };
+
+        final uri = Uri.http(kServer, '/api/candidates/${user.candidateId}');
+        final response = await http.put(uri, body: body);
+
+        if (response.statusCode != 200) {
+          throw const NetworkException("Une erreur est survenue.");
+        }
+      } on Exception catch (e) {
+        throw NetworkException("Une erreur est survenue: ${e.toString()}");
+      }
+    } on Exception catch (e) {
+      print(e);
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
   }

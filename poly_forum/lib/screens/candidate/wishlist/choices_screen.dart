@@ -12,9 +12,6 @@ class ChoicesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CandidateChoicesCubit(),
-      child: Body(user: user),
-    );
+    return Body(user: user);
   }
 }

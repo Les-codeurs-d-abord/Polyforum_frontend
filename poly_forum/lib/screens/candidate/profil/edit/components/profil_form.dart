@@ -32,8 +32,8 @@ class _ProfilFormState extends State<ProfilForm> {
   final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   final _addresController = TextEditingController();
-  // final _descriptionController = TextEditingController();
-  final _descriptionController = HtmlEditorController();
+  final _descriptionController = TextEditingController();
+  // final _descriptionController = HtmlEditorController();
 
   List<String> links = [];
   List<String> tags = [];
@@ -48,14 +48,14 @@ class _ProfilFormState extends State<ProfilForm> {
     _phoneNumberController.text = widget.user.phoneNumber;
     _addresController.text = widget.user.address;
 
-    _descriptionController.setText(widget.user.description);
+    // _descriptionController.setText(widget.user.description);
+    _descriptionController.text = widget.user.description;
     links = widget.user.links;
     tags = widget.user.tags;
   }
 
   @override
   Widget build(BuildContext context) {
-    _descriptionController.setText(widget.user.description);
     return Form(
       key: _formKey,
       child: Column(
@@ -128,17 +128,17 @@ class _ProfilFormState extends State<ProfilForm> {
           const SizedBox(height: 15),
           const CustomDropZone(),
           const SizedBox(height: 15),
-          HTMLDescription(descriptionController: _descriptionController),
+          // HTMLDescription(descriptionController: _descriptionController),
           Row(
             children: [
-              // CustomTextField(
-              //   text: "Courte présentation",
-              //   icon: Icons.article_outlined,
-              //   controller: _descriptionController,
-              //   isLocked: false,
-              //   maxCharacters: 500,
-              //   maxLines: 10,
-              // ),
+              CustomTextField(
+                text: "Courte présentation",
+                icon: Icons.article_outlined,
+                controller: _descriptionController,
+                isLocked: false,
+                maxCharacters: 500,
+                maxLines: 10,
+              ),
             ],
           ),
           const SizedBox(height: 15),
@@ -163,15 +163,15 @@ class _ProfilFormState extends State<ProfilForm> {
                   child: TextButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        String description =
-                            await _descriptionController.getText();
+                        // String description =
+                        //     await _descriptionController.getText();
 
                         CandidateUser updatedUser = CandidateUser(
                           firstName: _firstNameController.text,
                           lastName: _lastNameController.text,
                           phoneNumber: _phoneNumberController.text,
                           address: _addresController.text,
-                          description: description,
+                          description: _descriptionController.text,
                           id: widget.user.id,
                           candidateId: widget.user.candidateId,
                           email: _emailController.text,
@@ -198,9 +198,9 @@ class _ProfilFormState extends State<ProfilForm> {
                           widget.user = state.user;
                           showTopSnackBar(
                             context,
-                            const Padding(
-                              padding: EdgeInsets.only(left: 300, right: 10),
-                              child: CustomSnackBar.success(
+                            Padding(
+                              padding: kTopSnackBarPadding,
+                              child: const CustomSnackBar.success(
                                 message: "Sauvegarde effectuée avec succès !",
                               ),
                             ),
@@ -208,9 +208,9 @@ class _ProfilFormState extends State<ProfilForm> {
                         } else if (state is UpdateCandidateError) {
                           showTopSnackBar(
                             context,
-                            const Padding(
-                              padding: EdgeInsets.only(left: 300, right: 10),
-                              child: CustomSnackBar.error(
+                            Padding(
+                              padding: kTopSnackBarPadding,
+                              child: const CustomSnackBar.error(
                                 message:
                                     "Un problème est survenue, la sauvegarde ne s'est pas effectuée...",
                               ),

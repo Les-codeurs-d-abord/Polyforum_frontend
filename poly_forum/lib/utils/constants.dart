@@ -30,3 +30,6 @@ const kTokenPref = "token";
 const kEmailPref = "email";
 const kPwdPref = "password";
 const kSavePwd = "save_password";
+
+EdgeInsetsGeometry kTopSnackBarPadding =
+    const EdgeInsets.only(left: 300, right: 10);

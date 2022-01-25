@@ -8,13 +8,13 @@ class CandidateChoicesInitial extends CandidateChoicesState {}
 class CandidateChoicesScreenLoading extends CandidateChoicesState {}
 
 class CandidateChoicesScreenLoaded extends CandidateChoicesState {
-  final List<Offer> offerList;
+  final List<Wish> offerList;
 
   CandidateChoicesScreenLoaded(this.offerList);
 }
 
-class CandidateOfferScreenError extends CandidateChoicesState {
+class CandidateChoicesScreenError extends CandidateChoicesState {
   final String msg;
 
-  CandidateOfferScreenError(this.msg);
+  CandidateChoicesScreenError(this.msg);
 }

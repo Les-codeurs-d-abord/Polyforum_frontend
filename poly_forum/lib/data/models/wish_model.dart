@@ -15,9 +15,9 @@ class Wish {
 
   factory Wish.fromJson(Map<String, dynamic> json, Offer offer) {
     return Wish(
-      wishId: json['user']['id'],
-      candidateId: json['id'],
-      offerId: json['firstName'] ?? '',
+      wishId: json['id'] ?? '',
+      candidateId: json['candidateId'] ?? '',
+      offerId: json['offerId'] ?? '',
       offer: offer,
     );
   }

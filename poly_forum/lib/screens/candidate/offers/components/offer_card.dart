@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/candidate/candidate_wishlist_cubit.dart';
+import 'package:poly_forum/cubit/candidate/wishlist/candidate_get_wishlist_cubit.dart';
+import 'package:poly_forum/cubit/candidate/wishlist/candidate_wishlist_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/routes/application.dart';
@@ -124,8 +125,15 @@ class OfferCard extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        BlocProvider(
-          create: (context) => CandidateWishlistCubit(),
+        MultiBlocProvider(
+          providers: [
+            BlocProvider<CandidateWishlistCubit>(
+              create: (context) => CandidateWishlistCubit(),
+            ),
+            BlocProvider<CandidateGetWishlistCubit>(
+              create: (context) => CandidateGetWishlistCubit(),
+            ),
+          ],
           child: AddWishlistBtn(
             offer: offer,
             user: user,

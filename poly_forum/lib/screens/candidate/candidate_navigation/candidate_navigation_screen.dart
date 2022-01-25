@@ -1,6 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:poly_forum/cubit/candidate/candidate_choices_cubit.dart';
+import 'package:poly_forum/cubit/candidate/candidate_offer_screen_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/user_model.dart';
 import 'package:poly_forum/resources/user_repository.dart';
@@ -11,10 +13,11 @@ import 'package:poly_forum/screens/candidate/profil/edit/candidate_profil_screen
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:poly_forum/screens/candidate/choices/choices_screen.dart';
+import 'package:poly_forum/screens/candidate/wishlist/choices_screen.dart';
 import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../shared/components/navigation/tab_navigation_item.dart';
 import 'components/candidate_profil_btn.dart';
@@ -37,7 +40,7 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
   void initState() {
     super.initState();
     controller.reloadWeb();
-    User? currentUser = Application.user;
+    User? currentUser;
 
     if (currentUser == null) {
       SharedPreferences.getInstance().then((value) async {
@@ -47,7 +50,6 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
             final user = await UserRepository().fetchUserFromToken(token);
 
             if (user is CandidateUser) {
-              Application.user = user;
               setState(() {
                 candidateUser = user;
               });
@@ -99,13 +101,23 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
         );
         return Future(() => true);
       },
-      child: LayoutBuilder(builder: (context, constraints) {
-        if (constraints.maxWidth > 1024) {
-          return buildWebScreen();
-        } else {
-          return buildPhoneVersion();
-        }
-      }),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => CandidateChoicesCubit(),
+          ),
+          BlocProvider(
+            create: (context) => CandidateOfferScreenCubit(),
+          ),
+        ],
+        child: LayoutBuilder(builder: (context, constraints) {
+          if (constraints.maxWidth > 1024) {
+            return buildWebScreen();
+          } else {
+            return buildPhoneVersion();
+          }
+        }),
+      ),
     );
   }
 

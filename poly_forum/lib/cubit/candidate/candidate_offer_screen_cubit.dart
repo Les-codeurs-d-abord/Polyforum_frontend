@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/resources/candidate_repository.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';

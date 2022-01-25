@@ -30,7 +30,7 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
   void initState() {
     super.initState();
 
-    User? currentUser = Application.user;
+    User? currentUser;
 
     if (currentUser == null) {
       SharedPreferences.getInstance().then((value) async {
@@ -40,7 +40,6 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
             final user = await UserRepository().fetchUserFromToken(token);
 
             if (user is AdminUser) {
-              Application.user = user;
               setState(() {
                 adminUser = user;
               });
