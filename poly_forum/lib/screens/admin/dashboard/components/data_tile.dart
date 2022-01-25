@@ -23,33 +23,33 @@ class DataTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: width,
-        height: height,
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
-          color: color,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-                value.toString(),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: valueFontSize,
-                ),
+      width: width,
+      height: height,
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        color: color,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            value.toString(),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: valueFontSize,
             ),
-            Text(
-              text,
-              textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: textFontSize,
-                ),
+          ),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: textFontSize,
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }

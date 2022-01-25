@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/dashboard/dashboard_cubit.dart';
-import 'package:poly_forum/screens/admin/dashboard/components/rich_data_tile.dart';
+import 'package:poly_forum/cubit/admin/dashboard/side_panel_cubit.dart';
+import 'package:poly_forum/resources/phases_repository.dart';
+import 'package:poly_forum/screens/admin/dashboard/components/large_data_tile.dart';
+import 'package:poly_forum/screens/admin/dashboard/components/side_panel.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 import 'data_tile.dart';
@@ -17,12 +20,14 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   int companiesCount = 0;
+  int companyWishesCount = 0;
   int offersCount = 0;
   int companiesWithNoOfferCount = 0;
 
   int candidatesCount = 0;
-  int wishesCount = 0;
+  int candidateWishesCount = 0;
   int candidatesWithNoWishCount = 0;
+  int cvCount = 0;
   int idleCandidatesCount = 0;
   int incompleteCandidatesCount = 0;
   int completeCandidatesCount = 0;
@@ -81,9 +86,12 @@ class _BodyState extends State<Body> {
                             const VerticalDivider(
                               thickness: 1,
                             ),
-                            const Expanded(
+                            Expanded(
                                 flex: 1,
-                                child: Text("Partie droite")
+                                child: BlocProvider(
+                                  create: (context) => SidePanelCubit(PhasesRepository()),
+                                  child: const SidePanel(),
+                                )
                             ),
                           ]
                       ),
@@ -92,7 +100,7 @@ class _BodyState extends State<Body> {
                 ),
               ],
             ),
-          )
+          ),
       );
     });
   }
@@ -111,6 +119,11 @@ class _BodyState extends State<Body> {
                       DataTile(
                         value: companiesCount,
                         text: "Entreprises",
+                        color: kLightGrey,
+                      ),
+                      DataTile(
+                        value: companyWishesCount,
+                        text: "Voeux",
                         color: kLightGrey,
                       ),
                       DataTile(
@@ -137,8 +150,13 @@ class _BodyState extends State<Body> {
                       color: kLightBlue,
                     ),
                     DataTile(
-                      value: wishesCount,
+                      value: candidateWishesCount,
                       text: "Voeux",
+                      color: kLightBlue,
+                    ),
+                    DataTile(
+                      value: cvCount,
+                      text: "CVs",
                       color: kLightBlue,
                     ),
                     DataTile(
@@ -146,7 +164,7 @@ class _BodyState extends State<Body> {
                       text: "Candidats sans voeux",
                       color: kLightBlue,
                     ),
-                    RichDataTile(
+                    LargeDataTile(
                       width: 310,
                       height: 150,
                       color: kLightBlue,
@@ -197,11 +215,14 @@ class _BodyState extends State<Body> {
         .length;
 
     candidatesCount = state.candidates.length;
-    wishesCount = state.candidates
+    candidateWishesCount = state.candidates
         .map((candidates) => candidates.wishesCount)
         .reduce((sum, wishesCount) => sum + wishesCount);
     candidatesWithNoWishCount = state.candidates
         .where((candidate) => candidate.wishesCount == 0)
+        .length;
+    cvCount = state.candidates
+        .where((candidate) => candidate.cv.isNotEmpty)
         .length;
     idleCandidatesCount = state.candidates
         .where((candidate) => candidate.status == "Jamais connecté")

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class RichDataTile extends StatelessWidget {
+class LargeDataTile extends StatelessWidget {
   final List<int> values;
   final List<String> texts;
   final Color? color;
@@ -9,14 +9,14 @@ class RichDataTile extends StatelessWidget {
   final double width;
   final double height;
 
-  const RichDataTile({
+  const LargeDataTile({
     Key? key,
     required this.values,
     required this.texts,
     required this.color,
     this.valueFontSize = 20,
     this.textFontSize = 14,
-    this.width = 150,
+    this.width = 300,
     this.height = 150,
   }) : super(key: key);
 
@@ -31,10 +31,12 @@ class RichDataTile extends StatelessWidget {
         color: color,
       ),
       child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: values.asMap().keys.map((index) =>
-              Flexible(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: values.asMap().keys.map((index) =>
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
                 child: RichText(
                   text: TextSpan(
                       children: [
@@ -55,7 +57,8 @@ class RichDataTile extends StatelessWidget {
                   ),
                 ),
               ),
-          ).toList(),
+            ),
+        ).toList(),
       ),
     );
   }
