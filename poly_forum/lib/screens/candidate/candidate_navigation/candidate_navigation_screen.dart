@@ -7,6 +7,7 @@ import 'package:poly_forum/resources/user_repository.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/candidate_navigation/components/candidate_nav_bar.dart';
+import 'package:poly_forum/screens/candidate/planning/planning_screen.dart';
 import 'package:poly_forum/screens/candidate/profil/edit/candidate_profil_screen.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
@@ -250,7 +251,7 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
                 const WelcomeScreen(),
                 OffersScreen(user: candidateUser!),
                 ChoicesScreen(user: candidateUser!),
-                /* PlanningScreen(user: candidateUser!), */
+                PlanningScreen(user: candidateUser!),
                 Container(),
                 HomeProfileScreen(
                   onEditProfilePressed: () {
@@ -349,17 +350,17 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
                             ? Icons.bookmark
                             : Icons.bookmark_border,
                       ),
-/*                           const SizedBox(height: 20),
-                              TabNavigationItem(
-                                onPressed: () {
-                                  setState(() {
-                                    _selectedIndex = 3;
-                                  });
-                                },
-                                isSelect: _selectedIndex == 3,
-                                text: "Mon planning",
-                                iconData: Icons.local_offer_outlined,
-                              ), */
+                      const SizedBox(height: 20),
+                      TabNavigationItem(
+                        onPressed: () {
+                          setState(() {
+                            _selectedIndex = 3;
+                          });
+                        },
+                        isSelect: _selectedIndex == 3,
+                        text: "Mon planning",
+                        iconData: Icons.local_offer_outlined,
+                      ),
                       const SizedBox(height: 20),
                       TabNavigationItem(
                         onPressed: () {
@@ -418,7 +419,7 @@ class _CandidateNavigationScreenState extends State<CandidateNavigationScreen> {
                                     const WelcomeScreen(),
                                     OffersScreen(user: candidateUser!),
                                     ChoicesScreen(user: candidateUser!),
-                                    /* PlanningScreen(user: candidateUser!), */
+                                    PlanningScreen(user: candidateUser!),
                                     Container(),
                                     HomeProfileScreen(
                                       onEditProfilePressed: () {

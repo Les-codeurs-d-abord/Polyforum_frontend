@@ -4,7 +4,6 @@ import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/screens/candidate/planning/components/slot_component.dart';
-
 import 'package:shimmer/shimmer.dart';
 
 class Body extends StatefulWidget {
@@ -39,8 +38,6 @@ class _BodyState extends State<Body> {
         return buildloadingScreen();
       } else if (state is CandidatePlanningScreenLoaded) {
         return buildLoadedScreen(state.planning);
-      } else if (state is CandidatePlanningScreenError) {
-        return buildErrorOffers();
       }
       return buildInitialPlanning();
     });
@@ -49,41 +46,67 @@ class _BodyState extends State<Body> {
   Widget buildInitialPlanning() {
     return Image.asset(
       "images/no_result.jpg",
-      width: 1200,
     );
   }
 
+  // Widget buildloadingScreen() {
+  //   return SizedBox(
+  //     child: Shimmer.fromColors(
+  //       child: ListView.builder(
+  //         itemBuilder: (context, index) => Padding(
+  //           padding: const EdgeInsets.symmetric(vertical: 20),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: <Widget>[
+  //               for (int i = 0; i < 7; i++)
+  //                 Column(
+  //                   children: [
+  //                     Container(
+  //                       width: double.infinity,
+  //                       height: 40.0,
+  //                       color: Colors.white,
+  //                     ),
+  //                     const SizedBox(height: 10),
+  //                   ],
+  //                 ),
+  //             ],
+  //           ),
+  //         ),
+  //         itemCount: 4,
+  //       ),
+  //       baseColor: Colors.grey[300]!,
+  //       highlightColor: Colors.grey[100]!,
+  //     ),
+  //   );
+  // }
+
   Widget buildloadingScreen() {
-    return SizedBox(
-      width: 1000,
-      height: 1000,
-      // color: Colors.red,
-      child: Shimmer.fromColors(
-        child: ListView.builder(
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                for (int i = 0; i < 7; i++)
-                  Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 40.0,
-                        color: Colors.white,
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  ),
-              ],
-            ),
+    return Shimmer.fromColors(
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              for (int i = 0; i < 7; i++)
+                Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 40.0,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                ),
+            ],
           ),
-          itemCount: 4,
         ),
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
+        itemCount: 2,
       ),
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
     );
   }
 
@@ -98,11 +121,9 @@ class _BodyState extends State<Body> {
               style: Theme.of(context).textTheme.headline3,
             )),
         Expanded(
-          // alignment: Alignment.center,
           child: planning != null
               ? ListView.separated(
-                  padding:
-                      const EdgeInsets.only(right: 200, left: 200, top: 30),
+                  padding: const EdgeInsets.only(right: 30, left: 30, top: 10),
                   itemCount: planning.slots.length,
                   separatorBuilder: (BuildContext context, int index) =>
                       const Divider(
@@ -116,12 +137,6 @@ class _BodyState extends State<Body> {
               : buildInitialPlanning(),
         )
       ],
-    );
-  }
-
-  Widget buildErrorOffers() {
-    return Container(
-      color: Colors.red,
     );
   }
 }
