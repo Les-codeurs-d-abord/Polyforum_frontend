@@ -129,17 +129,20 @@ class _ProfilFormState extends State<ProfilForm> {
           const CustomDropZone(),
           const SizedBox(height: 15),
           // HTMLDescription(descriptionController: _descriptionController),
-          Row(
-            children: [
-              CustomTextField(
-                text: "Courte présentation",
-                icon: Icons.article_outlined,
-                controller: _descriptionController,
-                isLocked: false,
-                maxCharacters: 500,
-                maxLines: 10,
-              ),
-            ],
+          SizedBox(
+            width: 700,
+            child: Row(
+              children: [
+                CustomTextField(
+                  text: "Courte présentation",
+                  icon: Icons.article_outlined,
+                  controller: _descriptionController,
+                  isLocked: false,
+                  maxCharacters: 500,
+                  maxLines: 10,
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 15),
           IntrinsicHeight(

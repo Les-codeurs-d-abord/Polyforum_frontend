@@ -1,11 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/cubit/candidate/wishlist/candidate_get_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/candidate/wishlist/candidate_wishlist_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
+import 'package:poly_forum/resources/company_repository.dart';
 import 'package:poly_forum/routes/application.dart';
+import 'package:poly_forum/screens/admin/company_list/components/company_detail_dialog.dart';
 import 'package:poly_forum/screens/candidate/offers/components/add_wishlist_btn.dart';
+import 'package:poly_forum/screens/company/Util/show_company_detail_dialog.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,7 +36,7 @@ class OfferCard extends StatelessWidget {
             width: 1000,
             child: Column(
               children: [
-                buildHeader(),
+                buildHeader(context),
                 const Divider(),
                 IntrinsicHeight(
                   child: Row(
@@ -61,12 +65,20 @@ class OfferCard extends StatelessWidget {
     );
   }
 
-  Widget buildHeader() {
+  Widget buildHeader(BuildContext context) {
     return Row(
       children: [
         InkWell(
           onTap: () {
-            print("Go to company profile.");
+            showDialog(
+              context: context,
+              builder: (context) {
+                return BlocProvider(
+                  create: (context) => CompanyFormCubit(CompanyRepository()),
+                  child: CompanyDetailDialog(offer.companyUserId),
+                );
+              },
+            );
           },
           child: Row(
             children: [
@@ -160,38 +172,34 @@ class OfferCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.phone,
-                      size: 25,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(offer.phoneNumber),
-                    )
-                  ],
+          Expanded(
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.phone,
+                  size: 25,
                 ),
-              ),
-              Expanded(
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.mail_outline,
-                      size: 25,
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(offer.email),
-                    )
-                  ],
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(offer.phoneNumber),
+                )
+              ],
+            ),
+          ),
+          const SizedBox(height: 5),
+          Expanded(
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.mail_outline,
+                  size: 25,
                 ),
-              ),
-            ],
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(offer.email),
+                )
+              ],
+            ),
           ),
           const SizedBox(height: 20),
           const Text(

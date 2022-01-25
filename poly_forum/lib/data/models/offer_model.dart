@@ -8,6 +8,7 @@ class Offer {
   final String email;
   final String companyName;
   final int companyId;
+  final int companyUserId;
   final List<String> links;
   final List<String> tags;
   final DateTime createdAt;
@@ -15,6 +16,7 @@ class Offer {
   Offer({
     required this.id,
     required this.companyId,
+    required this.companyUserId,
     required this.companyName,
     required this.offerFile,
     required this.name,
@@ -41,6 +43,7 @@ class Offer {
     return Offer(
       id: json['id'] ?? '',
       companyId: json['companyProfileId'] ?? '',
+      companyUserId: json['company_profile']?['userId'] ?? '',
       companyName: json['company_profile']?['companyName'] ?? '',
       offerFile: json['offerFile'] ?? '',
       name: json['name'] ?? '',

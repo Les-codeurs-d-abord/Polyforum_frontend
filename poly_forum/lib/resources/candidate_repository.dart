@@ -213,7 +213,7 @@ class CandidateRepository {
       await Future.delayed(const Duration(milliseconds: 500));
 
       final body = {
-        'candidateId': user.candidateId.toString(),
+        'candidateProfileId': user.candidateId.toString(),
         'offerId': offer.id.toString()
       };
 
@@ -223,7 +223,7 @@ class CandidateRepository {
         print(error);
         throw const NetworkException("Le serveur est injoignable");
       });
-      print(response.statusCode);
+
       if (response.statusCode != 201) {
         throw NetworkException(
             "Une erreur est survenue, status code: ${response.statusCode}");
@@ -238,7 +238,7 @@ class CandidateRepository {
       await Future.delayed(const Duration(milliseconds: 500));
 
       final body = {
-        'candidateId': user.candidateId.toString(),
+        'candidateProfileId': user.candidateId.toString(),
         'offerId': offer.id.toString()
       };
 
@@ -260,10 +260,12 @@ class CandidateRepository {
     try {
       await Future.delayed(const Duration(milliseconds: 500));
 
-      return false;
-      final params = {'candidateId': user.candidateId, 'offerId': offer.id};
+      final params = {
+        'candidateProfileId': user.candidateId,
+        'offerId': offer.id
+      };
 
-      final uri = Uri.http(kServer, '/api/wishcandidate', params);
+      final uri = Uri.http(kServer, '/api/wishcandidate/check');
       final response = await http.get(uri).onError((error, stackTrace) {
         throw const NetworkException("Le serveur est injoignable");
       });
@@ -287,6 +289,7 @@ class CandidateRepository {
 
       final uri = Uri.http(kServer, '/api/wishcandidate/${user.candidateId}');
       final response = await http.get(uri).onError((error, stackTrace) {
+        print(error);
         throw const NetworkException("Le serveur est injoignable");
       });
 

@@ -123,7 +123,7 @@ class CompanyRepository {
   }
 
   Future<CompanyDetail> getCompanyDetail(int id) async {
-    final uri = Uri.http('localhost:8080', '/api/companies/$id');
+    final uri = Uri.http(kServer, '/api/companies/$id');
     final response = await http.get(uri).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
