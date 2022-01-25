@@ -7,6 +7,7 @@ import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/admin/candidate_list/candidate_list_screen.dart';
 import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
+import 'package:poly_forum/screens/admin/dashboard/dashboard_screen.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
@@ -142,7 +143,7 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                               });
                             },
                             isSelect: _selectedIndex == 1,
-                            text: "Entreprises",
+                            text: "Tableau de bord",
                             iconData: Icons.local_offer_outlined,
                           ),
                           const SizedBox(height: 20),
@@ -153,6 +154,17 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                               });
                             },
                             isSelect: _selectedIndex == 2,
+                            text: "Entreprises",
+                            iconData: Icons.local_offer_outlined,
+                          ),
+                          const SizedBox(height: 20),
+                          TabNavigationItem(
+                            onPressed: () {
+                              setState(() {
+                                _selectedIndex = 3;
+                              });
+                            },
+                            isSelect: _selectedIndex == 3,
                             text: "Candidats",
                             iconData: Icons.local_offer_outlined,
                           ),
@@ -180,10 +192,11 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                           Expanded(
                             child: IndexedStack(
                               index: _selectedIndex,
-                              children: <Widget>[
-                                const WelcomeScreen(),
-                                const CompanyListScreen(),
-                                const CandidateListScreen(),
+                              children: const <Widget>[
+                                WelcomeScreen(),
+                                DashboardScreen(),
+                                CompanyListScreen(),
+                                CandidateListScreen(),
                               ],
                             ),
                           ),

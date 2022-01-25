@@ -21,6 +21,7 @@ const kOrange = Color(0xFFF7931D);
 const kDarkBlue = Color(0xFF004876);
 const kBlue = Color(0xFF00AEEF);
 const kLightBlue = Color(0xFFA8E2FA);
+const kLightGrey = Color(0xFFEEEEEE);
 
 // Server IP
 const kServer = "localhost:8080";

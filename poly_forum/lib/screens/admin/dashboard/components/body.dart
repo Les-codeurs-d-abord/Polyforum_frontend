@@ -1,336 +1,216 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/dashboard/dashboard_cubit.dart';
-import 'package:poly_forum/data/models/candidate_model.dart';
-import 'package:poly_forum/data/models/company_model.dart';
-import 'package:poly_forum/data/models/offer_model.dart';
-import 'package:poly_forum/resources/company_repository.dart';
-import 'package:poly_forum/resources/candidate_repository.dart';
+import 'package:poly_forum/screens/admin/dashboard/components/rich_data_tile.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:responsive_grid/responsive_grid.dart';
 
-class Body extends StatelessWidget {
+import 'data_tile.dart';
+
+class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
 
   @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  int companiesCount = 0;
+  int offersCount = 0;
+  int companiesWithNoOfferCount = 0;
+
+  int candidatesCount = 0;
+  int wishesCount = 0;
+  int candidatesWithNoWishCount = 0;
+  int idleCandidatesCount = 0;
+  int incompleteCandidatesCount = 0;
+  int completeCandidatesCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<DashboardCubit>(context).fetchDashboardData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<DashboardCubit, DashboardState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
-      builder: (context, state) {
-        if (state is DashboardLoading) {
-          return LayoutBuilder(builder: (context, constraints) {
-            return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(children: [
-                    Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.all(30),
-                            child: const Text("Tableau de bord",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 40,
-                                ))))
-                  ]),
-                  Center(
-                    child: CircularProgressIndicator(),
-                  )
-                ]);
-          });
-        } else if (state is DashboardError) {
-          return LayoutBuilder(builder: (context, constraints) {
-            return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(children: [
-                    Expanded(
-                        child: Container(
-                            margin: const EdgeInsets.all(30),
-                            child: const Text("Tableau de bord",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 40,
-                                ))))
-                  ]),
-                  Center(child: Text(state.errorMessage)),
-                  Container(
-                      width: 200,
-                      height: 50,
-                      margin:
-                          const EdgeInsets.only(left: 20, right: 20, top: 20),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(7)),
-                        color: kOrange,
-                      ),
-                      child: MaterialButton(
-                        onPressed: () => {},
-                        child: const Text(
-                          "Clôturer la saisie",
-                          style: TextStyle(color: Colors.white, fontSize: 22),
-                        ),
-                      ))
-                ]);
-          });
-        } else if (state is DashboardLoaded) {
-          final List<Company> companyList = state.companies;
-          final List<Candidate> candidateList = state.candidates;
-          final List<Offer> offerList = state.offers;
-
-          final int company_NB_indicator = companyList.length;
-          final int candidate_NB_indicator = candidateList.length;
-          final int offer_NB_indicator = offerList.length;
-
-          final int zero_connection = candidateList
-              .where((candidate) => candidate.status.contains("Jamais"))
-              .length;
-          final int incomplete_profile = candidateList
-              .where((candidate) => candidate.status == "Incomplet")
-              .length;
-          final int complete_profile = candidateList
-              .where((candidate) => candidate.status == "Complet")
-              .length;
-
-          return LayoutBuilder(builder: (context, constraints) {
-            return SizedBox(
-                //width: 1200,
-                height: 1200,
-                child: SingleChildScrollView(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(children: [
-                      Expanded(
-                          child: Container(
-                              margin: const EdgeInsets.all(30),
-                              child: const Text("Tableau de bord",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 40,
-                                  ))))
-                    ]),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Wrap(
+    return LayoutBuilder(builder: (context, constraints) {
+      return SizedBox(
+          height: 650,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                    "Tableau de bord",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                    )
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 30),
+                    child: IntrinsicHeight(
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // INDICATEUR NB ENTREPRISES
-                            Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 50,
-                                  horizontal: 50,
-                                ),
-                                child: Container(
-                                  height: 200,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5)),
-                                    color: Colors.grey[200],
-                                  ),
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 50,
-                                        horizontal: 50,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Text(company_NB_indicator.toString(),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 40)),
-                                          Text("Entreprises")
-                                        ],
-                                      )),
-                                )),
-                            //),
-                            // INDICATEUR NB CANDIDATS
-                            Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 50,
-                                  horizontal: 50,
-                                ),
-                                child: Container(
-                                  height: 200,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5)),
-                                    color: Colors.blueGrey[100],
-                                  ),
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 50,
-                                        horizontal: 50,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                              candidate_NB_indicator.toString(),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 40)),
-                                          Text("Candidats")
-                                        ],
-                                      )),
-                                )),
-                            // INDICATEUR NB OFFRES
-                            //),
-                            Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 50,
-                                  horizontal: 50,
-                                ),
-                                child: Container(
-                                  height: 200,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5)),
-                                    color: Colors.grey[200],
-                                  ),
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 50,
-                                        horizontal: 50,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Text(offer_NB_indicator.toString(),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 40)),
-                                          Text("Offres")
-                                        ],
-                                      )),
-                                )),
-                            // INDICATEUR NB JAMAIS CO
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 50,
-                                horizontal: 50,
-                              ),
-                              child: Container(
-                                height: 200,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(5)),
-                                  color: Colors.blueGrey[100],
-                                ),
-                                child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 50,
-                                      horizontal: 50,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Text(zero_connection.toString(),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 40)),
-                                        Text(
-                                          "Candidats ne se sont jamais connectés",
-                                          style: TextStyle(),
-                                        )
-                                      ],
-                                    )),
+                            Expanded(
+                              flex: 2,
+                              child: BlocConsumer<DashboardCubit, DashboardState>(
+                                  listener: (context, state) {
+                                    if (state is DashboardLoaded) {
+                                      calculateDashboardData(state);
+                                    }
+                                  },
+                                  builder: (context, state) {
+                                    if (state is DashboardLoading) {
+                                      return buildLoadingTiles(context);
+                                    } else if (state is DashboardLoaded) {
+                                      return buildLoadedTiles(context);
+                                    } else if (state is DashboardError) {
+                                      return buildErrorTiles(context, state.errorMessage);
+                                    } else {
+                                      return Container();
+                                    }
+                                  }
                               ),
                             ),
-                            // INDICATEUR NB CONNECTE
-                            Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 50,
-                                  horizontal: 50,
-                                ),
-                                child: Container(
-                                  height: 200,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5)),
-                                    color: Colors.grey[200],
-                                  ),
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 50,
-                                        horizontal: 50,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Text(incomplete_profile.toString(),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 40)),
-                                          Text("Profils candidats incomplets")
-                                        ],
-                                      )),
-                                )),
-                            // INDICATEUR NB COMPLET
-                            Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 50,
-                                  horizontal: 50,
-                                ),
-                                child: Container(
-                                  height: 200,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5)),
-                                    color: Colors.blueGrey[100],
-                                  ),
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 50,
-                                        horizontal: 50,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Text(complete_profile.toString(),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 40)),
-                                          Text("Profils candidats complets")
-                                        ],
-                                      )),
-                                ))
-                          ],
-                        )),
-                        Container(
-                            width: 400,
-                            alignment: Alignment.center,
-                            child: Container(
-                                width: 200,
-                                height: 50,
-                                margin: const EdgeInsets.only(
-                                    left: 20, right: 20, top: 20),
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(7)),
-                                  color: kOrange,
-                                ),
-                                child: MaterialButton(
-                                  onPressed: () => {},
-                                  child: const Text(
-                                    "Clôturer la saisie",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 22),
-                                  ),
-                                )))
+                            const VerticalDivider(
+                              thickness: 1,
+                            ),
+                            const Expanded(
+                                flex: 1,
+                                child: Text("Partie droite")
+                            ),
+                          ]
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+      );
+    });
+  }
+
+  buildLoadedTiles(BuildContext context) {
+    return SingleChildScrollView(
+      primary: false,
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+                child: Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: [
+                      DataTile(
+                        value: companiesCount,
+                        text: "Entreprises",
+                        color: kLightGrey,
+                      ),
+                      DataTile(
+                        value: offersCount,
+                        text: "Offres",
+                        color: kLightGrey,
+                      ),
+                      DataTile(
+                        value: companiesWithNoOfferCount,
+                        text: "Entreprises sans offre",
+                        color: kLightGrey,
+                      )
+                    ]
+                )
+            ),
+            Expanded(
+              child: Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    DataTile(
+                      value: candidatesCount,
+                      text: "Candidats",
+                      color: kLightBlue,
+                    ),
+                    DataTile(
+                      value: wishesCount,
+                      text: "Voeux",
+                      color: kLightBlue,
+                    ),
+                    DataTile(
+                      value: candidatesWithNoWishCount,
+                      text: "Candidats sans voeux",
+                      color: kLightBlue,
+                    ),
+                    RichDataTile(
+                      width: 310,
+                      height: 150,
+                      color: kLightBlue,
+                      values: [
+                        completeCandidatesCount,
+                        incompleteCandidatesCount,
+                        idleCandidatesCount,
+                      ],
+                      texts: const [
+                        " candidats au profil complet",
+                        " candidats au profil incomplet",
+                        " candidats jamais connectés",
                       ],
                     )
-                  ],
-                )));
-          });
-        } else {
-          return Container();
-        }
-      },
+                  ]
+              ),
+            ),
+          ]
+      ),
     );
   }
 
-  buildDashboardScreen(BuildContext context) {}
+  buildLoadingTiles(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        CircularProgressIndicator()
+      ],
+    );
+  }
+
+  buildErrorTiles(BuildContext context, String errorMessage) {
+    return Text(
+      errorMessage,
+      style: const TextStyle(
+          color: Colors.red
+      ),
+    );
+  }
+
+  calculateDashboardData(DashboardLoaded state) {
+    companiesCount = state.companies.length;
+    offersCount = state.companies
+        .map((company) => company.offersCount)
+        .reduce((sum, offersCount) => sum + offersCount);
+    companiesWithNoOfferCount = state.companies
+        .where((company) => company.offersCount == 0)
+        .length;
+
+    candidatesCount = state.candidates.length;
+    wishesCount = state.candidates
+        .map((candidates) => candidates.wishesCount)
+        .reduce((sum, wishesCount) => sum + wishesCount);
+    candidatesWithNoWishCount = state.candidates
+        .where((candidate) => candidate.wishesCount == 0)
+        .length;
+    idleCandidatesCount = state.candidates
+        .where((candidate) => candidate.status == "Jamais connecté")
+        .length;
+    incompleteCandidatesCount = state.candidates
+        .where((candidate) => candidate.status == "Incomplet")
+        .length;
+    completeCandidatesCount = state.candidates
+        .where((candidate) => candidate.status == "Complet")
+        .length;
+  }
 }

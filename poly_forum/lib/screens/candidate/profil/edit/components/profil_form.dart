@@ -183,6 +183,7 @@ class _ProfilFormState extends State<ProfilForm> {
                           tags: tags,
                           logo: widget.user.logo,
                           status: widget.user.status,
+                          wishesCount: widget.user.wishesCount,
                         );
 
                         BlocProvider.of<UpdateCandidateCubit>(context)

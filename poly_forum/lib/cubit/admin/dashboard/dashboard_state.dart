@@ -18,14 +18,13 @@ class DashboardLoading extends DashboardState {
 }
 
 class DashboardLoaded extends DashboardState {
-  DashboardLoaded(this.companies, this.candidates, this.offers);
+  const DashboardLoaded(this.companies, this.candidates);
 
   final List<Company> companies;
-  final List<Candidate> candidates;
-  final List<Offer> offers;
+  final List<CandidateUser> candidates;
 
   @override
-  List<List<dynamic>> get props => [companies, candidates, offers];
+  List<List<dynamic>> get props => [companies, candidates];
 }
 
 class DashboardError extends DashboardState {
