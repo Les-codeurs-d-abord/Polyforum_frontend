@@ -101,13 +101,13 @@ class UserRepository {
       if (response.statusCode == 200) {
         var jsonUser = jsonDecode(response.body);
 
-        switch (jsonUser['user']["role"]) {
+        switch (jsonUser["user"]["role"]) {
           case "CANDIDAT":
             return CandidateUser.fromJson(jsonUser);
           case "ENTREPRISE":
             return CompanyUser.fromJson(jsonUser);
           case "ADMIN":
-            return AdminUser.fromJson(jsonUser);
+            return AdminUser.fromJson(jsonUser["user"]);
           default:
         }
       }
