@@ -15,7 +15,7 @@ class CandidateRepository {
     final body = {'email': email, 'lastName': lastName, 'firstName': firstName};
 
     // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http('localhost:8080', '/api/candidates');
     final response =
@@ -38,7 +38,7 @@ class CandidateRepository {
     };
 
     // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http('localhost:8080', '/api/users/${candidate.id}');
     final response =
@@ -72,7 +72,7 @@ class CandidateRepository {
 
   Future<List<CandidateUser>> fetchCandidateList() async {
     // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http('localhost:8080', '/api/candidates');
     final response = await http.get(uri).onError((error, stackTrace) {
@@ -210,7 +210,7 @@ class CandidateRepository {
   //wishlist
   Future<void> createWish(Offer offer, CandidateUser user) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
       final body = {
         'candidateProfileId': user.candidateId.toString(),
@@ -235,7 +235,7 @@ class CandidateRepository {
 
   Future<void> deleteWish(Offer offer, CandidateUser user) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
       final body = {
         'candidateProfileId': user.candidateId.toString(),
@@ -258,14 +258,14 @@ class CandidateRepository {
 
   Future<bool> isOfferInWishlist(Offer offer, CandidateUser user) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
       final params = {
-        'candidateProfileId': user.candidateId,
-        'offerId': offer.id
+        'candidateProfileId': user.candidateId.toString(),
+        'offerId': offer.id.toString()
       };
 
-      final uri = Uri.http(kServer, '/api/wishcandidate/check');
+      final uri = Uri.http(kServer, '/api/wishcandidate/check', params);
       final response = await http.get(uri).onError((error, stackTrace) {
         throw const NetworkException("Le serveur est injoignable");
       });
@@ -285,7 +285,7 @@ class CandidateRepository {
 
   Future<List<Wish>> getWishlist(CandidateUser user) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
       final uri = Uri.http(kServer, '/api/wishcandidate/${user.candidateId}');
       final response = await http.get(uri).onError((error, stackTrace) {
@@ -315,7 +315,7 @@ class CandidateRepository {
 
   Future<void> saveChoicesOffer(CandidateUser user, List<Wish> wishlist) async {
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
       try {
         List<int> offerIdList = [];
@@ -328,7 +328,7 @@ class CandidateRepository {
           "data": jsonEncode(offerIdList),
         };
 
-        final uri = Uri.http(kServer, '/api/candidates/${user.candidateId}');
+        final uri = Uri.http(kServer, '/api/wishcandidate/${user.candidateId}');
         final response = await http.put(uri, body: body);
 
         if (response.statusCode != 200) {
