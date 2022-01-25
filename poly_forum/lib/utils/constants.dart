@@ -8,10 +8,10 @@ const kTextColor = Colors.black;
 
 //à voir
 //text (noir - bleu foncé)
-const kPrimaryColor = Color(0xFF263238);
+final kPrimaryColor = Colors.blue[300];
 
 //background (bleu clair)
-const kSecondaryColor = Color(0xFFE3F3FD);
+const kSecondaryColor = Colors.blue;
 
 //button (orange ?)
 const kButtonColor = Color(0xFF0D47A1);

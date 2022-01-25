@@ -6,7 +6,7 @@ class InitialsAvatar extends StatelessWidget {
   String initials = "";
 
   InitialsAvatar(String text, {Key? key}) : super(key: key) {
-    if (text.contains(RegExp(r'[A-Z]'))) {
+    if (text.trim().isNotEmpty) {
       var nameparts = text.split(" ");
       if (nameparts.isNotEmpty) {
         initials = nameparts[0][0].toUpperCase();
@@ -15,6 +15,7 @@ class InitialsAvatar extends StatelessWidget {
         initials += nameparts[1][0].toUpperCase();
       }
     }
+    // if (text.contains(RegExp(r'[A-Z]'))) {}
   }
 
   @override

@@ -18,7 +18,7 @@ class PwdForget extends StatelessWidget {
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: kPrimaryColor,
+              color: Color(0xFF263238),
               width: 1,
             ),
           ),

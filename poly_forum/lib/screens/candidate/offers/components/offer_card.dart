@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
-import 'package:poly_forum/screens/candidate/offers/components/tags.dart';
-import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
+import 'package:poly_forum/screens/shared/components/tags.dart';
+import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,7 +19,7 @@ class OfferCard extends StatelessWidget {
         elevation: 20,
         child: InkWell(
           onTap: () {
-            launch(offer.offerLink);
+            launch("http://localhost:8080/api/res/${offer.offerFile}");
           },
           child: Container(
             padding: const EdgeInsets.all(15),
@@ -158,28 +158,36 @@ class OfferCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Row(
+            mainAxisSize: MainAxisSize.max,
             children: [
-              const Icon(
-                Icons.phone,
-                size: 25,
-              ),
-              const SizedBox(width: 10),
               Expanded(
-                child: Text(offer.phoneNumber),
-              )
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              const Icon(
-                Icons.mail_outline,
-                size: 25,
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.phone,
+                      size: 25,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(offer.phoneNumber),
+                    )
+                  ],
+                ),
               ),
-              const SizedBox(width: 10),
               Expanded(
-                child: Text(offer.email),
-              )
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.mail_outline,
+                      size: 25,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(offer.email),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -213,7 +221,7 @@ class OfferCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     for (var link in offer.links)
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -248,16 +256,14 @@ class OfferCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Container(
-                      height: 30,
-                      alignment: Alignment.centerLeft,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          for (var tag in offer.tags) Tags(text: tag.label),
-                        ],
-                      ),
+                    const SizedBox(height: 5),
+                    Wrap(
+                      direction: Axis.horizontal,
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        for (var tag in offer.tags) Tags(text: tag),
+                      ],
                     ),
                   ],
                 )

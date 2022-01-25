@@ -1,19 +1,18 @@
 import 'package:poly_forum/data/models/user_model.dart';
 
 class CompanyUser extends User {
-  final int id;
   final String companyName;
   final String phoneNumber;
   final String description;
 
-  const CompanyUser({
-    required this.id,
+  CompanyUser({
     required this.companyName,
     required this.phoneNumber,
     required this.description,
+    required id,
     required email,
     required role,
-  }) : super(email: email, role: role);
+  }) : super(id: id, email: email, role: role);
 
   factory CompanyUser.fromJson(Map<String, dynamic> json) {
     return CompanyUser(

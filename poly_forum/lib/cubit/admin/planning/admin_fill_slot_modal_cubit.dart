@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:poly_forum/cubit/admin/planning/admin_planning_candidates_screen_cubit.dart';
 import 'package:poly_forum/data/models/company_minimal_model.dart';
 import 'package:poly_forum/resources/candidate_repository.dart';
 

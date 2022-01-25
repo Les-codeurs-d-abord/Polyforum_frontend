@@ -1,21 +1,20 @@
-import 'package:poly_forum/data/models/tag_model.dart';
-
 class Offer {
   final String name;
   final String description;
-  final String offerLink;
+  final String offerFile;
   final String phoneNumber;
   final String address;
   final String email;
   final String companyName;
   final int companyId;
   final List<String> links;
-  final List<Tag> tags;
+  final List<String> tags;
+  final DateTime createdAt;
 
   const Offer({
     required this.companyId,
     required this.companyName,
-    required this.offerLink,
+    required this.offerFile,
     required this.name,
     required this.description,
     required this.phoneNumber,
@@ -23,14 +22,15 @@ class Offer {
     required this.email,
     required this.links,
     required this.tags,
+    required this.createdAt,
   });
 
   factory Offer.fromJson(Map<String, dynamic> json) {
-    List<Tag> tags = [];
     List<String> links = [];
+    List<String> tags = [];
 
     for (Map<String, dynamic> i in json['offer_tags']) {
-      tags.add(Tag.fromJson(i));
+      tags.add(i['label'] ?? '');
     }
     for (Map<String, dynamic> i in json['offer_links']) {
       links.add(i['label'] ?? '');
@@ -38,8 +38,8 @@ class Offer {
 
     return Offer(
       companyId: json['companyProfileId'] ?? '',
-      companyName: json['company_profile']['companyName'] ?? 0,
-      offerLink: json['offerLink'] ?? '',
+      companyName: json['company_profile']?['companyName'] ?? '',
+      offerFile: json['offerFile'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
@@ -47,6 +47,7 @@ class Offer {
       email: json['email'] ?? '',
       links: links,
       tags: tags,
+      createdAt: DateTime.parse(json['createdAt']),
     );
   }
 

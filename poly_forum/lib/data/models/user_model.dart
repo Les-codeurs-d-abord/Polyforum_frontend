@@ -1,14 +1,16 @@
 abstract class User {
-  final String email;
-  final String role;
+  final int id;
+  String email;
+  String role;
 
-  const User({
+  User({
+    required this.id,
     required this.email,
     required this.role,
   });
 
   @override
   String toString() {
-    return "Email: $email, Role: $role";
+    return "Id: $id, Email: $email, Role: $role";
   }
 }

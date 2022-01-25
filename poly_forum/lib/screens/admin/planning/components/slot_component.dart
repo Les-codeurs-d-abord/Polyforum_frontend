@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/admin/planning/admin_planning_candidates_screen_cubit.dart';
 import 'package:poly_forum/data/models/slot_model.dart';
-import 'package:poly_forum/screens/admin/planning/components/pop_up_fill_slot.dart';
-import 'package:poly_forum/screens/shared/components/initials_avatar.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 
 import '../modal_screen.dart';
 

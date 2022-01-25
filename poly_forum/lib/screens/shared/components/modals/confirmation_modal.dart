@@ -20,30 +20,23 @@ class _ConfirmationModalState extends State<ConfirmationModal> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Stack(
-          children: [
-            Text(
-              widget.title,
-              style: const TextStyle(
-                  fontSize: 22
-              ),
-            ),
-            Positioned(
-              right: 0,
-              child: InkResponse(
-                radius: 20,
-                onTap: () {
-                  Navigator.of(context).pop(ModalReturn.cancel);
-                },
-                child: const Icon(Icons.close, color: Colors.grey),
-              ),
-            ),
-          ]
-      ),
-      content: SizedBox(
-          width: 500,
-          child: Text(widget.description)
-      ),
+      title: Stack(children: [
+        Text(
+          widget.title,
+          style: const TextStyle(fontSize: 22),
+        ),
+        Positioned(
+          right: 0,
+          child: InkResponse(
+            radius: 20,
+            onTap: () {
+              Navigator.of(context).pop(ModalReturn.cancel);
+            },
+            child: const Icon(Icons.close, color: Colors.grey),
+          ),
+        ),
+      ]),
+      content: SizedBox(width: 500, child: Text(widget.description)),
       actionsAlignment: MainAxisAlignment.spaceEvenly,
       actionsPadding: const EdgeInsets.only(bottom: 10),
       actions: [
@@ -57,16 +50,12 @@ class _ConfirmationModalState extends State<ConfirmationModal> {
             child: MaterialButton(
               child: const Text(
                 "Annuler",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onPressed: () {
                 Navigator.of(context).pop(ModalReturn.cancel);
               },
-            )
-        ),
+            )),
         Container(
             width: 200,
             height: 40,
@@ -77,22 +66,15 @@ class _ConfirmationModalState extends State<ConfirmationModal> {
             child: MaterialButton(
               child: const Text(
                 "Confirmer",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onPressed: () {
                 Navigator.of(context).pop(ModalReturn.confirm);
               },
-            )
-        ),
+            )),
       ],
     );
   }
 }
 
-enum ModalReturn {
-  confirm,
-  cancel
-}
+enum ModalReturn { confirm, cancel }

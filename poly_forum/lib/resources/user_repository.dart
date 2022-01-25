@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:poly_forum/data/models/admin_model.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:http/http.dart' as http;
@@ -20,10 +19,11 @@ class UserRepository {
       final response = await http.post(uri, body: body);
 
       if (response.statusCode == 200) {
-        var jsonUser = jsonDecode(response.body)["payload"];
+        var jsonResponse = jsonDecode(response.body);
+        var jsonUser = jsonResponse["payload"];
 
-        SharedPreferences.getInstance()
-            .then((value) => value.setString(kTokenPref, jsonUser['token']));
+        SharedPreferences.getInstance().then(
+            (value) => value.setString(kTokenPref, jsonResponse['token']));
 
         switch (jsonUser["role"]) {
           case "CANDIDAT":
@@ -69,17 +69,19 @@ class UserRepository {
 
   Future<User> fetchUserFromToken(String token) async {
     try {
-      final uri = Uri.http(kServer, '/api/login/signin', {
-        'Content-Type': 'application/json',
+      Map<String, String> requestHeaders = {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      });
-      final response = await http.get(uri);
+        'Authorization': "Bearer $token",
+      };
+
+      final uri = Uri.http(kServer, '/api/login/user');
+      final response = await http.get(uri, headers: requestHeaders);
 
       if (response.statusCode == 200) {
         var jsonUser = jsonDecode(response.body);
 
-        switch (jsonUser["user"]["role"]) {
+        switch (jsonUser["role"]) {
           case "CANDIDAT":
             return CandidateUser.fromJson(jsonUser);
           case "ENTREPRISE":

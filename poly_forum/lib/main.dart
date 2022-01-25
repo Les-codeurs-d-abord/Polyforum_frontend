@@ -27,23 +27,6 @@ class MyApp extends StatelessWidget {
       title: 'Poly Forum',
       theme: theme(),
       onGenerateRoute: Application.router.generator,
-      // routes: {
-      //   RoutesName.signInScreen: (context) {
-      //     return const SignInScreen();
-      //   },
-      //   RoutesName.candidatScreen: (context) {
-      //     const test = CandidateUser(
-      //       address: "",
-      //       description: "",
-      //       email: "",
-      //       firstName: "",
-      //       lastName: "",
-      //       phoneNumber: "",
-      //       role: "",
-      //     );
-      //     return const CandidateNavigationScreen(user: test);
-      //   },
-      // },
       initialRoute: Routes.signInScreen,
       home: const SignInScreen(),
     );
