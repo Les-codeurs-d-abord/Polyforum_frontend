@@ -19,6 +19,11 @@ class AdminPlanningCandidatesAndPlanningLoaded
   AdminPlanningCandidatesAndPlanningLoaded(this.planning);
 }
 
+class AdminPlanningCandidatesAddMeeting extends AdminPlanningCandidatesState {
+  final List<CompanyMinimal> listCompanies;
+  AdminPlanningCandidatesAddMeeting(this.listCompanies);
+}
+
 class AdminPlanningCandidatesError extends AdminPlanningCandidatesState {
   final String msg;
 

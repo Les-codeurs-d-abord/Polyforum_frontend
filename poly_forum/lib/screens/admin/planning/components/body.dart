@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/admin/planning/admin_planning_candidates_screen_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/data/models/candidate_model.dart';
+import 'package:poly_forum/data/models/company_minimal_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:poly_forum/screens/admin/planning/components/planning_component.dart';
+import 'package:poly_forum/screens/admin/planning/components/pop_up_fill_slot.dart';
 
 import 'package:shimmer/shimmer.dart';
 
@@ -16,6 +18,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   List<Candidate>? listCandidates;
+  List<CompanyMinimal>? listCompanies;
   Candidate? candidateSelected;
   Planning? planning;
 
@@ -34,6 +37,8 @@ class _BodyState extends State<Body> {
         listCandidates = state.listCandidates;
       } else if (state is AdminPlanningCandidatesAndPlanningLoaded) {
         planning = state.planning;
+      } else if (state is AdminPlanningCandidatesAddMeeting) {
+        listCompanies = state.listCompanies;
       }
     }, builder: (context, state) {
       if (state is AdminPlanningCandidatesLoading) {
@@ -42,6 +47,19 @@ class _BodyState extends State<Body> {
         return buildLoadedScreen();
       } else if (state is AdminPlanningCandidatesAndPlanningLoaded) {
         return buildLoadedScreenWithPlanning();
+      } else if (state is AdminPlanningCandidatesAddMeeting) {
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return FillSlotModal(
+        //       title: "Le titre",
+        //       description: "Blablz",
+        //       listCompanies: listCompanies,
+        //     );
+        //   },
+        // ).then((value) {
+        //   print("oui");
+        // });
       } else if (state is AdminPlanningCandidatesError) {
         return buildErrorScreen();
       }
@@ -101,7 +119,6 @@ class _BodyState extends State<Body> {
               candidateSelected = newValue!;
               callPlanningRequest();
             });
-            print(newValue);
           },
           items: listCandidates!
               .map<DropdownMenuItem<Candidate>>((Candidate candidate) {
@@ -119,7 +136,6 @@ class _BodyState extends State<Body> {
 
   Widget buildLoadedScreenWithPlanning() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         buildLoadedScreen(),
         PlanningWidget(

@@ -10,21 +10,9 @@ class PlanningWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return
-    // Column(
-    // crossAxisAlignment: CrossAxisAlignment.start,
-    // children: [
-    // Padding(
-    //     padding: const EdgeInsets.only(left: 30, top: 20),
-    //     child: Text(
-    //       "Planning du 5 mars 2022",
-    //       style: Theme.of(context).textTheme.headline3,
-    //     )),
     return Expanded(
-        // alignment: Alignment.center,
         child: ListView.separated(
-            padding: const EdgeInsets.only(
-                right: 200, left: 200, top: 10, bottom: 0),
+            padding: const EdgeInsets.only(right: 200, left: 200, top: 10),
             itemCount: planning.slots.length,
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(
@@ -35,8 +23,5 @@ class PlanningWidget extends StatelessWidget {
                 slot: planning.slots[index],
               );
             }));
-
-    // ],
-    // );
   }
 }
