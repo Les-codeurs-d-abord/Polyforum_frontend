@@ -19,11 +19,11 @@ class RowBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: Row(
-        children: [
-          Expanded(
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            color: Colors.red,
             child: TextButton(
               onPressed: onPressed,
               style: TextButton.styleFrom(
@@ -31,22 +31,24 @@ class RowBtn extends StatelessWidget {
                 backgroundColor: color,
                 onSurface: Colors.grey,
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: !isLoading
-                    ? Text(
-                        text,
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontSize: fontSize,
-                        ),
-                      )
-                    : const CircularProgressIndicator(),
+              child: SizedBox(
+                height: 50,
+                child: Center(
+                  child: !isLoading
+                      ? Text(
+                          text,
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: fontSize,
+                          ),
+                        )
+                      : const CircularProgressIndicator(),
+                ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
