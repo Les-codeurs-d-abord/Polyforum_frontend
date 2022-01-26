@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_list_screen_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
@@ -28,6 +27,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   List<CandidateUser> candidateListInitial = [];
   List<CandidateUser> candidateList = [];
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -51,24 +51,24 @@ class _BodyState extends State<Body> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                                "Candidats",
+                            const Text("Candidats",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 40,
-                                )
-                            ),
+                                )),
                             Container(
                               margin: const EdgeInsets.symmetric(vertical: 15),
                               width: 500,
-                              child: SearchBar(
-                                  searchCallback: (search) {
-                                    BlocProvider.of<CandidateListScreenCubit>(context).filterCandidateList(candidateListInitial, candidateList, search);
-                                  }
-                              ),
+                              child: SearchBar(searchCallback: (search) {
+                                BlocProvider.of<CandidateListScreenCubit>(
+                                        context)
+                                    .filterCandidateList(candidateListInitial,
+                                        candidateList, search);
+                              }),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,9 +80,14 @@ class _BodyState extends State<Body> {
                                     child: SortButton(
                                         label: "Nom prénom",
                                         sortCallback: (ascending) {
-                                          BlocProvider.of<CandidateListScreenCubit>(context).sortCandidateListByNameEvent(candidateListInitial, candidateList, ascending);
-                                        }
-                                    ),
+                                          BlocProvider.of<
+                                                      CandidateListScreenCubit>(
+                                                  context)
+                                              .sortCandidateListByNameEvent(
+                                                  candidateListInitial,
+                                                  candidateList,
+                                                  ascending);
+                                        }),
                                   ),
                                   const Spacer(),
                                   Expanded(
@@ -90,55 +95,59 @@ class _BodyState extends State<Body> {
                                     child: SortButton(
                                         label: "Complétion",
                                         sortCallback: (ascending) {
-                                          BlocProvider.of<CandidateListScreenCubit>(context).sortCandidateListByCompletionEvent(candidateListInitial, candidateList, ascending);
-                                        }
-                                    ),
+                                          BlocProvider.of<
+                                                      CandidateListScreenCubit>(
+                                                  context)
+                                              .sortCandidateListByCompletionEvent(
+                                                  candidateListInitial,
+                                                  candidateList,
+                                                  ascending);
+                                        }),
                                   ),
                                   const Spacer(),
                                   const SizedBox(width: 50),
                                 ],
                               ),
                             ),
-                            BlocConsumer<CandidateListScreenCubit, CandidateListScreenState>(
+                            BlocConsumer<CandidateListScreenCubit,
+                                    CandidateListScreenState>(
                                 listener: (context, state) {
-                                  if (state is CandidateListScreenLoaded) {
-                                    candidateListInitial = state.candidateListInitial;
-                                    candidateList = state.candidateList;
-                                  }
-                                  if (state is CandidateListScreenErrorModal) {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return ErrorModal(
-                                              title: state.errorTitle,
-                                              description: state.errorMessage
-                                          );
-                                        },
-                                        barrierDismissible: true
-                                    );
-                                  }
-                                  if (state is CandidateListScreenDelete) {
-                                    candidateListInitial.remove(state.candidate);
-                                    candidateList.remove(state.candidate);
-                                  }
-                                },
-                                builder: (context, state) {
-                                  if (state is CandidateListScreenLoading) {
-                                    return buildLoadingScreen(context);
-                                  } else if (state is CandidateListScreenLoaded || state is CandidateListScreenErrorModal
-                                      || state is CandidateListScreenDelete) {
-                                    return buildLoadedScreen(context, candidateList);
-                                  } else if (state is CandidateListScreenError) {
-                                    return buildErrorScreen(context, state.errorMessage);
-                                  } else {
-                                    return buildInitialScreen(context);
-                                  }
-                                }
-                            )
+                              if (state is CandidateListScreenLoaded) {
+                                candidateListInitial =
+                                    state.candidateListInitial;
+                                candidateList = state.candidateList;
+                              }
+                              if (state is CandidateListScreenErrorModal) {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return ErrorModal(
+                                          title: state.errorTitle,
+                                          description: state.errorMessage);
+                                    },
+                                    barrierDismissible: true);
+                              }
+                              if (state is CandidateListScreenDelete) {
+                                candidateListInitial.remove(state.candidate);
+                                candidateList.remove(state.candidate);
+                              }
+                            }, builder: (context, state) {
+                              if (state is CandidateListScreenLoading) {
+                                return buildLoadingScreen(context);
+                              } else if (state is CandidateListScreenLoaded ||
+                                  state is CandidateListScreenErrorModal ||
+                                  state is CandidateListScreenDelete) {
+                                return buildLoadedScreen(
+                                    context, candidateList);
+                              } else if (state is CandidateListScreenError) {
+                                return buildErrorScreen(
+                                    context, state.errorMessage);
+                              } else {
+                                return buildInitialScreen(context);
+                              }
+                            })
                           ],
-                        )
-                    )
-                ),
+                        ))),
                 const VerticalDivider(
                   thickness: 1,
                   indent: 25,
@@ -153,16 +162,16 @@ class _BodyState extends State<Body> {
                             Container(
                                 padding: const EdgeInsets.all(30),
                                 decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
                                     // color: Colors.grey[100],
                                     border: Border.all(
                                       width: 1,
                                       color: Colors.grey,
-                                    )
-                                ),
-
+                                    )),
                                 child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Container(
                                         alignment: Alignment.centerLeft,
@@ -171,17 +180,18 @@ class _BodyState extends State<Body> {
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               fontSize: 25,
-                                              fontWeight: FontWeight.bold
-                                          ),
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                       /* Bouton Ajouter */
                                       Container(
                                           width: 300,
                                           height: 60,
-                                          margin: const EdgeInsets.only(top: 20),
+                                          margin:
+                                              const EdgeInsets.only(top: 20),
                                           decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(7)),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(7)),
                                             color: kBlue,
                                           ),
                                           child: MaterialButton(
@@ -190,34 +200,42 @@ class _BodyState extends State<Body> {
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 22
-                                              ),
+                                                  fontSize: 22),
                                             ),
                                             onPressed: () {
                                               showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return BlocProvider(
-                                                      create: (context) => CandidateFormCubit(CandidateRepository()),
-                                                      child: const CandidateCreateFormDialog(),
-                                                    );
-                                                  },
-                                                  barrierDismissible: false
-                                              ).then((value) {
-                                                if (value == FormReturn.confirm) {
-                                                  BlocProvider.of<CandidateListScreenCubit>(context).fetchCandidateList();
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return BlocProvider(
+                                                          create: (context) =>
+                                                              CandidateFormCubit(
+                                                                  CandidateRepository()),
+                                                          child:
+                                                              const CandidateCreateFormDialog(),
+                                                        );
+                                                      },
+                                                      barrierDismissible: false)
+                                                  .then((value) {
+                                                if (value ==
+                                                    FormReturn.confirm) {
+                                                  BlocProvider.of<
+                                                              CandidateListScreenCubit>(
+                                                          context)
+                                                      .fetchCandidateList();
                                                 }
                                               });
                                             },
-                                          )
-                                      ),
+                                          )),
                                       /* Bouton extraire */
                                       Container(
                                           width: 300,
                                           height: 40,
-                                          margin: const EdgeInsets.only(top: 10),
+                                          margin:
+                                              const EdgeInsets.only(top: 10),
                                           decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(7)),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(7)),
                                             color: kDarkBlue,
                                           ),
                                           child: MaterialButton(
@@ -227,19 +245,16 @@ class _BodyState extends State<Body> {
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 18
-                                              ),
+                                                  fontSize: 18),
                                             ),
-                                            onPressed: () {
-
-                                            },
-                                          )
-                                      ),
+                                            onPressed: () {},
+                                          )),
                                       /* Bouton Rappel */
                                       Container(
                                           width: 300,
                                           height: 40,
-                                          margin: const EdgeInsets.only(top: 10),
+                                          margin:
+                                              const EdgeInsets.only(top: 10),
                                           decoration: const BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(7)),
@@ -251,59 +266,55 @@ class _BodyState extends State<Body> {
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   color: Colors.white,
-                                                  fontSize: 18
-                                              ),
+                                                  fontSize: 18),
                                             ),
                                             onPressed: () {
                                               showDialog(
-                                                  context: context,
-                                                  builder: (BuildContext context) {
-                                                    return const ConfirmationModal(
-                                                      title: "Envoi d'un rappel",
-                                                      description: "Un mail de rappel va être envoyé à tous les candidats n'ayant pas complété leur profil.",
-                                                    );
-                                                  },
-                                                  barrierDismissible: false
-                                              ).then((value) {
-                                                if (value == ModalReturn.confirm) {
-                                                  BlocProvider.of<CandidateListScreenCubit>(context).sendReminder();
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return const ConfirmationModal(
+                                                          title:
+                                                              "Envoi d'un rappel",
+                                                          description:
+                                                              "Un mail de rappel va être envoyé à tous les candidats n'ayant pas complété leur profil.",
+                                                        );
+                                                      },
+                                                      barrierDismissible: false)
+                                                  .then((value) {
+                                                if (value ==
+                                                    ModalReturn.confirm) {
+                                                  BlocProvider.of<
+                                                              CandidateListScreenCubit>(
+                                                          context)
+                                                      .sendReminder();
                                                 }
                                               });
                                             },
-                                          )
-                                      )
-                                    ]
-                                )
-                            ),
+                                          ))
+                                    ])),
                             Container(
                                 height: 100,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
                                     border: Border.all(
                                       width: 1,
                                       color: Colors.grey,
-                                    )
-                                ),
+                                    )),
                                 margin: const EdgeInsets.only(top: 30),
                                 padding: const EdgeInsets.all(10),
-                                child: const Text("Chiffres clés")
-                            )
+                                child: const Text("Chiffres clés"))
                           ],
-                        )
-                    )
-                )
+                        )))
               ],
-            )
-        )
-    );
+            )));
   }
 
   buildLoadingScreen(BuildContext context) {
     return const Expanded(
-      child: Center(
-          child: CircularProgressIndicator()
-      ),
+      child: Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -314,52 +325,56 @@ class _BodyState extends State<Body> {
         primary: false,
         shrinkWrap: true,
         children: [
-          for (var candidate in candidateList) CandidateCard(
-              candidate: candidate,
-              detailEvent: (candidate) {
-                showDialog(
+          for (var candidate in candidateList)
+            CandidateCard(
+                candidate: candidate,
+                detailEvent: (candidate) {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return BlocProvider(
+                          create: (context) =>
+                              CandidateFormCubit(CandidateRepository()),
+                          child: CandidateDetailDialog(candidate.id),
+                        );
+                      },
+                      barrierDismissible: false);
+                },
+                editEvent: (candidate) {
+                  showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return BlocProvider(
+                              create: (context) =>
+                                  CandidateFormCubit(CandidateRepository()),
+                              child: CandidateEditFormDialog(candidate),
+                            );
+                          },
+                          barrierDismissible: false)
+                      .then((value) {
+                    if (value == FormReturn.confirm) {
+                      BlocProvider.of<CandidateListScreenCubit>(context)
+                          .fetchCandidateList();
+                    }
+                  });
+                },
+                deleteEvent: (candidate) {
+                  showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return BlocProvider(
-                        create: (context) => CandidateFormCubit(CandidateRepository()),
-                        child: CandidateDetailDialog(candidate.id),
+                      return ConfirmationModal(
+                        title: "Suppression d'un candidat",
+                        description:
+                            "Vous-êtes sur le point de supprimer le candidat ${candidate.firstName} ${candidate.lastName}, en êtes-vous sûr ?",
                       );
                     },
-                    barrierDismissible: false
-                );
-              },
-              editEvent: (candidate) {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return BlocProvider(
-                        create: (context) => CandidateFormCubit(CandidateRepository()),
-                        child: CandidateEditFormDialog(candidate),
-                      );
-                    },
-                    barrierDismissible: false
-                ).then((value) {
-                  if (value == FormReturn.confirm) {
-                    BlocProvider.of<CandidateListScreenCubit>(context).fetchCandidateList();
-                  }
-                });
-              },
-              deleteEvent: (candidate) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ConfirmationModal(
-                      title: "Suppression d'un candidat",
-                      description: "Vous-êtes sur le point de supprimer le candidat ${candidate.firstName} ${candidate.lastName}, en êtes-vous sûr ?",
-                    );
-                  },
-                ).then((value) {
-                  if (value == ModalReturn.confirm) {
-                    BlocProvider.of<CandidateListScreenCubit>(context).deleteCandidate(candidate);
-                  }
-                });
-              }
-          ),
+                  ).then((value) {
+                    if (value == ModalReturn.confirm) {
+                      BlocProvider.of<CandidateListScreenCubit>(context)
+                          .deleteCandidate(candidate);
+                    }
+                  });
+                }),
         ],
       ),
     );
@@ -368,9 +383,7 @@ class _BodyState extends State<Body> {
   buildErrorScreen(BuildContext context, String errorMessage) {
     return Text(
       errorMessage,
-      style: const TextStyle(
-          color: Colors.red
-      ),
+      style: const TextStyle(color: Colors.red),
     );
   }
 

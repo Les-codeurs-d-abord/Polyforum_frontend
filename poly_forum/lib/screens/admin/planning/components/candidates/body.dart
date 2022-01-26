@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/data/models/candidate_model.dart';
 import 'package:poly_forum/data/models/company_minimal_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
-import 'package:poly_forum/screens/admin/planning/components/planning_component.dart';
-import 'package:poly_forum/screens/admin/planning/components/pop_up_fill_slot.dart';
+import 'package:poly_forum/screens/admin/planning/components/candidates/planning_component.dart';
 
 import 'package:shimmer/shimmer.dart';
 
@@ -153,6 +152,6 @@ class _BodyState extends State<Body> {
 
   void callPlanningRequest() {
     BlocProvider.of<AdminPlanningCandidatesCubit>(context)
-        .fetchPlanningForGivenCandidate(candidateSelected!);
+        .fetchPlanningForGivenCandidate(candidateSelected!.userId);
   }
 }

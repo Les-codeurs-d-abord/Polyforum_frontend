@@ -4,11 +4,13 @@ import 'package:poly_forum/data/models/candidate_model.dart';
 import 'package:poly_forum/data/models/company_minimal_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:poly_forum/resources/candidate_repository.dart';
+import 'package:poly_forum/resources/planning_repository.dart' as pr;
 
 part 'admin_planning_candidates_screen_state.dart';
 
 class AdminPlanningCandidatesCubit extends Cubit<AdminPlanningCandidatesState> {
-  final CandidateRepository repository = CandidateRepository();
+  final CandidateRepository candidateRepository = CandidateRepository();
+  final pr.PlanningRepository planningRepository = pr.PlanningRepository();
 
   AdminPlanningCandidatesCubit() : super(AdminPlanningCandidatesInitial());
 
@@ -16,7 +18,7 @@ class AdminPlanningCandidatesCubit extends Cubit<AdminPlanningCandidatesState> {
     try {
       emit(AdminPlanningCandidatesLoading());
 
-      final candidatesList = await repository.getCandidates();
+      final candidatesList = await candidateRepository.getCandidates();
 
       emit(AdminPlanningCandidatesLoaded(candidatesList));
     } on NetworkException catch (exception) {
@@ -24,15 +26,14 @@ class AdminPlanningCandidatesCubit extends Cubit<AdminPlanningCandidatesState> {
     }
   }
 
-  Future<Planning?> fetchPlanningForGivenCandidate(Candidate candidate) async {
+  Future<Planning?> fetchPlanningForGivenCandidate(userId) async {
     try {
       emit(AdminPlanningCandidatesLoading());
 
-      final planning =
-          await repository.fetchPlanningWithUserId(candidate.userId);
+      final planning = await planningRepository.fetchPlanningWithUserId(userId);
 
       emit(AdminPlanningCandidatesAndPlanningLoaded(planning));
-    } on NetworkException catch (exception) {
+    } on pr.NetworkException catch (exception) {
       emit(AdminPlanningCandidatesError(exception.message));
     }
   }

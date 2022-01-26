@@ -158,6 +158,16 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                             text: "Candidats",
                             iconData: Icons.local_offer_outlined,
                           ),
+                          TabNavigationItem(
+                            onPressed: () {
+                              setState(() {
+                                _selectedIndex = 3;
+                              });
+                            },
+                            isSelect: _selectedIndex == 3,
+                            text: "Planning candidats",
+                            iconData: Icons.local_offer_outlined,
+                          ),
                         ],
                       ),
                     ),

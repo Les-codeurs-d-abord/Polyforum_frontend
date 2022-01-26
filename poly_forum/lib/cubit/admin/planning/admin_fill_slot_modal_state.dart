@@ -7,6 +7,8 @@ class AdminFillSlotModalInitial extends AdminFillSlotModalState {}
 
 class AdminFillSlotModalLoading extends AdminFillSlotModalState {}
 
+class AdminFillSlotModalLoadedCreation extends AdminFillSlotModalState {}
+
 class AdminFillSlotModalLoaded extends AdminFillSlotModalState {
   final List<CompanyMinimal> listCompanies;
 
