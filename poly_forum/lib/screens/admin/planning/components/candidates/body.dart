@@ -97,7 +97,7 @@ class _BodyState extends State<Body> {
       return Column(children: [
         DropdownButton<Candidate>(
           icon: const Icon(Icons.account_circle),
-          dropdownColor: Colors.blue[300],
+          dropdownColor: Colors.grey[300],
           value: candidateSelected,
           onChanged: (Candidate? newValue) {
             setState(() {
@@ -110,7 +110,7 @@ class _BodyState extends State<Body> {
             return DropdownMenuItem<Candidate>(
               value: candidate,
               child: Text('${candidate.firstName} ${candidate.lastName}',
-                  style: const TextStyle(color: Colors.white)),
+                  style: const TextStyle(color: Colors.black)),
             );
           }).toList(),
         ),
