@@ -54,7 +54,6 @@ class PlanningRepository {
   Future<List<CompanyMinimal>> fetchFreeCompaniesRequestAtGivenPeriod(
       period) async {
     try {
-      print('dans la methode qui clc');
       if (period == null) {
         throw const PlanningException("Une période est requise");
       }
