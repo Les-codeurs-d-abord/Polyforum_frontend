@@ -152,6 +152,35 @@ class PlanningRepository {
       }
     }
   }
+
+  Future<List<CandidateMinimal>> getCandidates() async {
+    final uri = Uri.http(kServer, '/api/candidates');
+    final response = await http.get(uri).timeout(const Duration(seconds: 2));
+
+    List<CandidateMinimal> candidates = [];
+
+    if (response.statusCode != 200) {
+      if (response.statusCode == 400 || response.statusCode == 409) {
+        throw PlanningException(response.body);
+      } else {
+        throw const NetworkException("Le serveur a rencontré un problème");
+      }
+    } else {
+      var result = "";
+
+      for (var i = 0; i < response.bodyBytes.length; i++) {
+        result += String.fromCharCode(response.bodyBytes[i]);
+      }
+      final body = jsonDecode(result);
+
+      for (var element in body) {
+        CandidateMinimal candidate = CandidateMinimal.fromJson(element);
+        candidates.add(candidate);
+      }
+
+      return candidates;
+    }
+  }
 }
 
 class NetworkException implements Exception {

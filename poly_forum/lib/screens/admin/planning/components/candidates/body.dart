@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/admin/planning/candidates/admin_planning_candidates_screen_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/data/models/candidate_minimal_model.dart';
 import 'package:poly_forum/data/models/candidate_model.dart';
 import 'package:poly_forum/data/models/company_minimal_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
@@ -16,9 +17,9 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  List<Candidate>? listCandidates;
+  List<CandidateMinimal>? listCandidates;
   List<CompanyMinimal>? listCompanies;
-  Candidate? candidateSelected;
+  CandidateMinimal? candidateSelected;
   Planning? planning;
 
   @override
@@ -95,19 +96,19 @@ class _BodyState extends State<Body> {
   Widget buildLoadedScreen([bool isPlanningLoaded = false]) {
     if (listCandidates!.isNotEmpty) {
       return Column(children: [
-        DropdownButton<Candidate>(
+        DropdownButton<CandidateMinimal>(
           icon: const Icon(Icons.account_circle),
           dropdownColor: Colors.grey[300],
           value: candidateSelected,
-          onChanged: (Candidate? newValue) {
+          onChanged: (CandidateMinimal? newValue) {
             setState(() {
               candidateSelected = newValue!;
               callPlanningRequest();
             });
           },
-          items: listCandidates!
-              .map<DropdownMenuItem<Candidate>>((Candidate candidate) {
-            return DropdownMenuItem<Candidate>(
+          items: listCandidates!.map<DropdownMenuItem<CandidateMinimal>>(
+              (CandidateMinimal candidate) {
+            return DropdownMenuItem<CandidateMinimal>(
               value: candidate,
               child: Text('${candidate.firstName} ${candidate.lastName}',
                   style: const TextStyle(color: Colors.black)),

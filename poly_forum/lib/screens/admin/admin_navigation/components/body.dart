@@ -13,7 +13,6 @@ import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/admin/admin_navigation/components/web/admin_web_body.dart';
 
-
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
 
@@ -27,8 +26,7 @@ class _BodyState extends State<Body> {
     super.initState();
 
     BlocProvider.of<PhaseCubit>(context).fetchCurrentPhase();
-    BlocProvider.of<AdminGetUserCubit>(context)
-        .getAdminFromLocalToken();
+    BlocProvider.of<AdminGetUserCubit>(context).getAdminFromLocalToken();
   }
 
   @override
@@ -75,7 +73,8 @@ class _BodyState extends State<Body> {
           create: (context) => AdminNavigationCubit(),
         ),
         BlocProvider(
-          create: (context) => DashboardCubit(companyRepository, candidateRepository),
+          create: (context) =>
+              DashboardCubit(companyRepository, candidateRepository),
         ),
         BlocProvider(
           create: (context) => CompanyListScreenCubit(companyRepository),

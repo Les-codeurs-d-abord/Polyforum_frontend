@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_list_screen_cubit.dart';
 import 'package:poly_forum/cubit/admin/dashboard/dashboard_cubit.dart';
@@ -13,7 +14,6 @@ import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.d
 import 'package:poly_forum/screens/shared/components/modals/error_modal.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'candidate_card.dart';
 import 'candidate_create_form_dialog.dart';
@@ -30,7 +30,6 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   List<CandidateUser> candidateListInitial = [];
   List<CandidateUser> candidateList = [];
-  final _formKey = GlobalKey<FormState>();
 
   late Phase currentPhase;
 
@@ -354,36 +353,6 @@ class _BodyState extends State<Body> {
                           create: (context) =>
                               CandidateFormCubit(CandidateRepository()),
                           child: CandidateDetailDialog(candidate.id),
-                        );
-                      },
-                      barrierDismissible: false);
-                },
-                editEvent: (candidate) {
-                  showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return BlocProvider(
-                              create: (context) =>
-                                  CandidateFormCubit(CandidateRepository()),
-                              child: CandidateEditFormDialog(candidate),
-                            );
-                          },
-                          barrierDismissible: false)
-                      .then((value) {
-                    if (value == FormReturn.confirm) {
-                      BlocProvider.of<CandidateListScreenCubit>(context)
-                          .fetchCandidateList();
-                    }
-                  });
-                },
-                deleteEvent: (candidate) {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ConfirmationModal(
-                          title: "Suppression d'un candidat",
-                          description:
-                              "Vous-êtes sur le point de supprimer le candidat ${candidate.firstName} ${candidate.lastName}, en êtes-vous sûr ?",
                         );
                       },
                       barrierDismissible: false);

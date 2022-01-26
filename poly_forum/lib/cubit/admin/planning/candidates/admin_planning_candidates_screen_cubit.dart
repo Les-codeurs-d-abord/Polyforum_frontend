@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:poly_forum/data/models/candidate_model.dart';
+import 'package:poly_forum/data/models/candidate_minimal_model.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/company_minimal_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:poly_forum/resources/candidate_repository.dart';
@@ -14,11 +15,11 @@ class AdminPlanningCandidatesCubit extends Cubit<AdminPlanningCandidatesState> {
 
   AdminPlanningCandidatesCubit() : super(AdminPlanningCandidatesInitial());
 
-  Future<List<Candidate>?> fetchAllCandidates() async {
+  Future<List<CandidateMinimal>?> fetchAllCandidates() async {
     try {
       emit(AdminPlanningCandidatesLoading());
 
-      final candidatesList = await candidateRepository.getCandidates();
+      final candidatesList = await planningRepository.getCandidates();
 
       emit(AdminPlanningCandidatesLoaded(candidatesList));
     } on NetworkException catch (exception) {

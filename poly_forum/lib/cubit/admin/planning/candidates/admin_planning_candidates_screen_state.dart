@@ -8,7 +8,7 @@ class AdminPlanningCandidatesInitial extends AdminPlanningCandidatesState {}
 class AdminPlanningCandidatesLoading extends AdminPlanningCandidatesState {}
 
 class AdminPlanningCandidatesLoaded extends AdminPlanningCandidatesState {
-  final List<Candidate> listCandidates;
+  final List<CandidateMinimal> listCandidates;
 
   AdminPlanningCandidatesLoaded(this.listCandidates);
 }

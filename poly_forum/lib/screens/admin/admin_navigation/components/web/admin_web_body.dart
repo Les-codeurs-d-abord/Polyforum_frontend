@@ -11,6 +11,9 @@ import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/admin/candidate_list/candidate_list_screen.dart';
 import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
 import 'package:poly_forum/screens/admin/dashboard/dashboard_screen.dart';
+import 'package:poly_forum/screens/admin/planning/planning_candidates_screen.dart';
+import 'package:poly_forum/screens/admin/planning/planning_companies_screen.dart';
+import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
@@ -25,8 +28,7 @@ class AdminWebBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AdminNavigationCubit, AdminNavigationState>(
-      listener: (context, state) {
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state is AdminNavigationLoaded) {
           return buildScreen(
@@ -40,7 +42,8 @@ class AdminWebBody extends StatelessWidget {
     );
   }
 
-  Widget buildScreen(BuildContext context, int selectedIndex, AdminUser adminUser) {
+  Widget buildScreen(
+      BuildContext context, int selectedIndex, AdminUser adminUser) {
     return BlocListener<PhaseCubit, PhaseState>(
       listener: (context, state) {
         if (state is PhaseLoaded) {
@@ -61,7 +64,7 @@ class AdminWebBody extends StatelessWidget {
                     primary: false,
                     child: Column(
                       children: [
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
                         Row(
                           children: [
                             const SizedBox(width: 10),
@@ -94,7 +97,6 @@ class AdminWebBody extends StatelessWidget {
                               ? Icons.home
                               : Icons.home_outlined,
                         ),
-                        const SizedBox(height: 20),
                         TabNavigationItem(
                           onPressed: () {
                             BlocProvider.of<AdminNavigationCubit>(context)
@@ -104,7 +106,6 @@ class AdminWebBody extends StatelessWidget {
                           text: "Tableau de bord",
                           iconData: Icons.local_offer_outlined,
                         ),
-                        const SizedBox(height: 20),
                         TabNavigationItem(
                           onPressed: () {
                             BlocProvider.of<AdminNavigationCubit>(context)
@@ -114,7 +115,6 @@ class AdminWebBody extends StatelessWidget {
                           text: "Entreprises",
                           iconData: Icons.local_offer_outlined,
                         ),
-                        const SizedBox(height: 20),
                         TabNavigationItem(
                           onPressed: () {
                             BlocProvider.of<AdminNavigationCubit>(context)
@@ -123,6 +123,35 @@ class AdminWebBody extends StatelessWidget {
                           isSelect: selectedIndex == 3,
                           text: "Candidats",
                           iconData: Icons.local_offer_outlined,
+                        ),
+                        TabNavigationItem(
+                          onPressed: () {
+                            BlocProvider.of<AdminNavigationCubit>(context)
+                                .setSelectedItem(4);
+                          },
+                          isSelect: selectedIndex >= 4,
+                          text: "Planning",
+                          iconData: selectedIndex >= 4
+                              ? Icons.today
+                              : Icons.today_outlined,
+                          children: [
+                            TabChildNavigationItem(
+                              title: "Candidats",
+                              onPress: () {
+                                BlocProvider.of<AdminNavigationCubit>(context)
+                                    .setSelectedItem(5);
+                              },
+                              isSelect: selectedIndex == 5,
+                            ),
+                            TabChildNavigationItem(
+                              title: "Entreprises",
+                              onPress: () {
+                                BlocProvider.of<AdminNavigationCubit>(context)
+                                    .setSelectedItem(6);
+                              },
+                              isSelect: selectedIndex == 6,
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -145,11 +174,14 @@ class AdminWebBody extends StatelessWidget {
                                 Expanded(
                                   child: IndexedStack(
                                     index: selectedIndex,
-                                    children: const <Widget>[
-                                      WelcomeScreen(),
-                                      DashboardScreen(),
-                                      CompanyListScreen(),
-                                      CandidateListScreen(),
+                                    children: <Widget>[
+                                      const WelcomeScreen(),
+                                      const DashboardScreen(),
+                                      const CompanyListScreen(),
+                                      const CandidateListScreen(),
+                                      Container(),
+                                      const PlanningCandidatesScreen(),
+                                      const PlanningCompaniesScreen(),
                                     ],
                                   ),
                                 ),
@@ -237,8 +269,7 @@ class AdminWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<AdminNavigationCubit>(context)
-                  .setSelectedItem(0);
+              BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(0);
             },
             child: const Text(
               "Le forum",
@@ -251,8 +282,7 @@ class AdminWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<AdminNavigationCubit>(context)
-                  .setSelectedItem(1);
+              BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(1);
             },
             child: const Text(
               "Tableau de bord",
@@ -265,8 +295,7 @@ class AdminWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<AdminNavigationCubit>(context)
-                  .setSelectedItem(2);
+              BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(2);
             },
             child: const Text(
               "Les entreprises",
@@ -279,8 +308,7 @@ class AdminWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<AdminNavigationCubit>(context)
-                  .setSelectedItem(3);
+              BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(3);
             },
             child: const Text(
               "Les candidats",
