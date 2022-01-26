@@ -115,7 +115,7 @@ class _FillSlotModalState extends State<FillSlotModal> {
   Widget listCandidatesInput() {
     return DropdownButton<CandidateMinimal>(
         dropdownColor: Colors.grey[300],
-        hint: const Text("Choisir une entreprise"),
+        hint: const Text("Choisir candidat"),
         icon: const Icon(Icons.portrait),
         style: const TextStyle(color: Colors.black),
         isExpanded: true,
@@ -141,7 +141,7 @@ class _FillSlotModalState extends State<FillSlotModal> {
     return AlertDialog(
       title: Stack(children: [
         const Text(
-          "Ajouter un rendez-vous avec une entreprise",
+          "Ajouter un rendez-vous avec un.e candidat.e",
           style: TextStyle(fontSize: 22),
         ),
         Positioned(

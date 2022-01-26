@@ -8,7 +8,7 @@ class AdminPlanningCompaniesInitial extends AdminPlanningCompaniesState {}
 class AdminPlanningCompaniesLoading extends AdminPlanningCompaniesState {}
 
 class AdminPlanningCompaniesLoaded extends AdminPlanningCompaniesState {
-  final List<Company> listCompanies;
+  final List<CompanyMinimal> listCompanies;
 
   AdminPlanningCompaniesLoaded(this.listCompanies);
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/admin/planning/companies/admin_planning_companies_screen_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/data/models/candidate_minimal_model.dart';
+import 'package:poly_forum/data/models/company_minimal_model.dart';
 import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:poly_forum/screens/admin/planning/components/companies/planning_component.dart';
@@ -16,9 +17,9 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  List<Company>? listCompanies;
+  List<CompanyMinimal>? listCompanies;
   List<CandidateMinimal>? listCandidates;
-  Company? companySelected;
+  CompanyMinimal? companySelected;
   Planning? planning;
 
   @override
@@ -95,19 +96,19 @@ class _BodyState extends State<Body> {
   Widget buildLoadedScreen([bool isPlanningLoaded = false]) {
     if (listCompanies!.isNotEmpty) {
       return Column(children: [
-        DropdownButton<Company>(
+        DropdownButton<CompanyMinimal>(
           icon: const Icon(Icons.business),
           dropdownColor: Colors.grey[300],
           value: companySelected,
-          onChanged: (Company? newValue) {
+          onChanged: (CompanyMinimal? newValue) {
             setState(() {
               companySelected = newValue!;
               callPlanningRequest();
             });
           },
-          items:
-              listCompanies!.map<DropdownMenuItem<Company>>((Company company) {
-            return DropdownMenuItem<Company>(
+          items: listCompanies!
+              .map<DropdownMenuItem<CompanyMinimal>>((CompanyMinimal company) {
+            return DropdownMenuItem<CompanyMinimal>(
               value: company,
               child: Text(company.companyName,
                   style: const TextStyle(color: Colors.black)),
@@ -141,6 +142,6 @@ class _BodyState extends State<Body> {
 
   void callPlanningRequest() {
     BlocProvider.of<AdminPlanningCompaniesCubit>(context)
-        .fetchPlanningForGivenCompany(companySelected!.id);
+        .fetchPlanningForGivenCompany(companySelected!.userId);
   }
 }

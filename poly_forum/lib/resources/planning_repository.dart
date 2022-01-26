@@ -54,6 +54,7 @@ class PlanningRepository {
   Future<List<CompanyMinimal>> fetchFreeCompaniesRequestAtGivenPeriod(
       period) async {
     try {
+      print('dans la methode qui clc');
       if (period == null) {
         throw const PlanningException("Une période est requise");
       }
@@ -62,8 +63,10 @@ class PlanningRepository {
 
       final uri = Uri.http(kServer, uriLink);
       final response = await http.get(uri).timeout(const Duration(seconds: 2));
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
+
         List<CompanyMinimal> companies = [];
         for (Map<String, dynamic> i in data) {
           companies.add(CompanyMinimal.fromJson(i));
@@ -179,6 +182,34 @@ class PlanningRepository {
       }
 
       return candidates;
+    }
+  }
+
+  Future<List<CompanyMinimal>> getCompanies() async {
+    // For flex purpose
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    final uri = Uri.http('localhost:8080', '/api/companies');
+    final response = await http.get(uri).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      List<CompanyMinimal> companyList = [];
+
+      for (Map<String, dynamic> companyJson in data) {
+        companyList.add(CompanyMinimal.fromJsonWithUserId(companyJson));
+      }
+
+      return companyList;
+    } else {
+      if (response.statusCode == 500) {
+        throw PlanningException(response.body);
+      } else {
+        throw const NetworkException("Le serveur a rencontré un problème");
+      }
     }
   }
 }
