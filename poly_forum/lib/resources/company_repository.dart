@@ -169,13 +169,11 @@ class CompanyRepository {
   Future<void> sendReminder() async {
     final uri = Uri.http('localhost:8080', '/api/users/sendRemindersCompanies');
     final response = await http.post(uri).onError((error, stackTrace) {
-      throw const NetworkException(
-          "Le serveur est injoignable, l'envoi du rappel n'a pas pu être effectué");
+      throw const NetworkException("Le serveur est injoignable, l'envoi des rappels n'a pas pu être effectué");
     });
 
     if (response.statusCode != 200) {
-      throw const NetworkException(
-          "Le serveur a rencontré un problème, l'envoi du rappel n'a pas pu être effectué");
+      throw const NetworkException("Le serveur a rencontré un problème, l'envoi des rappels n'a pas pu être effectué");
     }
   }
 }

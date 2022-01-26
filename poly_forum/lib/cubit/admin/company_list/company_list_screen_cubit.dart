@@ -93,7 +93,7 @@ class CompanyListScreenCubit extends Cubit<CompanyListScreenState> {
 
     try {
       await _companyRepository.sendReminder();
-      emit(const CompanyListScreenSuccessModal("Le rappel a bien été envoyé."));
+      emit(const CompanyListScreenSuccessModal("Les rappels ont bien été envoyés."));
     } on NetworkException catch (exception) {
       emit(CompanyListScreenErrorModal(exception.message));
     }

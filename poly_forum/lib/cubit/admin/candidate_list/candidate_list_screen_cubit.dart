@@ -46,7 +46,7 @@ class CandidateListScreenCubit extends Cubit<CandidateListScreenState> {
 
     try {
       await _candidateRepository.sendReminder();
-      emit(const CandidateListScreenSuccessModal("Le rappel a bien été envoyé"));
+      emit(const CandidateListScreenSuccessModal("Les rappels ont bien été envoyés."));
     } on NetworkException catch (exception) {
       emit(CandidateListScreenErrorModal(exception.message));
     }

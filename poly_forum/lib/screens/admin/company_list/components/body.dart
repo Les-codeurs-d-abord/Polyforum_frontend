@@ -239,7 +239,7 @@ class _BodyState extends State<Body> {
                                             },
                                           )
                                       ),
-                                      /* Bouton Rappel */
+                                      /* Bouton Rappels */
                                       Container(
                                           width: 300,
                                           height: 40,
@@ -251,7 +251,7 @@ class _BodyState extends State<Body> {
                                                 borderRadius: BorderRadius.all(Radius.circular(7))
                                             ),
                                             child: const Text(
-                                              "Rappel",
+                                              "Rappels",
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                   color: Colors.white,
@@ -264,17 +264,17 @@ class _BodyState extends State<Body> {
                                                   builder: (BuildContext context) {
                                                     if (currentPhase == Phase.inscription) {
                                                       return const ConfirmationModal(
-                                                        title: "Envoi d'un rappel",
+                                                        title: "Envoi de rappels",
                                                         description: "Un mail de rappel va être envoyé à toutes les entreprises n'ayant pas complété leur profil ou n'ayant renseigné aucune offre.",
                                                       );
                                                     } else if (currentPhase == Phase.wish) {
                                                       return const ConfirmationModal(
-                                                        title: "Envoi d'un rappel",
+                                                        title: "Envoi de rappels",
                                                         description: "Un mail de rappel va être envoyé à toutes les entreprises n'ayant fait aucun voeux.",
                                                       );
                                                     } else {
                                                       return const ErrorModal(
-                                                        title: "Envoi d'un rappel",
+                                                        title: "Envoi de rappels",
                                                         description: "Aucun rappel à envoyer",
                                                       );
                                                     }
