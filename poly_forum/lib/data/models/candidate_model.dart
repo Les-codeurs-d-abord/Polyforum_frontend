@@ -1,33 +1,32 @@
 class Candidate {
-  final int userId;
   final String email;
   final String firstName;
   final String lastName;
+  final String status;
 
   const Candidate(
-      {required this.userId,
-      required this.email,
+      {required this.email,
       required this.firstName,
-      required this.lastName});
+      required this.lastName,
+      required this.status});
 
   factory Candidate.fromJson(Map<String, dynamic> json) {
     return Candidate(
-      userId: json['user']['id'],
-      email: json['user']['email'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-    );
+        email: json['email'],
+        firstName: json['firstName'],
+        lastName: json['lastName'],
+        status: json['status']);
   }
 
   Map<String, dynamic> toJson() => {
-        "userId": userId,
         "email": email,
         "firstName": firstName,
         "lastName": lastName,
+        "status": status
       };
 
   @override
   String toString() {
-    return "Candidate name : $firstName $lastName, email: $email, id $userId";
+    return "Candidate name : $firstName $lastName, email: $email, status: $status";
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_card.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
-import 'package:poly_forum/utils/constants.dart';
 
 class HomeProfileScreen extends StatelessWidget {
   final Function onEditProfilePressed;
@@ -45,7 +44,6 @@ class HomeProfileScreen extends StatelessWidget {
     return BaseScreen(
       child: child,
       width: 1200,
-      title: "Mon profil",
     );
   }
 }

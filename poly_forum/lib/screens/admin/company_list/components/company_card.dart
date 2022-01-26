@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/company_model.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CompanyCard extends StatelessWidget {
   final Company company;
@@ -82,6 +85,7 @@ class CompanyCard extends StatelessWidget {
                         const PopupMenuDivider(),
                         PopupMenuItem(
                           value: 1,
+                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.inscription,
                           child: Row(
                             children: const [
                               Icon(Icons.edit),
@@ -93,6 +97,7 @@ class CompanyCard extends StatelessWidget {
                         const PopupMenuDivider(),
                         PopupMenuItem(
                           value: 2,
+                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() != Phase.planning,
                           child: Row(
                             children: const [
                               Icon(Icons.close),

@@ -42,7 +42,6 @@ class _SignFormState extends State<SignForm> {
             ),
           );
         } else if (state is SignInScreenLoaded) {
-          Application.user = state.user;
           String? path;
 
           if (state.user is CandidateUser) {
@@ -93,7 +92,7 @@ class _SignFormState extends State<SignForm> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
-              "images/logo_temp.png",
+              "images/logo.jpg",
               width: 200,
               height: 200,
               fit: BoxFit.cover,

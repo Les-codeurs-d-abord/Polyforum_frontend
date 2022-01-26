@@ -3,6 +3,4 @@ import 'package:poly_forum/data/models/user_model.dart';
 
 class Application {
   static late final FluroRouter router;
-  static User? user;
-  static void connection() {}
 }

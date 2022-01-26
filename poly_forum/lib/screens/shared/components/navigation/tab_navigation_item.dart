@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 // ignore: must_be_immutable
@@ -84,12 +83,22 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
                       ),
                     ),
                     const Spacer(),
-                    widget.isSelect
-                        ? const Icon(
-                            Icons.arrow_right_outlined,
-                            color: Colors.white,
-                          )
-                        : const SizedBox.shrink(),
+                    widget.children.isEmpty
+                        ? widget.isSelect
+                            ? const Icon(
+                                Icons.arrow_right_outlined,
+                                color: Colors.white,
+                              )
+                            : const SizedBox.shrink()
+                        : widget.isSelect
+                            ? const Icon(
+                                Icons.arrow_right_outlined,
+                                color: Colors.white,
+                              )
+                            : const Icon(
+                                Icons.arrow_drop_down,
+                                color: Colors.white,
+                              ),
                   ],
                 ),
               ),

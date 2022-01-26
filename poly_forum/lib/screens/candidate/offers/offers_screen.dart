@@ -12,10 +12,7 @@ class OffersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider(
-        create: (context) => CandidateOfferScreenCubit(),
-        child: Body(user: user),
-      ),
+      body: Body(user: user),
     );
   }
 }

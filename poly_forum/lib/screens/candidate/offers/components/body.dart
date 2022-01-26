@@ -7,7 +7,6 @@ import 'package:poly_forum/screens/candidate/offers/components/offer_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
-import 'package:poly_forum/utils/constants.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Body extends StatefulWidget {
@@ -36,6 +35,15 @@ class _BodyState extends State<Body> {
           offerListSaved = state.offerList;
         }
       },
+      // buildWhen: (previous, current) {
+      //   print(previous);
+      //   print(current);
+      //   if (previous is CandidateOfferScreenLoaded &&
+      //       current is CandidateOfferScreenLoading) {
+      //     return false;
+      //   }
+      //   return true;
+      // },
       builder: (context, state) {
         if (state is CandidateOfferScreenLoaded) {
           return buildLoaded(state.offerList, false);
@@ -80,7 +88,7 @@ class _BodyState extends State<Body> {
         isLoading ? buildloading() : buildList(offerList),
       ],
     );
-    return BaseScreen(child: child, title: "Les offres proposées", width: 1100);
+    return BaseScreen(child: child, width: 1100);
   }
 
   Widget buildloading() {
@@ -118,7 +126,7 @@ class _BodyState extends State<Body> {
       child: offerList.isNotEmpty
           ? Column(
               children: [
-                for (var offer in offerList) OfferCard(offer),
+                for (var offer in offerList) OfferCard(offer, widget.user),
               ],
             )
           : const Padding(

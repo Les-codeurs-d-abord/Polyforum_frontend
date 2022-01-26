@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:poly_forum/data/models/user_model.dart';
 
 class CandidateUser extends User {
+  final int candidateId;
   final String firstName;
   final String lastName;
   final String phoneNumber;
@@ -12,6 +13,8 @@ class CandidateUser extends User {
   final String status;
   final List<String> links;
   final List<String> tags;
+  final int wishesCount;
+  final String cv;
 
   CandidateUser({
     required this.firstName,
@@ -19,6 +22,7 @@ class CandidateUser extends User {
     required this.phoneNumber,
     required this.address,
     required this.description,
+    required this.candidateId,
     required id,
     required this.logo,
     required this.status,
@@ -26,6 +30,8 @@ class CandidateUser extends User {
     required role,
     required this.links,
     required this.tags,
+    required this.wishesCount,
+    required this.cv,
   }) : super(id: id, email: email, role: role);
 
   factory CandidateUser.fromJson(Map<String, dynamic> json) {
@@ -41,6 +47,7 @@ class CandidateUser extends User {
 
     return CandidateUser(
       id: json['user']['id'],
+      candidateId: json['id'],
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       phoneNumber: json['phoneNumber'] ?? '',
@@ -52,6 +59,8 @@ class CandidateUser extends User {
       role: json['user']['role'] ?? 'CANDIDAT',
       links: links,
       tags: tags,
+      wishesCount: json['wishesCount'] ?? 0,
+      cv: json['cv'] ?? '',
     );
   }
 

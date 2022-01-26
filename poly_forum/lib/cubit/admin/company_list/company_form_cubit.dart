@@ -8,7 +8,6 @@ import 'package:poly_forum/resources/company_repository.dart';
 part 'company_form_state.dart';
 
 class CompanyFormCubit extends Cubit<CompanyFormState> {
-
   final CompanyRepository _companyRepository;
 
   CompanyFormCubit(this._companyRepository) : super(CompanyFormInitial());

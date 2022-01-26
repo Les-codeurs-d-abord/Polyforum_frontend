@@ -7,13 +7,15 @@ class CandidateNavBar extends StatelessWidget {
   final CandidateUser user;
   final Function onProfileSelected;
   final List<Widget> paths;
+  final String title;
 
-  const CandidateNavBar(
-      {required this.user,
-      required this.onProfileSelected,
-      required this.paths,
-      Key? key})
-      : super(key: key);
+  const CandidateNavBar({
+    required this.user,
+    required this.onProfileSelected,
+    required this.paths,
+    required this.title,
+    Key? key
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,18 @@ class CandidateNavBar extends StatelessWidget {
                 ),
             ],
           ),
-          const Spacer(),
+          Expanded(
+            child: Center(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: kButtonColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
+                ),
+              ),
+            ),
+          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.notifications),

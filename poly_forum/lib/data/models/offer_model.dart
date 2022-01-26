@@ -1,4 +1,5 @@
 class Offer {
+  final int id;
   final String name;
   final String description;
   final String offerFile;
@@ -7,12 +8,15 @@ class Offer {
   final String email;
   final String companyName;
   final int companyId;
+  final int companyUserId;
   final List<String> links;
   final List<String> tags;
   final DateTime createdAt;
 
-  const Offer({
+  Offer({
+    required this.id,
     required this.companyId,
+    required this.companyUserId,
     required this.companyName,
     required this.offerFile,
     required this.name,
@@ -29,15 +33,17 @@ class Offer {
     List<String> links = [];
     List<String> tags = [];
 
-    for (Map<String, dynamic> i in json['offer_tags']) {
+    for (Map<String, dynamic> i in json['offer_tags'] ?? []) {
       tags.add(i['label'] ?? '');
     }
-    for (Map<String, dynamic> i in json['offer_links']) {
+    for (Map<String, dynamic> i in json['offer_links'] ?? []) {
       links.add(i['label'] ?? '');
     }
 
     return Offer(
-      companyId: json['companyProfileId'] ?? '',
+      id: json['id'] ?? 0,
+      companyId: json['companyProfileId'] ?? 0,
+      companyUserId: json['company_profile']?['userId'] ?? 0,
       companyName: json['company_profile']?['companyName'] ?? '',
       offerFile: json['offerFile'] ?? '',
       name: json['name'] ?? '',

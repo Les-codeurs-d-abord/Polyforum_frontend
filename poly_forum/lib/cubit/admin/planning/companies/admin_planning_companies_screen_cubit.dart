@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/candidate_minimal_model.dart';
-import 'package:poly_forum/data/models/company_minimal_model.dart';
 import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
