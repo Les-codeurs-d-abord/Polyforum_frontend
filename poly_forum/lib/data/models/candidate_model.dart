@@ -4,28 +4,26 @@ class Candidate {
   final String lastName;
   final String status;
 
-  const Candidate({
-    required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.status
-  });
+  const Candidate(
+      {required this.email,
+      required this.firstName,
+      required this.lastName,
+      required this.status});
 
   factory Candidate.fromJson(Map<String, dynamic> json) {
     return Candidate(
-      email: json['email'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      status: json['status']
-    );
+        email: json['email'],
+        firstName: json['firstName'],
+        lastName: json['lastName'],
+        status: json['status']);
   }
 
   Map<String, dynamic> toJson() => {
-    "email": email,
-    "firstName": firstName,
-    "lastName": lastName,
-    "status": status
-  };
+        "email": email,
+        "firstName": firstName,
+        "lastName": lastName,
+        "status": status
+      };
 
   @override
   String toString() {
