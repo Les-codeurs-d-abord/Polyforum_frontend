@@ -32,13 +32,21 @@ class CandidateListScreenError extends CandidateListScreenState {
 }
 
 class CandidateListScreenErrorModal extends CandidateListScreenState {
-  final String errorTitle;
   final String errorMessage;
 
-  const CandidateListScreenErrorModal(this.errorTitle, this.errorMessage);
+  const CandidateListScreenErrorModal(this.errorMessage);
 
   @override
-  List<Object> get props => [errorTitle, errorMessage];
+  List<Object> get props => [errorMessage];
+}
+
+class CandidateListScreenSuccessModal extends CandidateListScreenState {
+  final String successMessage;
+
+  const CandidateListScreenSuccessModal(this.successMessage);
+
+  @override
+  List<Object> get props => [successMessage];
 }
 
 class CandidateListScreenDelete extends CandidateListScreenState {

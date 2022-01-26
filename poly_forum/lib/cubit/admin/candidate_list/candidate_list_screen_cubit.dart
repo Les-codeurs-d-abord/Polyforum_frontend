@@ -35,9 +35,9 @@ class CandidateListScreenCubit extends Cubit<CandidateListScreenState> {
 
       emit(CandidateListScreenDelete(candidate));
     } on CandidateException catch (exception) {
-      emit(CandidateListScreenErrorModal("Suppression d'un candidat", exception.message));
+      emit(CandidateListScreenErrorModal(exception.message));
     } on NetworkException catch (exception) {
-      emit(CandidateListScreenErrorModal("Suppression d'un candidat", exception.message));
+      emit(CandidateListScreenErrorModal(exception.message));
     }
   }
 
@@ -46,8 +46,9 @@ class CandidateListScreenCubit extends Cubit<CandidateListScreenState> {
 
     try {
       await _candidateRepository.sendReminder();
+      emit(const CandidateListScreenSuccessModal("Les rappels ont bien été envoyés."));
     } on NetworkException catch (exception) {
-      emit(CandidateListScreenErrorModal("Envoi d'un rappel", exception.message));
+      emit(CandidateListScreenErrorModal(exception.message));
     }
   }
 
