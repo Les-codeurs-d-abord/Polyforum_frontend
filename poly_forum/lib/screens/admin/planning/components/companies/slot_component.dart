@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/admin/planning/candidates/admin_fill_slot_modal_candidate_cubit.dart';
 import 'package:poly_forum/cubit/admin/planning/candidates/admin_planning_candidates_screen_cubit.dart';
+import 'package:poly_forum/cubit/admin/planning/companies/admin_fill_slot_modal_company_cubit.dart';
+import 'package:poly_forum/cubit/admin/planning/companies/admin_planning_companies_screen_cubit.dart';
 import 'package:poly_forum/data/models/slot_model.dart';
+import 'package:poly_forum/screens/admin/planning/components/companies/fill_slot_modal.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
 
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'fill_slot_modal.dart';
 
 class SlotPlanning extends StatelessWidget {
   const SlotPlanning({Key? key, required this.slot}) : super(key: key);
@@ -56,8 +56,8 @@ class SlotPlanning extends StatelessWidget {
             barrierDismissible: false)
         .then((value) {
       if (value == ModalSlotReturn.confirm) {
-        BlocProvider.of<AdminPlanningCandidatesCubit>(context)
-            .fetchPlanningForGivenCandidate(userId);
+        BlocProvider.of<AdminPlanningCompaniesCubit>(context)
+            .fetchPlanningForGivenCompany(userId);
       }
     });
   }
@@ -83,10 +83,10 @@ class SlotPlanning extends StatelessWidget {
               width: 70,
               child: slot.logo != null
                   ? const Text('y a une pp')
-                  : InitialsAvatar(slot.companyName ?? 'Unknown')),
+                  : InitialsAvatar(slot.candidateName ?? 'Unknown')),
           Expanded(
             child: Text(
-              slot.companyName ?? '',
+              slot.candidateName ?? '',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 15),
             ),
@@ -120,8 +120,8 @@ class SlotPlanning extends StatelessWidget {
                   barrierDismissible: false)
               .then((value) {
             if (value == ModalReturn.confirm) {
-              BlocProvider.of<AdminPlanningCandidatesCubit>(context)
-                  .removeMeeting(slot.userPlanning, slot.userMet, slot.period);
+              BlocProvider.of<AdminPlanningCompaniesCubit>(context)
+                  .removeMeeting(slot.userMet, slot.userPlanning, slot.period);
             }
           });
         });

@@ -1,3 +1,4 @@
+import 'package:poly_forum/data/models/candidate_minimal_model.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/company_minimal_model.dart';
 import 'package:http/http.dart' as http;
@@ -68,6 +69,32 @@ class PlanningRepository {
           companies.add(CompanyMinimal.fromJson(i));
         }
         return companies;
+      } else {
+        throw const PlanningException("Planning introuvable");
+      }
+    } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<List<CandidateMinimal>> fetchFreeCandidatesRequestAtGivenPeriod(
+      period) async {
+    try {
+      if (period == null) {
+        throw const PlanningException("Une période est requise");
+      }
+
+      String uriLink = 'api/planning/freecandidates/$period';
+
+      final uri = Uri.http(kServer, uriLink);
+      final response = await http.get(uri).timeout(const Duration(seconds: 2));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        List<CandidateMinimal> candidates = [];
+        for (Map<String, dynamic> i in data) {
+          candidates.add(CandidateMinimal.fromJson(i));
+        }
+        return candidates;
       } else {
         throw const PlanningException("Planning introuvable");
       }

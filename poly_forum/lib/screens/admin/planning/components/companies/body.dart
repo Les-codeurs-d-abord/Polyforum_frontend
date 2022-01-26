@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/admin/planning/candidates/admin_planning_candidates_screen_cubit.dart';
+import 'package:poly_forum/cubit/admin/planning/companies/admin_planning_companies_screen_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poly_forum/data/models/candidate_model.dart';
-import 'package:poly_forum/data/models/company_minimal_model.dart';
+import 'package:poly_forum/data/models/candidate_minimal_model.dart';
+import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
-import 'package:poly_forum/screens/admin/planning/components/candidates/planning_component.dart';
+import 'package:poly_forum/screens/admin/planning/components/companies/planning_component.dart';
 
 import 'package:shimmer/shimmer.dart';
 
@@ -16,37 +16,37 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  List<Candidate>? listCandidates;
-  List<CompanyMinimal>? listCompanies;
-  Candidate? candidateSelected;
+  List<Company>? listCompanies;
+  List<CandidateMinimal>? listCandidates;
+  Company? companySelected;
   Planning? planning;
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AdminPlanningCandidatesCubit>(context).fetchAllCandidates();
+    BlocProvider.of<AdminPlanningCompaniesCubit>(context).fetchAllCompanies();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AdminPlanningCandidatesCubit,
-        AdminPlanningCandidatesState>(listener: (context, state) {
-      if (state is AdminPlanningCandidatesError) {
-      } else if (state is AdminPlanningCandidatesLoaded) {
-        listCandidates = state.listCandidates;
-      } else if (state is AdminPlanningCandidatesAndPlanningLoaded) {
-        planning = state.planning;
-      } else if (state is AdminPlanningCandidatesAddMeeting) {
+    return BlocConsumer<AdminPlanningCompaniesCubit,
+        AdminPlanningCompaniesState>(listener: (context, state) {
+      if (state is AdminPlanningCompaniesError) {
+      } else if (state is AdminPlanningCompaniesLoaded) {
         listCompanies = state.listCompanies;
+      } else if (state is AdminPlanningCompaniesAndPlanningLoaded) {
+        planning = state.planning;
+      } else if (state is AdminPlanningCompaniesAddMeeting) {
+        listCandidates = state.listCandidates;
       }
     }, builder: (context, state) {
-      if (state is AdminPlanningCandidatesLoading) {
+      if (state is AdminPlanningCompaniesLoading) {
         return buildloadingScreen();
-      } else if (state is AdminPlanningCandidatesLoaded) {
+      } else if (state is AdminPlanningCompaniesLoaded) {
         return buildLoadedScreen();
-      } else if (state is AdminPlanningCandidatesAndPlanningLoaded) {
+      } else if (state is AdminPlanningCompaniesAndPlanningLoaded) {
         return buildLoadedScreenWithPlanning();
-      } else if (state is AdminPlanningCandidatesError) {
+      } else if (state is AdminPlanningCompaniesError) {
         return buildErrorScreen();
       }
       return buildInitialPlanning();
@@ -93,23 +93,23 @@ class _BodyState extends State<Body> {
   }
 
   Widget buildLoadedScreen([bool isPlanningLoaded = false]) {
-    if (listCandidates!.isNotEmpty) {
+    if (listCompanies!.isNotEmpty) {
       return Column(children: [
-        DropdownButton<Candidate>(
-          icon: const Icon(Icons.account_circle),
+        DropdownButton<Company>(
+          icon: const Icon(Icons.business),
           dropdownColor: Colors.grey[300],
-          value: candidateSelected,
-          onChanged: (Candidate? newValue) {
+          value: companySelected,
+          onChanged: (Company? newValue) {
             setState(() {
-              candidateSelected = newValue!;
+              companySelected = newValue!;
               callPlanningRequest();
             });
           },
-          items: listCandidates!
-              .map<DropdownMenuItem<Candidate>>((Candidate candidate) {
-            return DropdownMenuItem<Candidate>(
-              value: candidate,
-              child: Text('${candidate.firstName} ${candidate.lastName}',
+          items:
+              listCompanies!.map<DropdownMenuItem<Company>>((Company company) {
+            return DropdownMenuItem<Company>(
+              value: company,
+              child: Text(company.companyName,
                   style: const TextStyle(color: Colors.black)),
             );
           }).toList(),
@@ -140,7 +140,7 @@ class _BodyState extends State<Body> {
   }
 
   void callPlanningRequest() {
-    BlocProvider.of<AdminPlanningCandidatesCubit>(context)
-        .fetchPlanningForGivenCandidate(candidateSelected!.userId);
+    BlocProvider.of<AdminPlanningCompaniesCubit>(context)
+        .fetchPlanningForGivenCompany(companySelected!.id);
   }
 }

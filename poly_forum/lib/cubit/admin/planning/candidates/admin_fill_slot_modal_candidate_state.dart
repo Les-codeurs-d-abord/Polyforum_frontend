@@ -1,4 +1,4 @@
-part of 'admin_fill_slot_modal_cubit.dart';
+part of 'admin_fill_slot_modal_candidate_cubit.dart';
 
 @immutable
 abstract class AdminFillSlotModalState {}

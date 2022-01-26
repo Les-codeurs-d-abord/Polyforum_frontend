@@ -1,24 +1,24 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:poly_forum/data/models/company_minimal_model.dart';
+import 'package:poly_forum/data/models/candidate_minimal_model.dart';
 import 'package:poly_forum/resources/planning_repository.dart';
 
-part 'admin_fill_slot_modal_state.dart';
+part 'admin_fill_slot_modal_company_state.dart';
 
 class AdminFillSlotModalCubit extends Cubit<AdminFillSlotModalState> {
   final PlanningRepository repository = PlanningRepository();
 
   AdminFillSlotModalCubit() : super(AdminFillSlotModalInitial());
 
-  Future<List<CompanyMinimal>?> fetchFreeCompaniesRequestAtGivenPeriod(
+  Future<List<CandidateMinimal>?> fetchFreeCandidatesRequestAtGivenPeriod(
       period) async {
     try {
       emit(AdminFillSlotModalLoading());
 
-      final listCompanies =
-          await repository.fetchFreeCompaniesRequestAtGivenPeriod(period);
+      final listCandidates =
+          await repository.fetchFreeCandidatesRequestAtGivenPeriod(period);
 
-      emit(AdminFillSlotModalLoaded(listCompanies));
+      emit(AdminFillSlotModalLoaded(listCandidates));
     } on NetworkException catch (exception) {
       emit(AdminFillSlotModalError(exception.message));
     }

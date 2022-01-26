@@ -8,6 +8,7 @@ import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/admin/candidate_list/candidate_list_screen.dart';
 import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
 import 'package:poly_forum/screens/admin/planning/planning_candidates_screen.dart';
+import 'package:poly_forum/screens/admin/planning/planning_companies_screen.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
@@ -158,6 +159,7 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                             text: "Candidats",
                             iconData: Icons.local_offer_outlined,
                           ),
+                          const SizedBox(height: 20),
                           TabNavigationItem(
                             onPressed: () {
                               setState(() {
@@ -166,6 +168,17 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                             },
                             isSelect: _selectedIndex == 3,
                             text: "Planning candidats",
+                            iconData: Icons.today,
+                          ),
+                          const SizedBox(height: 20),
+                          TabNavigationItem(
+                            onPressed: () {
+                              setState(() {
+                                _selectedIndex = 4;
+                              });
+                            },
+                            isSelect: _selectedIndex == 4,
+                            text: "Planning entreprises",
                             iconData: Icons.today,
                           ),
                         ],
@@ -196,7 +209,8 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                                 WelcomeScreen(),
                                 CompanyListScreen(),
                                 CandidateListScreen(),
-                                PlanningCandidatesScreen()
+                                PlanningCandidatesScreen(),
+                                PlanningCompaniesScreen()
                               ],
                             ),
                           ),

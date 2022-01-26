@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/admin/planning/candidates/admin_fill_slot_modal_candidate_cubit.dart';
-import 'package:poly_forum/data/models/company_minimal_model.dart';
+import 'package:poly_forum/cubit/admin/planning/companies/admin_fill_slot_modal_company_cubit.dart';
+import 'package:poly_forum/data/models/candidate_minimal_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,15 +17,15 @@ class FillSlotModal extends StatefulWidget {
 }
 
 class _FillSlotModalState extends State<FillSlotModal> {
-  List<CompanyMinimal>? listCompanies;
-  CompanyMinimal? companySelected;
+  List<CandidateMinimal>? listCandidates;
+  CandidateMinimal? candidateSelected;
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<AdminFillSlotModalCubit>(context)
-        .fetchFreeCompaniesRequestAtGivenPeriod(widget.period);
+        .fetchFreeCandidatesRequestAtGivenPeriod(widget.period);
   }
 
   @override
@@ -34,7 +34,7 @@ class _FillSlotModalState extends State<FillSlotModal> {
         listener: (context, state) {
       if (state is AdminFillSlotModalError) {
       } else if (state is AdminFillSlotModalLoaded) {
-        listCompanies = state.listCompanies;
+        listCandidates = state.listCandidates;
       } else if (state is AdminFillSlotModalLoadedCreation) {
         Navigator.of(context).pop(ModalSlotReturn.confirm);
       }
@@ -71,7 +71,7 @@ class _FillSlotModalState extends State<FillSlotModal> {
           ),
         ),
       ]),
-      content: SizedBox(child: listCompaniesInput()),
+      content: SizedBox(child: listCandidatesInput()),
       actionsAlignment: MainAxisAlignment.center,
       actionsPadding: const EdgeInsets.only(bottom: 10),
       actions: [
@@ -105,31 +105,31 @@ class _FillSlotModalState extends State<FillSlotModal> {
               ),
               onPressed: () {
                 BlocProvider.of<AdminFillSlotModalCubit>(context).createMeeting(
-                    companySelected!.userId, widget.userId, widget.period);
+                    candidateSelected!.userId, widget.period, widget.userId);
               },
             )),
       ],
     );
   }
 
-  Widget listCompaniesInput() {
-    return DropdownButton<CompanyMinimal>(
+  Widget listCandidatesInput() {
+    return DropdownButton<CandidateMinimal>(
         dropdownColor: Colors.grey[300],
         hint: const Text("Choisir une entreprise"),
-        icon: const Icon(Icons.business),
+        icon: const Icon(Icons.portrait),
         style: const TextStyle(color: Colors.black),
         isExpanded: true,
-        value: companySelected,
-        onChanged: (CompanyMinimal? newValue) {
+        value: candidateSelected,
+        onChanged: (CandidateMinimal? newValue) {
           setState(() {
-            companySelected = newValue!;
+            candidateSelected = newValue!;
           });
         },
-        items: listCompanies!
-            .map<DropdownMenuItem<CompanyMinimal>>((CompanyMinimal company) {
-          return DropdownMenuItem<CompanyMinimal>(
-            value: company,
-            child: Text(company.companyName,
+        items: listCandidates!.map<DropdownMenuItem<CandidateMinimal>>(
+            (CandidateMinimal candidate) {
+          return DropdownMenuItem<CandidateMinimal>(
+            value: candidate,
+            child: Text('${candidate.firstName} ${candidate.lastName}',
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.black)),
           );
@@ -163,7 +163,7 @@ class _FillSlotModalState extends State<FillSlotModal> {
           width: 450,
           child: Wrap(
             children: [
-              listCompaniesInput(),
+              listCandidatesInput(),
               if (error.isNotEmpty)
                 Container(
                   alignment: Alignment.center,
@@ -223,11 +223,11 @@ class _FillSlotModalState extends State<FillSlotModal> {
                   ? null
                   : () {
                       if (_formKey.currentState!.validate() &&
-                          companySelected != null) {
+                          candidateSelected != null) {
                         _formKey.currentState!.save();
                         BlocProvider.of<AdminFillSlotModalCubit>(context)
-                            .createMeeting(widget.userId,
-                                companySelected!.userId, widget.period);
+                            .createMeeting(candidateSelected!.userId,
+                                widget.userId, widget.period);
                       }
                     },
             )),
