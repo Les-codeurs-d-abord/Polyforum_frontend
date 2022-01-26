@@ -1,9 +1,9 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_list_screen_cubit.dart';
+import 'package:poly_forum/cubit/admin/dashboard/dashboard_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/resources/candidate_repository.dart';
@@ -212,6 +212,7 @@ class _BodyState extends State<Body> {
                                               ).then((value) {
                                                 if (value == FormReturn.confirm) {
                                                   BlocProvider.of<CandidateListScreenCubit>(context).fetchCandidateList();
+                                                  BlocProvider.of<DashboardCubit>(context).fetchDashboardData();
                                                 }
                                               });
                                             },
@@ -349,7 +350,9 @@ class _BodyState extends State<Body> {
                   },
                 ).then((value) {
                   if (value == ModalReturn.confirm) {
-                    BlocProvider.of<CandidateListScreenCubit>(context).deleteCandidate(candidate);
+                    BlocProvider.of<CandidateListScreenCubit>(context).deleteCandidate(candidate).then((value) {
+                      BlocProvider.of<DashboardCubit>(context).fetchDashboardData();
+                    });
                   }
                 });
               }
