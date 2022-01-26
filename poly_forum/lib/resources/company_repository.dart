@@ -152,9 +152,9 @@ class CompanyRepository {
 
       List<Offer> offersList = [];
 
-      // for (Map<String, dynamic> offerJson in data) {
-      //   offersList.add(Offer.fromJson(offerJson));
-      // }
+      for (Map<String, dynamic> offerJson in data) {
+        offersList.add(Offer.fromJson(offerJson));
+      }
 
       return offersList;
     } else {

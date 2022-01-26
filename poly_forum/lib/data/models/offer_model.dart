@@ -41,9 +41,9 @@ class Offer {
     }
 
     return Offer(
-      id: json['id'] ?? '',
-      companyId: json['companyProfileId'] ?? '',
-      companyUserId: json['company_profile']?['userId'] ?? '',
+      id: json['id'] ?? 0,
+      companyId: json['companyProfileId'] ?? 0,
+      companyUserId: json['company_profile']?['userId'] ?? 0,
       companyName: json['company_profile']?['companyName'] ?? '',
       offerFile: json['offerFile'] ?? '',
       name: json['name'] ?? '',

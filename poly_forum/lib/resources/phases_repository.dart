@@ -1,39 +1,62 @@
-import 'package:poly_forum/resources/candidate_repository.dart';
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:poly_forum/screens/shared/components/phase.dart';
 
 class PhasesRepository {
+  Future<Phase> fetchCurrentPhase() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+
+
+    final uri = Uri.http('localhost:8080', '/api/phase');
+    final response = await http.get(uri).onError((error, stackTrace) {
+      throw const PhaseException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return Phase.fromJson(data);
+    } else {
+      if (response.statusCode == 500) {
+        throw PhaseException(response.body);
+      } else {
+        throw const PhaseException("Le serveur a rencontré un problème");
+      }
+    }
+  }
+
   Future<void> setWishPhase() async {
     // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 100));
 
     final uri = Uri.http('localhost:8080', '/api/phase/setWish');
     final response = await http.post(uri).onError((error, stackTrace) {
-      throw const NetworkException("Le serveur est injoignable");
+      throw const PhaseException("Le serveur est injoignable");
     });
 
     if (response.statusCode != 200) {
       if (response.statusCode == 500) {
-        throw NetworkException(response.body);
+        throw PhaseException(response.body);
       } else {
-        throw const NetworkException("Le serveur a rencontré un problème");
+        throw const PhaseException("Le serveur a rencontré un problème");
       }
     }
   }
 
   Future<void> setPlanningPhase() async {
     // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 100));
 
     final uri = Uri.http('localhost:8080', '/api/phase/setPlanning');
     final response = await http.post(uri).onError((error, stackTrace) {
-      throw const NetworkException("Le serveur est injoignable");
+      throw const PhaseException("Le serveur est injoignable");
     });
 
     if (response.statusCode != 200) {
       if (response.statusCode == 500) {
-        throw NetworkException(response.body);
+        throw PhaseException(response.body);
       } else {
-        throw const NetworkException("Le serveur a rencontré un problème");
+        throw const PhaseException("Le serveur a rencontré un problème");
       }
     }
   }
@@ -44,19 +67,24 @@ class PhasesRepository {
     };
 
     // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 100));
 
     final uri = Uri.http('localhost:8080', '/api/users/sendSatifactionSurvey');
     final response = await http.post(uri, body: body).onError((error, stackTrace) {
-      throw const NetworkException("Le serveur est injoignable");
+      throw const PhaseException("Le serveur est injoignable");
     });
 
     if (response.statusCode != 200) {
       if (response.statusCode == 500) {
-        throw NetworkException(response.body);
+        throw PhaseException(response.body);
       } else {
-        throw const NetworkException("Le serveur a rencontré un problème");
+        throw const PhaseException("Le serveur a rencontré un problème");
       }
     }
   }
+}
+
+class PhaseException implements Exception {
+  final String message;
+  const PhaseException(this.message);
 }

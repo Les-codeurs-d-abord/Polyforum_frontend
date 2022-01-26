@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CandidateCard extends StatelessWidget {
   final CandidateUser candidate;
@@ -85,6 +88,7 @@ class CandidateCard extends StatelessWidget {
                       itemBuilder: (context) => [
                         PopupMenuItem(
                           value: 0,
+                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.inscription,
                           child: Row(
                             children: const [
                               Icon(Icons.edit),
@@ -96,6 +100,7 @@ class CandidateCard extends StatelessWidget {
                         const PopupMenuDivider(),
                         PopupMenuItem(
                           value: 1,
+                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() != Phase.planning,
                           child: Row(
                             children: const [
                               Icon(Icons.close),

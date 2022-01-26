@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/admin/dashboard/side_panel_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/screens/admin/dashboard/components/survey_link_dialog.dart';
 import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
@@ -21,12 +22,12 @@ class SidePanel extends StatefulWidget {
 class _SidePanelState extends State<SidePanel> {
   final _surveyLinkController = TextEditingController();
 
-  Phase currentPhase = Phase.planning;
+  Phase? currentPhase;
 
   @override
   void initState() {
     super.initState();
-    // TODO fetch currentPhase from parent cubit
+    currentPhase = BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
   }
 
   @override
@@ -73,7 +74,7 @@ class _SidePanelState extends State<SidePanel> {
     );
   }
 
-  Widget buildPhaseInformations(Phase phase) {
+  Widget buildPhaseInformations(Phase? phase) {
     if (phase == Phase.inscription) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -147,7 +148,7 @@ class _SidePanelState extends State<SidePanel> {
     }
   }
 
-  Widget buildPhaseButton(Phase phase, bool isLoading) {
+  Widget buildPhaseButton(Phase? phase, bool isLoading) {
     if (phase == Phase.inscription) {
       return MaterialButton(
         child: isLoading ?
@@ -182,7 +183,9 @@ class _SidePanelState extends State<SidePanel> {
               barrierDismissible: true
           ).then((value) {
             if (value == ModalReturn.confirm) {
-              BlocProvider.of<SidePanelCubit>(context).setWishPhase();
+              BlocProvider.of<SidePanelCubit>(context).setWishPhase().then((value) {
+                BlocProvider.of<PhaseCubit>(context).fetchCurrentPhase();
+              });
             }
           });
         },
@@ -221,7 +224,9 @@ class _SidePanelState extends State<SidePanel> {
               barrierDismissible: true
           ).then((value) {
             if (value == ModalReturn.confirm) {
-              BlocProvider.of<SidePanelCubit>(context).setPlanningPhase();
+              BlocProvider.of<SidePanelCubit>(context).setPlanningPhase().then((value) {
+                BlocProvider.of<PhaseCubit>(context).fetchCurrentPhase();
+              });
             }
           });
         },
