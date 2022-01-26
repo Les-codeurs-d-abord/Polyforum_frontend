@@ -87,6 +87,26 @@ class UserRepository {
     throw const NetworkException("Une erreur est survenue.");
   }
 
+  Future<AdminUser> getAdminFromLocalToken() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      final token = prefs.getString(kTokenPref);
+
+      if (token != null) {
+        final user = await getUserFromToken(token);
+
+        if (user is AdminUser) {
+          return user;
+        }
+      }
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+    throw const NetworkException("Une erreur est survenue.");
+  }
+
   Future<User> getUserFromToken(String token) async {
     try {
       Map<String, String> requestHeaders = {
@@ -101,13 +121,13 @@ class UserRepository {
       if (response.statusCode == 200) {
         var jsonUser = jsonDecode(response.body);
 
-        switch (jsonUser['user']["role"]) {
+        switch (jsonUser["user"]["role"]) {
           case "CANDIDAT":
             return CandidateUser.fromJson(jsonUser);
           case "ENTREPRISE":
             return CompanyUser.fromJson(jsonUser);
           case "ADMIN":
-            return AdminUser.fromJson(jsonUser);
+            return AdminUser.fromJson(jsonUser["user"]);
           default:
         }
       }

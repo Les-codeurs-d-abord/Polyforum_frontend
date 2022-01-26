@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 final RegExp emailValidatorRegExp = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
 // RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+final RegExp linkValidatorRegExp = RegExp(r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
 
 const kScaffoldColor = Colors.white;
 const kTextColor = Colors.black;
@@ -13,14 +14,16 @@ final kPrimaryColor = Colors.blue[300];
 //background (bleu clair)
 const kSecondaryColor = Colors.blue;
 
-//button (orange ?)
+// buttons
 const kButtonColor = Color(0xFF0D47A1);
+const kDisabledButtonColor = Color(0xFFE0E0E0);
 
 // Main color palette
 const kOrange = Color(0xFFF7931D);
 const kDarkBlue = Color(0xFF004876);
 const kBlue = Color(0xFF00AEEF);
 const kLightBlue = Color(0xFFA8E2FA);
+const kLightGrey = Color(0xFFEEEEEE);
 
 // Server IP
 const kServer = "localhost:8080";

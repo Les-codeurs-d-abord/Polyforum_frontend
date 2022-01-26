@@ -13,6 +13,8 @@ class CandidateUser extends User {
   final String status;
   final List<String> links;
   final List<String> tags;
+  final int wishesCount;
+  final String cv;
 
   CandidateUser({
     required this.firstName,
@@ -28,6 +30,8 @@ class CandidateUser extends User {
     required role,
     required this.links,
     required this.tags,
+    required this.wishesCount,
+    required this.cv,
   }) : super(id: id, email: email, role: role);
 
   factory CandidateUser.fromJson(Map<String, dynamic> json) {
@@ -55,6 +59,8 @@ class CandidateUser extends User {
       role: json['user']['role'] ?? 'CANDIDAT',
       links: links,
       tags: tags,
+      wishesCount: json['wishesCount'] ?? 0,
+      cv: json['cv'] ?? '',
     );
   }
 
