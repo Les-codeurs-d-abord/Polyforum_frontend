@@ -37,4 +37,17 @@ class AdminPlanningCandidatesCubit extends Cubit<AdminPlanningCandidatesState> {
       emit(AdminPlanningCandidatesError(exception.message));
     }
   }
+
+  Future<void> removeMeeting(userIdCandidate, userIdCompany, period) async {
+    try {
+      emit(AdminPlanningCandidatesLoading());
+
+      await planningRepository.deleteMeeting(
+          userIdCandidate, userIdCompany, period);
+
+      fetchPlanningForGivenCandidate(userIdCandidate);
+    } on pr.NetworkException catch (exception) {
+      emit(AdminPlanningCandidatesError(exception.message));
+    }
+  }
 }

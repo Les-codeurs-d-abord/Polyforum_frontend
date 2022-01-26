@@ -117,7 +117,6 @@ class SlotPlanning extends StatelessWidget {
     return IconButton(
         icon: const Icon(Icons.close),
         onPressed: () {
-          print("Pressed");
           showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -130,7 +129,8 @@ class SlotPlanning extends StatelessWidget {
                   barrierDismissible: false)
               .then((value) {
             if (value == ModalReturn.confirm) {
-              print("ok pour  la suppression");
+              BlocProvider.of<AdminPlanningCandidatesCubit>(context)
+                  .removeMeeting(slot.userPlanning, slot.userMet, slot.period);
             }
           });
         });
