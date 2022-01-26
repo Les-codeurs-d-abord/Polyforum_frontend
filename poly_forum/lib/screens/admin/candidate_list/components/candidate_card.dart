@@ -35,10 +35,10 @@ class CandidateCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ProfilePicture(
-                    uri: candidate.logo,
-                    defaultText: candidate.lastName + " " + candidate.firstName,
-                    width: 50,
-                    height: 50
+                  uri: candidate.logo,
+                  defaultText: candidate.lastName + " " + candidate.firstName,
+                  width: 50,
+                  height: 50,
                 ),
                 const Spacer(),
                 Expanded(
@@ -63,20 +63,20 @@ class CandidateCard extends StatelessWidget {
                           color: getColorByStatus(candidate.status),
                           size: 15,
                         ),
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text(
-                              candidate.status,
-                              style: TextStyle(
-                                color: getColorByStatus(candidate.status),
-                                fontSize: 15,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
+                    )
+                ),
+                const Spacer(),
+                Expanded(
+                    flex: 3,
+                    child: Text(
+                      candidate.wishesCount.toString(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     )
                 ),
                 const Spacer(),
