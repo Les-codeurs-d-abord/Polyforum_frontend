@@ -1,7 +1,7 @@
 part of 'phase_cubit.dart';
 
 @immutable
-abstract class PhaseState {
+abstract class PhaseState extends Equatable {
   const PhaseState();
 
   @override

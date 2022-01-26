@@ -5,9 +5,6 @@ import 'package:poly_forum/screens/shared/components/phase.dart';
 
 class PhasesRepository {
   Future<Phase> fetchCurrentPhase() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-
-
     final uri = Uri.http('localhost:8080', '/api/phase');
     final response = await http.get(uri).onError((error, stackTrace) {
       throw const PhaseException("Le serveur est injoignable");

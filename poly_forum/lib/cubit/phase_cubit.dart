@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_forum/resources/phases_repository.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
+import 'package:equatable/equatable.dart';
 
 part 'phase_state.dart';
 
