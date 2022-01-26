@@ -17,7 +17,7 @@ class SidePanelCubit extends Cubit<SidePanelState> {
       await _phasesRepository.setWishPhase();
 
       emit(SidePanelButtonLoaded());
-    } on NetworkException catch (exception) {
+    } on PhaseException catch (exception) {
       emit(SidePanelError(exception.message));
     } on Exception catch (_) {
       emit(const SidePanelError("Une erreur inconnue est survenue"));
@@ -31,7 +31,7 @@ class SidePanelCubit extends Cubit<SidePanelState> {
       await _phasesRepository.setPlanningPhase();
 
       emit(SidePanelButtonLoaded());
-    } on NetworkException catch (exception) {
+    } on PhaseException catch (exception) {
       emit(SidePanelError(exception.message));
     } on Exception catch (_) {
       emit(const SidePanelError("Une erreur inconnue est survenue"));
@@ -45,7 +45,7 @@ class SidePanelCubit extends Cubit<SidePanelState> {
       await _phasesRepository.sendSatisfactionSurvey(surveyLink);
 
       emit(SidePanelButtonLoaded());
-    } on NetworkException catch (exception) {
+    } on PhaseException catch (exception) {
       emit(SidePanelError(exception.message));
     } on Exception catch (_) {
       emit(const SidePanelError("Une erreur inconnue est survenue"));

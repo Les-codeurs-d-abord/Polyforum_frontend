@@ -60,19 +60,19 @@ class PhasesRepository {
 
   Future<void> sendSatisfactionSurvey(String surveyLink) async {
     final body = {
-      surveyLink: surveyLink
+      "surveyLink": surveyLink
     };
 
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 100));
 
-    final uri = Uri.http('localhost:8080', '/api/users/sendSatifactionSurvey');
+    final uri = Uri.http('localhost:8080', '/api/users/sendSatisfactionSurvey');
     final response = await http.post(uri, body: body).onError((error, stackTrace) {
       throw const PhaseException("Le serveur est injoignable");
     });
 
     if (response.statusCode != 200) {
-      if (response.statusCode == 500) {
+      if (response.statusCode == 400) {
         throw PhaseException(response.body);
       } else {
         throw const PhaseException("Le serveur a rencontré un problème");
