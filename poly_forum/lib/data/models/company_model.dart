@@ -4,6 +4,7 @@ class Company {
   final String? logo;
   final String email;
   final int offersCount;
+  final int wishesCount;
 
   Company({
     required this.id,
@@ -11,6 +12,7 @@ class Company {
     required this.logo,
     required this.email,
     required this.offersCount,
+    required this.wishesCount,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class Company {
       logo: json['logo'],
       email: json['user']['email'],
       offersCount: json['offersCount'],
+      wishesCount: json['wishesCount'],
     );
   }
 

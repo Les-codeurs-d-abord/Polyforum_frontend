@@ -61,6 +61,23 @@ class CompanyListScreenCubit extends Cubit<CompanyListScreenState> {
     emit(CompanyListScreenLoaded(companyListInitial, companyList));
   }
 
+  Future<void> sortCompanyListByWishesCountEvent(List<Company> companyListInitial, List<Company> companyList, bool ascending) async {
+    emit(CompanyListScreenLoading());
+
+    companyListInitial.sort((a, b) {
+      return ascending ?
+      a.wishesCount.compareTo(b.wishesCount) :
+      b.wishesCount.compareTo(a.wishesCount);
+    });
+    companyList.sort((a, b) {
+      return ascending ?
+      a.wishesCount.compareTo(b.wishesCount) :
+      b.wishesCount.compareTo(a.wishesCount);
+    });
+
+    emit(CompanyListScreenLoaded(companyListInitial, companyList));
+  }
+
   Future<void> filterCompanyList(List<Company> companyListInitial, List<Company> companyList, String filter) async {
     emit(CompanyListScreenLoading());
 

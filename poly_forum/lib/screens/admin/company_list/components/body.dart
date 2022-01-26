@@ -80,7 +80,7 @@ class _BodyState extends State<Body> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const SizedBox(width: 50),
+                                  const SizedBox(width: 60),
                                   const Spacer(),
                                   Expanded(
                                     flex: 3,
@@ -95,9 +95,19 @@ class _BodyState extends State<Body> {
                                   Expanded(
                                     flex: 3,
                                     child: SortButton(
-                                        label: "Nombre d'offres",
+                                        label: "Nb d'offres",
                                         sortCallback: (ascending) {
                                           BlocProvider.of<CompanyListScreenCubit>(context).sortCompanyListByOffersCountEvent(companyListInitial, companyList, ascending);
+                                        }
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Expanded(
+                                    flex: 3,
+                                    child: SortButton(
+                                        label: "Nb de voeux",
+                                        sortCallback: (ascending) {
+                                          BlocProvider.of<CompanyListScreenCubit>(context).sortCompanyListByWishesCountEvent(companyListInitial, companyList, ascending);
                                         }
                                     ),
                                   ),

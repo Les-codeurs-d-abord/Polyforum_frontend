@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_list_screen_cubit.dart';
@@ -78,7 +79,7 @@ class _BodyState extends State<Body> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const SizedBox(width: 50),
+                                  const SizedBox(width: 60),
                                   const Spacer(),
                                   Expanded(
                                     flex: 3,
@@ -104,6 +105,21 @@ class _BodyState extends State<Body> {
                                                       CandidateListScreenCubit>(
                                                   context)
                                               .sortCandidateListByCompletionEvent(
+                                                  candidateListInitial,
+                                                  candidateList,
+                                                  ascending);
+                                        }),
+                                  ),
+                                  const Spacer(),
+                                  Expanded(
+                                    flex: 3,
+                                    child: SortButton(
+                                        label: "Nb de voeux",
+                                        sortCallback: (ascending) {
+                                          BlocProvider.of<
+                                                      CandidateListScreenCubit>(
+                                                  context)
+                                              .sortCandidateListByWishesCountEvent(
                                                   candidateListInitial,
                                                   candidateList,
                                                   ascending);
@@ -309,20 +325,86 @@ class _BodyState extends State<Body> {
                                                   },
                                           ))
                                     ])),
-                            // Container(
-                            //     height: 100,
-                            //     width: double.infinity,
-                            //     decoration: BoxDecoration(
-                            //         borderRadius: const BorderRadius.all(Radius.circular(5)),
-                            //         border: Border.all(
-                            //           width: 1,
-                            //           color: Colors.grey,
-                            //         )
-                            //     ),
-                            //     margin: const EdgeInsets.only(top: 30),
-                            //     padding: const EdgeInsets.all(10),
-                            //     child: const Text("Chiffres clés")
-                            // )
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.grey,
+                                    )),
+                                margin: const EdgeInsets.only(top: 30),
+                                padding: const EdgeInsets.all(15),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(bottom: 8.0),
+                                      child: Text("Légende",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            // fontWeight: FontWeight.bold,
+                                          )),
+                                    ),
+                                    Row(children: const [
+                                      Icon(
+                                        Icons.circle,
+                                        color: Colors.green,
+                                        size: 15,
+                                      ),
+                                      Flexible(
+                                          child: Padding(
+                                        padding: EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          "Profil complet",
+                                          style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 15,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ))
+                                    ]),
+                                    Row(children: const [
+                                      Icon(
+                                        Icons.circle,
+                                        color: Colors.orange,
+                                        size: 15,
+                                      ),
+                                      Flexible(
+                                          child: Padding(
+                                        padding: EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          "Profil incomplet",
+                                          style: TextStyle(
+                                            color: Colors.orange,
+                                            fontSize: 15,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ))
+                                    ]),
+                                    Row(children: const [
+                                      Icon(
+                                        Icons.circle,
+                                        color: Colors.red,
+                                        size: 15,
+                                      ),
+                                      Flexible(
+                                          child: Padding(
+                                        padding: EdgeInsets.only(left: 5),
+                                        child: Text(
+                                          "Aucune information ajoutée",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 15,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ))
+                                    ]),
+                                  ],
+                                ))
                           ],
                         )))
               ],
