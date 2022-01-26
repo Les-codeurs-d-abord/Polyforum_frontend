@@ -66,6 +66,19 @@ class CompanyCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    company.wishesCount.toString(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 15,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                const Spacer(),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25),
                   child: Material(

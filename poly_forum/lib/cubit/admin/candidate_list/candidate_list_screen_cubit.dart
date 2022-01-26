@@ -96,4 +96,21 @@ class CandidateListScreenCubit extends Cubit<CandidateListScreenState> {
     emit(CandidateListScreenLoaded(candidateListInitial, candidateList));
   }
 
+  Future<void> sortCandidateListByWishesCountEvent(List<CandidateUser> candidateListInitial, List<CandidateUser> candidateList, bool ascending) async {
+    emit(CandidateListScreenLoading());
+
+    candidateListInitial.sort((a, b) {
+      return ascending ?
+      a.wishesCount.compareTo(b.wishesCount) :
+      b.wishesCount.compareTo(a.wishesCount);
+    });
+    candidateList.sort((a, b) {
+      return ascending ?
+      a.wishesCount.compareTo(b.wishesCount) :
+      b.wishesCount.compareTo(a.wishesCount);
+    });
+
+    emit(CandidateListScreenLoaded(candidateListInitial, candidateList));
+  }
+
 }

@@ -207,6 +207,9 @@ class _BodyState extends State<Body> {
 
   calculateDashboardData(DashboardLoaded state) {
     companiesCount = state.companies.length;
+    companyWishesCount = state.companies
+        .map((company) => company.wishesCount)
+        .reduce((sum, wishesCount) => sum + wishesCount);
     offersCount = state.companies
         .map((company) => company.offersCount)
         .reduce((sum, offersCount) => sum + offersCount);
