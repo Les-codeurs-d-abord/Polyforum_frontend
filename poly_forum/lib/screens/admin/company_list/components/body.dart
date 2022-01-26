@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_list_screen_cubit.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_offers_list_dialog_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
 import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
@@ -11,6 +12,8 @@ import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.d
 import 'package:poly_forum/screens/shared/components/list/search_bar.dart';
 import 'package:poly_forum/screens/shared/components/list/sort_button.dart';
 import 'package:poly_forum/screens/shared/components/modals/error_modal.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
+import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 import 'company_card.dart';
@@ -30,11 +33,13 @@ class _BodyState extends State<Body> {
 
   List<Company> companyListInitial = [];
   List<Company> companyList = [];
+  late Phase currentPhase;
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
+    currentPhase = BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
   }
 
   @override
@@ -182,12 +187,12 @@ class _BodyState extends State<Body> {
                                           width: 300,
                                           height: 60,
                                           margin: const EdgeInsets.only(top: 20),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(7)),
-                                            color: kBlue,
-                                          ),
                                           child: MaterialButton(
+                                            color: kBlue,
+                                            disabledColor: kDisabledButtonColor,
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(7))
+                                            ),
                                             child: const Text(
                                               "Ajouter",
                                               overflow: TextOverflow.ellipsis,
@@ -196,7 +201,7 @@ class _BodyState extends State<Body> {
                                                   fontSize: 22
                                               ),
                                             ),
-                                            onPressed: () {
+                                            onPressed: currentPhase != Phase.inscription ? null : () {
                                               showDialog(
                                                   context: context,
                                                   builder: (BuildContext context) {
@@ -214,41 +219,17 @@ class _BodyState extends State<Body> {
                                             },
                                           )
                                       ),
-                                      /* Bouton extraire */
-                                      Container(
-                                          width: 300,
-                                          height: 40,
-                                          margin: const EdgeInsets.only(top: 10),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(7)),
-                                            color: kDarkBlue,
-                                          ),
-                                          child: MaterialButton(
-                                            padding: const EdgeInsets.all(10),
-                                            child: const Text(
-                                              "Extraire",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18
-                                              ),
-                                            ),
-                                            onPressed: () {
-
-                                            },
-                                          )
-                                      ),
                                       /* Bouton Rappel */
                                       Container(
                                           width: 300,
                                           height: 40,
                                           margin: const EdgeInsets.only(top: 10),
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(7)),
-                                            color: kDarkBlue,
-                                          ),
                                           child: MaterialButton(
+                                            color: kDarkBlue,
+                                            disabledColor: kDisabledButtonColor,
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(7))
+                                            ),
                                             child: const Text(
                                               "Rappel",
                                               overflow: TextOverflow.ellipsis,
@@ -257,14 +238,26 @@ class _BodyState extends State<Body> {
                                                   fontSize: 18
                                               ),
                                             ),
-                                            onPressed: () {
+                                            onPressed: currentPhase == Phase.planning ? null : () {
                                               showDialog(
                                                   context: context,
                                                   builder: (BuildContext context) {
-                                                    return const ConfirmationModal(
-                                                      title: "Envoi d'un rappel",
-                                                      description: "Un mail de rappel va être envoyé à toutes les entreprises n'ayant pas complété leur profil ou n'ayant renseigné aucune offre.",
-                                                    );
+                                                    if (currentPhase == Phase.inscription) {
+                                                      return const ConfirmationModal(
+                                                        title: "Envoi d'un rappel",
+                                                        description: "Un mail de rappel va être envoyé à toutes les entreprises n'ayant pas complété leur profil ou n'ayant renseigné aucune offre.",
+                                                      );
+                                                    } else if (currentPhase == Phase.wish) {
+                                                      return const ConfirmationModal(
+                                                        title: "Envoi d'un rappel",
+                                                        description: "Un mail de rappel va être envoyé à toutes les entreprises n'ayant fait aucun voeux.",
+                                                      );
+                                                    } else {
+                                                      return const ErrorModal(
+                                                          title: "Envoi d'un rappel",
+                                                          description: "Aucun rappel à envoyer",
+                                                      );
+                                                    }
                                                   },
                                                   barrierDismissible: false
                                               ).then((value) {
@@ -278,20 +271,20 @@ class _BodyState extends State<Body> {
                                     ]
                                 )
                             ),
-                            Container(
-                                height: 100,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                    border: Border.all(
-                                      width: 1,
-                                      color: Colors.grey,
-                                    )
-                                ),
-                                margin: const EdgeInsets.only(top: 30),
-                                padding: const EdgeInsets.all(10),
-                                child: const Text("Chiffres clés")
-                            )
+                            // Container(
+                            //     height: 100,
+                            //     width: double.infinity,
+                            //     decoration: BoxDecoration(
+                            //         borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            //         border: Border.all(
+                            //           width: 1,
+                            //           color: Colors.grey,
+                            //         )
+                            //     ),
+                            //     margin: const EdgeInsets.only(top: 30),
+                            //     padding: const EdgeInsets.all(10),
+                            //     child: const Text("Chiffres clés")
+                            // )
                           ],
                         )
                     )

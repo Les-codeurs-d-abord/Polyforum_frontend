@@ -9,13 +9,13 @@ class CandidateNavBar extends StatelessWidget {
   final List<Widget> paths;
   final String title;
 
-  const CandidateNavBar(
-      {required this.user,
-      required this.onProfileSelected,
-      required this.paths,
-      required this.title,
-      Key? key})
-      : super(key: key);
+  const CandidateNavBar({
+    required this.user,
+    required this.onProfileSelected,
+    required this.paths,
+    required this.title,
+    Key? key
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

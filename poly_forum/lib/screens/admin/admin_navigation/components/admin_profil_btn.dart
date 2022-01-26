@@ -14,27 +14,16 @@ class PopupItem {
 
 class AdminProfilBtn extends StatelessWidget {
   final AdminUser user;
-  final Function onProfileSelected;
 
-  const AdminProfilBtn(
-      {required this.user, required this.onProfileSelected, Key? key})
-      : super(key: key);
+  const AdminProfilBtn({
+    required this.user,
+    Key? key
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<int>(
       itemBuilder: (context) => [
-        PopupMenuItem(
-          value: 0,
-          child: Row(
-            children: const [
-              Icon(Icons.account_box_outlined),
-              SizedBox(width: 20),
-              Text("Profil"),
-            ],
-          ),
-        ),
-        const PopupMenuDivider(),
         PopupMenuItem(
           value: 1,
           child: Row(
@@ -48,8 +37,6 @@ class AdminProfilBtn extends StatelessWidget {
       ],
       onSelected: (value) {
         if (value == 0) {
-          onProfileSelected();
-        } else if (value == 1) {
           Application.router.navigateTo(
             context,
             Routes.signInScreen,

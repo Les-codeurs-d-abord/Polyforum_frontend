@@ -2,13 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:poly_forum/resources/phases_repository.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
-import 'package:equatable/equatable.dart';
 
 part 'phase_state.dart';
 
 class PhaseCubit extends Cubit<PhaseState> {
   final PhasesRepository _phasesRepository;
-  Phase? currentPhase;
+  late Phase currentPhase;
 
   PhaseCubit(this._phasesRepository) : super(PhaseInitial());
 
@@ -22,11 +21,11 @@ class PhaseCubit extends Cubit<PhaseState> {
     } on PhaseException catch (exception) {
       emit(PhaseError(exception.message));
     } on Exception catch (_) {
-      emit(const PhaseError("Une erreur inconnue est survenue"));
+      emit(PhaseError("Une erreur inconnue est survenue"));
     }
   }
 
-  Phase? getCurrentPhase() {
+  Phase getCurrentPhase() {
     return currentPhase;
   }
 }

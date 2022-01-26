@@ -1,26 +1,27 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/admin_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 
-import 'admin_profil_btn.dart';
+import '../admin_profil_btn.dart';
 
 class AdminNavBar extends StatelessWidget {
   final AdminUser user;
-  final Function onProfileSelected;
-  final List<String> paths;
+  final List<Widget> paths;
+  final String title;
 
-  const AdminNavBar(
-      {required this.user,
-      required this.onProfileSelected,
-      required this.paths,
-      Key? key})
-      : super(key: key);
+  const AdminNavBar({
+    required this.user,
+    required this.paths,
+    required this.title,
+    Key? key
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),
@@ -36,33 +37,39 @@ class AdminNavBar extends StatelessWidget {
       ),
       height: 70,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Row(
             children: [
-              for (int i = 0; i < paths.length - 1; i++)
+              for (int i = 0; i < paths.length; i++)
                 Row(
                   children: [
-                    Text(
-                      paths[i],
-                      style: TextStyle(color: kButtonColor),
-                    ),
-                    const Icon(Icons.arrow_right),
-                    Text(
-                      paths[i + 1],
-                      style: TextStyle(color: kButtonColor),
-                    ),
+                    paths[i],
+                    i < paths.length - 1
+                        ? const Icon(Icons.arrow_right)
+                        : const SizedBox.shrink(),
                   ],
                 ),
             ],
           ),
-          Spacer(),
+          Expanded(
+            child: Center(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: kButtonColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
+                ),
+              ),
+            ),
+          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.notifications),
           ),
           AdminProfilBtn(
             user: user,
-            onProfileSelected: onProfileSelected,
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:poly_forum/cubit/admin/dashboard/side_panel_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/screens/admin/dashboard/components/survey_link_dialog.dart';
@@ -38,7 +39,7 @@ class _SidePanelState extends State<SidePanel> {
             showTopSnackBar(
               context,
               Padding(
-                padding: const EdgeInsets.only(left: 300, right: 10),
+                padding: kTopSnackBarPadding,
                 child: CustomSnackBar.error(
                   message: state.errorMessage,
                 ),
@@ -81,7 +82,11 @@ class _SidePanelState extends State<SidePanel> {
         children: [
           const Flexible(
             child: Text(
-                "Période courante : Période d'inscription "
+              "Période courante : Période d'inscription ",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           JustTheTooltip(
@@ -104,7 +109,11 @@ class _SidePanelState extends State<SidePanel> {
         children: [
           const Flexible(
             child: Text(
-                "Période courante : Réalisation des voeux "
+              "Période courante : Réalisation des voeux ",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           JustTheTooltip(
@@ -126,7 +135,11 @@ class _SidePanelState extends State<SidePanel> {
         children: [
           const Flexible(
             child: Text(
-                "Période courante : Plannings générés "
+              "Période courante : Plannings générés ",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           JustTheTooltip(
@@ -134,9 +147,9 @@ class _SidePanelState extends State<SidePanel> {
               width: 250,
               padding: const EdgeInsets.all(5),
               child: const Text(
-                "Les plannings des entretiens ont été générés et sont désormais visibles.\n"
-                    "L'organisateur a la possibilité d'ajouter ou supprimer des créneaux "
-                    "et peut également diffuser un questionnaire de satisfaction lorsque les entretiens sont terminés."
+                  "Les plannings des entretiens ont été générés et sont désormais visibles.\n"
+                      "L'organisateur a la possibilité d'ajouter ou supprimer des créneaux "
+                      "et peut également diffuser un questionnaire de satisfaction lorsque les entretiens sont terminés."
               ),
             ),
             child: const Icon(Icons.info),
@@ -162,7 +175,6 @@ class _SidePanelState extends State<SidePanel> {
         ) :
         const Text(
           "Cloturer les inscriptions",
-          overflow: TextOverflow.ellipsis,
           style: TextStyle(
               color: Colors.white,
               fontSize: 22
@@ -185,6 +197,15 @@ class _SidePanelState extends State<SidePanel> {
             if (value == ModalReturn.confirm) {
               BlocProvider.of<SidePanelCubit>(context).setWishPhase().then((value) {
                 BlocProvider.of<PhaseCubit>(context).fetchCurrentPhase();
+                showTopSnackBar(
+                  context,
+                  Padding(
+                    padding: kTopSnackBarPadding,
+                    child: const CustomSnackBar.success(
+                      message: "Phase d'inscription cloturée avec succès, le renseignement des voeux est disponible.",
+                    ),
+                  ),
+                );
               });
             }
           });
@@ -203,7 +224,6 @@ class _SidePanelState extends State<SidePanel> {
         ) :
         const Text(
           "Générer les plannings",
-          overflow: TextOverflow.ellipsis,
           style: TextStyle(
               color: Colors.white,
               fontSize: 22
@@ -216,9 +236,9 @@ class _SidePanelState extends State<SidePanel> {
               context: context,
               builder: (BuildContext context) {
                 return const ConfirmationModal(
-                    title: "Générer les plannings",
-                    description: "Vous êtes sur le point de cloturer la période de renseignement des voeux pour passer à la génération des plannings. "
-                        "Il ne sera plus possible de modifier les voeux et les utilisateurs n'ayant fait aucun voeux ne seront pas pris en compte.",
+                  title: "Générer les plannings",
+                  description: "Vous êtes sur le point de cloturer la période de renseignement des voeux pour passer à la génération des plannings. "
+                      "Il ne sera plus possible de modifier les voeux et les utilisateurs n'ayant fait aucun voeux ne seront pas pris en compte.",
                 );
               },
               barrierDismissible: true
@@ -226,6 +246,15 @@ class _SidePanelState extends State<SidePanel> {
             if (value == ModalReturn.confirm) {
               BlocProvider.of<SidePanelCubit>(context).setPlanningPhase().then((value) {
                 BlocProvider.of<PhaseCubit>(context).fetchCurrentPhase();
+                showTopSnackBar(
+                  context,
+                  Padding(
+                    padding: kTopSnackBarPadding,
+                    child: const CustomSnackBar.success(
+                      message: "Phase de renseignement des voeux cloturée avec succès, les plannings sont disponibles.",
+                    ),
+                  ),
+                );
               });
             }
           });
@@ -261,7 +290,17 @@ class _SidePanelState extends State<SidePanel> {
               barrierDismissible: true
           ).then((value) {
             if (value == FormReturn.confirm) {
-              BlocProvider.of<SidePanelCubit>(context).sendSatisfactionSurvey(_surveyLinkController.text);
+              BlocProvider.of<SidePanelCubit>(context).sendSatisfactionSurvey(_surveyLinkController.text).then((value) {
+                showTopSnackBar(
+                  context,
+                  Padding(
+                    padding: kTopSnackBarPadding,
+                    child: const CustomSnackBar.success(
+                      message: "Le questionnaire de satisfaction a bien été envoyé.",
+                    ),
+                  ),
+                );
+              });
             }
           });
         },
