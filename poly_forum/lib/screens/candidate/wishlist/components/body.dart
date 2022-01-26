@@ -64,8 +64,7 @@ class _BodyState extends State<Body> {
       ],
     );
 
-    return BaseScreen(
-        child: child, title: "Organisation des voeux", width: 1000);
+    return BaseScreen(child: child, width: 1000);
   }
 
   Widget buildloading() {

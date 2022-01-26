@@ -4,10 +4,8 @@ import 'package:poly_forum/utils/constants.dart';
 class BaseScreen extends StatelessWidget {
   final Widget child;
   final double width;
-  final String title;
 
-  const BaseScreen(
-      {required this.child, required this.title, this.width = 1200, Key? key})
+  const BaseScreen({required this.child, this.width = 1200, Key? key})
       : super(key: key);
 
   @override
@@ -38,20 +36,7 @@ class BaseScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 30, horizontal: 50),
-                    child: Column(
-                      children: [
-                        Text(
-                          title,
-                          style: const TextStyle(
-                            color: kButtonColor,
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        child,
-                      ],
-                    ),
+                    child: child,
                   ),
                 ),
               ),
@@ -72,20 +57,7 @@ class BaseScreen extends StatelessWidget {
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 50),
-              child: Column(
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: kButtonColor,
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  child,
-                ],
-              ),
+              child: child,
             ),
           ),
         ),

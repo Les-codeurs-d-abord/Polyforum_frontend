@@ -67,7 +67,27 @@ class UserRepository {
     }
   }
 
-  Future<User> fetchUserFromToken(String token) async {
+  Future<CandidateUser> getCandidateFromLocalToken() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      final token = prefs.getString(kTokenPref);
+
+      if (token != null) {
+        final user = await getUserFromToken(token);
+
+        if (user is CandidateUser) {
+          return user;
+        }
+      }
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+    throw const NetworkException("Une erreur est survenue.");
+  }
+
+  Future<User> getUserFromToken(String token) async {
     try {
       Map<String, String> requestHeaders = {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -91,12 +111,12 @@ class UserRepository {
           default:
         }
       }
-
-      throw const NetworkException("Une erreur est survenue.");
     } on Exception catch (e) {
       print(e);
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
+
+    throw const NetworkException("Une erreur est survenue.");
   }
 }
 

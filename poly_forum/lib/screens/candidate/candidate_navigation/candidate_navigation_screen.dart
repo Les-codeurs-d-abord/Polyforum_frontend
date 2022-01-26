@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poly_forum/cubit/phase_cubit.dart';
+import 'package:poly_forum/cubit/candidate/navigation/candidate_get_user_cubit.dart';
+import 'package:poly_forum/cubit/candidate/navigation/candidate_phase_cubit.dart';
 
 import 'components/body.dart';
 
@@ -11,8 +12,11 @@ class CandidateNavigationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<PhaseCubit>(
-          create: (context) => PhaseCubit(),
+        BlocProvider<CandidatePhaseCubit>(
+          create: (context) => CandidatePhaseCubit(),
+        ),
+        BlocProvider<CandidateGetUserCubit>(
+          create: (context) => CandidateGetUserCubit(),
         ),
       ],
       child: const Body(),

@@ -26,52 +26,52 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
 
   AdminUser? adminUser;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    User? currentUser;
+  //   User? currentUser;
 
-    if (currentUser == null) {
-      SharedPreferences.getInstance().then((value) async {
-        try {
-          final token = value.getString(kTokenPref);
-          if (token != null) {
-            final user = await UserRepository().fetchUserFromToken(token);
+  //   if (currentUser == null) {
+  //     SharedPreferences.getInstance().then((value) async {
+  //       try {
+  //         final token = value.getString(kTokenPref);
+  //         if (token != null) {
+  //           final user = await UserRepository().fetchUserFromToken(token);
 
-            if (user is AdminUser) {
-              setState(() {
-                adminUser = user;
-              });
-            } else {
-              Application.router.navigateTo(
-                context,
-                Routes.signInScreen,
-                transition: TransitionType.fadeIn,
-              );
-            }
-          } else {
-            Application.router.navigateTo(
-              context,
-              Routes.signInScreen,
-              transition: TransitionType.fadeIn,
-            );
-          }
-        } on Exception catch (e) {
-          // print(e.toString());
-          Application.router.navigateTo(
-            context,
-            Routes.signInScreen,
-            transition: TransitionType.fadeIn,
-          );
-        }
-      });
-    } else {
-      if (currentUser is AdminUser) {
-        adminUser = currentUser;
-      }
-    }
-  }
+  //           if (user is AdminUser) {
+  //             setState(() {
+  //               adminUser = user;
+  //             });
+  //           } else {
+  //             Application.router.navigateTo(
+  //               context,
+  //               Routes.signInScreen,
+  //               transition: TransitionType.fadeIn,
+  //             );
+  //           }
+  //         } else {
+  //           Application.router.navigateTo(
+  //             context,
+  //             Routes.signInScreen,
+  //             transition: TransitionType.fadeIn,
+  //           );
+  //         }
+  //       } on Exception catch (e) {
+  //         // print(e.toString());
+  //         Application.router.navigateTo(
+  //           context,
+  //           Routes.signInScreen,
+  //           transition: TransitionType.fadeIn,
+  //         );
+  //       }
+  //     });
+  //   } else {
+  //     if (currentUser is AdminUser) {
+  //       adminUser = currentUser;
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

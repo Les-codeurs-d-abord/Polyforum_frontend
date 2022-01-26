@@ -18,7 +18,6 @@ class Body extends StatelessWidget {
         child: ProfilForm(user: user),
       ),
       width: 1200,
-      title: "Modifier mon profil",
     );
   }
 }

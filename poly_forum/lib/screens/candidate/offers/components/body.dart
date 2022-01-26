@@ -88,7 +88,7 @@ class _BodyState extends State<Body> {
         isLoading ? buildloading() : buildList(offerList),
       ],
     );
-    return BaseScreen(child: child, title: "Les offres proposées", width: 1100);
+    return BaseScreen(child: child, width: 1100);
   }
 
   Widget buildloading() {
