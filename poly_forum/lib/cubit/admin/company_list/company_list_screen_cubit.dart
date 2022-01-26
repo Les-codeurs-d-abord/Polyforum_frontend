@@ -93,8 +93,9 @@ class CompanyListScreenCubit extends Cubit<CompanyListScreenState> {
 
     try {
       await _companyRepository.sendReminder();
+      emit(const CompanyListScreenSuccessModal("Le rappel a bien été envoyé."));
     } on NetworkException catch (exception) {
-      emit(CompanyListScreenErrorModal("Envoi d'un rappel", exception.message));
+      emit(CompanyListScreenErrorModal(exception.message));
     }
   }
 
@@ -106,9 +107,9 @@ class CompanyListScreenCubit extends Cubit<CompanyListScreenState> {
 
       emit(CompanyListScreenDelete(company));
     } on CompanyException catch (exception) {
-      emit(CompanyListScreenErrorModal("Suppression d'une entreprise", exception.message));
+      emit(CompanyListScreenErrorModal(exception.message));
     } on NetworkException catch (exception) {
-      emit(CompanyListScreenErrorModal("Suppression d'une entreprise", exception.message));
+      emit(CompanyListScreenErrorModal(exception.message));
     }
   }
 }

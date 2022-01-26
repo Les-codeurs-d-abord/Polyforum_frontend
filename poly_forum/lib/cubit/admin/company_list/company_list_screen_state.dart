@@ -32,13 +32,21 @@ class CompanyListScreenError extends CompanyListScreenState {
 }
 
 class CompanyListScreenErrorModal extends CompanyListScreenState {
-  final String errorTitle;
   final String errorMessage;
 
-  const CompanyListScreenErrorModal(this.errorTitle, this.errorMessage);
+  const CompanyListScreenErrorModal(this.errorMessage);
 
   @override
-  List<Object> get props => [errorTitle, errorMessage];
+  List<Object> get props => [errorMessage];
+}
+
+class CompanyListScreenSuccessModal extends CompanyListScreenState {
+  final String successMessage;
+
+  const CompanyListScreenSuccessModal(this.successMessage);
+
+  @override
+  List<Object> get props => [successMessage];
 }
 
 class CompanyListScreenDelete extends CompanyListScreenState {

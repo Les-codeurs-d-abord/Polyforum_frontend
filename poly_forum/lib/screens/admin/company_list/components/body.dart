@@ -15,6 +15,8 @@ import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.d
 import 'package:poly_forum/screens/shared/components/modals/error_modal.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'company_card.dart';
 import 'company_create_form_dialog.dart';
@@ -121,20 +123,27 @@ class _BodyState extends State<Body> {
                                   if (state is CompanyListScreenLoaded) {
                                     companyListInitial = state.companyListInitial;
                                     companyList = state.companyList;
-                                  }
-                                  if (state is CompanyListScreenErrorModal) {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return ErrorModal(
-                                              title: state.errorTitle,
-                                              description: state.errorMessage
-                                          );
-                                        },
-                                        barrierDismissible: true
+                                  } else if (state is CompanyListScreenErrorModal) {
+                                    showTopSnackBar(
+                                      context,
+                                      Padding(
+                                        padding: kTopSnackBarPadding,
+                                        child: CustomSnackBar.error(
+                                          message: state.errorMessage,
+                                        ),
+                                      ),
                                     );
-                                  }
-                                  if (state is CompanyListScreenDelete) {
+                                  } else if (state is CompanyListScreenSuccessModal) {
+                                    showTopSnackBar(
+                                      context,
+                                      Padding(
+                                        padding: kTopSnackBarPadding,
+                                        child: CustomSnackBar.success(
+                                          message: state.successMessage,
+                                        ),
+                                      ),
+                                    );
+                                  } else if (state is CompanyListScreenDelete) {
                                     companyListInitial.remove(state.company);
                                     companyList.remove(state.company);
                                   }
@@ -143,7 +152,7 @@ class _BodyState extends State<Body> {
                                   if (state is CompanyListScreenLoading) {
                                     return buildLoadingScreen(context);
                                   } else if (state is CompanyListScreenLoaded || state is CompanyListScreenErrorModal
-                                      || state is CompanyListScreenDelete) {
+                                      || state is CompanyListScreenDelete || state is CompanyListScreenSuccessModal) {
                                     return buildLoadedScreen(context, companyList);
                                   } else if (state is CompanyListScreenError) {
                                     return buildErrorScreen(context, state.errorMessage);

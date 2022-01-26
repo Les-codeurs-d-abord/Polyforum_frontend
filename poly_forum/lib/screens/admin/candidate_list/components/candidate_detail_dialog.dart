@@ -168,9 +168,12 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
                                       padding: EdgeInsets.all(10),
                                       child: Icon(Icons.mail_outline)
                                   ),
-                                  Expanded(
+                                  Flexible(
                                       child: (candidateDetail?.email.isNotEmpty == true) ?
-                                      Text(candidateDetail?.email ?? '') :
+                                      TextButton(
+                                        child: Text(candidateDetail?.email ?? ''),
+                                        onPressed: () => launch("mailto:${candidateDetail?.email ?? ''}"),
+                                      ) :
                                       const Text(
                                         'Non renseigné',
                                         style: TextStyle(
