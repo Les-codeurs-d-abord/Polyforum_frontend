@@ -163,78 +163,6 @@ class CandidateRepository {
     }
   }
 
-  // Future<Planning> fetchPlanning(CandidateUser candidateUser) async {
-  //   try {
-  //     String uriLink = 'api/planning/candidate/${candidateUser.id}';
-  //     final uri = Uri.http(kServer, uriLink);
-  //     final response = await http.get(uri).timeout(const Duration(seconds: 2));
-  //     if (response.statusCode == 200) {
-  //       final data = jsonDecode(response.body);
-  //       List<Slot> slots = [];
-  //       for (Map<String, dynamic> i in data) {
-  //         slots.add(Slot.fromJson(i));
-  //       }
-  //       Planning planning = Planning(slots: slots);
-  //       return planning;
-  //     } else {
-  //       throw const CandidateException("Planning introuvable");
-  //     }
-  //   } on Exception catch (e) {
-  //     print(e);
-  //     throw NetworkException("Une erreur est survenue: ${e.toString()}");
-  //   }
-  // }
-
-  // Future<Planning> fetchPlanningWithUserId(int userId) async {
-  //   try {
-  //     String uriLink = 'api/planning/$userId';
-  //     final uri = Uri.http(kServer, uriLink);
-  //     final response = await http.get(uri).timeout(const Duration(seconds: 2));
-  //     if (response.statusCode == 200) {
-  //       final data = jsonDecode(response.body);
-  //       List<Slot> slots = [];
-  //       for (Map<String, dynamic> i in data) {
-  //         slots.add(Slot.fromJson(i));
-  //       }
-  //       Planning planning = Planning(slots: slots);
-  //       return planning;
-  //     } else {
-  //       throw const CandidateException("Planning introuvable");
-  //     }
-  //   } on Exception catch (e) {
-  //     print(e);
-  //     throw NetworkException("Une erreur est survenue: ${e.toString()}");
-  //   }
-  // }
-
-  // Future<List<CompanyMinimal>> fetchFreeCompaniesRequestAtGivenPeriod(
-  //     period) async {
-  //   try {
-  //     if (period == null) {
-  //       throw const CandidateException("Une période est requise");
-  //     }
-
-  //     String uriLink = 'api/planning/freecompanies/$period';
-
-  //     final uri = Uri.http(kServer, uriLink);
-  //     final response = await http.get(uri).timeout(const Duration(seconds: 2));
-  //     if (response.statusCode == 200) {
-  //       final data = jsonDecode(response.body);
-  //       print(data);
-  //       List<CompanyMinimal> companies = [];
-  //       for (Map<String, dynamic> i in data) {
-  //         companies.add(CompanyMinimal.fromJson(i));
-  //       }
-  //       return companies;
-  //     } else {
-  //       throw const CandidateException("Planning introuvable");
-  //     }
-  //   } on Exception catch (e) {
-  //     print(e);
-  //     throw NetworkException("Une erreur est survenue: ${e.toString()}");
-  //   }
-  // }
-
   Future<CandidateUser> updateUser(CandidateUser user) async {
     try {
       String json = jsonEncode(user.toJson());
@@ -389,35 +317,6 @@ class CandidateRepository {
     } on Exception catch (e) {
       print(e);
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
-    }
-  }
-
-  Future<List<Candidate>> getCandidates() async {
-    final uri = Uri.http(kServer, '/api/candidates');
-    final response = await http.get(uri).timeout(const Duration(seconds: 2));
-
-    List<Candidate> candidates = [];
-
-    if (response.statusCode != 200) {
-      if (response.statusCode == 400 || response.statusCode == 409) {
-        throw CandidateException(response.body);
-      } else {
-        throw const NetworkException("Le serveur a rencontré un problème");
-      }
-    } else {
-      var result = "";
-
-      for (var i = 0; i < response.bodyBytes.length; i++) {
-        result += String.fromCharCode(response.bodyBytes[i]);
-      }
-      final body = jsonDecode(result);
-
-      for (var element in body) {
-        Candidate candidate = Candidate.fromJson(element);
-        candidates.add(candidate);
-      }
-
-      return candidates;
     }
   }
 }
