@@ -166,7 +166,7 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
                             },
                             isSelect: _selectedIndex == 3,
                             text: "Planning candidats",
-                            iconData: Icons.local_offer_outlined,
+                            iconData: Icons.today,
                           ),
                         ],
                       ),

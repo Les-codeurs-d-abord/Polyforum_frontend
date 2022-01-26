@@ -116,7 +116,7 @@ class PlanningRepository {
         await http.delete(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
-    print(response.body);
+
     if (response.statusCode != 201) {
       if (response.statusCode == 400 || response.statusCode == 409) {
         throw PlanningException(response.body);

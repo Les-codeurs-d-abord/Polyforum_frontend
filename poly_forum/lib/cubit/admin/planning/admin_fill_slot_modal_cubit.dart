@@ -26,7 +26,7 @@ class AdminFillSlotModalCubit extends Cubit<AdminFillSlotModalState> {
 
   Future<void> createMeeting(userIdCandidate, userIdCompany, period) async {
     try {
-      emit(AdminFillSlotModalLoading());
+      emit(AdminFillSlotModalLoadingCreation());
 
       await repository.createMeeting(userIdCandidate, userIdCompany, period);
 

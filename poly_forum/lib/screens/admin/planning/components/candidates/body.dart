@@ -46,19 +46,6 @@ class _BodyState extends State<Body> {
         return buildLoadedScreen();
       } else if (state is AdminPlanningCandidatesAndPlanningLoaded) {
         return buildLoadedScreenWithPlanning();
-      } else if (state is AdminPlanningCandidatesAddMeeting) {
-        // showDialog(
-        //   context: context,
-        //   builder: (BuildContext context) {
-        //     return FillSlotModal(
-        //       title: "Le titre",
-        //       description: "Blablz",
-        //       listCompanies: listCompanies,
-        //     );
-        //   },
-        // ).then((value) {
-        //   print("oui");
-        // });
       } else if (state is AdminPlanningCandidatesError) {
         return buildErrorScreen();
       }
@@ -74,10 +61,8 @@ class _BodyState extends State<Body> {
   }
 
   Widget buildloadingScreen() {
-    return SizedBox(
-      width: 1000,
-      height: 1000,
-      // color: Colors.red,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
       child: Shimmer.fromColors(
         child: ListView.builder(
           itemBuilder: (context, index) => Padding(
@@ -107,11 +92,12 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Widget buildLoadedScreen() {
+  Widget buildLoadedScreen([bool isPlanningLoaded = false]) {
     if (listCandidates!.isNotEmpty) {
       return Column(children: [
         DropdownButton<Candidate>(
           icon: const Icon(Icons.account_circle),
+          dropdownColor: Colors.blue[300],
           value: candidateSelected,
           onChanged: (Candidate? newValue) {
             setState(() {
@@ -123,10 +109,12 @@ class _BodyState extends State<Body> {
               .map<DropdownMenuItem<Candidate>>((Candidate candidate) {
             return DropdownMenuItem<Candidate>(
               value: candidate,
-              child: Text('${candidate.firstName} ${candidate.lastName}'),
+              child: Text('${candidate.firstName} ${candidate.lastName}',
+                  style: const TextStyle(color: Colors.white)),
             );
           }).toList(),
-        )
+        ),
+        Container(),
       ]);
     } else {
       return buildInitialPlanning();
@@ -136,7 +124,7 @@ class _BodyState extends State<Body> {
   Widget buildLoadedScreenWithPlanning() {
     return Column(
       children: [
-        buildLoadedScreen(),
+        buildLoadedScreen(true),
         PlanningWidget(
           planning: planning!,
         )
@@ -145,8 +133,9 @@ class _BodyState extends State<Body> {
   }
 
   Widget buildErrorScreen() {
-    return Container(
-      color: Colors.red,
+    return Image.asset(
+      "images/no_result.jpg",
+      width: 1200,
     );
   }
 

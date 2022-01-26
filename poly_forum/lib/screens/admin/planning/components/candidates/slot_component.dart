@@ -43,13 +43,6 @@ class SlotPlanning extends StatelessWidget {
         ),
         onTap: () {
           modal_fill_slot(context, slot.userPlanning, slot.period);
-          // showDialog(
-          //     context: context,
-          //     builder: (BuildContext context) {
-          //       // return FillSlotModalScreen(
-          //       //   period: slot.period,
-          //       // );
-          //     });
         });
   }
 
@@ -63,8 +56,7 @@ class SlotPlanning extends StatelessWidget {
             },
             barrierDismissible: false)
         .then((value) {
-      if (value == FormReturn.confirm) {
-        print("La modale est confirmée");
+      if (value == ModalSlotReturn.confirm) {
         BlocProvider.of<AdminPlanningCandidatesCubit>(context)
             .fetchPlanningForGivenCandidate(userId);
       }

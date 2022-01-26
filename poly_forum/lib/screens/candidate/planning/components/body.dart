@@ -49,64 +49,35 @@ class _BodyState extends State<Body> {
     );
   }
 
-  // Widget buildloadingScreen() {
-  //   return SizedBox(
-  //     child: Shimmer.fromColors(
-  //       child: ListView.builder(
-  //         itemBuilder: (context, index) => Padding(
-  //           padding: const EdgeInsets.symmetric(vertical: 20),
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: <Widget>[
-  //               for (int i = 0; i < 7; i++)
-  //                 Column(
-  //                   children: [
-  //                     Container(
-  //                       width: double.infinity,
-  //                       height: 40.0,
-  //                       color: Colors.white,
-  //                     ),
-  //                     const SizedBox(height: 10),
-  //                   ],
-  //                 ),
-  //             ],
-  //           ),
-  //         ),
-  //         itemCount: 4,
-  //       ),
-  //       baseColor: Colors.grey[300]!,
-  //       highlightColor: Colors.grey[100]!,
-  //     ),
-  //   );
-  // }
-
   Widget buildloadingScreen() {
-    return Shimmer.fromColors(
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              for (int i = 0; i < 7; i++)
-                Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 40.0,
-                      color: Colors.white,
-                    ),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Shimmer.fromColors(
+        child: ListView.builder(
+          itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                for (int i = 0; i < 7; i++)
+                  Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 40.0,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
+              ],
+            ),
           ),
+          itemCount: 4,
         ),
-        itemCount: 2,
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
       ),
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
     );
   }
 

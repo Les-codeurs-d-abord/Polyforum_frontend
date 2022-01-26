@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/admin/planning/admin_fill_slot_modal_cubit.dart';
 import 'package:poly_forum/data/models/company_minimal_model.dart';
-import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,11 +36,13 @@ class _FillSlotModalState extends State<FillSlotModal> {
       } else if (state is AdminFillSlotModalLoaded) {
         listCompanies = state.listCompanies;
       } else if (state is AdminFillSlotModalLoadedCreation) {
-        Navigator.of(context).pop(FormReturn.confirm);
+        Navigator.of(context).pop(ModalSlotReturn.confirm);
       }
     }, builder: (context, state) {
       if (state is AdminFillSlotModalLoading) {
-        return rip();
+        return Container();
+      } else if (state is AdminFillSlotModalLoadingCreation) {
+        return buildCandidateFormDialog(context, true);
       } else if (state is AdminFillSlotModalLoadedCreation) {
         return buildCandidateFormDialog(context, true);
       } else if (state is AdminFillSlotModalError) {
@@ -103,22 +104,21 @@ class _FillSlotModalState extends State<FillSlotModal> {
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onPressed: () {
-                // BlocProvider.of<AdminFillSlotModalCubit>(context).createMeeting(
-                //     companySelected!.userId, widget.userId, widget.period);
-                Navigator.of(context).pop(ModalSlotReturn.confirm);
+                BlocProvider.of<AdminFillSlotModalCubit>(context).createMeeting(
+                    companySelected!.userId, widget.userId, widget.period);
               },
             )),
       ],
     );
   }
 
-  Widget rip() {
-    return Container();
-  }
-
   Widget listCompaniesInput() {
     return DropdownButton<CompanyMinimal>(
-        // icon: const Icon(Icons.account_circle),
+        dropdownColor: Colors.grey[300],
+        hint: const Text("Choisir une entreprise"),
+        icon: const Icon(Icons.business),
+        style: const TextStyle(color: Colors.black),
+        isExpanded: true,
         value: companySelected,
         onChanged: (CompanyMinimal? newValue) {
           setState(() {
@@ -129,10 +129,9 @@ class _FillSlotModalState extends State<FillSlotModal> {
             .map<DropdownMenuItem<CompanyMinimal>>((CompanyMinimal company) {
           return DropdownMenuItem<CompanyMinimal>(
             value: company,
-            child: Text(
-              company.companyName,
-              textAlign: TextAlign.center,
-            ),
+            child: Text(company.companyName,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.black)),
           );
         }).toList());
   }
@@ -150,7 +149,9 @@ class _FillSlotModalState extends State<FillSlotModal> {
           child: InkResponse(
             radius: 20,
             onTap: () {
-              isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
+              isLoading
+                  ? null
+                  : Navigator.of(context).pop(ModalSlotReturn.cancel);
             },
             child: const Icon(Icons.close, color: Colors.grey),
           ),
@@ -192,7 +193,9 @@ class _FillSlotModalState extends State<FillSlotModal> {
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               onPressed: () {
-                isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
+                isLoading
+                    ? null
+                    : Navigator.of(context).pop(ModalSlotReturn.cancel);
               },
             )),
         Container(
@@ -219,13 +222,12 @@ class _FillSlotModalState extends State<FillSlotModal> {
               onPressed: isLoading
                   ? null
                   : () {
-                      if (_formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate() &&
+                          companySelected != null) {
                         _formKey.currentState!.save();
                         BlocProvider.of<AdminFillSlotModalCubit>(context)
                             .createMeeting(widget.userId,
                                 companySelected!.userId, widget.period);
-                        // .then((value) =>
-                        //     Navigator.of(context).pop(FormReturn.confirm));
                       }
                     },
             )),
