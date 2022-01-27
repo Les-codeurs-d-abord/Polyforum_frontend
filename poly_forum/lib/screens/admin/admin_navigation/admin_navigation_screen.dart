@@ -94,75 +94,75 @@ class _AdminNavigationScreenState extends State<AdminNavigationScreen> {
         backgroundColor: Colors.blue[300],
         body: Row(
           children: [
-            Column(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    width: 300,
-                    child: SingleChildScrollView(
-                      primary: false,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Image.asset(
-                                'images/logo.png',
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.contain,
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                "PolyForum",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 26,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          TabNavigationItem(
-                            onPressed: () {
-                              setState(() {
-                                _selectedIndex = 0;
-                              });
-                            },
-                            isSelect: _selectedIndex == 0,
-                            text: "PolyForum",
-                            iconData: Icons.local_offer_outlined,
-                          ),
-                          const SizedBox(height: 20),
-                          TabNavigationItem(
-                            onPressed: () {
-                              setState(() {
-                                _selectedIndex = 1;
-                              });
-                            },
-                            isSelect: _selectedIndex == 1,
-                            text: "Entreprises",
-                            iconData: Icons.local_offer_outlined,
-                          ),
-                          const SizedBox(height: 20),
-                          TabNavigationItem(
-                            onPressed: () {
-                              setState(() {
-                                _selectedIndex = 2;
-                              });
-                            },
-                            isSelect: _selectedIndex == 2,
-                            text: "Candidats",
-                            iconData: Icons.local_offer_outlined,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // Column(
+            //   children: [
+            //     Expanded(
+            //       child: SizedBox(
+            //         width: 300,
+            //         child: SingleChildScrollView(
+            //           primary: false,
+            //           child: Column(
+            //             children: [
+            //               const SizedBox(height: 20),
+            //               Row(
+            //                 children: [
+            //                   Image.asset(
+            //                     'images/logo.png',
+            //                     width: 80,
+            //                     height: 80,
+            //                     fit: BoxFit.contain,
+            //                   ),
+            //                   const SizedBox(width: 10),
+            //                   const Text(
+            //                     "PolyForum",
+            //                     style: TextStyle(
+            //                       fontWeight: FontWeight.bold,
+            //                       fontSize: 26,
+            //                       color: Colors.white,
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //               const SizedBox(height: 30),
+            //               TabNavigationItem(
+            //                 onPressed: () {
+            //                   setState(() {
+            //                     _selectedIndex = 0;
+            //                   });
+            //                 },
+            //                 isSelect: _selectedIndex == 0,
+            //                 text: "PolyForum",
+            //                 iconData: Icons.local_offer_outlined,
+            //               ),
+            //               const SizedBox(height: 20),
+            //               TabNavigationItem(
+            //                 onPressed: () {
+            //                   setState(() {
+            //                     _selectedIndex = 1;
+            //                   });
+            //                 },
+            //                 isSelect: _selectedIndex == 1,
+            //                 text: "Entreprises",
+            //                 iconData: Icons.local_offer_outlined,
+            //               ),
+            //               const SizedBox(height: 20),
+            //               TabNavigationItem(
+            //                 onPressed: () {
+            //                   setState(() {
+            //                     _selectedIndex = 2;
+            //                   });
+            //                 },
+            //                 isSelect: _selectedIndex == 2,
+            //                 text: "Candidats",
+            //                 iconData: Icons.local_offer_outlined,
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(

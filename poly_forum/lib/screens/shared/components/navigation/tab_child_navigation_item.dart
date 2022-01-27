@@ -1,37 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TabChildNavigationItem extends StatelessWidget {
-  final String title;
-  final Function onPress;
-  final bool isSelect;
+  final Function? onPressed;
+  final int index;
+  final int selectedIndex;
+  final String text;
 
   const TabChildNavigationItem(
-      {required this.title,
-      required this.onPress,
-      required this.isSelect,
+      {this.onPressed,
+      required this.index,
+      required this.selectedIndex,
+      required this.text,
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    bool isSelected = index == selectedIndex;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextButton(
-        onPressed: () => onPress(),
+        onPressed: () {
+          BlocProvider.of<CompanyNavigationCubit>(context)
+              .setSelectedItem(index);
+
+          if (onPressed != null) {
+            onPressed!();
+          }
+        },
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: isSelect ? kButtonColor : Colors.transparent,
+              backgroundColor: isSelected ? kButtonColor : Colors.transparent,
               radius: 5,
             ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                title,
+                text,
                 style: TextStyle(
                   color: Colors.white,
-                  fontWeight: isSelect ? FontWeight.bold : FontWeight.normal,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   fontSize: 18,
                 ),
               ),

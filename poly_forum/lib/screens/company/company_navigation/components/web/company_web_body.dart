@@ -1,35 +1,33 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/candidate/navigation/candidate_get_user_cubit.dart';
-import 'package:poly_forum/cubit/candidate/navigation/candidate_navigation_cubit.dart';
-import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
-import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
-import 'package:poly_forum/screens/candidate/profil/edit/candidate_profil_screen.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
-import 'package:poly_forum/screens/candidate/wishlist/choices_screen.dart';
+import 'package:poly_forum/screens/company/offers/create/create_offer_screen.dart';
+import 'package:poly_forum/screens/company/offers/offers_screen.dart';
 import 'package:poly_forum/screens/password/change_password_screen.dart';
+import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
+import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'candidate_nav_bar.dart';
+import 'company_nav_bar.dart';
 
-class CandidateWebBody extends StatelessWidget {
-  const CandidateWebBody({Key? key}) : super(key: key);
+class CompanyWebBody extends StatelessWidget {
+  const CompanyWebBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CandidateNavigationCubit, CandidateNavigationState>(
+    return BlocConsumer<CompanyNavigationCubit, CompanyNavigationState>(
       listener: (context, state) {},
       builder: (context, state) {
-        if (state is CandidateNavigationLoaded) {
+        if (state is CompanyNavigationLoaded) {
           return buildScreen(
             context,
             state.index,
-            BlocProvider.of<CandidateGetUserCubit>(context).getUser(),
           );
         }
 
@@ -38,8 +36,7 @@ class CandidateWebBody extends StatelessWidget {
     );
   }
 
-  Widget buildScreen(
-      BuildContext context, int selectedIndex, CandidateUser candidateUser) {
+  Widget buildScreen(BuildContext context, int selectedIndex) {
     return Scaffold(
       extendBody: true,
       backgroundColor: kPrimaryColor,
@@ -52,108 +49,82 @@ class CandidateWebBody extends StatelessWidget {
                 width: 300,
                 child: SingleChildScrollView(
                   primary: false,
-//                   child: Column(
-//                     children: [
-//                       const SizedBox(height: 20),
-//                       Row(
-//                         children: [
-//                           const SizedBox(width: 10),
-//                           Image.asset(
-//                             'images/logo.png',
-//                             width: 80,
-//                             height: 80,
-//                             fit: BoxFit.contain,
-//                           ),
-//                           const SizedBox(width: 10),
-//                           const Text(
-//                             "PolyForum",
-//                             style: TextStyle(
-//                               fontWeight: FontWeight.bold,
-//                               fontSize: 26,
-//                               color: Colors.white,
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                       const SizedBox(height: 30),
-//                       TabNavigationItem(
-//                         onPressed: () {
-//                           BlocProvider.of<CandidateNavigationCubit>(context)
-//                               .setSelectedItem(0);
-//                         },
-//                         isSelect: selectedIndex == 0,
-//                         text: "Le forum",
-//                         iconData: selectedIndex == 0
-//                             ? Icons.home
-//                             : Icons.home_outlined,
-//                       ),
-//                       const SizedBox(height: 20),
-//                       TabNavigationItem(
-//                         onPressed: () {
-//                           BlocProvider.of<CandidateNavigationCubit>(context)
-//                               .setSelectedItem(1);
-//                         },
-//                         isSelect: selectedIndex == 1,
-//                         text: "Les offres",
-//                         iconData: selectedIndex == 1
-//                             ? Icons.local_offer
-//                             : Icons.local_offer_outlined,
-//                       ),
-//                       const SizedBox(height: 20),
-//                       TabNavigationItem(
-//                         onPressed: () {
-//                           BlocProvider.of<CandidateNavigationCubit>(context)
-//                               .setSelectedItem(2);
-//                         },
-//                         isSelect: selectedIndex == 2,
-//                         text: "Mes choix",
-//                         iconData: selectedIndex == 2
-//                             ? Icons.bookmark
-//                             : Icons.bookmark_border,
-//                       ),
-// /*                           const SizedBox(height: 20),
-//                               TabNavigationItem(
-//                                 onPressed: () {
-//                                   setState(() {
-//                                     _selectedIndex = 3;
-//                                   });
-//                                 },
-//                                 isSelect: _selectedIndex == 3,
-//                                 text: "Mon planning",
-//                                 iconData: Icons.local_offer_outlined,
-//                               ), */
-//                       const SizedBox(height: 20),
-//                       TabNavigationItem(
-//                         onPressed: () {
-//                           BlocProvider.of<CandidateNavigationCubit>(context)
-//                               .setSelectedItem(4);
-//                         },
-//                         isSelect: selectedIndex >= 4,
-//                         text: "Mon profil",
-//                         iconData: selectedIndex >= 4
-//                             ? Icons.person
-//                             : Icons.person_outline,
-//                         children: [
-//                           TabChildNavigationItem(
-//                             title: "Modifier mon profil",
-//                             onPress: () {
-//                               BlocProvider.of<CandidateNavigationCubit>(context)
-//                                   .setSelectedItem(5);
-//                             },
-//                             isSelect: selectedIndex == 5,
-//                           ),
-//                           TabChildNavigationItem(
-//                             title: "Changer mon mot de passe",
-//                             onPress: () {
-//                               BlocProvider.of<CandidateNavigationCubit>(context)
-//                                   .setSelectedItem(6);
-//                             },
-//                             isSelect: selectedIndex == 6,
-//                           ),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          const SizedBox(width: 10),
+                          Image.asset(
+                            'images/logo.png',
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.contain,
+                          ),
+                          const SizedBox(width: 10),
+                          const Text(
+                            "PolyForum",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 26,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      TabNavigationItem(
+                        index: 0,
+                        selectedIndex: selectedIndex,
+                        text: "Le forum",
+                        iconSelected: Icons.home,
+                        iconNonSelected: Icons.home_outlined,
+                      ),
+                      const SizedBox(height: 20),
+                      TabNavigationItem(
+                        index: 1,
+                        selectedIndex: selectedIndex,
+                        text: "Mes offres",
+                        iconSelected: Icons.local_offer,
+                        iconNonSelected: Icons.local_offer_outlined,
+                        children: [
+                          TabChildNavigationItem(
+                            index: 2,
+                            selectedIndex: selectedIndex,
+                            text: "Créer une offre",
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      TabNavigationItem(
+                        index: 3,
+                        selectedIndex: selectedIndex,
+                        text: "Les candidats",
+                        iconSelected: Icons.local_offer,
+                        iconNonSelected: Icons.local_offer_outlined,
+                      ),
+                      const SizedBox(height: 20),
+                      TabNavigationItem(
+                        index: 5,
+                        selectedIndex: selectedIndex,
+                        text: "Mon profil",
+                        iconSelected: Icons.person,
+                        iconNonSelected: Icons.person_outline,
+                        children: [
+                          TabChildNavigationItem(
+                            index: 6,
+                            selectedIndex: selectedIndex,
+                            text: "Modifier mon profil",
+                          ),
+                          TabChildNavigationItem(
+                            index: 7,
+                            selectedIndex: selectedIndex,
+                            text: "Changer mon mot de passe",
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Expanded(
@@ -175,26 +146,23 @@ class CandidateWebBody extends StatelessWidget {
                                   index: selectedIndex,
                                   children: <Widget>[
                                     const WelcomeScreen(),
-                                    OffersScreen(user: candidateUser),
-                                    ChoicesScreen(user: candidateUser),
-                                    /* PlanningScreen(user: candidateUser!), */
-                                    Container(),
+                                    const OffersScreen(),
+                                    const CreateOfferScreen(),
+                                    Container(), //candidat
+                                    Container(), //planning
                                     HomeProfileScreen(
                                       onEditProfilePressed: () {
-                                        BlocProvider.of<
-                                                    CandidateNavigationCubit>(
-                                                context)
-                                            .setSelectedItem(5);
-                                      },
-                                      onChangePasswordPressed: () {
-                                        BlocProvider.of<
-                                                    CandidateNavigationCubit>(
+                                        BlocProvider.of<CompanyNavigationCubit>(
                                                 context)
                                             .setSelectedItem(6);
                                       },
+                                      onChangePasswordPressed: () {
+                                        BlocProvider.of<CompanyNavigationCubit>(
+                                                context)
+                                            .setSelectedItem(7);
+                                      },
                                     ),
-                                    CandidateProfilScreen(
-                                        candidateUser: candidateUser),
+                                    Container(), //profil
                                     ChangePasswordScreen(),
                                   ],
                                 ),
@@ -202,10 +170,9 @@ class CandidateWebBody extends StatelessWidget {
                             ],
                           ),
                         ),
-                        CandidateNavBar(
-                          user: candidateUser,
+                        CompanyNavBar(
                           onProfileSelected: () {
-                            BlocProvider.of<CandidateNavigationCubit>(context)
+                            BlocProvider.of<CompanyNavigationCubit>(context)
                                 .setSelectedItem(4);
                           },
                           paths: buildBreadcrumbs(context, selectedIndex),
@@ -265,10 +232,10 @@ class CandidateWebBody extends StatelessWidget {
         title = "Le forum";
         break;
       case 1:
-        title = "Les offres proposées";
+        title = "Mes offres";
         break;
       case 2:
-        title = "Organisation des voeux";
+        title = "List des candidats";
         break;
       case 3:
         title = "Mon profil";
@@ -295,7 +262,7 @@ class CandidateWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<CandidateNavigationCubit>(context)
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(0);
             },
             child: const Text(
@@ -309,7 +276,7 @@ class CandidateWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<CandidateNavigationCubit>(context)
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(1);
             },
             child: const Text(
@@ -323,7 +290,7 @@ class CandidateWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<CandidateNavigationCubit>(context)
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(2);
             },
             child: const Text(
@@ -337,7 +304,7 @@ class CandidateWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<CandidateNavigationCubit>(context)
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(3);
             },
             child: const Text(
@@ -351,7 +318,7 @@ class CandidateWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<CandidateNavigationCubit>(context)
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(3);
             },
             child: const Text(
@@ -365,7 +332,7 @@ class CandidateWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<CandidateNavigationCubit>(context)
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(4);
             },
             child: const Text(
@@ -375,7 +342,7 @@ class CandidateWebBody extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              BlocProvider.of<CandidateNavigationCubit>(context)
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(5);
             },
             child: const Text(
@@ -389,7 +356,7 @@ class CandidateWebBody extends StatelessWidget {
         breadcrumbs = [
           TextButton(
             onPressed: () {
-              BlocProvider.of<CandidateNavigationCubit>(context)
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(4);
             },
             child: const Text(
@@ -399,7 +366,7 @@ class CandidateWebBody extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              BlocProvider.of<CandidateNavigationCubit>(context)
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(6);
             },
             child: const Text(

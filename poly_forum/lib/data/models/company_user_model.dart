@@ -6,11 +6,13 @@ class CompanyUser extends User {
   final String description;
   final String logo;
   final List<String> links;
+  final int campanyProfileId;
 
   CompanyUser({
     required this.companyName,
     required this.phoneNumber,
     required this.description,
+    required this.campanyProfileId,
     required id,
     required email,
     required role,
@@ -26,7 +28,8 @@ class CompanyUser extends User {
     }
 
     return CompanyUser(
-      id: json['id'] ?? 0,
+      id: json['user']['id'] ?? 0,
+      campanyProfileId: json['id'] ?? 0,
       phoneNumber: json['phoneNumber'] ?? '',
       companyName: json['companyName'] ?? '',
       description: json['description'] ?? '',

@@ -35,3 +35,5 @@ const kDelayQuery = 500;
 
 EdgeInsetsGeometry kTopSnackBarPadding =
     const EdgeInsets.only(left: 300, right: 10);
+
+const kRedButton = Colors.red;

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
 
-class AddLinkModal extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-  final _linkController = TextEditingController();
-  final List<String> links;
+import '../../../../shared/components/custom_text_field.dart';
 
-  AddLinkModal({required this.links, Key? key}) : super(key: key);
+class AddTagModal extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+  final _tagController = TextEditingController();
+  final List<String> tags;
+
+  AddTagModal({required this.tags, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +21,20 @@ class AddLinkModal extends StatelessWidget {
         key: _formKey,
         child: Container(
           padding: const EdgeInsets.all(30),
-          width: 600,
+          width: 300,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 children: [
                   CustomTextField(
-                    text: "Lien",
+                    text: "Tag",
                     icon: Icons.link_outlined,
-                    controller: _linkController,
+                    controller: _tagController,
                     isLocked: false,
-                    isLink: true,
-                    stringFilters: links,
-                  )
+                    stringFilters: tags,
+                    maxCharacters: 20,
+                  ),
                 ],
               ),
               const SizedBox(height: 30),
@@ -42,7 +42,7 @@ class AddLinkModal extends StatelessWidget {
                 text: "Valider",
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    Navigator.pop(context, _linkController.text);
+                    Navigator.pop(context, _tagController.text);
                   }
                 },
               ),

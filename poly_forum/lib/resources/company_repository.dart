@@ -141,7 +141,7 @@ class CompanyRepository {
   }
 
   Future<List<Offer>> fetchOffersFromCompany(int id) async {
-    final uri = Uri.http('localhost:8080', '/api/companies/$id/offer');
+    final uri = Uri.http(kServer, '/api/companies/$id/offer');
 
     final response = await http.get(uri).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
@@ -152,9 +152,9 @@ class CompanyRepository {
 
       List<Offer> offersList = [];
 
-      // for (Map<String, dynamic> offerJson in data) {
-      //   offersList.add(Offer.fromJson(offerJson));
-      // }
+      for (Map<String, dynamic> offerJson in data) {
+        offersList.add(Offer.fromJson(offerJson));
+      }
 
       return offersList;
     } else {
@@ -163,6 +163,48 @@ class CompanyRepository {
       } else {
         throw const NetworkException("Le serveur a rencontré un problème");
       }
+    }
+  }
+
+  Future<void> createOffer(Offer offer) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: kDelayQuery));
+
+      String json = jsonEncode(offer.toJson());
+      final body = {
+        "data": json,
+      };
+
+      final uri = Uri.http(kServer, '/api/offer');
+      final response =
+          await http.post(uri, body: body).onError((error, stackTrace) {
+        throw const NetworkException("Le serveur est injoignable");
+      });
+
+      if (response.statusCode != 200) {
+        throw NetworkException(
+            "Une erreur est survenue, status code: ${response.statusCode}");
+      }
+    } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
+  Future<void> deleteOffer(Offer offer) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: kDelayQuery));
+
+      final uri = Uri.http(kServer, '/api/offer/${offer.id}');
+      final response = await http.delete(uri).onError((error, stackTrace) {
+        throw const NetworkException("Le serveur est injoignable");
+      });
+
+      if (response.statusCode != 200) {
+        throw NetworkException(
+            "Une erreur est survenue, status code: ${response.statusCode}");
+      }
+    } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
   }
 

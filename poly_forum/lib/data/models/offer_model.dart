@@ -60,11 +60,24 @@ class Offer {
   Map<String, dynamic> toJson() => {
         "name": name,
         "description": description,
-        "companyId": companyId,
+        "companyProfileId": companyId,
+        "address": address,
+        "email": email,
+        "phoneNumber": phoneNumber,
+        "linksList": links,
+        "tagsList": tags,
       };
 
   @override
   String toString() {
     return "Name: $name, CompanyId: $companyId";
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Offer && id == other.id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

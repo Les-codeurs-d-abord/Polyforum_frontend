@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/screens/candidate/profil/edit/components/custom_text_field.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
+import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
 
 class ChangePasswordScreen extends StatelessWidget {

@@ -1,55 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/candidate/candidate_offer_screen_cubit.dart';
-import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
-import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
+import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
+import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
+import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
-import 'package:poly_forum/screens/candidate/offers/components/offer_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/screens/company/offers/components/offer_card.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
+import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Body extends StatefulWidget {
-  final CandidateUser user;
-
-  const Body({required this.user, Key? key}) : super(key: key);
+  const Body({Key? key}) : super(key: key);
 
   @override
   State<Body> createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
-  List<Offer> offerListSaved = [];
-
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<CandidateOfferScreenCubit>(context).offerListEvent();
+    CompanyUser user = BlocProvider.of<CompanyGetUserCubit>(context).getUser();
+    BlocProvider.of<CompanyGetOfferCubit>(context).getOfferList(user);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CandidateOfferScreenCubit, CandidateOfferScreenState>(
-      listener: (context, state) {
-        if (state is CandidateOfferScreenLoaded) {
-          offerListSaved = state.offerList;
-        }
-      },
-      // buildWhen: (previous, current) {
-      //   print(previous);
-      //   print(current);
-      //   if (previous is CandidateOfferScreenLoaded &&
-      //       current is CandidateOfferScreenLoading) {
-      //     return false;
-      //   }
-      //   return true;
-      // },
+    return BlocConsumer<CompanyGetOfferCubit, CompanyGetOfferState>(
+      listener: (context, state) {},
       builder: (context, state) {
-        if (state is CandidateOfferScreenLoaded) {
+        if (state is CompanyGetOfferLoaded) {
           return buildLoaded(state.offerList, false);
-        } else if (state is CandidateOfferScreenLoadedWithFilter) {
+        } else if (state is CompanyGetOfferLoadedWithFilter) {
           return buildLoaded(state.offerList, false);
-        } else if (state is CandidateOfferScreenError) {
+        } else if (state is CompanyGetOfferError) {
           return const ErrorScreen("error_500.jpg");
         }
 
@@ -79,8 +65,8 @@ class _BodyState extends State<Body> {
                     fontSize: 20,
                   ),
                   onChanged: (value) {
-                    BlocProvider.of<CandidateOfferScreenCubit>(context)
-                        .offerListWithFilteringEvent(offerListSaved, value);
+                    BlocProvider.of<CompanyGetOfferCubit>(context)
+                        .offerListWithFilteringEvent(value);
                   },
                 ),
               ),
@@ -124,22 +110,33 @@ class _BodyState extends State<Body> {
   }
 
   Widget buildList(List<Offer> offerList) {
-    return Container(
-      child: offerList.isNotEmpty
-          ? Column(
-              children: [
-                for (var offer in offerList) OfferCard(offer, widget.user),
-              ],
-            )
-          : const Padding(
-              padding: EdgeInsets.symmetric(vertical: 100),
-              child: Center(
-                child: Icon(
-                  Icons.search_off,
-                  size: 200,
+    return Column(
+      children: [
+        Container(
+          child: offerList.isNotEmpty
+              ? Column(
+                  children: [
+                    for (var offer in offerList) OfferCard(offer),
+                  ],
+                )
+              : const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 100),
+                  child: Center(
+                    child: Icon(
+                      Icons.search_off,
+                      size: 200,
+                    ),
+                  ),
                 ),
-              ),
-            ),
+        ),
+        const SizedBox(height: 30),
+        RowBtn(
+            text: "Ajouter une offre",
+            onPressed: () {
+              BlocProvider.of<CompanyNavigationCubit>(context)
+                  .setSelectedItem(2);
+            }),
+      ],
     );
   }
 }

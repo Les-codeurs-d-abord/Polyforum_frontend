@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
+import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class TabNavigationItem extends StatefulWidget {
-  final List<Widget> children;
-  Function onPressed;
-  final bool isSelect;
+  final List<TabChildNavigationItem> children;
+  Function? onPressed;
+  final int index;
+  final int selectedIndex;
+  final IconData iconSelected;
+  final IconData iconNonSelected;
   final String text;
-  final IconData iconData;
 
   TabNavigationItem({
     Key? key,
-    required this.onPressed,
-    required this.isSelect,
+    this.onPressed,
+    required this.index,
+    required this.selectedIndex,
     required this.text,
-    required this.iconData,
+    required this.iconSelected,
+    required this.iconNonSelected,
     this.children = const [],
   }) : super(key: key);
 
@@ -25,9 +32,22 @@ class TabNavigationItem extends StatefulWidget {
 
 class _TabNavigationItemState extends State<TabNavigationItem> {
   bool isHovering = false;
+  List<int> indexList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    indexList.add(widget.index);
+
+    for (var child in widget.children) {
+      indexList.add(child.index);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool isSelected = indexList.contains(widget.selectedIndex);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
@@ -42,11 +62,15 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
             }),
             child: GestureDetector(
               onTap: () {
-                widget.onPressed();
+                BlocProvider.of<CompanyNavigationCubit>(context)
+                    .setSelectedItem(widget.index);
+                if (widget.onPressed != null) {
+                  widget.onPressed!();
+                }
               },
               child: Container(
                 height: 60,
-                decoration: isHovering | widget.isSelect
+                decoration: isHovering | isSelected
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white.withAlpha(60),
@@ -54,7 +78,7 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
                     : null,
                 child: Row(
                   children: [
-                    widget.isSelect
+                    isSelected
                         ? Container(
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(
@@ -68,7 +92,7 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
                         : const SizedBox.shrink(),
                     const SizedBox(width: 10),
                     Icon(
-                      widget.iconData,
+                      isSelected ? widget.iconSelected : widget.iconNonSelected,
                       color: Colors.white,
                     ),
                     const SizedBox(width: 15),
@@ -76,21 +100,20 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
                       widget.text,
                       style: TextStyle(
                         color: Colors.white,
-                        fontWeight: widget.isSelect
-                            ? FontWeight.bold
-                            : FontWeight.normal,
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.normal,
                         fontSize: 22,
                       ),
                     ),
                     const Spacer(),
                     widget.children.isEmpty
-                        ? widget.isSelect
+                        ? isSelected
                             ? const Icon(
                                 Icons.arrow_right_outlined,
                                 color: Colors.white,
                               )
                             : const SizedBox.shrink()
-                        : widget.isSelect
+                        : isSelected
                             ? const Icon(
                                 Icons.arrow_right_outlined,
                                 color: Colors.white,
@@ -104,7 +127,7 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
               ),
             ),
           ),
-          widget.isSelect
+          isSelected
               ? Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: Column(

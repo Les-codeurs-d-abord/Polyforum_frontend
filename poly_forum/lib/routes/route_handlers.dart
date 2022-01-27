@@ -2,13 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-import 'package:poly_forum/data/models/admin_model.dart';
-import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/screens/admin/admin_navigation/admin_navigation_screen.dart';
 import 'package:poly_forum/screens/candidate/candidate_navigation/candidate_navigation_screen.dart';
-import 'package:poly_forum/screens/candidate/profil/edit/candidate_profil_screen.dart';
-import 'package:poly_forum/screens/company/company_navigation/company_navigation_screen.dart';
+import 'package:poly_forum/screens/company/company_navigation/campany_navigation_screen.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/sign_in/sign_in_screen.dart';
 
@@ -36,20 +32,10 @@ var candidateHandler = Handler(handlerFunc: (context, params) {
   return const CandidateNavigationScreen();
 });
 
-/* var candidateProfilHandler = Handler(handlerFunc: (context, params) {
-  return const CandidateProfilScreen();
-}); */
-
 var companyHandler = Handler(handlerFunc: (context, params) {
-  final user = context!.settings!.arguments;
-
-  if (user != null && user is CompanyUser) {
-    return CompanyNavigationScreen(user: user);
-  }
-
-  return const SignInScreen();
+  return const CompanyNavigationScreen();
 });
 
 var adminHandler = Handler(handlerFunc: (context, params) {
-  return AdminNavigationScreen();
+  return const AdminNavigationScreen();
 });

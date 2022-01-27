@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/screens/candidate/profil/edit/components/profile_links.dart';
 import 'package:poly_forum/screens/candidate/profil/edit/components/profile_tags.dart';
+import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'custom_drop_zone.dart';
-import 'custom_text_field.dart';
 import 'editable_avatar.dart';
-import 'html_description.dart';
 
 // ignore: must_be_immutable
-class ProfilForm extends StatefulWidget {
+class OfferForm extends StatefulWidget {
   CandidateUser user;
 
-  ProfilForm({required this.user, Key? key}) : super(key: key);
+  OfferForm({required this.user, Key? key}) : super(key: key);
 
   @override
-  _ProfilFormState createState() => _ProfilFormState();
+  _OfferFormState createState() => _OfferFormState();
 }
 
-class _ProfilFormState extends State<ProfilForm> {
+class _OfferFormState extends State<OfferForm> {
   final _formKey = GlobalKey<FormState>();
 
   final _firstNameController = TextEditingController();
