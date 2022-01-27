@@ -60,13 +60,13 @@ class _BodyState extends State<Body> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                                "Entreprises",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 40,
-                                )
-                            ),
+                            // const Text(
+                            //     "Entreprises",
+                            //     style: TextStyle(
+                            //       fontWeight: FontWeight.bold,
+                            //       fontSize: 40,
+                            //     )
+                            // ),
                             Container(
                               margin: const EdgeInsets.symmetric(vertical: 15),
                               width: 500,

@@ -44,17 +44,17 @@ class _BodyState extends State<Body> {
       return SizedBox(
           height: 650,
           child: Padding(
-            padding: const EdgeInsets.only(top: 15),
+            padding: const EdgeInsets.all(30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                    "Tableau de bord",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40,
-                    )
-                ),
+                // const Text(
+                //     "Tableau de bord",
+                //     style: TextStyle(
+                //       fontWeight: FontWeight.bold,
+                //       fontSize: 40,
+                //     )
+                // ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 30),

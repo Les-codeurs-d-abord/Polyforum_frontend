@@ -273,10 +273,10 @@ class CandidateWebBody extends StatelessWidget {
         title = "Organisation des voeux";
         break;
       case 3:
-        title = "Mon profil";
+        title = "Mon planning";
         break;
       case 4:
-        title = "Mon planning";
+        title = "Mon profil";
         break;
       case 5:
         title = "Modifier mon profil";
@@ -354,7 +354,7 @@ class CandidateWebBody extends StatelessWidget {
           TextButton(
             onPressed: () {
               BlocProvider.of<CandidateNavigationCubit>(context)
-                  .setSelectedItem(3);
+                  .setSelectedItem(4);
             },
             child: const Text(
               "Mon profil",

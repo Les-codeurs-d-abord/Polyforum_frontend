@@ -11,6 +11,7 @@ import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/admin/candidate_list/candidate_list_screen.dart';
 import 'package:poly_forum/screens/admin/company_list/company_list_screen.dart';
 import 'package:poly_forum/screens/admin/dashboard/dashboard_screen.dart';
+import 'package:poly_forum/screens/admin/planning/home/home_planning_screen.dart';
 import 'package:poly_forum/screens/admin/planning/planning_candidates_screen.dart';
 import 'package:poly_forum/screens/admin/planning/planning_companies_screen.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
@@ -124,35 +125,36 @@ class AdminWebBody extends StatelessWidget {
                           text: "Candidats",
                           iconData: Icons.school,
                         ),
-                        TabNavigationItem(
-                          onPressed: () {
-                            BlocProvider.of<AdminNavigationCubit>(context)
-                                .setSelectedItem(4);
-                          },
-                          isSelect: selectedIndex >= 4,
-                          text: "Planning",
-                          iconData: selectedIndex >= 4
-                              ? Icons.today
-                              : Icons.today_outlined,
-                          children: [
-                            TabChildNavigationItem(
-                              title: "Candidats",
-                              onPress: () {
-                                BlocProvider.of<AdminNavigationCubit>(context)
-                                    .setSelectedItem(5);
-                              },
-                              isSelect: selectedIndex == 5,
-                            ),
-                            TabChildNavigationItem(
-                              title: "Entreprises",
-                              onPress: () {
-                                BlocProvider.of<AdminNavigationCubit>(context)
-                                    .setSelectedItem(6);
-                              },
-                              isSelect: selectedIndex == 6,
-                            ),
-                          ],
-                        ),
+                        if (BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.planning)
+                          TabNavigationItem(
+                            onPressed: () {
+                              BlocProvider.of<AdminNavigationCubit>(context)
+                                  .setSelectedItem(4);
+                            },
+                            isSelect: selectedIndex >= 4,
+                            text: "Planning",
+                            iconData: selectedIndex >= 4
+                                ? Icons.today
+                                : Icons.today_outlined,
+                            children: [
+                              TabChildNavigationItem(
+                                title: "Entreprises",
+                                onPress: () {
+                                  BlocProvider.of<AdminNavigationCubit>(context)
+                                      .setSelectedItem(5);
+                                },
+                                isSelect: selectedIndex == 5,
+                              ),
+                              TabChildNavigationItem(
+                                title: "Candidats",
+                                onPress: () {
+                                  BlocProvider.of<AdminNavigationCubit>(context)
+                                      .setSelectedItem(6);
+                                },
+                                isSelect: selectedIndex == 6,
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   ),
@@ -179,9 +181,16 @@ class AdminWebBody extends StatelessWidget {
                                       const DashboardScreen(),
                                       const CompanyListScreen(),
                                       const CandidateListScreen(),
-                                      Container(),
-                                      const PlanningCandidatesScreen(),
+                                      HomePlanningScreen(
+                                        onCompanyPlanningPressed: () {
+                                          BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(5);
+                                        },
+                                        onCandidatePlanningPressed: () {
+                                          BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(6);
+                                        },
+                                      ),
                                       const PlanningCompaniesScreen(),
+                                      const PlanningCandidatesScreen(),
                                     ],
                                   ),
                                 ),
@@ -251,10 +260,19 @@ class AdminWebBody extends StatelessWidget {
         title = "Tableau de bord";
         break;
       case 2:
-        title = "Les entreprises";
+        title = "Liste des entreprises";
         break;
       case 3:
-        title = "Les candidats";
+        title = "Liste des candidats";
+        break;
+      case 4:
+        title = "Accès aux plannings";
+        break;
+      case 5:
+        title = "Planning des entreprises";
+        break;
+      case 6:
+        title = "Planning des candidats";
         break;
     }
 
@@ -298,7 +316,7 @@ class AdminWebBody extends StatelessWidget {
               BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(2);
             },
             child: const Text(
-              "Les entreprises",
+              "Entreprises",
               style: TextStyle(color: kSecondaryColor),
             ),
           ),
@@ -311,7 +329,69 @@ class AdminWebBody extends StatelessWidget {
               BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(3);
             },
             child: const Text(
-              "Les candidats",
+              "Candidats",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+        ];
+        break;
+      case 4:
+        breadcrumbs = [
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<AdminNavigationCubit>(context)
+                  .setSelectedItem(4);
+            },
+            child: const Text(
+              "Planning",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+        ];
+        break;
+      case 5:
+        breadcrumbs = [
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<AdminNavigationCubit>(context)
+                  .setSelectedItem(4);
+            },
+            child: const Text(
+              "Planning",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<AdminNavigationCubit>(context)
+                  .setSelectedItem(5);
+            },
+            child: const Text(
+              "Entreprises",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+        ];
+        break;
+      case 6:
+        breadcrumbs = [
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<AdminNavigationCubit>(context)
+                  .setSelectedItem(4);
+            },
+            child: const Text(
+              "Planning",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<AdminNavigationCubit>(context)
+                  .setSelectedItem(6);
+            },
+            child: const Text(
+              "Candidats",
               style: TextStyle(color: kSecondaryColor),
             ),
           ),
