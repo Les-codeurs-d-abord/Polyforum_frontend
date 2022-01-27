@@ -1,14 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:html' as html;
 import 'package:http_parser/http_parser.dart';
-import 'dart:async';
 
 // ignore: must_be_immutable
 class EditableAvatar extends StatefulWidget {
@@ -29,12 +25,10 @@ class EditableAvatar extends StatefulWidget {
 }
 
 class _EditableAvatarState extends State<EditableAvatar> {
-  final ImagePicker _picker = ImagePicker();
   ImageProvider? _imageProvider;
   bool isErrorFileToBig = false;
-
-  List<int> _selectedFile = [];
-  Uint8List? _bytesData;
+  final ImagePicker _picker = ImagePicker();
+  XFile? uploadimage;
 
   @override
   Widget build(BuildContext context) {
@@ -70,28 +64,47 @@ class _EditableAvatarState extends State<EditableAvatar> {
                         /* startWebFilePicker(); */
                       }, */
                       onTap: () async {
-                        final XFile? imageFile = await _picker.pickImage(
-                          source: ImageSource.gallery,
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles(
+                          withReadStream: true,
+                          type: FileType.custom,
+                          allowedExtensions: ['png', 'jpeg', 'jpg'],
+                          withData: true,
                         );
 
-                        if (imageFile != null) {
-                          var f = await imageFile.readAsBytes();
-                          File file = File.fromRawPath(f);
-                          /* await sendFile(
-                              "$kServer/api/candidates/1/uploadLogo", file); */
-
-                          if (f.length < 4000000) {
-                            setState(() {
-                              _imageProvider = MemoryImage(f);
-                              /*  widget.file = file; */
-                              isErrorFileToBig = false;
-                            });
-                          } else {
-                            setState(() {
-                              isErrorFileToBig = true;
-                            });
-                          }
+                        if (result != null) {
+                          var request = http.MultipartRequest(
+                              'POST',
+                              Uri.parse(
+                                  'http://${kServer}/api/candidates/7/uploadLogo'));
+                          request.files.add(http.MultipartFile(
+                              'logo',
+                              result.files.single.readStream!.cast(),
+                              result.files.single.size,
+                              filename: result.files.single.name,
+                              contentType: MediaType(
+                                  'image', result.files.single.extension!)));
+                          var response = await request.send();
+                        } else {
+                          // User canceled the picker
                         }
+
+                        // var f = await imageFile.readAsBytes();
+                        // File file = File.fromRawPath(f);
+                        // /* await sendFile(
+                        //       "$kServer/api/candidates/1/uploadLogo", file); */
+
+                        // if (f.length < 4000000) {
+                        //   setState(() {
+                        //     _imageProvider = MemoryImage(f);
+                        //     /*  widget.file = file; */
+                        //     isErrorFileToBig = false;
+                        //   });
+                        // } else {
+                        //   setState(() {
+                        //     isErrorFileToBig = true;
+                        //   });
+                        // }
                       },
                       child: const SizedBox(
                         width: 50,
@@ -117,36 +130,6 @@ class _EditableAvatarState extends State<EditableAvatar> {
             : const SizedBox.shrink(),
       ],
     );
-  }
-
-  startWebFilePicker() async {
-    html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-    uploadInput.multiple = false;
-    uploadInput.draggable = true;
-    uploadInput.click();
-
-    uploadInput.onChange.listen((e) {
-      final files = uploadInput.files;
-      final file = files![0];
-      final reader = new html.FileReader();
-
-      reader.onLoadEnd.listen((e) {
-        _handleResult(reader.result!);
-      });
-      reader.readAsDataUrl(file);
-    });
-  }
-
-  void _handleResult(Object result) {
-    /* setState(() { */
-    _bytesData = Base64Decoder().convert(result.toString().split(",").last);
-    _selectedFile = _bytesData!;
-    /*  }); */
-
-    /*  print(_bytesData); */
-    print(_selectedFile);
-
-    upload(_selectedFile);
   }
 
   void upload(List<int> file) async {
