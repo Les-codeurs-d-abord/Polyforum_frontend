@@ -46,7 +46,7 @@ class _SurveyLinkDialogState extends State<SurveyLinkDialog> {
           child: Wrap(
             children: [
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
+                margin: const EdgeInsets.only(top: 5),
                 child: LinkFormField(widget._surveyLinkController),
               ),
             ],

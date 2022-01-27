@@ -25,7 +25,7 @@ class AdminProfilBtn extends StatelessWidget {
     return PopupMenuButton<int>(
       itemBuilder: (context) => [
         PopupMenuItem(
-          value: 1,
+          value: 0,
           child: Row(
             children: const [
               Icon(Icons.logout),
