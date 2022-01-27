@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:poly_forum/data/models/user_model.dart';
 
 class CompanyUser extends User {
@@ -40,8 +42,18 @@ class CompanyUser extends User {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'companyName': companyName,
+      'phoneNumber': phoneNumber,
+      'description': description,
+      'links': links,
+    };
+  }
+
   @override
   String toString() {
-    return "CompanyName: $companyName";
+    return jsonEncode(toJson());
   }
 }

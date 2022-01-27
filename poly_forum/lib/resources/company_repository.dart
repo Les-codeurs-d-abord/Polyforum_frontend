@@ -94,6 +94,24 @@ class CompanyRepository {
     }
   }
 
+  Future<void> updateCompany(CompanyUser user) async {
+    try {
+      String json = jsonEncode(user.toJson());
+      final body = {
+        "data": json,
+      };
+
+      final uri = Uri.http(kServer, '/api/companies/${user.id}');
+      final response = await http.put(uri, body: body);
+
+      if (response.statusCode != 200) {
+        throw const NetworkException("Une erreur est survenue.");
+      }
+    } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
   Future<List<Company>> fetchCompanyList() async {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 500));

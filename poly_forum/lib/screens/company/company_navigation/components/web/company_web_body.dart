@@ -6,7 +6,8 @@ import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
 import 'package:poly_forum/screens/company/offers/create/create_offer_screen.dart';
-import 'package:poly_forum/screens/company/offers/offers_screen.dart';
+import 'package:poly_forum/screens/company/offers/get/offers_screen.dart';
+import 'package:poly_forum/screens/company/profile/edit/company_profil_screen.dart';
 import 'package:poly_forum/screens/password/change_password_screen.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
@@ -162,7 +163,7 @@ class CompanyWebBody extends StatelessWidget {
                                             .setSelectedItem(7);
                                       },
                                     ),
-                                    Container(), //profil
+                                    const CompanyProfileScreen(), //profil
                                     ChangePasswordScreen(),
                                   ],
                                 ),

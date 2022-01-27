@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/company/company_profile_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
+import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
+import 'package:poly_forum/screens/shared/components/profile/profile_links.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import 'custom_drop_zone.dart';
-import '../../../../shared/components/custom_text_field.dart';
-import '../../../../shared/components/profile/profile_links.dart';
-import '../../../../shared/components/profile/profile_tags.dart';
-
 // ignore: must_be_immutable
-class OfferForm extends StatefulWidget {
-  const OfferForm({Key? key}) : super(key: key);
+class ProfileForm extends StatefulWidget {
+  const ProfileForm({Key? key}) : super(key: key);
 
   @override
-  _OfferFormState createState() => _OfferFormState();
+  _ProfileFormState createState() => _ProfileFormState();
 }
 
-class _OfferFormState extends State<OfferForm> {
+class _ProfileFormState extends State<ProfileForm> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
@@ -45,9 +43,9 @@ class _OfferFormState extends State<OfferForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CompanyOfferCubit, CompanyOfferState>(
+    return BlocConsumer<CompanyProfileCubit, CompanyProfileState>(
       listener: (context, state) {
-        if (state is CompanyOfferLoaded) {
+        if (state is CompanyProfileLoaded) {
           _nameController.clear();
           _descriptionController.clear();
           _phoneNumberController.clear();
@@ -56,9 +54,6 @@ class _OfferFormState extends State<OfferForm> {
 
           links.clear();
           tags.clear();
-
-          BlocProvider.of<CompanyGetOfferCubit>(context)
-              .getOfferList(companyUser);
 
           showTopSnackBar(
             context,
@@ -69,7 +64,7 @@ class _OfferFormState extends State<OfferForm> {
               ),
             ),
           );
-        } else if (state is CompanyOfferError) {
+        } else if (state is CompanyProfileError) {
           showTopSnackBar(
             context,
             Padding(
@@ -127,8 +122,6 @@ class _OfferFormState extends State<OfferForm> {
                 ],
               ),
               const SizedBox(height: 15),
-              const CustomDropZone(),
-              const SizedBox(height: 15),
               SizedBox(
                 width: 700,
                 child: Row(
@@ -148,11 +141,6 @@ class _OfferFormState extends State<OfferForm> {
               IntrinsicHeight(
                 child: Row(
                   children: [
-                    ProfileTags(tags: tags),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: VerticalDivider(color: Colors.black, thickness: 1),
-                    ),
                     ProfileLinks(links: links),
                   ],
                 ),
@@ -191,13 +179,13 @@ class _OfferFormState extends State<OfferForm> {
                           backgroundColor: kButtonColor,
                           onSurface: Colors.grey,
                         ),
-                        child:
-                            BlocConsumer<CompanyOfferCubit, CompanyOfferState>(
+                        child: BlocConsumer<CompanyProfileCubit,
+                            CompanyProfileState>(
                           listener: (context, state) {},
                           builder: (context, state) {
-                            if (state is CompanyOfferError) {
+                            if (state is CompanyProfileError) {
                               return const CircularProgressIndicator();
-                            } else if (state is CompanyOfferLoading) {
+                            } else if (state is CompanyProfileLoading) {
                               return const CircularProgressIndicator();
                             }
 

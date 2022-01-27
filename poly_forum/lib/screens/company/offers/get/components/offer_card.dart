@@ -4,11 +4,12 @@ import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
 import 'package:poly_forum/screens/admin/company_list/components/company_detail_dialog.dart';
-import 'package:poly_forum/screens/company/offers/components/delete_offer_btn.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'delete_offer_btn.dart';
 
 class OfferCard extends StatelessWidget {
   final Offer offer;

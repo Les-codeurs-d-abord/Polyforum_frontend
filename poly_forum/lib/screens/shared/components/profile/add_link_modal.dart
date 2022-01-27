@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
 
-import '../../../../shared/components/custom_text_field.dart';
+import '../custom_text_field.dart';
 
-class AddTagModal extends StatelessWidget {
+class AddLinkModal extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  final _tagController = TextEditingController();
-  final List<String> tags;
+  final _linkController = TextEditingController();
+  final List<String> links;
 
-  AddTagModal({required this.tags, Key? key}) : super(key: key);
+  AddLinkModal({required this.links, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +22,20 @@ class AddTagModal extends StatelessWidget {
         key: _formKey,
         child: Container(
           padding: const EdgeInsets.all(30),
-          width: 300,
+          width: 600,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 children: [
                   CustomTextField(
-                    text: "Tag",
+                    text: "Lien",
                     icon: Icons.link_outlined,
-                    controller: _tagController,
+                    controller: _linkController,
                     isLocked: false,
-                    stringFilters: tags,
-                    maxCharacters: 20,
-                  ),
+                    isLink: true,
+                    stringFilters: links,
+                  )
                 ],
               ),
               const SizedBox(height: 30),
@@ -42,7 +43,7 @@ class AddTagModal extends StatelessWidget {
                 text: "Valider",
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    Navigator.pop(context, _tagController.text);
+                    Navigator.pop(context, _linkController.text);
                   }
                 },
               ),
