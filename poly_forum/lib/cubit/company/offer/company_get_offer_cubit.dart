@@ -48,8 +48,20 @@ class CompanyGetOfferCubit extends Cubit<CompanyGetOfferState> {
     emit(CompanyGetOfferLoadedWithFilter(offerListFiltered));
   }
 
+  void goToOfferEditPage(Offer offer) {
+    emit(CompanyGetOfferEditPageLoaded(offer));
+  }
+
+  void updateLocalOffer(Offer offer) {
+    for (var o in offerList) {
+      if (o.id == offer.id) o = offer;
+      break;
+    }
+
+    emit(CompanyGetOfferLoaded(offerList));
+  }
+
   void deleteLocalOffer(Offer offer) {
-    emit(CompanyGetOfferLoading());
     offerList.remove(offer);
     emit(CompanyGetOfferLoaded(offerList));
   }

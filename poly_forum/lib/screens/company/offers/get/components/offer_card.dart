@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
+import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
+import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
 import 'package:poly_forum/screens/admin/company_list/components/company_detail_dialog.dart';
+import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -39,7 +42,7 @@ class OfferCard extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 3,
-                        child: buildBody(),
+                        child: buildBody(context),
                       ),
                       const VerticalDivider(
                         color: Colors.black,
@@ -87,7 +90,7 @@ class OfferCard extends StatelessWidget {
                 width: 50,
                 height: 50,
               ),
-              const SizedBox(width: 15),
+              const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -119,7 +122,7 @@ class OfferCard extends StatelessWidget {
     );
   }
 
-  Widget buildBody() {
+  Widget buildBody(BuildContext context) {
     return Column(
       children: [
         Container(
@@ -132,7 +135,25 @@ class OfferCard extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        DeleteOfferBtn(offer: offer),
+        Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: DeleteOfferBtn(offer: offer),
+            ),
+            const SizedBox(width: 40),
+            Expanded(
+              flex: 3,
+              child: RowBtn(
+                text: "Modifier cette offre",
+                onPressed: () {
+                  BlocProvider.of<CompanyGetOfferCubit>(context)
+                      .goToOfferEditPage(offer);
+                },
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

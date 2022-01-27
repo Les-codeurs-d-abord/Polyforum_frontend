@@ -5,6 +5,7 @@ import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dar
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
+import 'package:poly_forum/screens/company/candidat/list/candidat_list.dart';
 import 'package:poly_forum/screens/company/offers/create/create_offer_screen.dart';
 import 'package:poly_forum/screens/company/offers/get/offers_screen.dart';
 import 'package:poly_forum/screens/company/profile/edit/company_profil_screen.dart';
@@ -149,7 +150,7 @@ class CompanyWebBody extends StatelessWidget {
                                     const WelcomeScreen(),
                                     const OffersScreen(),
                                     const CreateOfferScreen(),
-                                    Container(), //candidat
+                                    const CandidatList(), //candidat
                                     Container(), //planning
                                     HomeProfileScreen(
                                       onEditProfilePressed: () {

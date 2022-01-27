@@ -4,10 +4,10 @@ import 'package:poly_forum/data/models/user_model.dart';
 
 class CompanyUser extends User {
   final String companyName;
-  final String phoneNumber;
-  final String description;
+  String phoneNumber;
+  String description;
   final String logo;
-  final List<String> links;
+  List<String> links;
   final int campanyProfileId;
 
   CompanyUser({

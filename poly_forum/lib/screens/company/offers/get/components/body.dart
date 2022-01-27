@@ -5,6 +5,7 @@ import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/screens/company/offers/edit/edit_offer_screen.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
@@ -132,11 +133,11 @@ class _BodyState extends State<Body> {
         ),
         const SizedBox(height: 30),
         RowBtn(
-            text: "Ajouter une offre",
-            onPressed: () {
-              BlocProvider.of<CompanyNavigationCubit>(context)
-                  .setSelectedItem(2);
-            }),
+          text: "Ajouter une offre",
+          onPressed: () {
+            BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(2);
+          },
+        ),
       ],
     );
   }

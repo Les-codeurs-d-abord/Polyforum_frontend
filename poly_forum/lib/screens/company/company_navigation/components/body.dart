@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/cubit/company/candidat/company_candidat_list_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
@@ -66,6 +67,9 @@ class _BodyState extends State<Body> {
         ),
         BlocProvider(
           create: (context) => CompanyGetOfferCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CompanyCandidatListCubit(),
         ),
       ],
       child: LayoutBuilder(builder: (context, constraints) {

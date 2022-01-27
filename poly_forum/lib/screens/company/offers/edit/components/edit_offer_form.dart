@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/company/company_profile_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
-import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
-import 'package:poly_forum/screens/shared/components/profile/profile_links.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import 'custom_drop_zone.dart';
+import '../../../../shared/components/custom_text_field.dart';
+import '../../../../shared/components/profile/profile_links.dart';
+import '../../../../shared/components/profile/profile_tags.dart';
+
 // ignore: must_be_immutable
-class ProfileForm extends StatefulWidget {
-  const ProfileForm({Key? key}) : super(key: key);
+class EditOfferForm extends StatefulWidget {
+  Offer offer;
+  EditOfferForm({required this.offer, Key? key}) : super(key: key);
 
   @override
-  _ProfileFormState createState() => _ProfileFormState();
+  _EditOfferFormState createState() => _EditOfferFormState();
 }
 
-class _ProfileFormState extends State<ProfileForm> {
+class _EditOfferFormState extends State<EditOfferForm> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
@@ -32,30 +35,26 @@ class _ProfileFormState extends State<ProfileForm> {
   List<String> links = [];
   List<String> tags = [];
 
-  late CompanyUser user;
-
   @override
   void initState() {
     super.initState();
 
-    user = BlocProvider.of<CompanyGetUserCubit>(context).getUser();
-
-    _nameController.text = user.companyName;
-    _emailController.text = user.email;
-    _phoneNumberController.text = user.phoneNumber;
-
-    _descriptionController.text = user.description;
-    links = user.links;
+    _nameController.text = widget.offer.name;
+    _descriptionController.text = widget.offer.description;
+    _phoneNumberController.text = widget.offer.phoneNumber;
+    _emailController.text = widget.offer.email;
+    _addresController.text = widget.offer.address;
+    links = widget.offer.links;
+    tags = widget.offer.tags;
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CompanyProfileCubit, CompanyProfileState>(
+    return BlocConsumer<CompanyOfferCubit, CompanyOfferState>(
       listener: (context, state) {
-        if (state is CompanyProfileLoaded) {
-          BlocProvider.of<CompanyGetUserCubit>(context).setUser(user);
-
-          // BlocProvider.of<CompanyGetOfferCubit>(context).getOfferList(user);
+        if (state is CompanyOfferLoaded) {
+          BlocProvider.of<CompanyGetOfferCubit>(context)
+              .updateLocalOffer(widget.offer);
 
           showTopSnackBar(
             context,
@@ -66,7 +65,7 @@ class _ProfileFormState extends State<ProfileForm> {
               ),
             ),
           );
-        } else if (state is CompanyProfileError) {
+        } else if (state is CompanyOfferError) {
           showTopSnackBar(
             context,
             Padding(
@@ -91,7 +90,25 @@ class _ProfileFormState extends State<ProfileForm> {
                     text: "Nom",
                     icon: Icons.person_outline,
                     controller: _nameController,
-                    isLocked: true,
+                    isLocked: false,
+                  ),
+                  const SizedBox(width: 100),
+                  CustomTextField(
+                    text: "Adress",
+                    icon: Icons.person_outline,
+                    controller: _addresController,
+                    isLocked: false,
+                  )
+                ],
+              ),
+              const SizedBox(height: 15),
+              Row(
+                children: [
+                  CustomTextField(
+                    text: "Email",
+                    icon: Icons.mail_outline,
+                    controller: _emailController,
+                    isLocked: false,
                   ),
                   const SizedBox(width: 100),
                   CustomTextField(
@@ -103,27 +120,10 @@ class _ProfileFormState extends State<ProfileForm> {
                     minCharacters: 10,
                     isNumeric: true,
                   ),
-                  // CustomTextField(
-                  //   text: "Adress",
-                  //   icon: Icons.person_outline,
-                  //   controller: _addresController,
-                  //   isLocked: false,
-                  // )
                 ],
               ),
               const SizedBox(height: 15),
-              Row(
-                children: [
-                  CustomTextField(
-                    text: "Email",
-                    icon: Icons.mail_outline,
-                    controller: _emailController,
-                    isLocked: true,
-                  ),
-                  const SizedBox(width: 100),
-                  ProfileLinks(links: links),
-                ],
-              ),
+              const CustomDropZone(),
               const SizedBox(height: 15),
               SizedBox(
                 width: 700,
@@ -140,6 +140,19 @@ class _ProfileFormState extends State<ProfileForm> {
                   ],
                 ),
               ),
+              const SizedBox(height: 15),
+              IntrinsicHeight(
+                child: Row(
+                  children: [
+                    ProfileTags(tags: tags),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: VerticalDivider(color: Colors.black, thickness: 1),
+                    ),
+                    ProfileLinks(links: links),
+                  ],
+                ),
+              ),
               const SizedBox(height: 100),
               Row(
                 children: [
@@ -149,12 +162,18 @@ class _ProfileFormState extends State<ProfileForm> {
                       child: TextButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            user.description = _descriptionController.text;
-                            user.phoneNumber = _phoneNumberController.text;
-                            user.links = links;
+                            widget.offer.name = _nameController.text;
+                            widget.offer.description =
+                                _descriptionController.text;
+                            widget.offer.phoneNumber =
+                                _phoneNumberController.text;
+                            widget.offer.email = _emailController.text;
+                            widget.offer.address = _addresController.text;
+                            widget.offer.links = links;
+                            widget.offer.tags = tags;
 
-                            BlocProvider.of<CompanyProfileCubit>(context)
-                                .updateCompany(user);
+                            BlocProvider.of<CompanyOfferCubit>(context)
+                                .updateOffer(widget.offer);
                           }
                         },
                         style: TextButton.styleFrom(
@@ -162,13 +181,13 @@ class _ProfileFormState extends State<ProfileForm> {
                           backgroundColor: kButtonColor,
                           onSurface: Colors.grey,
                         ),
-                        child: BlocConsumer<CompanyProfileCubit,
-                            CompanyProfileState>(
+                        child:
+                            BlocConsumer<CompanyOfferCubit, CompanyOfferState>(
                           listener: (context, state) {},
                           builder: (context, state) {
-                            if (state is CompanyProfileError) {
+                            if (state is CompanyOfferError) {
                               return const CircularProgressIndicator();
-                            } else if (state is CompanyProfileLoading) {
+                            } else if (state is CompanyOfferLoading) {
                               return const CircularProgressIndicator();
                             }
 

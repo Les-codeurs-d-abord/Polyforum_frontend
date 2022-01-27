@@ -33,4 +33,16 @@ class CompanyOfferCubit extends Cubit<CompanyOfferState> {
       emit(CompanyOfferError(exception.message));
     }
   }
+
+  Future<void> updateOffer(Offer offer) async {
+    try {
+      emit(CompanyOfferLoading());
+
+      await repository.updateOffer(offer);
+
+      emit(CompanyOfferLoaded());
+    } on NetworkException catch (exception) {
+      emit(CompanyOfferError(exception.message));
+    }
+  }
 }
