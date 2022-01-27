@@ -104,7 +104,7 @@ class AdminWebBody extends StatelessWidget {
                           },
                           isSelect: selectedIndex == 1,
                           text: "Tableau de bord",
-                          iconData: Icons.local_offer_outlined,
+                          iconData: Icons.space_dashboard,
                         ),
                         TabNavigationItem(
                           onPressed: () {
@@ -113,7 +113,7 @@ class AdminWebBody extends StatelessWidget {
                           },
                           isSelect: selectedIndex == 2,
                           text: "Entreprises",
-                          iconData: Icons.local_offer_outlined,
+                          iconData: Icons.business,
                         ),
                         TabNavigationItem(
                           onPressed: () {
@@ -122,7 +122,7 @@ class AdminWebBody extends StatelessWidget {
                           },
                           isSelect: selectedIndex == 3,
                           text: "Candidats",
-                          iconData: Icons.local_offer_outlined,
+                          iconData: Icons.school,
                         ),
                         TabNavigationItem(
                           onPressed: () {
