@@ -95,8 +95,8 @@ class _SidePanelState extends State<SidePanel> {
               padding: const EdgeInsets.all(5),
               child: const Text(
                 "Durant cette période, vous pouvez ajouter et supprimer des candidats et des entreprises.\n"
-                    "Ces derniers doivent ensuite compléter leur profil respectif pour pouvoir participer au forum.\n"
-                    "Les entreprises doivent également renseigner des offres.",
+                    "Ces derniers doivent ensuite compléter leur profil respectif avant la fin de la période d'inscription.\n"
+                    "Les entreprises doivent également renseigner leurs offres.",
               ),
             ),
             child: const Icon(Icons.info),
@@ -188,8 +188,8 @@ class _SidePanelState extends State<SidePanel> {
               builder: (BuildContext context) {
                 return const ConfirmationModal(
                     title: "Cloturer les inscriptions",
-                    description: "Vous êtes sur le point de cloturer la période des inscriptions pour passer au renseignement des voeux. "
-                        "Les utilisateurs dont le profil est incomplet ne pourront pas participer au forum."
+                  description: "Vous êtes sur le point de cloturer la période des inscriptions, "
+                      "les utilisateurs seront alors en mesure de renseigner leurs voeux.",
                 );
               },
               barrierDismissible: true
@@ -238,7 +238,7 @@ class _SidePanelState extends State<SidePanel> {
                 return const ConfirmationModal(
                   title: "Générer les plannings",
                   description: "Vous êtes sur le point de cloturer la période de renseignement des voeux pour passer à la génération des plannings. "
-                      "Il ne sera plus possible de modifier les voeux et les utilisateurs n'ayant fait aucun voeux ne seront pas pris en compte.",
+                      "Les utilisateurs n'auront plus la possibilité de modifier leurs voeux.",
                 );
               },
               barrierDismissible: true

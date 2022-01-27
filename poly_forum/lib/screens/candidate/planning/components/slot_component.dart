@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/slot_model.dart';
-import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
+import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 
 class SlotPlanning extends StatelessWidget {
   const SlotPlanning({Key? key, required this.slot}) : super(key: key);
@@ -51,18 +51,15 @@ class SlotPlanning extends StatelessWidget {
             color: Colors.black45,
             width: 1.5,
           ),
-          Container(
-              padding: const EdgeInsets.all(8),
+          Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: ProfilePicture(
+              uri: slot.logo ?? '',
+              defaultText: slot.companyName ?? '?',
               width: 70,
-              child: slot.logo != null
-                  ? const Text('y a une pp')
-                  : InitialsAvatar(slot.companyName ?? 'Unknown')),
-          // const Padding(
-          //     padding: EdgeInsets.only(left: 10, right: 30, bottom: 3, top: 3),
-          //     child: CircleAvatar(
-          //       radius: 30,
-          //       backgroundImage: AssetImage('images/clyde.png'),
-          //     )),
+              height: 70,
+            ),
+          ),
           Expanded(
             child: Text(
               slot.companyName ?? '',

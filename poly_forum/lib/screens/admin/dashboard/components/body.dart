@@ -176,7 +176,7 @@ class _BodyState extends State<Body> {
                       texts: const [
                         " candidats au profil complet",
                         " candidats au profil incomplet",
-                        " candidats jamais connectés",
+                        " candidats sans informations",
                       ],
                     )
                   ]

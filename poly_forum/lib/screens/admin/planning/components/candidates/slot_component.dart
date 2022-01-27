@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/planning/candidates/admin_fill_slot_modal_candidate_cubit.dart';
 import 'package:poly_forum/cubit/admin/planning/candidates/admin_planning_candidates_screen_cubit.dart';
 import 'package:poly_forum/data/models/slot_model.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
-
-import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 
 import 'fill_slot_modal.dart';
 
@@ -78,12 +77,15 @@ class SlotPlanning extends StatelessWidget {
             color: Colors.black45,
             width: 1.5,
           ),
-          Container(
-              padding: const EdgeInsets.all(8),
+          Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: ProfilePicture(
+              uri: slot.logo ?? '',
+              defaultText: slot.companyName ?? '?',
               width: 70,
-              child: slot.logo != null
-                  ? const Text('y a une pp')
-                  : InitialsAvatar(slot.companyName ?? 'Unknown')),
+              height: 70,
+            ),
+          ),
           Expanded(
             child: Text(
               slot.companyName ?? '',

@@ -70,7 +70,7 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
       ),
       content: SizedBox(
           width: 900,
-          height: 510,
+          height: 470,
           child: isLoading ?
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -142,26 +142,26 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
                                     )
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  const Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Icon(Icons.home)
-                                  ),
-                                  Expanded(
-                                      child: (candidateDetail?.address.isNotEmpty == true) ?
-                                      Text(candidateDetail?.address ?? '') :
-                                      const Text(
-                                        'Non renseigné',
-                                        style: TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          fontSize: 15,
-                                          color: Colors.grey,
-                                        ),
-                                      )
-                                  )
-                                ],
-                              ),
+                              // Row(
+                              //   children: [
+                              //     const Padding(
+                              //         padding: EdgeInsets.all(10),
+                              //         child: Icon(Icons.home)
+                              //     ),
+                              //     Expanded(
+                              //         child: (candidateDetail?.address.isNotEmpty == true) ?
+                              //         Text(candidateDetail?.address ?? '') :
+                              //         const Text(
+                              //           'Non renseigné',
+                              //           style: TextStyle(
+                              //             fontStyle: FontStyle.italic,
+                              //             fontSize: 15,
+                              //             color: Colors.grey,
+                              //           ),
+                              //         )
+                              //     )
+                              //   ],
+                              // ),
                               Row(
                                 children: [
                                   const Padding(
@@ -265,7 +265,7 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
                                 ),
                                 Container(
                                     width: double.infinity,
-                                    height: 300,
+                                    height: 250,
                                     padding: const EdgeInsets.all(5),
                                     margin: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
