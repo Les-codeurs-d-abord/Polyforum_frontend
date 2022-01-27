@@ -4,6 +4,7 @@ import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/screens/candidate/profil/edit/components/profile_links.dart';
 import 'package:poly_forum/screens/candidate/profil/edit/components/profile_tags.dart';
+import 'package:poly_forum/screens/shared/components/user/editable_avatar.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -11,7 +12,6 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'custom_drop_zone.dart';
 import 'custom_text_field.dart';
-import 'editable_avatar.dart';
 import 'html_description.dart';
 
 // ignore: must_be_immutable
@@ -60,7 +60,7 @@ class _ProfilFormState extends State<ProfilForm> {
       key: _formKey,
       child: Column(
         children: [
-          EditableAvatar(widget.user.firstName + " " + widget.user.lastName),
+          EditableAvatar(user: widget.user),
           const SizedBox(height: 15),
           Row(
             mainAxisSize: MainAxisSize.max,
