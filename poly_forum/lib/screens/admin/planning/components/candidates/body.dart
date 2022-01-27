@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/admin/planning/candidates/admin_planning_candidates_screen_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/cubit/admin/planning/candidates/admin_planning_candidates_screen_cubit.dart';
 import 'package:poly_forum/data/models/candidate_minimal_model.dart';
-import 'package:poly_forum/data/models/candidate_model.dart';
 import 'package:poly_forum/data/models/company_minimal_model.dart';
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:poly_forum/screens/admin/planning/components/candidates/planning_component.dart';
-
 import 'package:shimmer/shimmer.dart';
 
 class Body extends StatefulWidget {
@@ -98,6 +96,7 @@ class _BodyState extends State<Body> {
       return Column(children: [
         DropdownButton<CandidateMinimal>(
           icon: const Icon(Icons.account_circle),
+          hint: const Text("Veillez sélectionner un candidat "),
           dropdownColor: Colors.grey[300],
           value: candidateSelected,
           onChanged: (CandidateMinimal? newValue) {
