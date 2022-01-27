@@ -174,7 +174,7 @@ class _SidePanelState extends State<SidePanel> {
           height: 20,
         ) :
         const Text(
-          "Cloturer les inscriptions",
+          "Clôturer les inscriptions",
           style: TextStyle(
               color: Colors.white,
               fontSize: 22
@@ -187,8 +187,8 @@ class _SidePanelState extends State<SidePanel> {
               context: context,
               builder: (BuildContext context) {
                 return const ConfirmationModal(
-                    title: "Cloturer les inscriptions",
-                  description: "Vous êtes sur le point de cloturer la période des inscriptions, "
+                    title: "Clôturer les inscriptions",
+                  description: "Vous êtes sur le point de clôturer la période des inscriptions, "
                       "les utilisateurs seront alors en mesure de renseigner leurs voeux.",
                 );
               },
@@ -237,7 +237,7 @@ class _SidePanelState extends State<SidePanel> {
               builder: (BuildContext context) {
                 return const ConfirmationModal(
                   title: "Générer les plannings",
-                  description: "Vous êtes sur le point de cloturer la période de renseignement des voeux pour passer à la génération des plannings. "
+                  description: "Vous êtes sur le point de clôturer la période de renseignement des voeux pour passer à la génération des plannings. "
                       "Les utilisateurs n'auront plus la possibilité de modifier leurs voeux.",
                 );
               },
