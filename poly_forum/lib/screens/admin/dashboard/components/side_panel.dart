@@ -202,7 +202,7 @@ class _SidePanelState extends State<SidePanel> {
                   Padding(
                     padding: kTopSnackBarPadding,
                     child: const CustomSnackBar.success(
-                      message: "Phase d'inscription cloturée avec succès, le renseignement des voeux est disponible.",
+                      message: "Phase d'inscription cloturée avec succès, les utilisateurs peuvent désormais renseigner leurs voeux.",
                     ),
                   ),
                 );
