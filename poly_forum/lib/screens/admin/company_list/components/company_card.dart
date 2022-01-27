@@ -110,7 +110,7 @@ class CompanyCard extends StatelessWidget {
                         const PopupMenuDivider(),
                         PopupMenuItem(
                           value: 2,
-                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() != Phase.planning,
+                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.inscription,
                           child: Row(
                             children: const [
                               Icon(Icons.close),
