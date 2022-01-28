@@ -3,16 +3,16 @@ import 'package:poly_forum/cubit/candidate/navigation/candidate_get_user_cubit.d
 import 'package:poly_forum/cubit/candidate/navigation/candidate_navigation_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
-import 'package:poly_forum/screens/candidate/password/change_password_screen.dart';
+import 'package:poly_forum/screens/candidate/planning/planning_screen.dart';
 import 'package:poly_forum/screens/candidate/profil/edit/candidate_profil_screen.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
 import 'package:poly_forum/screens/candidate/wishlist/choices_screen.dart';
-import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
-import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
+import 'package:poly_forum/screens/password/change_password_screen.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../candidate_profil_btn.dart';
+import '../../../../shared/components/nav_bar_profil_btn.dart';
+import '../tab_navigation_item_list.dart';
 
 class CandidatePhoneBody extends StatelessWidget {
   const CandidatePhoneBody({Key? key}) : super(key: key);
@@ -49,7 +49,7 @@ class CandidatePhoneBody extends StatelessWidget {
                 child: Image.asset('images/logo.png'),
               ),
             ),
-            buildTile(context, selectedIndex),
+            TabNavigationItemList(selectedIndex: selectedIndex),
           ],
         ),
       ),
@@ -63,8 +63,9 @@ class CandidatePhoneBody extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(Icons.notifications),
           ),
-          CandidateProfilBtn(
-            user: candidateUser,
+          NavBarProfilBtn(
+            text: candidateUser.firstName + " " + candidateUser.lastName,
+            textTypeUser: "Candidat",
             onProfileSelected: () {
               BlocProvider.of<CandidateNavigationCubit>(context)
                   .setSelectedItem(4);
@@ -81,8 +82,7 @@ class CandidatePhoneBody extends StatelessWidget {
                 const WelcomeScreen(),
                 OffersScreen(user: candidateUser),
                 ChoicesScreen(user: candidateUser),
-                /* PlanningScreen(user: candidateUser!), */
-                Container(),
+                PlanningScreen(user: candidateUser),
                 HomeProfileScreen(
                   onEditProfilePressed: () {
                     BlocProvider.of<CandidateNavigationCubit>(context)
@@ -100,79 +100,6 @@ class CandidatePhoneBody extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget buildTile(BuildContext context, int selectedIndex) {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          onPressed: () {
-            Navigator.pop(context);
-            BlocProvider.of<CandidateNavigationCubit>(context)
-                .setSelectedItem(0);
-          },
-          isSelect: selectedIndex == 0,
-          text: "Le forum",
-          iconData: selectedIndex == 0 ? Icons.home : Icons.home_outlined,
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          onPressed: () {
-            Navigator.pop(context);
-            BlocProvider.of<CandidateNavigationCubit>(context)
-                .setSelectedItem(1);
-          },
-          isSelect: selectedIndex == 1,
-          text: "Les offres",
-          iconData: selectedIndex == 1
-              ? Icons.local_offer
-              : Icons.local_offer_outlined,
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          onPressed: () {
-            Navigator.pop(context);
-            BlocProvider.of<CandidateNavigationCubit>(context)
-                .setSelectedItem(2);
-          },
-          isSelect: selectedIndex == 2,
-          text: "Mes choix",
-          iconData: selectedIndex == 2 ? Icons.bookmark : Icons.bookmark_border,
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          onPressed: () {
-            Navigator.pop(context);
-            BlocProvider.of<CandidateNavigationCubit>(context)
-                .setSelectedItem(4);
-          },
-          isSelect: selectedIndex >= 4,
-          text: "Mon profil",
-          iconData: selectedIndex >= 4 ? Icons.person : Icons.person_outline,
-          children: [
-            TabChildNavigationItem(
-              title: "Modifier mon profil",
-              onPress: () {
-                Navigator.pop(context);
-                BlocProvider.of<CandidateNavigationCubit>(context)
-                    .setSelectedItem(5);
-              },
-              isSelect: selectedIndex == 5,
-            ),
-            TabChildNavigationItem(
-              title: "Changer mon mot de passe",
-              onPress: () {
-                Navigator.pop(context);
-                BlocProvider.of<CandidateNavigationCubit>(context)
-                    .setSelectedItem(6);
-              },
-              isSelect: selectedIndex == 6,
-            ),
-          ],
-        ),
-      ],
     );
   }
 }

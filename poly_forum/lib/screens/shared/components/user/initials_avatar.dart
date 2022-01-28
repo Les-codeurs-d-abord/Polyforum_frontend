@@ -4,8 +4,10 @@ import 'package:poly_forum/utils/constants.dart';
 // ignore: must_be_immutable
 class InitialsAvatar extends StatelessWidget {
   String initials = "";
+  double fontSize;
 
-  InitialsAvatar(String text, {Key? key}) : super(key: key) {
+  InitialsAvatar(String text, {this.fontSize = 24, Key? key})
+      : super(key: key) {
     if (text.trim().isNotEmpty) {
       var nameparts = text.split(" ");
       if (nameparts.isNotEmpty) {
@@ -24,9 +26,9 @@ class InitialsAvatar extends StatelessWidget {
       backgroundColor: kButtonColor,
       child: Text(
         initials,
-        style: const TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 24,
+          fontSize: fontSize,
           color: Colors.white,
         ),
       ),

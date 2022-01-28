@@ -68,6 +68,8 @@ class _BodyState extends State<Body> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextField(
                   decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     suffixIcon: Icon(Icons.search, size: 30),
                     border: OutlineInputBorder(),
                     labelText: "Rechercher...",

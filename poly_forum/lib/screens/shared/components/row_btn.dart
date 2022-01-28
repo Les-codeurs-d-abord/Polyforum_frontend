@@ -22,28 +22,25 @@ class RowBtn extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Container(
-            color: Colors.red,
-            child: TextButton(
-              onPressed: onPressed,
-              style: TextButton.styleFrom(
-                primary: Colors.white,
-                backgroundColor: color,
-                onSurface: Colors.grey,
-              ),
-              child: SizedBox(
-                height: 50,
-                child: Center(
-                  child: !isLoading
-                      ? Text(
-                          text,
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: fontSize,
-                          ),
-                        )
-                      : const CircularProgressIndicator(),
-                ),
+          child: TextButton(
+            onPressed: onPressed,
+            style: TextButton.styleFrom(
+              primary: Colors.white,
+              backgroundColor: color,
+              onSurface: Colors.grey,
+            ),
+            child: SizedBox(
+              height: 50,
+              child: Center(
+                child: !isLoading
+                    ? Text(
+                        text,
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: fontSize,
+                        ),
+                      )
+                    : const CircularProgressIndicator(),
               ),
             ),
           ),

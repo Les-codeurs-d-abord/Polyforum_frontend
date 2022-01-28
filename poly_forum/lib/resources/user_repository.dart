@@ -107,6 +107,26 @@ class UserRepository {
     throw const NetworkException("Une erreur est survenue.");
   }
 
+  Future<CompanyUser> getCompanyFromLocalToken() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      final token = prefs.getString(kTokenPref);
+
+      if (token != null) {
+        final user = await getUserFromToken(token);
+
+        if (user is CompanyUser) {
+          return user;
+        }
+      }
+    } on Exception catch (e) {
+      print(e);
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+    throw const NetworkException("Une erreur est survenue.");
+  }
+
   Future<User> getUserFromToken(String token) async {
     try {
       Map<String, String> requestHeaders = {

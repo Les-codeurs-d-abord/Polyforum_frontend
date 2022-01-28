@@ -73,13 +73,13 @@ class CustomTextField extends StatelessWidget {
             decoration: isLocked
                 ? InputDecoration(
                     border: const OutlineInputBorder(),
-                    isDense: true,
                     fillColor: Colors.grey[300],
                     filled: true,
                   )
                 : const InputDecoration(
+                    fillColor: Colors.white,
                     border: OutlineInputBorder(),
-                    isDense: true,
+                    filled: true,
                   ),
             validator: (value) => validateField(value!),
           ),

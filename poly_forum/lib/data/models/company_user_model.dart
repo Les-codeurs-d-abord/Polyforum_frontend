@@ -1,16 +1,20 @@
+import 'dart:convert';
+
 import 'package:poly_forum/data/models/user_model.dart';
 
 class CompanyUser extends User {
   final String companyName;
-  final String phoneNumber;
-  final String description;
+  String phoneNumber;
+  String description;
   final String logo;
-  final List<String> links;
+  List<String> links;
+  final int campanyProfileId;
 
   CompanyUser({
     required this.companyName,
     required this.phoneNumber,
     required this.description,
+    required this.campanyProfileId,
     required id,
     required email,
     required role,
@@ -26,7 +30,8 @@ class CompanyUser extends User {
     }
 
     return CompanyUser(
-      id: json['id'] ?? 0,
+      id: json['user']['id'] ?? 0,
+      campanyProfileId: json['id'] ?? 0,
       phoneNumber: json['phoneNumber'] ?? '',
       companyName: json['companyName'] ?? '',
       description: json['description'] ?? '',
@@ -37,8 +42,18 @@ class CompanyUser extends User {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'companyName': companyName,
+      'phoneNumber': phoneNumber,
+      'description': description,
+      'links': links,
+    };
+  }
+
   @override
   String toString() {
-    return "CompanyName: $companyName";
+    return jsonEncode(toJson());
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
-
-import 'custom_text_field.dart';
 
 class AddLinkModal extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();

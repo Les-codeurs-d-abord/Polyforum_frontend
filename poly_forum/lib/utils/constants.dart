@@ -34,7 +34,9 @@ const kEmailPref = "email";
 const kPwdPref = "password";
 const kSavePwd = "save_password";
 
-const kDelayQuery = 500;
+const kDelayQuery = 1000;
 
 EdgeInsetsGeometry kTopSnackBarPadding =
     const EdgeInsets.only(left: 300, right: 10);
+
+const kRedButton = Colors.red;

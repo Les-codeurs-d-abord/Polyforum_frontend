@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/screens/candidate/candidate_navigation/components/candidate_profil_btn.dart';
+import 'package:poly_forum/screens/shared/components/nav_bar_profil_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class CandidateNavBar extends StatelessWidget {
@@ -68,8 +68,9 @@ class CandidateNavBar extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(Icons.notifications),
           ),
-          CandidateProfilBtn(
-            user: user,
+          NavBarProfilBtn(
+            text: user.firstName + " " + user.lastName,
+            textTypeUser: "Candidat",
             onProfileSelected: onProfileSelected,
           ),
         ],
