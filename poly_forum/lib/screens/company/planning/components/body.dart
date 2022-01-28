@@ -39,8 +39,6 @@ class _BodyState extends State<Body> {
         return buildloadingScreen();
       } else if (state is CompanyPlanningScreenLoaded) {
         return buildLoadedScreen(state.planning);
-      } else if (state is CompanyPlanningScreenError) {
-        return buildErrorOffers();
       }
       return buildInitialPlanning();
     });
@@ -101,8 +99,7 @@ class _BodyState extends State<Body> {
           // alignment: Alignment.center,
           child: planning != null
               ? ListView.separated(
-                  padding:
-                      const EdgeInsets.only(right: 200, left: 200, top: 30),
+                  padding: const EdgeInsets.only(right: 30, left: 30, top: 10),
                   itemCount: planning.slots.length,
                   separatorBuilder: (BuildContext context, int index) =>
                       const Divider(
@@ -116,12 +113,6 @@ class _BodyState extends State<Body> {
               : buildInitialPlanning(),
         )
       ],
-    );
-  }
-
-  Widget buildErrorOffers() {
-    return Container(
-      color: Colors.red,
     );
   }
 }

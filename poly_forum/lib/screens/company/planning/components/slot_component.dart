@@ -56,8 +56,8 @@ class SlotPlanning extends StatelessWidget {
             child: ProfilePicture(
               uri: slot.logo ?? '',
               defaultText: slot.candidateName ?? '?',
-              width: 70,
-              height: 70,
+              width: 40,
+              height: 40,
             ),
           ),
           Expanded(

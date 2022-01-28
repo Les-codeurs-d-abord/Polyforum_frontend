@@ -66,28 +66,6 @@ class CompanyRepository {
     }
   }
 
-  Future<Planning> fetchPlanning(CompanyUser companyUser) async {
-    try {
-      String uriLink = 'api/planning/company/${companyUser.id}';
-      final uri = Uri.http(kServer, uriLink);
-      final response = await http.get(uri).timeout(const Duration(seconds: 2));
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        List<Slot> slots = [];
-        for (Map<String, dynamic> i in data) {
-          slots.add(Slot.fromJson(i));
-        }
-        Planning planning = Planning(slots: slots);
-        return planning;
-      } else {
-        throw const CompanyException("Planning introuvable");
-      }
-    } on Exception catch (e) {
-      print(e);
-      throw NetworkException("Une erreur est survenue: ${e.toString()}");
-    }
-  }
-
   Future<void> editCompany(Company company, String email) async {
     final body = {
       'email': email,
