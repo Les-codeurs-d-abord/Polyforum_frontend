@@ -15,7 +15,7 @@ class CandidatePlanningScreenCubit extends Cubit<CandidatePlanningScreenState> {
     try {
       emit(CandidatePlanningScreenLoading());
 
-      final planning = await repository.fetchPlanning(user);
+      final planning = await repository.fetchPlanningWithUserId(user.id);
 
       emit(CandidatePlanningScreenLoaded(planning));
     } on NetworkException catch (exception) {

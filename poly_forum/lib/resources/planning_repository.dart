@@ -9,27 +9,6 @@ import 'dart:convert';
 import 'package:poly_forum/utils/constants.dart';
 
 class PlanningRepository {
-  Future<Planning> fetchPlanning(CandidateUser candidateUser) async {
-    try {
-      String uriLink = 'api/planning/candidate/${candidateUser.id}';
-      final uri = Uri.http(kServer, uriLink);
-      final response = await http.get(uri).timeout(const Duration(seconds: 2));
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        List<Slot> slots = [];
-        for (Map<String, dynamic> i in data) {
-          slots.add(Slot.fromJson(i));
-        }
-        Planning planning = Planning(slots: slots);
-        return planning;
-      } else {
-        throw const PlanningException("Planning introuvable");
-      }
-    } on Exception catch (e) {
-      throw NetworkException("Une erreur est survenue: ${e.toString()}");
-    }
-  }
-
   Future<Planning> fetchPlanningWithUserId(int userId) async {
     try {
       String uriLink = 'api/planning/$userId';
