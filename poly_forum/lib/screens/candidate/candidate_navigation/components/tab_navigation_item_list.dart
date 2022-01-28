@@ -76,8 +76,8 @@ class TabNavigationItemList extends StatelessWidget {
           index: 3,
           selectedIndex: selectedIndex,
           text: "Mon planning",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
+          iconSelected: Icons.today,
+          iconNonSelected: Icons.today_outlined,
           onPressed: () {
             BlocProvider.of<CandidateNavigationCubit>(context)
                 .setSelectedItem(3);

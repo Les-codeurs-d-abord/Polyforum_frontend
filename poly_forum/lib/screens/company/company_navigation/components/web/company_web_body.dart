@@ -85,12 +85,12 @@ class CompanyWebBody extends StatelessWidget {
                                       onEditProfilePressed: () {
                                         BlocProvider.of<CompanyNavigationCubit>(
                                                 context)
-                                            .setSelectedItem(6);
+                                            .setSelectedItem(7);
                                       },
                                       onChangePasswordPressed: () {
                                         BlocProvider.of<CompanyNavigationCubit>(
                                                 context)
-                                            .setSelectedItem(7);
+                                            .setSelectedItem(8);
                                       },
                                     ),
                                     const CompanyProfileScreen(), //profil

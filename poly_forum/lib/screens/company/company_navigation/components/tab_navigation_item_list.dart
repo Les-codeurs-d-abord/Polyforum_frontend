@@ -73,8 +73,8 @@ class TabNavigationItemList extends StatelessWidget {
           index: 3,
           selectedIndex: selectedIndex,
           text: "Les candidats",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
+          iconSelected: Icons.school,
+          iconNonSelected: Icons.school_outlined,
           onPressed: () {
             BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(3);
           },
@@ -84,8 +84,8 @@ class TabNavigationItemList extends StatelessWidget {
           index: 4,
           selectedIndex: selectedIndex,
           text: "Mes voeux",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
+          iconSelected: Icons.bookmark_outlined,
+          iconNonSelected: Icons.bookmark_border,
           onPressed: () {
             BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(4);
           },
@@ -95,8 +95,8 @@ class TabNavigationItemList extends StatelessWidget {
           index: 5,
           selectedIndex: selectedIndex,
           text: "Mon planning",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
+          iconSelected: Icons.today,
+          iconNonSelected: Icons.today_outlined,
           onPressed: () {
             BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(5);
           },
