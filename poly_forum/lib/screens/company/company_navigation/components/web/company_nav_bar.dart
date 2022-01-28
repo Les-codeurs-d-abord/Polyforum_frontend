@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/candidate/navigation/candidate_navigation_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
@@ -43,37 +42,31 @@ class CompanyNavBar extends StatelessWidget {
       height: 70,
       child: Stack(
         children: [
-          Column(
+          Row(
             children: [
-              Expanded(
-                child: Row(
-                  children: [
+              Row(
+                children: [
+                  for (int i = 0; i < paths.length; i++)
                     Row(
                       children: [
-                        for (int i = 0; i < paths.length; i++)
-                          Row(
-                            children: [
-                              const Icon(Icons.arrow_right),
-                              paths[i],
-                            ],
-                          ),
+                        const Icon(Icons.arrow_right),
+                        paths[i],
                       ],
                     ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.notifications),
-                    ),
-                    NavBarProfilBtn(
-                      text: user.companyName,
-                      textTypeUser: "Entreprise",
-                      onProfileSelected: () {
-                        BlocProvider.of<CompanyNavigationCubit>(context)
-                            .setSelectedItem(6);
-                      },
-                    ),
-                  ],
-                ),
+                ],
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.notifications),
+              ),
+              NavBarProfilBtn(
+                text: user.companyName,
+                textTypeUser: "Entreprise",
+                onProfileSelected: () {
+                  BlocProvider.of<CompanyNavigationCubit>(context)
+                      .setSelectedItem(6);
+                },
               ),
             ],
           ),

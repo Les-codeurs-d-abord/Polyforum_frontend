@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/cubit/admin/navigation/admin_navigation_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 
 class TabNavigationItemList extends StatelessWidget {
   final int selectedIndex;
@@ -43,95 +46,75 @@ class TabNavigationItemList extends StatelessWidget {
           iconSelected: Icons.home,
           iconNonSelected: Icons.home_outlined,
           onPressed: () {
-            BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(0);
+            BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(0);
           },
         ),
         const SizedBox(height: 20),
         TabNavigationItem(
           index: 1,
           selectedIndex: selectedIndex,
-          text: "Mes offres",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
+          text: "Tableau de bord",
+          iconSelected: Icons.space_dashboard,
+          iconNonSelected: Icons.space_dashboard_outlined,
           onPressed: () {
-            BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(1);
+            BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(1);
           },
-          children: [
-            TabChildNavigationItem(
-              index: 2,
-              selectedIndex: selectedIndex,
-              text: "Créer une offre",
-              onPressed: () {
-                BlocProvider.of<CompanyNavigationCubit>(context)
-                    .setSelectedItem(2);
-              },
-            ),
-          ],
+        ),
+        const SizedBox(height: 20),
+        TabNavigationItem(
+          index: 2,
+          selectedIndex: selectedIndex,
+          text: "Entreprises",
+          iconSelected: Icons.business,
+          iconNonSelected: Icons.business_outlined,
+          onPressed: () {
+            BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(2);
+          },
         ),
         const SizedBox(height: 20),
         TabNavigationItem(
           index: 3,
           selectedIndex: selectedIndex,
-          text: "Les candidats",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
+          text: "Candidats",
+          iconSelected: Icons.school,
+          iconNonSelected: Icons.school_outlined,
           onPressed: () {
-            BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(3);
+            BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(3);
           },
         ),
         const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 4,
-          selectedIndex: selectedIndex,
-          text: "Mes voeux",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
-          onPressed: () {
-            BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(4);
-          },
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 5,
-          selectedIndex: selectedIndex,
-          text: "Mon planning",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
-          onPressed: () {
-            BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(5);
-          },
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 6,
-          selectedIndex: selectedIndex,
-          text: "Mon profil",
-          iconSelected: Icons.person,
-          iconNonSelected: Icons.person_outline,
-          onPressed: () {
-            BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(6);
-          },
-          children: [
-            TabChildNavigationItem(
-              index: 7,
-              selectedIndex: selectedIndex,
-              text: "Modifier mon profil",
-              onPressed: () {
-                BlocProvider.of<CompanyNavigationCubit>(context)
-                    .setSelectedItem(7);
-              },
-            ),
-            TabChildNavigationItem(
-              index: 8,
-              selectedIndex: selectedIndex,
-              text: "Changer mon mot de passe",
-              onPressed: () {
-                BlocProvider.of<CompanyNavigationCubit>(context)
-                    .setSelectedItem(8);
-              },
-            ),
-          ],
-        ),
+        if (BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
+            Phase.planning)
+          TabNavigationItem(
+            index: 4,
+            selectedIndex: selectedIndex,
+            text: "Planning",
+            iconSelected: Icons.today,
+            iconNonSelected: Icons.today_outlined,
+            onPressed: () {
+              BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(4);
+            },
+            children: [
+              TabChildNavigationItem(
+                index: 5,
+                selectedIndex: selectedIndex,
+                text: "Entreprises",
+                onPressed: () {
+                  BlocProvider.of<AdminNavigationCubit>(context)
+                      .setSelectedItem(5);
+                },
+              ),
+              TabChildNavigationItem(
+                index: 6,
+                selectedIndex: selectedIndex,
+                text: "Candidats",
+                onPressed: () {
+                  BlocProvider.of<AdminNavigationCubit>(context)
+                      .setSelectedItem(6);
+                },
+              ),
+            ],
+          ),
       ],
     );
   }

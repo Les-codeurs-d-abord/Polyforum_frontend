@@ -11,6 +11,7 @@ import 'package:poly_forum/resources/candidate_repository.dart';
 import 'package:poly_forum/resources/company_repository.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
+import 'package:poly_forum/screens/admin/admin_navigation/components/phone/admin_phone_body.dart';
 import 'package:poly_forum/screens/admin/admin_navigation/components/web/admin_web_body.dart';
 
 class Body extends StatefulWidget {
@@ -84,12 +85,11 @@ class _BodyState extends State<Body> {
         ),
       ],
       child: LayoutBuilder(builder: (context, constraints) {
-        return const AdminWebBody();
-        // if (constraints.maxWidth > 1024) {
-        //   return const CandidateWebBody();
-        // } else {
-        //   return const CandidatePhoneBody();
-        // }
+        if (constraints.maxWidth > 1024) {
+          return const AdminWebBody();
+        } else {
+          return const AdminPhoneBody();
+        }
       }),
     );
   }

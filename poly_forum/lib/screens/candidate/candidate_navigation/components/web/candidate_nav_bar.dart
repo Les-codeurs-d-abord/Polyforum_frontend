@@ -9,13 +9,13 @@ class CandidateNavBar extends StatelessWidget {
   final List<Widget> paths;
   final String title;
 
-  const CandidateNavBar({
-    required this.user,
-    required this.onProfileSelected,
-    required this.paths,
-    required this.title,
-    Key? key
-  }) : super(key: key);
+  const CandidateNavBar(
+      {required this.user,
+      required this.onProfileSelected,
+      required this.paths,
+      required this.title,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,42 +36,45 @@ class CandidateNavBar extends StatelessWidget {
         ],
       ),
       height: 70,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Stack(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              for (int i = 0; i < paths.length; i++)
-                Row(
-                  children: [
-                    paths[i],
-                    i < paths.length - 1
-                        ? const Icon(Icons.arrow_right)
-                        : const SizedBox.shrink(),
-                  ],
-                ),
+              Row(
+                children: [
+                  for (int i = 0; i < paths.length; i++)
+                    Row(
+                      children: [
+                        paths[i],
+                        i < paths.length - 1
+                            ? const Icon(Icons.arrow_right)
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
+                ],
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.notifications),
+              ),
+              NavBarProfilBtn(
+                text: user.firstName + " " + user.lastName,
+                textTypeUser: "Candidat",
+                onProfileSelected: onProfileSelected,
+              ),
             ],
           ),
-          Expanded(
-            child: Center(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  color: kButtonColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28,
-                ),
+          Center(
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: kButtonColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
               ),
             ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-          ),
-          NavBarProfilBtn(
-            text: user.firstName + " " + user.lastName,
-            textTypeUser: "Candidat",
-            onProfileSelected: onProfileSelected,
           ),
         ],
       ),
