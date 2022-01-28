@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class TabNavigationItem extends StatefulWidget {
   final List<TabChildNavigationItem> children;
-  Function? onPressed;
+  Function onPressed;
   final int index;
   final int selectedIndex;
   final IconData iconSelected;
@@ -17,7 +15,7 @@ class TabNavigationItem extends StatefulWidget {
 
   TabNavigationItem({
     Key? key,
-    this.onPressed,
+    required this.onPressed,
     required this.index,
     required this.selectedIndex,
     required this.text,
@@ -62,11 +60,7 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
             }),
             child: GestureDetector(
               onTap: () {
-                BlocProvider.of<CompanyNavigationCubit>(context)
-                    .setSelectedItem(widget.index);
-                if (widget.onPressed != null) {
-                  widget.onPressed!();
-                }
+                widget.onPressed();
               },
               child: Container(
                 height: 60,

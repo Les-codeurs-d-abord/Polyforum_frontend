@@ -4,13 +4,13 @@ import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TabChildNavigationItem extends StatelessWidget {
-  final Function? onPressed;
+  final Function onPressed;
   final int index;
   final int selectedIndex;
   final String text;
 
   const TabChildNavigationItem(
-      {this.onPressed,
+      {required this.onPressed,
       required this.index,
       required this.selectedIndex,
       required this.text,
@@ -24,12 +24,7 @@ class TabChildNavigationItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextButton(
         onPressed: () {
-          BlocProvider.of<CompanyNavigationCubit>(context)
-              .setSelectedItem(index);
-
-          if (onPressed != null) {
-            onPressed!();
-          }
+          onPressed();
         },
         child: Row(
           children: [

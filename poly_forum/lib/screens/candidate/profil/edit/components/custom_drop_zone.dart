@@ -113,7 +113,7 @@ class _CustomDropZoneState extends State<CustomDropZone> {
           Container(
             height: 200,
             decoration: BoxDecoration(
-              color: highlighted ? Colors.grey : Colors.grey.withAlpha(20),
+              color: highlighted ? Colors.grey.withAlpha(20) : Colors.white,
               border: Border.all(
                 color: Colors.black,
               ),

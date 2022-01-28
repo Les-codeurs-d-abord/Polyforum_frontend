@@ -16,6 +16,8 @@ import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_i
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../tab_navigation_item_list.dart';
+
 class CompanyPhoneBody extends StatelessWidget {
   const CompanyPhoneBody({Key? key}) : super(key: key);
 
@@ -52,7 +54,7 @@ class CompanyPhoneBody extends StatelessWidget {
                 child: Image.asset('images/logo.png'),
               ),
             ),
-            buildTile(context, selectedIndex),
+            TabNavigationItemList(selectedIndex: selectedIndex),
           ],
         ),
       ),
@@ -105,101 +107,6 @@ class CompanyPhoneBody extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget buildTile(BuildContext context, int selectedIndex) {
-    return Column(
-      children: [
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            const SizedBox(width: 10),
-            Image.asset(
-              'images/logo.png',
-              width: 80,
-              height: 80,
-              fit: BoxFit.contain,
-            ),
-            const SizedBox(width: 10),
-            const Text(
-              "PolyForum",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 26,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 30),
-        TabNavigationItem(
-          index: 0,
-          selectedIndex: selectedIndex,
-          text: "Le forum",
-          iconSelected: Icons.home,
-          iconNonSelected: Icons.home_outlined,
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 1,
-          selectedIndex: selectedIndex,
-          text: "Mes offres",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
-          children: [
-            TabChildNavigationItem(
-              index: 2,
-              selectedIndex: selectedIndex,
-              text: "Créer une offre",
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 3,
-          selectedIndex: selectedIndex,
-          text: "Les candidats",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 4,
-          selectedIndex: selectedIndex,
-          text: "Mes voeux",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 5,
-          selectedIndex: selectedIndex,
-          text: "Mon planning",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 6,
-          selectedIndex: selectedIndex,
-          text: "Mon profil",
-          iconSelected: Icons.person,
-          iconNonSelected: Icons.person_outline,
-          children: [
-            TabChildNavigationItem(
-              index: 7,
-              selectedIndex: selectedIndex,
-              text: "Modifier mon profil",
-            ),
-            TabChildNavigationItem(
-              index: 8,
-              selectedIndex: selectedIndex,
-              text: "Changer mon mot de passe",
-            ),
-          ],
-        ),
-      ],
     );
   }
 }

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
-import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
-import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,11 +90,11 @@ class _EditOfferFormState extends State<EditOfferForm> {
                   ),
                   const SizedBox(width: 100),
                   CustomTextField(
-                    text: "Adress",
+                    text: "Adresse",
                     icon: Icons.person_outline,
                     controller: _addresController,
                     isLocked: false,
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 15),

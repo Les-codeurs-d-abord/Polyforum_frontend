@@ -6,8 +6,10 @@ import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
 import 'package:poly_forum/screens/company/candidat/list/candidat_list.dart';
+import 'package:poly_forum/screens/company/company_navigation/components/tab_navigation_item_list.dart';
 import 'package:poly_forum/screens/company/offers/create/create_offer_screen.dart';
 import 'package:poly_forum/screens/company/offers/get/offers_screen.dart';
+import 'package:poly_forum/screens/company/planning/planning_screen.dart';
 import 'package:poly_forum/screens/company/profile/edit/company_profil_screen.dart';
 import 'package:poly_forum/screens/company/wishlist/wishlist_screen.dart';
 import 'package:poly_forum/screens/password/change_password_screen.dart';
@@ -52,98 +54,7 @@ class CompanyWebBody extends StatelessWidget {
                 width: 300,
                 child: SingleChildScrollView(
                   primary: false,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          const SizedBox(width: 10),
-                          Image.asset(
-                            'images/logo.png',
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.contain,
-                          ),
-                          const SizedBox(width: 10),
-                          const Text(
-                            "PolyForum",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 26,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      TabNavigationItem(
-                        index: 0,
-                        selectedIndex: selectedIndex,
-                        text: "Le forum",
-                        iconSelected: Icons.home,
-                        iconNonSelected: Icons.home_outlined,
-                      ),
-                      const SizedBox(height: 20),
-                      TabNavigationItem(
-                        index: 1,
-                        selectedIndex: selectedIndex,
-                        text: "Mes offres",
-                        iconSelected: Icons.local_offer,
-                        iconNonSelected: Icons.local_offer_outlined,
-                        children: [
-                          TabChildNavigationItem(
-                            index: 2,
-                            selectedIndex: selectedIndex,
-                            text: "Créer une offre",
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      TabNavigationItem(
-                        index: 3,
-                        selectedIndex: selectedIndex,
-                        text: "Les candidats",
-                        iconSelected: Icons.local_offer,
-                        iconNonSelected: Icons.local_offer_outlined,
-                      ),
-                      const SizedBox(height: 20),
-                      TabNavigationItem(
-                        index: 4,
-                        selectedIndex: selectedIndex,
-                        text: "Mes voeux",
-                        iconSelected: Icons.local_offer,
-                        iconNonSelected: Icons.local_offer_outlined,
-                      ),
-                      const SizedBox(height: 20),
-                      TabNavigationItem(
-                        index: 5,
-                        selectedIndex: selectedIndex,
-                        text: "Mon planning",
-                        iconSelected: Icons.local_offer,
-                        iconNonSelected: Icons.local_offer_outlined,
-                      ),
-                      const SizedBox(height: 20),
-                      TabNavigationItem(
-                        index: 6,
-                        selectedIndex: selectedIndex,
-                        text: "Mon profil",
-                        iconSelected: Icons.person,
-                        iconNonSelected: Icons.person_outline,
-                        children: [
-                          TabChildNavigationItem(
-                            index: 7,
-                            selectedIndex: selectedIndex,
-                            text: "Modifier mon profil",
-                          ),
-                          TabChildNavigationItem(
-                            index: 8,
-                            selectedIndex: selectedIndex,
-                            text: "Changer mon mot de passe",
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  child: TabNavigationItemList(selectedIndex: selectedIndex),
                 ),
               ),
               Expanded(
@@ -169,7 +80,7 @@ class CompanyWebBody extends StatelessWidget {
                                     const CreateOfferScreen(),
                                     const CandidatList(),
                                     const WishlistScreen(),
-                                    Container(), //planning
+                                    const PlanningScreen(),
                                     HomeProfileScreen(
                                       onEditProfilePressed: () {
                                         BlocProvider.of<CompanyNavigationCubit>(
