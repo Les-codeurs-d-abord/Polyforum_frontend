@@ -5,6 +5,7 @@ import 'package:poly_forum/cubit/company/candidat/company_candidat_list_cubit.da
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
+import 'package:poly_forum/cubit/company/wishlist/company_get_wishlist_cubit.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/company/company_navigation/components/phone/company_phone_body.dart';
@@ -70,6 +71,9 @@ class _BodyState extends State<Body> {
         ),
         BlocProvider(
           create: (context) => CompanyCandidatListCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CompanyGetWishlistCubit(),
         ),
       ],
       child: LayoutBuilder(builder: (context, constraints) {

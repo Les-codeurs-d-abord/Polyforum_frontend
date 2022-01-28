@@ -1,6 +1,5 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
@@ -13,12 +12,16 @@ class PopupItem {
   PopupItem(this.value, this.name);
 }
 
-class CandidateProfilBtn extends StatelessWidget {
-  final CandidateUser user;
+class NavBarProfilBtn extends StatelessWidget {
+  final String text;
+  final String textTypeUser;
   final Function onProfileSelected;
 
-  const CandidateProfilBtn(
-      {required this.user, required this.onProfileSelected, Key? key})
+  const NavBarProfilBtn(
+      {required this.text,
+      required this.textTypeUser,
+      required this.onProfileSelected,
+      Key? key})
       : super(key: key);
 
   @override
@@ -72,7 +75,7 @@ class CandidateProfilBtn extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     width: 60,
-                    child: InitialsAvatar(user.firstName + " " + user.lastName),
+                    child: InitialsAvatar(text),
                   ),
                 ),
               ],
@@ -84,7 +87,7 @@ class CandidateProfilBtn extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      user.firstName + " " + user.lastName,
+                      text,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: kButtonColor,
@@ -94,9 +97,9 @@ class CandidateProfilBtn extends StatelessWidget {
                     const Icon(Icons.arrow_drop_down_outlined),
                   ],
                 ),
-                const Text(
-                  "Candidat",
-                  style: TextStyle(
+                Text(
+                  textTypeUser,
+                  style: const TextStyle(
                     color: Colors.grey,
                   ),
                 ),

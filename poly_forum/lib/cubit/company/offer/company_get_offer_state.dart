@@ -7,11 +7,6 @@ class CompanyGetOfferInitial extends CompanyGetOfferState {}
 
 class CompanyGetOfferLoading extends CompanyGetOfferState {}
 
-class CompanyGetOfferEditPageLoaded extends CompanyGetOfferState {
-  final Offer offer;
-  CompanyGetOfferEditPageLoaded(this.offer);
-}
-
 class CompanyGetOfferLoaded extends CompanyGetOfferState {
   final List<Offer> offerList;
   CompanyGetOfferLoaded(this.offerList);

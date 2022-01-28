@@ -10,7 +10,7 @@ import 'package:poly_forum/screens/password/change_password_screen.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../candidate_profil_btn.dart';
+import '../../../../shared/components/nav_bar_profil_btn.dart';
 
 class CandidatePhoneBody extends StatelessWidget {
   const CandidatePhoneBody({Key? key}) : super(key: key);
@@ -61,8 +61,9 @@ class CandidatePhoneBody extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(Icons.notifications),
           ),
-          CandidateProfilBtn(
-            user: candidateUser,
+          NavBarProfilBtn(
+            text: candidateUser.firstName + " " + candidateUser.lastName,
+            textTypeUser: "Candidat",
             onProfileSelected: () {
               BlocProvider.of<CandidateNavigationCubit>(context)
                   .setSelectedItem(4);

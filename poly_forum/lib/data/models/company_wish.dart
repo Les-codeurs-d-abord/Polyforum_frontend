@@ -13,12 +13,13 @@ class CompanyWish {
     required this.candidate,
   });
 
-  factory CompanyWish.fromJson(Map<String, dynamic> json) {
+  factory CompanyWish.fromJson(
+      Map<String, dynamic> json, CandidateUser candidate) {
     return CompanyWish(
-      wishId: json['id'] ?? '',
+      wishId: json['id'] ?? 0,
       candidateProfileId: json['candidateProfileId'] ?? '',
       companyProfileId: json['companyProfileId'] ?? '',
-      candidate: CandidateUser.fromJson(json['candidate'] ?? ''),
+      candidate: candidate,
     );
   }
 }

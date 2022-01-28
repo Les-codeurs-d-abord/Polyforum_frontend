@@ -21,7 +21,7 @@ class Tags extends StatelessWidget {
           Text(
             text,
             style: const TextStyle(
-              color: kButtonColor,
+              color: kButtonColor, fontSize: 15,
               // fontWeight: FontWeight.bold,
             ),
           ),

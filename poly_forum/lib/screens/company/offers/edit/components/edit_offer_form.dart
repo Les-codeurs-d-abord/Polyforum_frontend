@@ -53,9 +53,6 @@ class _EditOfferFormState extends State<EditOfferForm> {
     return BlocConsumer<CompanyOfferCubit, CompanyOfferState>(
       listener: (context, state) {
         if (state is CompanyOfferLoaded) {
-          BlocProvider.of<CompanyGetOfferCubit>(context)
-              .updateLocalOffer(widget.offer);
-
           showTopSnackBar(
             context,
             Padding(
@@ -65,6 +62,8 @@ class _EditOfferFormState extends State<EditOfferForm> {
               ),
             ),
           );
+
+          Navigator.of(context).pop(widget.offer);
         } else if (state is CompanyOfferError) {
           showTopSnackBar(
             context,

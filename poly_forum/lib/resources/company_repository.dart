@@ -376,11 +376,12 @@ class CompanyRepository {
     }
   }
 
-  Future<List<CompanyWish>> getWishlist(CandidateUser user) async {
+  Future<List<CompanyWish>> getWishlist(CompanyUser company) async {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
-      final uri = Uri.http(kServer, '/api/wishcompany/${user.candidateId}');
+      final uri =
+          Uri.http(kServer, '/api/wishcompany/${company.campanyProfileId}');
       final response = await http.get(uri).onError((error, stackTrace) {
         print(error);
         throw const NetworkException("Le serveur est injoignable");
@@ -392,7 +393,9 @@ class CompanyRepository {
         List<CompanyWish> wishlist = [];
 
         for (Map<String, dynamic> i in data) {
-          wishlist.add(CompanyWish.fromJson(i));
+          CandidateUser candidateUser =
+              CandidateUser.fromJson(i['candidate_profile'] ?? '');
+          wishlist.add(CompanyWish.fromJson(i, candidateUser));
         }
 
         return wishlist;
@@ -405,22 +408,24 @@ class CompanyRepository {
     }
   }
 
-  Future<void> saveChoicesOffer(CandidateUser user, List<Wish> wishlist) async {
+  Future<void> updateWishlist(
+      CompanyUser company, List<CompanyWish> wishlist) async {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
       try {
         List<int> offerIdList = [];
 
-        for (Wish wish in wishlist) {
-          offerIdList.add(wish.offerId);
+        for (CompanyWish wish in wishlist) {
+          offerIdList.add(wish.candidateProfileId);
         }
 
         final body = {
           "data": jsonEncode(offerIdList),
         };
 
-        final uri = Uri.http(kServer, '/api/wishcandidate/${user.candidateId}');
+        final uri =
+            Uri.http(kServer, '/api/wishcompany/${company.campanyProfileId}');
         final response = await http.put(uri, body: body);
 
         if (response.statusCode != 200) {

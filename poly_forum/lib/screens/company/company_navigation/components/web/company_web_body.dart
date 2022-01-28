@@ -9,6 +9,7 @@ import 'package:poly_forum/screens/company/candidat/list/candidat_list.dart';
 import 'package:poly_forum/screens/company/offers/create/create_offer_screen.dart';
 import 'package:poly_forum/screens/company/offers/get/offers_screen.dart';
 import 'package:poly_forum/screens/company/profile/edit/company_profil_screen.dart';
+import 'package:poly_forum/screens/company/wishlist/wishlist_screen.dart';
 import 'package:poly_forum/screens/password/change_password_screen.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
@@ -107,19 +108,35 @@ class CompanyWebBody extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       TabNavigationItem(
+                        index: 4,
+                        selectedIndex: selectedIndex,
+                        text: "Mes voeux",
+                        iconSelected: Icons.local_offer,
+                        iconNonSelected: Icons.local_offer_outlined,
+                      ),
+                      const SizedBox(height: 20),
+                      TabNavigationItem(
                         index: 5,
+                        selectedIndex: selectedIndex,
+                        text: "Mon planning",
+                        iconSelected: Icons.local_offer,
+                        iconNonSelected: Icons.local_offer_outlined,
+                      ),
+                      const SizedBox(height: 20),
+                      TabNavigationItem(
+                        index: 6,
                         selectedIndex: selectedIndex,
                         text: "Mon profil",
                         iconSelected: Icons.person,
                         iconNonSelected: Icons.person_outline,
                         children: [
                           TabChildNavigationItem(
-                            index: 6,
+                            index: 7,
                             selectedIndex: selectedIndex,
                             text: "Modifier mon profil",
                           ),
                           TabChildNavigationItem(
-                            index: 7,
+                            index: 8,
                             selectedIndex: selectedIndex,
                             text: "Changer mon mot de passe",
                           ),
@@ -150,7 +167,8 @@ class CompanyWebBody extends StatelessWidget {
                                     const WelcomeScreen(),
                                     const OffersScreen(),
                                     const CreateOfferScreen(),
-                                    const CandidatList(), //candidat
+                                    const CandidatList(),
+                                    const WishlistScreen(),
                                     Container(), //planning
                                     HomeProfileScreen(
                                       onEditProfilePressed: () {
@@ -237,18 +255,24 @@ class CompanyWebBody extends StatelessWidget {
         title = "Mes offres";
         break;
       case 2:
-        title = "List des candidats";
+        title = "Créer une offre";
         break;
       case 3:
-        title = "Mon profil";
+        title = "Liste des candidats";
         break;
       case 4:
-        title = "Mon planning";
+        title = "Mes voeux";
         break;
       case 5:
-        title = "Modifier mon profil";
+        title = "Mon planning";
         break;
       case 6:
+        title = "Mon profil";
+        break;
+      case 7:
+        title = "Modifier mon profil";
+        break;
+      case 8:
         title = "Changer le mot de passe";
         break;
     }
@@ -293,10 +317,20 @@ class CompanyWebBody extends StatelessWidget {
           TextButton(
             onPressed: () {
               BlocProvider.of<CompanyNavigationCubit>(context)
+                  .setSelectedItem(1);
+            },
+            child: const Text(
+              "Les offres",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(2);
             },
             child: const Text(
-              "Mes choix",
+              "Créer une offre",
               style: TextStyle(color: kSecondaryColor),
             ),
           ),
@@ -310,7 +344,7 @@ class CompanyWebBody extends StatelessWidget {
                   .setSelectedItem(3);
             },
             child: const Text(
-              "Mon planning",
+              "Les candidats",
               style: TextStyle(color: kSecondaryColor),
             ),
           ),
@@ -321,10 +355,10 @@ class CompanyWebBody extends StatelessWidget {
           TextButton(
             onPressed: () {
               BlocProvider.of<CompanyNavigationCubit>(context)
-                  .setSelectedItem(3);
+                  .setSelectedItem(4);
             },
             child: const Text(
-              "Mon profil",
+              "Mes voeux",
               style: TextStyle(color: kSecondaryColor),
             ),
           ),
@@ -335,20 +369,10 @@ class CompanyWebBody extends StatelessWidget {
           TextButton(
             onPressed: () {
               BlocProvider.of<CompanyNavigationCubit>(context)
-                  .setSelectedItem(4);
-            },
-            child: const Text(
-              "Mon profil",
-              style: TextStyle(color: kSecondaryColor),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(5);
             },
             child: const Text(
-              "Modifier mon profil",
+              "Mon planning",
               style: TextStyle(color: kSecondaryColor),
             ),
           ),
@@ -359,7 +383,21 @@ class CompanyWebBody extends StatelessWidget {
           TextButton(
             onPressed: () {
               BlocProvider.of<CompanyNavigationCubit>(context)
-                  .setSelectedItem(4);
+                  .setSelectedItem(6);
+            },
+            child: const Text(
+              "Mon profil",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+        ];
+        break;
+      case 7:
+        breadcrumbs = [
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<CompanyNavigationCubit>(context)
+                  .setSelectedItem(7);
             },
             child: const Text(
               "Mon profil",
@@ -369,7 +407,31 @@ class CompanyWebBody extends StatelessWidget {
           TextButton(
             onPressed: () {
               BlocProvider.of<CompanyNavigationCubit>(context)
+                  .setSelectedItem(7);
+            },
+            child: const Text(
+              "Modifier mon profil",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+        ];
+        break;
+      case 8:
+        breadcrumbs = [
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<CompanyNavigationCubit>(context)
                   .setSelectedItem(6);
+            },
+            child: const Text(
+              "Mon profil",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<CompanyNavigationCubit>(context)
+                  .setSelectedItem(8);
             },
             child: const Text(
               "Changer mon mot de passe",

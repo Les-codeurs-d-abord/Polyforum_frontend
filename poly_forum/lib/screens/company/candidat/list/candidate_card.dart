@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
+import 'package:poly_forum/cubit/company/wishlist/company_check_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_get_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_wishlist_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
@@ -64,17 +65,18 @@ class CandidateCard extends StatelessWidget {
               errorWidget: (context, url, error) {
                 return InitialsAvatar(
                   candidate.firstName + " " + candidate.lastName,
-                  fontSize: 16,
+                  fontSize: 22,
                 );
               },
-              width: 30,
-              height: 30,
+              width: 50,
+              height: 50,
             ),
             const SizedBox(width: 15),
             Text(
               candidate.firstName + " " + candidate.lastName,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
+                fontSize: 22,
               ),
             ),
           ],
@@ -114,12 +116,15 @@ class CandidateCard extends StatelessWidget {
               BlocProvider<CompanyWishlistCubit>(
                 create: (context) => CompanyWishlistCubit(),
               ),
-              BlocProvider<CompanyGetWishlistCubit>(
-                create: (context) => CompanyGetWishlistCubit(),
-              ),
+              // BlocProvider<CompanyGetWishlistCubit>(
+              //   create: (context) => CompanyGetWishlistCubit(),
+              // ),
             ],
-            child: AddCandidate(
-              candidate: candidate,
+            child: BlocProvider(
+              create: (context) => CompanyCheckWishlistCubit(),
+              child: AddCandidate(
+                candidate: candidate,
+              ),
             ),
           ),
         ],

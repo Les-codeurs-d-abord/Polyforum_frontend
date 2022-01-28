@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/screens/candidate/candidate_navigation/components/candidate_profil_btn.dart';
+import 'package:poly_forum/cubit/candidate/navigation/candidate_navigation_cubit.dart';
+import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
+import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
+import 'package:poly_forum/data/models/company_user_model.dart';
+import 'package:poly_forum/screens/shared/components/nav_bar_profil_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CompanyNavBar extends StatelessWidget {
   final Function onProfileSelected;
@@ -17,6 +21,9 @@ class CompanyNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CompanyUser user =
+        BlocProvider.of<CompanyGetUserCubit>(context).getUser();
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: const BoxDecoration(
@@ -34,42 +41,52 @@ class CompanyNavBar extends StatelessWidget {
         ],
       ),
       height: 70,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Stack(
         children: [
-          Row(
+          Column(
             children: [
-              for (int i = 0; i < paths.length; i++)
-                Row(
+              Expanded(
+                child: Row(
                   children: [
-                    paths[i],
-                    i < paths.length - 1
-                        ? const Icon(Icons.arrow_right)
-                        : const SizedBox.shrink(),
+                    Row(
+                      children: [
+                        for (int i = 0; i < paths.length; i++)
+                          Row(
+                            children: [
+                              const Icon(Icons.arrow_right),
+                              paths[i],
+                            ],
+                          ),
+                      ],
+                    ),
+                    const Spacer(),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.notifications),
+                    ),
+                    NavBarProfilBtn(
+                      text: user.companyName,
+                      textTypeUser: "Entreprise",
+                      onProfileSelected: () {
+                        BlocProvider.of<CompanyNavigationCubit>(context)
+                            .setSelectedItem(6);
+                      },
+                    ),
                   ],
                 ),
+              ),
             ],
           ),
-          Expanded(
-            child: Center(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  color: kButtonColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 28,
-                ),
+          Center(
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: kButtonColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
               ),
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-          ),
-          // CandidateProfilBtn(
-          //   user: user,
-          //   onProfileSelected: onProfileSelected,
-          // ),
         ],
       ),
     );

@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/candidate/navigation/candidate_navigation_cubit.dart';
+import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
+import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
+import 'package:poly_forum/screens/company/candidat/list/candidat_list.dart';
+import 'package:poly_forum/screens/company/offers/create/create_offer_screen.dart';
+import 'package:poly_forum/screens/company/offers/get/offers_screen.dart';
+import 'package:poly_forum/screens/company/profile/edit/company_profil_screen.dart';
+import 'package:poly_forum/screens/company/wishlist/wishlist_screen.dart';
 import 'package:poly_forum/screens/password/change_password_screen.dart';
+import 'package:poly_forum/screens/shared/components/nav_bar_profil_btn.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
@@ -28,6 +37,9 @@ class CompanyPhoneBody extends StatelessWidget {
   }
 
   Widget buildScreen(BuildContext context, int selectedIndex) {
+    final CompanyUser user =
+        BlocProvider.of<CompanyGetUserCubit>(context).getUser();
+
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: Drawer(
@@ -54,13 +66,14 @@ class CompanyPhoneBody extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(Icons.notifications),
           ),
-          // CandidateProfilBtn(
-          //   user: candidateUser,
-          //   onProfileSelected: () {
-          //     BlocProvider.of<CompanyNavigationCubit>(context)
-          //         .setSelectedItem(4);
-          //   },
-          // ),
+          NavBarProfilBtn(
+            text: user.companyName,
+            textTypeUser: "Entreprise",
+            onProfileSelected: () {
+              BlocProvider.of<CompanyNavigationCubit>(context)
+                  .setSelectedItem(6);
+            },
+          ),
         ],
       ),
       body: Column(
@@ -70,20 +83,22 @@ class CompanyPhoneBody extends StatelessWidget {
               index: selectedIndex,
               children: <Widget>[
                 const WelcomeScreen(),
-                Container(), //mes offres
-                Container(), //candidat
+                const OffersScreen(),
+                const CreateOfferScreen(),
+                const CandidatList(),
+                const WishlistScreen(),
                 Container(), //planning
                 HomeProfileScreen(
                   onEditProfilePressed: () {
                     BlocProvider.of<CompanyNavigationCubit>(context)
-                        .setSelectedItem(5);
+                        .setSelectedItem(6);
                   },
                   onChangePasswordPressed: () {
                     BlocProvider.of<CompanyNavigationCubit>(context)
-                        .setSelectedItem(6);
+                        .setSelectedItem(7);
                   },
                 ),
-                Container(), //profil
+                const CompanyProfileScreen(), //profil
                 ChangePasswordScreen(),
               ],
             ),
@@ -97,6 +112,27 @@ class CompanyPhoneBody extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 20),
+        Row(
+          children: [
+            const SizedBox(width: 10),
+            Image.asset(
+              'images/logo.png',
+              width: 80,
+              height: 80,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(width: 10),
+            const Text(
+              "PolyForum",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 26,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 30),
         TabNavigationItem(
           index: 0,
           selectedIndex: selectedIndex,
@@ -131,17 +167,33 @@ class CompanyPhoneBody extends StatelessWidget {
         TabNavigationItem(
           index: 4,
           selectedIndex: selectedIndex,
+          text: "Mes voeux",
+          iconSelected: Icons.local_offer,
+          iconNonSelected: Icons.local_offer_outlined,
+        ),
+        const SizedBox(height: 20),
+        TabNavigationItem(
+          index: 5,
+          selectedIndex: selectedIndex,
+          text: "Mon planning",
+          iconSelected: Icons.local_offer,
+          iconNonSelected: Icons.local_offer_outlined,
+        ),
+        const SizedBox(height: 20),
+        TabNavigationItem(
+          index: 6,
+          selectedIndex: selectedIndex,
           text: "Mon profil",
           iconSelected: Icons.person,
           iconNonSelected: Icons.person_outline,
           children: [
             TabChildNavigationItem(
-              index: 5,
+              index: 7,
               selectedIndex: selectedIndex,
               text: "Modifier mon profil",
             ),
             TabChildNavigationItem(
-              index: 6,
+              index: 8,
               selectedIndex: selectedIndex,
               text: "Changer mon mot de passe",
             ),

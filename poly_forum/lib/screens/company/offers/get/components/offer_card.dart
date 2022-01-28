@@ -6,6 +6,7 @@ import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
 import 'package:poly_forum/screens/admin/company_list/components/company_detail_dialog.dart';
+import 'package:poly_forum/screens/company/offers/edit/edit_offer_screen.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
@@ -147,8 +148,15 @@ class OfferCard extends StatelessWidget {
               child: RowBtn(
                 text: "Modifier cette offre",
                 onPressed: () {
-                  BlocProvider.of<CompanyGetOfferCubit>(context)
-                      .goToOfferEditPage(offer);
+                  showDialog<Offer>(
+                    context: context,
+                    builder: (context) {
+                      return EditOfferScreen(offer: offer);
+                    },
+                  ).then((value) {
+                    BlocProvider.of<CompanyGetOfferCubit>(context)
+                        .updateLocalOffer(value!);
+                  });
                 },
               ),
             ),

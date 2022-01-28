@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
+import 'package:poly_forum/cubit/company/wishlist/company_check_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_get_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_wishlist_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
@@ -27,20 +28,20 @@ class _AddCandidateState extends State<AddCandidate> {
   void initState() {
     super.initState();
     company = BlocProvider.of<CompanyGetUserCubit>(context).getUser();
-    BlocProvider.of<CompanyGetWishlistCubit>(context)
+    BlocProvider.of<CompanyCheckWishlistCubit>(context)
         .inOfferInWishlist(widget.candidate, company);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CompanyGetWishlistCubit, CompanyGetWishlistState>(
+    return BlocConsumer<CompanyCheckWishlistCubit, CompanyCheckWishlistState>(
       listener: (context, state) {
-        if (state is CompanyIsCandidateInWishlistLoaded) {
+        if (state is CompanyCheckWishlistLoaded) {
           isOnRemoveMode = state.isInWishlist;
         }
       },
       builder: (context, state) {
-        if (state is CompanyIsCandidateInWishlistLoaded) {
+        if (state is CompanyCheckWishlistLoaded) {
           return buildLoaded(isOnRemoveMode);
         }
 
@@ -77,10 +78,9 @@ class _AddCandidateState extends State<AddCandidate> {
               ),
             ),
           );
-
+          BlocProvider.of<CompanyGetWishlistCubit>(context)
+              .getWishlist(company);
           setState(() {
-            // BlocProvider.of<CandidateChoicesCubit>(context)
-            //     .offerChoicesListEvent(widget.candidate);
             isOnRemoveMode = !isOnRemoveMode;
           });
         }
