@@ -44,3 +44,5 @@ const kRedButton = Colors.red;
 
 const kWidthBuildWebVersion = 1100;
 var kIsWebVersion = false;
+
+double kTextSize = 20;

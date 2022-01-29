@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/utils/constants.dart';
 
 class BaseScreen extends StatelessWidget {
   final Widget child;
   final double width;
+  final EdgeInsets childPadding;
 
-  const BaseScreen({required this.child, this.width = 1200, Key? key})
+  const BaseScreen(
+      {required this.child,
+      this.childPadding =
+          const EdgeInsets.symmetric(vertical: 30, horizontal: 50),
+      this.width = 1200,
+      Key? key})
       : super(key: key);
 
   @override
@@ -34,8 +39,7 @@ class BaseScreen extends StatelessWidget {
                 child: SizedBox(
                   width: width,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 30, horizontal: 50),
+                    padding: childPadding,
                     child: child,
                   ),
                 ),
@@ -56,7 +60,7 @@ class BaseScreen extends StatelessWidget {
           child: SizedBox(
             width: double.infinity,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 50),
+              padding: childPadding,
               child: child,
             ),
           ),
