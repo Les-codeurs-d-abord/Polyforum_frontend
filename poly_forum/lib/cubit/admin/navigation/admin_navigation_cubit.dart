@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:poly_forum/utils/constants.dart';
 
 part 'admin_navigation_state.dart';
 
@@ -15,7 +16,7 @@ class AdminNavigationCubit extends Cubit<AdminNavigationState> {
 
   Future<void> refreshSelectedItem() async {
     emit(AdminNavigationInitial());
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
     emit(AdminNavigationLoaded(selectedIndex));
   }
 

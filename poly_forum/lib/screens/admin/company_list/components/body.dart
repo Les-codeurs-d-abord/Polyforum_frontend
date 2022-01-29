@@ -354,7 +354,11 @@ class _BodyState extends State<Body> {
                       );
                     },
                     barrierDismissible: false
-                );
+                ).then((deleteCount) {
+                  if (deleteCount > 0) {
+                    BlocProvider.of<DashboardCubit>(context).fetchDashboardData();
+                  }
+                });
               },
               editEvent: (company) {
                 showDialog(

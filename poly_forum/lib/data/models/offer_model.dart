@@ -11,7 +11,7 @@ class Offer {
   final int companyUserId;
   List<String> links;
   List<String> tags;
-  final DateTime createdAt;
+  int candidatesWishesCount;
 
   Offer({
     required this.id,
@@ -26,7 +26,7 @@ class Offer {
     required this.email,
     required this.links,
     required this.tags,
-    required this.createdAt,
+    required this.candidatesWishesCount,
   });
 
   factory Offer.fromJson(Map<String, dynamic> json) {
@@ -53,7 +53,7 @@ class Offer {
       email: json['email'] ?? '',
       links: links,
       tags: tags,
-      createdAt: DateTime.parse(json['createdAt']),
+      candidatesWishesCount: json['candidatesWishesCount'] ?? 0,
     );
   }
 

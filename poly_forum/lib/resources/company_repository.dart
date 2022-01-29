@@ -2,20 +2,17 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/data/models/company_detail_model.dart';
+import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/company_wish.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
-import 'package:poly_forum/data/models/planning_model.dart';
-import 'package:poly_forum/data/models/slot_model.dart';
-import 'package:poly_forum/data/models/wish_model.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:poly_forum/data/models/company_detail_model.dart';
-import 'package:poly_forum/data/models/company_model.dart';
 
 class CompanyRepository {
   Future<List<CandidateUser>> getCandidateList() async {
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
       final uri = Uri.http(
         kServer,
@@ -48,8 +45,7 @@ class CompanyRepository {
       'companyName': companyName,
     };
 
-    // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/companies/');
     final response =
@@ -71,7 +67,6 @@ class CompanyRepository {
       'email': email,
     };
 
-    // For flex purpose
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/users/${company.id}');
@@ -96,7 +91,7 @@ class CompanyRepository {
     });
 
     if (response.statusCode != 200) {
-      if (response.statusCode == 404) {
+      if (response.statusCode == 404 || response.statusCode == 409) {
         throw CompanyException(response.body);
       } else {
         throw const NetworkException("Le serveur a rencontré un problème");
@@ -125,8 +120,7 @@ class CompanyRepository {
   }
 
   Future<List<Company>> fetchCompanyList() async {
-    // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/companies');
     final response = await http.get(uri).onError((error, stackTrace) {

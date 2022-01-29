@@ -51,7 +51,7 @@ class TabNavigationItemList extends StatelessWidget {
         TabNavigationItem(
           index: 1,
           selectedIndex: selectedIndex,
-          text: "Mes offres",
+          text: "Les offres",
           iconSelected: Icons.local_offer,
           iconNonSelected: Icons.local_offer_outlined,
           onPressed: () {

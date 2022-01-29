@@ -209,10 +209,10 @@ class _BodyState extends State<Body> {
     companiesCount = state.companies.length;
     companyWishesCount = state.companies
         .map((company) => company.wishesCount)
-        .reduce((sum, wishesCount) => sum + wishesCount);
+        .fold(0, (sum, wishesCount) => sum + wishesCount);
     offersCount = state.companies
         .map((company) => company.offersCount)
-        .reduce((sum, offersCount) => sum + offersCount);
+        .fold(0, (sum, offersCount) => sum + offersCount);
     companiesWithNoOfferCount = state.companies
         .where((company) => company.offersCount == 0)
         .length;
@@ -220,7 +220,7 @@ class _BodyState extends State<Body> {
     candidatesCount = state.candidates.length;
     candidateWishesCount = state.candidates
         .map((candidates) => candidates.wishesCount)
-        .reduce((sum, wishesCount) => sum + wishesCount);
+        .fold(0, (sum, wishesCount) => sum + wishesCount);
     candidatesWithNoWishCount = state.candidates
         .where((candidate) => candidate.wishesCount == 0)
         .length;

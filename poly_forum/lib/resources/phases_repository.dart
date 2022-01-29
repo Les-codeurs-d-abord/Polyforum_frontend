@@ -24,8 +24,7 @@ class PhasesRepository {
   }
 
   Future<void> setWishPhase() async {
-    // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/phase/setWish');
     final response = await http.post(uri).onError((error, stackTrace) {
@@ -42,8 +41,7 @@ class PhasesRepository {
   }
 
   Future<void> setPlanningPhase() async {
-    // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/phase/setPlanning');
     final response = await http.post(uri).onError((error, stackTrace) {
@@ -64,8 +62,7 @@ class PhasesRepository {
       "surveyLink": surveyLink
     };
 
-    // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/users/sendSatisfactionSurvey');
     final response = await http.post(uri, body: body).onError((error, stackTrace) {

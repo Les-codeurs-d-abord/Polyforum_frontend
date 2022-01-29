@@ -21,10 +21,28 @@ class CompanyOffersListDialogLoaded extends CompanyOffersListDialogState {
   List<Object> get props => [offersList];
 }
 
+class CompanyOffersListDialogDelete extends CompanyOffersListDialogState {
+  final Offer deletedOffer;
+
+  const CompanyOffersListDialogDelete(this.deletedOffer);
+
+  @override
+  List<Object> get props => [deletedOffer];
+}
+
 class CompanyOffersListDialogError extends CompanyOffersListDialogState {
   final String errorMessage;
 
   const CompanyOffersListDialogError(this.errorMessage);
+
+  @override
+  List<Object> get props => [errorMessage];
+}
+
+class CompanyOffersListDialogSnackBarError extends CompanyOffersListDialogState {
+  final String errorMessage;
+
+  const CompanyOffersListDialogSnackBarError(this.errorMessage);
 
   @override
   List<Object> get props => [errorMessage];

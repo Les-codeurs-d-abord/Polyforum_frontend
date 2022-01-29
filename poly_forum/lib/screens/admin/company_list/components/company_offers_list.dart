@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/cubit/admin/company_list/company_offers_list_dialog_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
+import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
 import 'package:poly_forum/screens/shared/components/user/small_tag.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:intl/intl.dart';
 
 class CompanyOffersList extends StatefulWidget {
   final List<Offer> offersList;
@@ -16,6 +18,7 @@ class CompanyOffersList extends StatefulWidget {
 }
 
 class _CompanyOffersListState extends State<CompanyOffersList> {
+  late List <Offer> offersList = widget.offersList;
   late final Map<Offer, bool> offerExpanded = { for (var offer in widget.offersList) offer : false };
 
   @override
@@ -34,31 +37,31 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
               return Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.speaker_notes_outlined),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        offer.name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          // fontWeight: FontWeight.bold,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.speaker_notes_outlined),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Text(
+                          offer.name,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            // fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Text(
-                        "Créée le ${DateFormat("dd/MM/yyyy").format(offer.createdAt)}",
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontStyle: FontStyle.italic,
-                        )
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Text(
+                            "Nombre de candidats intéressés : ${offer.candidatesWishesCount}",
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontStyle: FontStyle.italic,
+                            )
+                        ),
                       ),
-                    ),
-                  ]
+                    ]
                 ),
               );
             },
@@ -236,7 +239,7 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 10),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -379,6 +382,48 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                           )
                         ]
                     ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    child: const Divider(
+                      thickness: 1,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      MaterialButton(
+                        padding: const EdgeInsets.all(15),
+                        color: kDarkBlue,
+                        disabledColor: kDisabledButtonColor,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        child: const Text(
+                          "Supprimer",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18
+                          ),
+                        ),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ConfirmationModal(
+                                title: "Suppression d'une offre",
+                                description: "Vous-êtes sur le point de supprimer l'offre ${offer.name}, en êtes-vous sûr ?",
+                              );
+                            },
+                          ).then((value) {
+                            if (value == ModalReturn.confirm) {
+                              BlocProvider.of<CompanyOffersListDialogCubit>(context).deleteOffer(offer);
+                            }
+                          });
+                        },
+                      ),
+                    ],
                   )
                 ],
               ),
