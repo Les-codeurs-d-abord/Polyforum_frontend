@@ -367,7 +367,7 @@ class _BodyState extends State<Body> {
                                               child: Padding(
                                                 padding: EdgeInsets.only(left: 5),
                                                 child: Text(
-                                                  "Aucune information ajoutée",
+                                                  "Jamais connecté",
                                                   style: TextStyle(
                                                     color: Colors.red,
                                                     fontSize: 15,

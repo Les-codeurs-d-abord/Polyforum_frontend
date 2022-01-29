@@ -5,6 +5,7 @@ import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart'
 import 'package:poly_forum/data/models/candidate_detail_model.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 import 'package:poly_forum/screens/shared/components/user/small_tag.dart';
+import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CandidateDetailDialog extends StatefulWidget {
@@ -220,7 +221,7 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
                                           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
                                         ),
                                         onPressed: () {
-                                          launch("http://localhost:8080/api/res/${candidateDetail?.cv}");
+                                          launch("http://$kServer/api/res/${candidateDetail?.cv}");
                                         },
                                       ) :
                                       const Text(

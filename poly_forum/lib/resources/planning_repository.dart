@@ -94,7 +94,7 @@ class PlanningRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 2000));
 
-    final uri = Uri.http('localhost:8080', '/api/planning/meeting');
+    final uri = Uri.http(kServer, '/api/planning/meeting');
     final response =
         await http.post(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
@@ -119,7 +119,7 @@ class PlanningRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 2000));
 
-    final uri = Uri.http('localhost:8080', '/api/planning/slot');
+    final uri = Uri.http(kServer, '/api/planning/slot');
     final response =
         await http.delete(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
@@ -167,7 +167,7 @@ class PlanningRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final uri = Uri.http('localhost:8080', '/api/companies');
+    final uri = Uri.http(kServer, '/api/companies');
     final response = await http.get(uri).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });

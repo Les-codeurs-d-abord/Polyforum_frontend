@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/utils/constants.dart';
 
 import 'initials_avatar.dart';
 
@@ -21,7 +22,7 @@ class ProfilePicture extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: uri.isNotEmpty == true ? 'http://localhost:8080/api/res/$uri' : '',
+      imageUrl: uri.isNotEmpty == true ? 'http://$kServer/api/res/$uri' : '',
       placeholder: (context, url) => Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

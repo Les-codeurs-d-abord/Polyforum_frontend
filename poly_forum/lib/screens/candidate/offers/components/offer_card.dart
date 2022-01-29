@@ -12,6 +12,7 @@ import 'package:poly_forum/screens/candidate/offers/components/add_wishlist_btn.
 import 'package:poly_forum/screens/company/Util/show_company_detail_dialog.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
+import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +30,7 @@ class OfferCard extends StatelessWidget {
         elevation: 20,
         child: InkWell(
           onTap: () {
-            launch("http://localhost:8080/api/res/${offer.offerFile}");
+            launch("http://$kServer/api/res/${offer.offerFile}");
           },
           child: Container(
             padding: const EdgeInsets.all(15),

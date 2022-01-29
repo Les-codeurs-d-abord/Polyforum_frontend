@@ -16,7 +16,7 @@ class CandidateRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
-    final uri = Uri.http('localhost:8080', '/api/candidates');
+    final uri = Uri.http(kServer, '/api/candidates');
     final response =
         await http.post(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
@@ -39,7 +39,7 @@ class CandidateRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
-    final uri = Uri.http('localhost:8080', '/api/users/${candidate.id}');
+    final uri = Uri.http(kServer, '/api/users/${candidate.id}');
     final response =
         await http.put(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
@@ -55,7 +55,7 @@ class CandidateRepository {
   }
 
   Future<void> deleteCandidate(CandidateUser candidate) async {
-    final uri = Uri.http('localhost:8080', '/api/candidates/${candidate.id}');
+    final uri = Uri.http(kServer, '/api/candidates/${candidate.id}');
     final response = await http.delete(uri).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
@@ -73,7 +73,7 @@ class CandidateRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
-    final uri = Uri.http('localhost:8080', '/api/candidates');
+    final uri = Uri.http(kServer, '/api/candidates');
     final response = await http.get(uri).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
@@ -98,7 +98,7 @@ class CandidateRepository {
   }
 
   Future<CandidateDetail> getCandidateDetail(int id) async {
-    final uri = Uri.http('localhost:8080', '/api/candidates/$id');
+    final uri = Uri.http(kServer, '/api/candidates/$id');
     final response = await http.get(uri).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
@@ -116,7 +116,7 @@ class CandidateRepository {
   }
 
   Future<void> sendReminder() async {
-    final uri = Uri.http('localhost:8080', '/api/users/sendRemindersCandidates');
+    final uri = Uri.http(kServer, '/api/users/sendRemindersCandidates');
     final response = await http.post(uri).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable, l'envoi des rappels n'a pas pu être effectué");
     });

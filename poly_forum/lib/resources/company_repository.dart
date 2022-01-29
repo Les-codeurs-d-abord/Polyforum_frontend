@@ -51,7 +51,7 @@ class CompanyRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final uri = Uri.http('localhost:8080', '/api/companies/');
+    final uri = Uri.http(kServer, '/api/companies/');
     final response =
         await http.post(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
@@ -74,7 +74,7 @@ class CompanyRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
-    final uri = Uri.http('localhost:8080', '/api/users/${company.id}');
+    final uri = Uri.http(kServer, '/api/users/${company.id}');
     final response =
         await http.put(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
@@ -90,7 +90,7 @@ class CompanyRepository {
   }
 
   Future<void> deleteCompany(Company company) async {
-    final uri = Uri.http('localhost:8080', '/api/companies/${company.id}');
+    final uri = Uri.http(kServer, '/api/companies/${company.id}');
     final response = await http.delete(uri).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
@@ -128,7 +128,7 @@ class CompanyRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 500));
 
-    final uri = Uri.http('localhost:8080', '/api/companies');
+    final uri = Uri.http(kServer, '/api/companies');
     final response = await http.get(uri).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
@@ -265,7 +265,7 @@ class CompanyRepository {
   }
 
   Future<void> sendReminder() async {
-    final uri = Uri.http('localhost:8080', '/api/users/sendRemindersCompanies');
+    final uri = Uri.http(kServer, '/api/users/sendRemindersCompanies');
     final response = await http.post(uri).onError((error, stackTrace) {
       throw const NetworkException(
           "Le serveur est injoignable, l'envoi des rappels n'a pas pu être effectué");

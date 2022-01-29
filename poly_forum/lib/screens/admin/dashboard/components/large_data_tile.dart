@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class LargeDataTile extends StatelessWidget {
   final List<int> values;
@@ -39,6 +40,9 @@ class LargeDataTile extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 2),
                 child: RichText(
                   text: TextSpan(
+                      style: const TextStyle(
+                        color: Colors.black,
+                      ),
                       children: [
                         TextSpan(
                           text: values[index].toString(),

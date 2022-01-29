@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:poly_forum/screens/shared/components/phase.dart';
+import 'package:poly_forum/utils/constants.dart';
 
 class PhasesRepository {
   Future<Phase> fetchCurrentPhase() async {
-    final uri = Uri.http('localhost:8080', '/api/phase');
+    final uri = Uri.http(kServer, '/api/phase');
     final response = await http.get(uri).onError((error, stackTrace) {
       throw const PhaseException("Le serveur est injoignable");
     });
@@ -26,7 +27,7 @@ class PhasesRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 100));
 
-    final uri = Uri.http('localhost:8080', '/api/phase/setWish');
+    final uri = Uri.http(kServer, '/api/phase/setWish');
     final response = await http.post(uri).onError((error, stackTrace) {
       throw const PhaseException("Le serveur est injoignable");
     });
@@ -44,7 +45,7 @@ class PhasesRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 100));
 
-    final uri = Uri.http('localhost:8080', '/api/phase/setPlanning');
+    final uri = Uri.http(kServer, '/api/phase/setPlanning');
     final response = await http.post(uri).onError((error, stackTrace) {
       throw const PhaseException("Le serveur est injoignable");
     });
@@ -66,7 +67,7 @@ class PhasesRepository {
     // For flex purpose
     await Future.delayed(const Duration(milliseconds: 100));
 
-    final uri = Uri.http('localhost:8080', '/api/users/sendSatisfactionSurvey');
+    final uri = Uri.http(kServer, '/api/users/sendSatisfactionSurvey');
     final response = await http.post(uri, body: body).onError((error, stackTrace) {
       throw const PhaseException("Le serveur est injoignable");
     });

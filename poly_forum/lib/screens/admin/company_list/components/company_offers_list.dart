@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/shared/components/user/small_tag.dart';
+import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
@@ -159,7 +160,7 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                                             shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
                                           ),
                                           onPressed: () {
-                                            launch("http://localhost:8080/api/res/${offer.offerFile}");
+                                            launch("http://$kServer/api/res/${offer.offerFile}");
                                           },
                                         ) :
                                         const Text(
