@@ -91,8 +91,7 @@ class PlanningRepository {
       "data": json,
     };
 
-    // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/planning/meeting');
     final response =
@@ -116,8 +115,7 @@ class PlanningRepository {
       "data": json,
     };
 
-    // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/planning/slot');
     final response =
@@ -164,8 +162,7 @@ class PlanningRepository {
   }
 
   Future<List<CompanyMinimal>> getCompanies() async {
-    // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/companies');
     final response = await http.get(uri).onError((error, stackTrace) {

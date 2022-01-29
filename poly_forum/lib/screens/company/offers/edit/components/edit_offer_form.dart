@@ -93,7 +93,7 @@ class _EditOfferFormState extends State<EditOfferForm> {
                   const SizedBox(width: 100),
                   CustomTextField(
                     text: "Adresse",
-                    icon: Icons.person_outline,
+                    icon: Icons.location_on_outlined,
                     controller: _addresController,
                     isLocked: false,
                   ),

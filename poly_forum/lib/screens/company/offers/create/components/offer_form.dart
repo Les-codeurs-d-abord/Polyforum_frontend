@@ -92,14 +92,14 @@ class _OfferFormState extends State<OfferForm> {
                 children: [
                   CustomTextField(
                     text: "Nom",
-                    icon: Icons.person_outline,
+                    icon: Icons.notes_outlined,
                     controller: _nameController,
                     isLocked: false,
                   ),
                   const SizedBox(width: 100),
                   CustomTextField(
-                    text: "Adress",
-                    icon: Icons.person_outline,
+                    text: "Adresse",
+                    icon: Icons.location_on_outlined,
                     controller: _addresController,
                     isLocked: false,
                   )
@@ -178,7 +178,7 @@ class _OfferFormState extends State<OfferForm> {
                               tags: tags,
                               id: 0,
                               offerFile: "",
-                              createdAt: DateTime(2022),
+                              candidatesWishesCount: 0,
                               companyUserId: companyUser.id,
                             );
 

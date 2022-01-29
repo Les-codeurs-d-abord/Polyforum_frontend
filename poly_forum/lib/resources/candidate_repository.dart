@@ -13,7 +13,6 @@ class CandidateRepository {
       String email, String lastName, String firstName) async {
     final body = {'email': email, 'lastName': lastName, 'firstName': firstName};
 
-    // For flex purpose
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/candidates');
@@ -36,7 +35,6 @@ class CandidateRepository {
       'email': email,
     };
 
-    // For flex purpose
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/users/${candidate.id}');
@@ -70,7 +68,6 @@ class CandidateRepository {
   }
 
   Future<List<CandidateUser>> fetchCandidateList() async {
-    // For flex purpose
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/candidates');

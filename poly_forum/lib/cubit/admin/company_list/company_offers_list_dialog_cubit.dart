@@ -26,4 +26,18 @@ class CompanyOffersListDialogCubit extends Cubit<CompanyOffersListDialogState> {
       emit(const CompanyOffersListDialogError("Une erreur inconnue est survenue"));
     }
   }
+
+  Future<void> deleteOffer(Offer offer) async {
+    try {
+      emit(CompanyOffersListDialogLoading());
+
+      await _companyRepository.deleteOffer(offer);
+
+      emit(CompanyOffersListDialogDelete(offer));
+    } on NetworkException catch (exception) {
+      emit(CompanyOffersListDialogSnackBarError(exception.message));
+    } on Exception catch (_) {
+      emit(const CompanyOffersListDialogSnackBarError("Une erreur inconnue est survenue"));
+    }
+  }
 }
