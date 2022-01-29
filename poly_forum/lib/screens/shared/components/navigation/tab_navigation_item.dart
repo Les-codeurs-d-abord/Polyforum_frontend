@@ -6,7 +6,7 @@ import 'package:poly_forum/utils/constants.dart';
 // ignore: must_be_immutable
 class TabNavigationItem extends StatefulWidget {
   final List<TabChildNavigationItem> children;
-  Function onPressed;
+  Function? onPressed;
   final int index;
   final int selectedIndex;
   final IconData iconSelected;
@@ -59,9 +59,12 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
               isHovering = false;
             }),
             child: GestureDetector(
-              onTap: () {
-                widget.onPressed();
-              },
+              onTap: widget.onPressed != null
+                  ? () {
+                      widget.onPressed!();
+                      if (!kIsWebVersion) Navigator.of(context).pop();
+                    }
+                  : null,
               child: Container(
                 height: 60,
                 decoration: isHovering | isSelected

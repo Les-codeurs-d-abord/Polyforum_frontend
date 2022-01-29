@@ -6,6 +6,8 @@ import 'package:poly_forum/resources/company_repository.dart';
 part 'company_offer_state.dart';
 
 class CompanyOfferCubit extends Cubit<CompanyOfferState> {
+  Offer? offerToUpdate;
+
   final CompanyRepository repository = CompanyRepository();
 
   CompanyOfferCubit() : super(CompanyOfferInitial());
@@ -44,5 +46,13 @@ class CompanyOfferCubit extends Cubit<CompanyOfferState> {
     } on NetworkException catch (exception) {
       emit(CompanyOfferError(exception.message));
     }
+  }
+
+  void setOfferToUpdate(Offer offer) {
+    offerToUpdate = offer;
+  }
+
+  Offer? getOfferToUpdate() {
+    return offerToUpdate;
   }
 }

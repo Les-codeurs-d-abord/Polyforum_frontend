@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
+import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
 import 'package:poly_forum/screens/admin/company_list/components/company_detail_dialog.dart';
@@ -148,15 +149,10 @@ class OfferCard extends StatelessWidget {
               child: RowBtn(
                 text: "Modifier cette offre",
                 onPressed: () {
-                  showDialog<Offer>(
-                    context: context,
-                    builder: (context) {
-                      return EditOfferScreen(offer: offer);
-                    },
-                  ).then((value) {
-                    BlocProvider.of<CompanyGetOfferCubit>(context)
-                        .updateLocalOffer(value!);
-                  });
+                  BlocProvider.of<CompanyOfferCubit>(context)
+                      .setOfferToUpdate(offer);
+                  BlocProvider.of<CompanyNavigationCubit>(context)
+                      .setSelectedItem(9);
                 },
               ),
             ),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 final RegExp emailValidatorRegExp = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
 // RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-final RegExp linkValidatorRegExp = RegExp(r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
+final RegExp linkValidatorRegExp = RegExp(
+    r"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
 
 const kScaffoldColor = Colors.white;
 const kTextColor = Colors.black;
@@ -40,3 +41,6 @@ EdgeInsetsGeometry kTopSnackBarPadding =
     const EdgeInsets.only(left: 300, right: 10);
 
 const kRedButton = Colors.red;
+
+const kWidthBuildWebVersion = 1100;
+var kIsWebVersion = false;

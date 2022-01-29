@@ -8,6 +8,7 @@ import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dar
 import 'package:poly_forum/screens/company/candidat/list/candidat_list.dart';
 import 'package:poly_forum/screens/company/company_navigation/components/tab_navigation_item_list.dart';
 import 'package:poly_forum/screens/company/offers/create/create_offer_screen.dart';
+import 'package:poly_forum/screens/company/offers/edit/edit_offer_screen.dart';
 import 'package:poly_forum/screens/company/offers/get/offers_screen.dart';
 import 'package:poly_forum/screens/company/planning/planning_screen.dart';
 import 'package:poly_forum/screens/company/profile/edit/company_profil_screen.dart';
@@ -95,6 +96,8 @@ class CompanyWebBody extends StatelessWidget {
                                     ),
                                     const CompanyProfileScreen(), //profil
                                     ChangePasswordScreen(),
+                                    if (selectedIndex == 9)
+                                      const EditOfferScreen(),
                                   ],
                                 ),
                               ),
@@ -185,6 +188,9 @@ class CompanyWebBody extends StatelessWidget {
         break;
       case 8:
         title = "Changer le mot de passe";
+        break;
+      case 9:
+        title = "Modifier une offre";
         break;
     }
 
@@ -351,7 +357,32 @@ class CompanyWebBody extends StatelessWidget {
           ),
         ];
         break;
+      case 9:
+        breadcrumbs = [
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<CompanyNavigationCubit>(context)
+                  .setSelectedItem(1);
+            },
+            child: const Text(
+              "Les offres",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<CompanyNavigationCubit>(context)
+                  .setSelectedItem(9);
+            },
+            child: const Text(
+              "Modifier une offre",
+              style: TextStyle(color: kSecondaryColor),
+            ),
+          ),
+        ];
+        break;
     }
+
     return breadcrumbs;
   }
 }

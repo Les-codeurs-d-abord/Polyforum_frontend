@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/utils/constants.dart';
@@ -50,6 +51,9 @@ class _EditOfferFormState extends State<EditOfferForm> {
     return BlocConsumer<CompanyOfferCubit, CompanyOfferState>(
       listener: (context, state) {
         if (state is CompanyOfferLoaded) {
+          BlocProvider.of<CompanyGetOfferCubit>(context)
+              .updateLocalOffer(widget.offer);
+
           showTopSnackBar(
             context,
             Padding(
@@ -59,8 +63,6 @@ class _EditOfferFormState extends State<EditOfferForm> {
               ),
             ),
           );
-
-          Navigator.of(context).pop(widget.offer);
         } else if (state is CompanyOfferError) {
           showTopSnackBar(
             context,

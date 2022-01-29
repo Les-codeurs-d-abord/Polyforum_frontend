@@ -4,7 +4,7 @@ import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TabChildNavigationItem extends StatelessWidget {
-  final Function onPressed;
+  final Function? onPressed;
   final int index;
   final int selectedIndex;
   final String text;
@@ -23,9 +23,12 @@ class TabChildNavigationItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextButton(
-        onPressed: () {
-          onPressed();
-        },
+        onPressed: onPressed != null
+            ? () {
+                onPressed!();
+                if (!kIsWebVersion) Navigator.of(context).pop();
+              }
+            : null,
         child: Row(
           children: [
             CircleAvatar(
@@ -36,11 +39,17 @@ class TabChildNavigationItem extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  fontSize: 18,
-                ),
+                style: onPressed != null
+                    ? TextStyle(
+                        color: Colors.white,
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.normal,
+                        fontSize: 18,
+                      )
+                    : const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 17,
+                      ),
               ),
             ),
           ],

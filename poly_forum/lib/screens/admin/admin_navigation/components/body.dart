@@ -13,6 +13,7 @@ import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/admin/admin_navigation/components/phone/admin_phone_body.dart';
 import 'package:poly_forum/screens/admin/admin_navigation/components/web/admin_web_body.dart';
+import 'package:poly_forum/utils/constants.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -85,9 +86,13 @@ class _BodyState extends State<Body> {
         ),
       ],
       child: LayoutBuilder(builder: (context, constraints) {
-        if (constraints.maxWidth > 1024) {
+        if (constraints.maxWidth > kWidthBuildWebVersion) {
+          kTopSnackBarPadding = const EdgeInsets.only(left: 300, right: 10);
+          kIsWebVersion = true;
           return const AdminWebBody();
         } else {
+          kTopSnackBarPadding = const EdgeInsets.only(left: 10, right: 10);
+          kIsWebVersion = false;
           return const AdminPhoneBody();
         }
       }),

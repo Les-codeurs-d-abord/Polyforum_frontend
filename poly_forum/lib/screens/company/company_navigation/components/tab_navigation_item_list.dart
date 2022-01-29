@@ -66,6 +66,17 @@ class TabNavigationItemList extends StatelessWidget {
                     .setSelectedItem(2);
               },
             ),
+            TabChildNavigationItem(
+              index: 9,
+              selectedIndex: selectedIndex,
+              text: "Modifier une offre",
+              onPressed: selectedIndex == 9
+                  ? () {
+                      BlocProvider.of<CompanyNavigationCubit>(context)
+                          .setSelectedItem(9);
+                    }
+                  : null,
+            ),
           ],
         ),
         const SizedBox(height: 20),

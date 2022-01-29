@@ -5,11 +5,13 @@ import 'package:poly_forum/cubit/company/candidat/company_candidat_list_cubit.da
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
+import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_get_wishlist_cubit.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/company/company_navigation/components/phone/company_phone_body.dart';
 import 'package:poly_forum/screens/company/company_navigation/components/web/company_web_body.dart';
+import 'package:poly_forum/utils/constants.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -75,11 +77,18 @@ class _BodyState extends State<Body> {
         BlocProvider(
           create: (context) => CompanyGetWishlistCubit(),
         ),
+        BlocProvider(
+          create: (context) => CompanyOfferCubit(),
+        ),
       ],
       child: LayoutBuilder(builder: (context, constraints) {
-        if (constraints.maxWidth > 1024) {
+        if (constraints.maxWidth > kWidthBuildWebVersion) {
+          kTopSnackBarPadding = const EdgeInsets.only(left: 300, right: 10);
+          kIsWebVersion = true;
           return const CompanyWebBody();
         } else {
+          kTopSnackBarPadding = const EdgeInsets.only(left: 10, right: 10);
+          kIsWebVersion = false;
           return const CompanyPhoneBody();
         }
       }),
