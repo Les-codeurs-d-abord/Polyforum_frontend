@@ -133,7 +133,7 @@ class _OfferFormState extends State<OfferForm> {
           //   ],
           // ),
           const SizedBox(height: 15),
-          const CustomDropZone(),
+          CustomDropZone(user: widget.user),
           const SizedBox(height: 15),
           // HTMLDescription(descriptionController: _descriptionController),
           SizedBox(

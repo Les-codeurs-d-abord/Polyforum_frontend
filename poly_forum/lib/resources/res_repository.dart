@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:http_parser/http_parser.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:mime/mime.dart';
@@ -7,6 +10,39 @@ import 'package:poly_forum/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class ResRepository {
+  Future<String> uploadCVCandidate(
+      Uint8List file, String fileName, CandidateUser candidate) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: kDelayQuery));
+
+      final uri =
+          Uri.http(kServer, '/api/candidates/${candidate.id}/uploadCV2');
+      var request = http.MultipartRequest('POST', uri);
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'image',
+          file,
+          filename: fileName,
+          contentType: MediaType.parse(lookupMimeType(fileName)!),
+        ),
+      );
+
+      var streamedResponse = await request.send();
+
+      if (streamedResponse.statusCode == 200) {
+        return await streamedResponse.stream.bytesToString();
+      } else if (streamedResponse.statusCode == 400) {
+        throw const FileToBigException(
+            "Le fichier envoyé est trop volumineux.");
+      } else {
+        throw NetworkException(
+            "Une erreur est survenue, status code: ${streamedResponse.statusCode}");
+      }
+    } on Exception catch (e) {
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
   Future<String> uploadCampanyLogo(
       PlatformFile file, CompanyUser company) async {
     return await uploadLogo(file, '/api/companies/${company.id}/uploadLogo');

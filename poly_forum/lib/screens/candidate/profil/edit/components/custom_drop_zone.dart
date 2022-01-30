@@ -2,7 +2,12 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
+import 'package:poly_forum/cubit/image_cubit.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/data/models/user_model.dart';
+import 'package:poly_forum/resources/res_repository.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FileDataModel {
   final String name;
@@ -29,7 +34,8 @@ class FileDataModel {
 }
 
 class CustomDropZone extends StatefulWidget {
-  const CustomDropZone({Key? key}) : super(key: key);
+  final User user;
+  const CustomDropZone({required this.user, Key? key}) : super(key: key);
 
   @override
   State<CustomDropZone> createState() => _CustomDropZoneState();
@@ -47,6 +53,12 @@ class _CustomDropZoneState extends State<CustomDropZone> {
     final bytes = await controller.getFileSize(event);
     final url = await controller.createFileUrl(event);
 
+    ResRepository res = ResRepository();
+    if (widget.user is CandidateUser) {
+      print(name);
+      await res.uploadCVCandidate(fileData, name, widget.user as CandidateUser);
+    }
+
     setState(() {
       fileDataModel = FileDataModel(
         name: name,
@@ -59,33 +71,15 @@ class _CustomDropZoneState extends State<CustomDropZone> {
     });
   }
 
-  Widget buildRichText(String s1, String s2) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        RichText(
-          text: TextSpan(
-            style: const TextStyle(
-              fontSize: 14.0,
-              color: Colors.black,
-            ),
-            children: <TextSpan>[
-              TextSpan(
-                text: s1,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              TextSpan(text: s2),
-            ],
-          ),
-        ),
-      ],
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ImageCubit(),
+      child: buildElement(context),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget buildElement(BuildContext context) {
     return SizedBox(
       width: 500,
       child: Column(
@@ -208,6 +202,31 @@ class _CustomDropZoneState extends State<CustomDropZone> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildRichText(String s1, String s2) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        RichText(
+          text: TextSpan(
+            style: const TextStyle(
+              fontSize: 14.0,
+              color: Colors.black,
+            ),
+            children: <TextSpan>[
+              TextSpan(
+                text: s1,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextSpan(text: s2),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
