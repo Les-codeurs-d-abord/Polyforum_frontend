@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
+import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/form/link_form_field.dart';
 import 'package:poly_forum/utils/constants.dart';
 
@@ -32,7 +32,7 @@ class _SurveyLinkDialogState extends State<SurveyLinkDialog> {
               child: InkResponse(
                 radius: 20,
                 onTap: () {
-                  Navigator.of(context).pop(FormReturn.cancel);
+                  Navigator.of(context).pop(ModalReturn.cancel);
                 },
                 child: const Icon(Icons.close, color: Colors.grey),
               ),
@@ -72,7 +72,7 @@ class _SurveyLinkDialogState extends State<SurveyLinkDialog> {
                 ),
               ),
               onPressed: () {
-                Navigator.of(context).pop(FormReturn.cancel);
+                Navigator.of(context).pop(ModalReturn.cancel);
               },
             )
         ),
@@ -94,7 +94,7 @@ class _SurveyLinkDialogState extends State<SurveyLinkDialog> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  Navigator.of(context).pop(FormReturn.confirm);
+                  Navigator.of(context).pop(ModalReturn.confirm);
                 }
               },
             )

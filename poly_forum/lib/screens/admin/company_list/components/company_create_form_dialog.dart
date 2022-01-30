@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/screens/shared/components/form/company_name_form_field.dart';
 import 'package:poly_forum/screens/shared/components/form/email_form_field.dart';
-import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
+import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class CompanyCreateFormDialog extends StatefulWidget {
@@ -23,7 +23,7 @@ class _CompanyCreateFormDialogState extends State<CompanyCreateFormDialog> {
     return BlocConsumer<CompanyFormCubit, CompanyFormState>(
         listener: (context, state) {
           if (state is CompanyFormLoaded) {
-            Navigator.of(context).pop(FormReturn.confirm);
+            Navigator.of(context).pop(ModalReturn.confirm);
           }
         },
         builder: (context, state) {
@@ -53,7 +53,7 @@ class _CompanyCreateFormDialogState extends State<CompanyCreateFormDialog> {
               child: InkResponse(
                 radius: 20,
                 onTap: () {
-                  isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
+                  isLoading ? null : Navigator.of(context).pop(ModalReturn.cancel);
                 },
                 child: const Icon(Icons.close, color: Colors.grey),
               ),
@@ -106,7 +106,7 @@ class _CompanyCreateFormDialogState extends State<CompanyCreateFormDialog> {
                 ),
               ),
               onPressed: () {
-                isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
+                isLoading ? null : Navigator.of(context).pop(ModalReturn.cancel);
               },
             )
         ),

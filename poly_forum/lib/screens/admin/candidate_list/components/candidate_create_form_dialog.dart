@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
 import 'package:poly_forum/screens/shared/components/form/email_form_field.dart';
 import 'package:poly_forum/screens/shared/components/form/firstname_form_field.dart';
-import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
+import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/form/lastname_form_field.dart';
 import 'package:poly_forum/utils/constants.dart';
 
@@ -25,7 +25,7 @@ class _CandidateCreateFormDialogState extends State<CandidateCreateFormDialog> {
     return BlocConsumer<CandidateFormCubit, CandidateFormState>(
         listener: (context, state) {
           if (state is CandidateFormLoaded) {
-            Navigator.of(context).pop(FormReturn.confirm);
+            Navigator.of(context).pop(ModalReturn.confirm);
           }
         },
         builder: (context, state) {
@@ -55,7 +55,7 @@ class _CandidateCreateFormDialogState extends State<CandidateCreateFormDialog> {
               child: InkResponse(
                 radius: 20,
                 onTap: () {
-                  isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
+                  isLoading ? null : Navigator.of(context).pop(ModalReturn.cancel);
                 },
                 child: const Icon(Icons.close, color: Colors.grey),
               ),
@@ -121,7 +121,7 @@ class _CandidateCreateFormDialogState extends State<CandidateCreateFormDialog> {
                 ),
               ),
               onPressed: () {
-                isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
+                isLoading ? null : Navigator.of(context).pop(ModalReturn.cancel);
               },
             )
         ),

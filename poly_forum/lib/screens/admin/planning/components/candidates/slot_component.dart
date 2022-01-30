@@ -4,6 +4,7 @@ import 'package:poly_forum/cubit/admin/planning/candidates/admin_fill_slot_modal
 import 'package:poly_forum/cubit/admin/planning/candidates/admin_planning_candidates_screen_cubit.dart';
 import 'package:poly_forum/data/models/slot_model.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
+import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 
 import 'fill_slot_modal.dart';

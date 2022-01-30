@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/utils/constants.dart';
 
+import 'modal_return_enum.dart';
+
 class ConfirmationModal extends StatefulWidget {
   final String title;
   final String description;
@@ -76,5 +78,3 @@ class _ConfirmationModalState extends State<ConfirmationModal> {
     );
   }
 }
-
-enum ModalReturn { confirm, cancel }

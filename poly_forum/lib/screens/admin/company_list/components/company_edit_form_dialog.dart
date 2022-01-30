@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/screens/shared/components/form/email_form_field.dart';
-import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
+import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class CompanyEditFormDialog extends StatefulWidget {
@@ -25,7 +25,7 @@ class _CompanyEditFormDialogState extends State<CompanyEditFormDialog> {
     return BlocConsumer<CompanyFormCubit, CompanyFormState>(
         listener: (context, state) {
           if (state is CompanyFormLoaded) {
-            Navigator.of(context).pop(FormReturn.confirm);
+            Navigator.of(context).pop(ModalReturn.confirm);
           }
         },
         builder: (context, state) {
@@ -55,7 +55,7 @@ class _CompanyEditFormDialogState extends State<CompanyEditFormDialog> {
               child: InkResponse(
                 radius: 20,
                 onTap: () {
-                  isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
+                  isLoading ? null : Navigator.of(context).pop(ModalReturn.cancel);
                 },
                 child: const Icon(Icons.close, color: Colors.grey),
               ),
@@ -104,7 +104,7 @@ class _CompanyEditFormDialogState extends State<CompanyEditFormDialog> {
                 ),
               ),
               onPressed: () {
-                isLoading ? null : Navigator.of(context).pop(FormReturn.cancel);
+                isLoading ? null : Navigator.of(context).pop(ModalReturn.cancel);
               },
             )
         ),

@@ -5,6 +5,7 @@ import 'package:poly_forum/cubit/admin/planning/companies/admin_planning_compani
 import 'package:poly_forum/data/models/slot_model.dart';
 import 'package:poly_forum/screens/admin/planning/components/companies/fill_slot_modal.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
+import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 
 class SlotPlanning extends StatelessWidget {
