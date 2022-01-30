@@ -133,7 +133,6 @@ class CompanyRepository {
 
       final uri = Uri.http(kServer, '/api/companies/${company.id}/uploadLogo');
 
-      print(file.size);
       var request = http.MultipartRequest('POST', uri);
 
       request.files.add(
@@ -148,9 +147,7 @@ class CompanyRepository {
       var response = await request.send();
 
       if (response.statusCode == 200) {
-        String path = await response.stream.bytesToString();
-        // print(path);
-        return path;
+        return await response.stream.bytesToString();
       } else {
         throw NetworkException(
             "Une erreur est survenue, status code: ${response.statusCode}");

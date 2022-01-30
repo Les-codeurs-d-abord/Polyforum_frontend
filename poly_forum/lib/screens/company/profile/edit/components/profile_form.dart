@@ -83,12 +83,9 @@ class _ProfileFormState extends State<ProfileForm> {
           key: _formKey,
           child: Column(
             children: [
-              BlocProvider(
-                create: (context) => ImageCubit(),
-                child: EditableAvatar(
-                  user.companyName,
-                  company: user,
-                ),
+              EditableAvatar(
+                user.companyName,
+                company: user,
               ),
               const SizedBox(height: 30),
               Row(

@@ -67,6 +67,7 @@ class AdminPhoneBody extends StatelessWidget {
           ),
           NavBarProfilBtn(
             text: user.email,
+            uri: "",
             textTypeUser: "Amin",
             onProfileSelected: () {
               BlocProvider.of<CompanyNavigationCubit>(context)

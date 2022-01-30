@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:poly_forum/cubit/company/company_profile_cubit.dart';
 import 'package:poly_forum/cubit/image_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
+import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
+import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:html' as html;
@@ -79,24 +82,16 @@ class _EditableAvatarState extends State<EditableAvatar> {
                     }
                   },
                   builder: (context, state) {
-                    if (state is ImageLoading) {
-                      return const CircleAvatar(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state is ImageLoaded) {
-                      return CircleAvatar(
-                        backgroundImage: NetworkImage(state.pathLogo),
+                    if (state is ImageLoaded) {
+                      return ProfilePicture(
+                        uri: state.pathLogo,
+                        name: widget.company.companyName,
                       );
                     }
-                    return CircleAvatar(
-                      child: Text(
-                        widget.initials,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                          color: Colors.white,
-                        ),
-                      ),
+
+                    return ProfilePicture(
+                      uri: widget.company.logo,
+                      name: widget.company.companyName,
                     );
                   },
                 ),

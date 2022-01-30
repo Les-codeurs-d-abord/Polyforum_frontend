@@ -36,11 +36,13 @@ class CandidateSelectedCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  ProfilePicture(
-                    uri: "",
-                    defaultText: candidate.firstName + " " + candidate.lastName,
-                    height: 50,
+                  SizedBox(
                     width: 50,
+                    height: 50,
+                    child: ProfilePicture(
+                      uri: "",
+                      name: candidate.firstName + " " + candidate.lastName,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Text(candidate.firstName + " " + candidate.lastName),

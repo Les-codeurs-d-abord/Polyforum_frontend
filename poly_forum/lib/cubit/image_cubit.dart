@@ -16,10 +16,7 @@ class ImageCubit extends Cubit<ImageState> {
     try {
       emit(ImageLoading());
 
-      String result = await companyRepository.uploadLogo(file, company);
-
-      String pathLogo = kServer + "/api/res/" + result;
-      print(pathLogo);
+      String pathLogo = await companyRepository.uploadLogo(file, company);
 
       emit(ImageLoaded(pathLogo));
     } on NetworkException catch (exception) {

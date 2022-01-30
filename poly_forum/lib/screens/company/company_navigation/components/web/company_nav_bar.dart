@@ -62,6 +62,7 @@ class CompanyNavBar extends StatelessWidget {
               ),
               NavBarProfilBtn(
                 text: user.companyName,
+                uri: user.logo,
                 textTypeUser: "Entreprise",
                 onProfileSelected: () {
                   BlocProvider.of<CompanyNavigationCubit>(context)

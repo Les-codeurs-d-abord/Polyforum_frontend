@@ -6,6 +6,7 @@ import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
 import 'package:poly_forum/screens/company/candidat/list/candidat_list.dart';
 import 'package:poly_forum/screens/company/offers/create/create_offer_screen.dart';
+import 'package:poly_forum/screens/company/offers/edit/edit_offer_screen.dart';
 import 'package:poly_forum/screens/company/offers/get/offers_screen.dart';
 import 'package:poly_forum/screens/company/profile/edit/company_profil_screen.dart';
 import 'package:poly_forum/screens/company/wishlist/wishlist_screen.dart';
@@ -70,6 +71,7 @@ class CompanyPhoneBody extends StatelessWidget {
           ),
           NavBarProfilBtn(
             text: user.companyName,
+            uri: user.logo,
             textTypeUser: "Entreprise",
             onProfileSelected: () {
               BlocProvider.of<CompanyNavigationCubit>(context)
@@ -102,6 +104,7 @@ class CompanyPhoneBody extends StatelessWidget {
                 ),
                 const CompanyProfileScreen(), //profil
                 ChangePasswordScreen(),
+                if (selectedIndex == 9) const EditOfferScreen(),
               ],
             ),
           ),

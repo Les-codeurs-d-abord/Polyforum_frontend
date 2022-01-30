@@ -1,50 +1,78 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'initials_avatar.dart';
+import 'package:poly_forum/cubit/image_cubit.dart';
+import 'package:poly_forum/utils/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePicture extends StatelessWidget {
   final String uri;
-  final String defaultText;
-  final double width;
-  final double height;
+  final String name;
 
   const ProfilePicture({
     Key? key,
     required this.uri,
-    required this.defaultText,
-    this.width = 50,
-    this.height = 50,
+    required this.name,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: uri.isNotEmpty == true ? 'http://localhost:8080/api/res/$uri' : '',
-      placeholder: (context, url) => Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: width * 0.5,
-              height: height * 0.5,
-              child: const CircularProgressIndicator(),
-            )
-          ]
-      ),
-      errorWidget: (context, url, error) => InitialsAvatar(defaultText),
-      width: width,
-      height: height,
-      imageBuilder: (context, imageProvider) => Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
-          ),
-        ),
-      ),
+    return BlocConsumer<ImageCubit, ImageState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is ImageLoading) {
+          return const CircularProgressIndicator();
+        } else if (state is ImageLoaded) {
+          // print("http://" + kServer + "/api/res/" + state.pathLogo);
+          return CircleAvatar(
+            backgroundColor: Colors.transparent,
+            backgroundImage: NetworkImage(
+                "http://" + kServer + "/api/res/" + state.pathLogo),
+          );
+        }
+
+        if (uri.isEmpty) {
+          return CircleAvatar(
+            child: Text(
+              name,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: Colors.white,
+              ),
+            ),
+          );
+        } else {
+          return CircleAvatar(
+            backgroundColor: Colors.transparent,
+            backgroundImage:
+                NetworkImage("http://" + kServer + "/api/res/" + uri),
+          );
+        }
+      },
     );
+    // return CachedNetworkImage(
+    //   imageUrl: uri.isNotEmpty ? 'http://$kServer/api/res/$uri' : '',
+    //   placeholder: (context, url) => Row(
+    //       mainAxisAlignment: MainAxisAlignment.center,
+    //       crossAxisAlignment: CrossAxisAlignment.center,
+    //       children: [
+    //         SizedBox(
+    //           width: width * 0.5,
+    //           height: height * 0.5,
+    //           child: const CircularProgressIndicator(),
+    //         )
+    //       ]),
+    //   errorWidget: (context, url, error) => InitialsAvatar(defaultText),
+    //   width: width,
+    //   height: height,
+    //   imageBuilder: (context, imageProvider) => Container(
+    //     decoration: BoxDecoration(
+    //       shape: BoxShape.circle,
+    //       image: DecorationImage(
+    //         image: imageProvider,
+    //         fit: BoxFit.cover,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
