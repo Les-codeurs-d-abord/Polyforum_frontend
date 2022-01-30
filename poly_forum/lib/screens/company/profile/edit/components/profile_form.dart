@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/company/company_profile_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
-import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
-import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
+import 'package:poly_forum/cubit/image_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
-import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
+import 'package:poly_forum/screens/shared/components/profile/editable_avatar.dart';
 import 'package:poly_forum/screens/shared/components/profile/profile_links.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,6 +83,14 @@ class _ProfileFormState extends State<ProfileForm> {
           key: _formKey,
           child: Column(
             children: [
+              BlocProvider(
+                create: (context) => ImageCubit(),
+                child: EditableAvatar(
+                  user.companyName,
+                  company: user,
+                ),
+              ),
+              const SizedBox(height: 30),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [

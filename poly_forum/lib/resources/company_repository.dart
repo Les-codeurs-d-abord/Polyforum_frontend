@@ -11,6 +11,9 @@ import 'package:poly_forum/data/models/wish_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:poly_forum/data/models/company_detail_model.dart';
 import 'package:poly_forum/data/models/company_model.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:mime/mime.dart';
 
 class CompanyRepository {
   Future<List<CandidateUser>> getCandidateList() async {
@@ -124,9 +127,43 @@ class CompanyRepository {
     }
   }
 
+  Future<String> uploadLogo(PlatformFile file, CompanyUser company) async {
+    try {
+      await Future.delayed(const Duration(milliseconds: kDelayQuery));
+
+      final uri = Uri.http(kServer, '/api/companies/${company.id}/uploadLogo');
+
+      print(file.size);
+      var request = http.MultipartRequest('POST', uri);
+
+      request.files.add(
+        http.MultipartFile(
+          'logo',
+          file.readStream!.cast(),
+          file.size,
+          filename: file.name,
+          contentType: MediaType.parse(lookupMimeType(file.name)!),
+        ),
+      );
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        String path = await response.stream.bytesToString();
+        // print(path);
+        return path;
+      } else {
+        throw NetworkException(
+            "Une erreur est survenue, status code: ${response.statusCode}");
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    }
+  }
+
   Future<List<Company>> fetchCompanyList() async {
     // For flex purpose
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http('localhost:8080', '/api/companies');
     final response = await http.get(uri).onError((error, stackTrace) {

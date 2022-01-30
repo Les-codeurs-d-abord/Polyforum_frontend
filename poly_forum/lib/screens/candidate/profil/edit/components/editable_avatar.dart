@@ -119,47 +119,47 @@ class _EditableAvatarState extends State<EditableAvatar> {
     );
   }
 
-  startWebFilePicker() async {
-    html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-    uploadInput.multiple = false;
-    uploadInput.draggable = true;
-    uploadInput.click();
+  // startWebFilePicker() async {
+  //   html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+  //   uploadInput.multiple = false;
+  //   uploadInput.draggable = true;
+  //   uploadInput.click();
 
-    uploadInput.onChange.listen((e) {
-      final files = uploadInput.files;
-      final file = files![0];
-      final reader = new html.FileReader();
+  //   uploadInput.onChange.listen((e) {
+  //     final files = uploadInput.files;
+  //     final file = files![0];
+  //     final reader = new html.FileReader();
 
-      reader.onLoadEnd.listen((e) {
-        _handleResult(reader.result!);
-      });
-      reader.readAsDataUrl(file);
-    });
-  }
+  //     reader.onLoadEnd.listen((e) {
+  //       _handleResult(reader.result!);
+  //     });
+  //     reader.readAsDataUrl(file);
+  //   });
+  // }
 
-  void _handleResult(Object result) {
-    /* setState(() { */
-    _bytesData = Base64Decoder().convert(result.toString().split(",").last);
-    _selectedFile = _bytesData!;
-    /*  }); */
+  // void _handleResult(Object result) {
+  //   /* setState(() { */
+  //   _bytesData = Base64Decoder().convert(result.toString().split(",").last);
+  //   _selectedFile = _bytesData!;
+  //   /*  }); */
 
-    /*  print(_bytesData); */
-    print(_selectedFile);
+  //   /*  print(_bytesData); */
+  //   print(_selectedFile);
 
-    upload(_selectedFile);
-  }
+  //   upload(_selectedFile);
+  // }
 
-  void upload(List<int> file) async {
-    var url = Uri.parse("$kServer/api/candidates/1/uploadLogo");
-    var request = new http.MultipartRequest("POST", url);
-    request.files.add(http.MultipartFile.fromBytes('file', file,
-        contentType: MediaType('application', 'octet-stream'),
-        filename: "file_up"));
+  // void upload(List<int> file) async {
+  //   var url = Uri.parse("$kServer/api/candidates/1/uploadLogo");
+  //   var request = new http.MultipartRequest("POST", url);
+  //   request.files.add(http.MultipartFile.fromBytes('file', file,
+  //       contentType: MediaType('application', 'octet-stream'),
+  //       filename: "file_up"));
 
-    request.send().then((response) {
-      print("test");
-      print(response.statusCode);
-      if (response.statusCode == 200) print("Uploaded!");
-    });
-  }
+  //   request.send().then((response) {
+  //     print("test");
+  //     print(response.statusCode);
+  //     if (response.statusCode == 200) print("Uploaded!");
+  //   });
+  // }
 }
