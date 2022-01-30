@@ -80,7 +80,8 @@ class NavBarProfilBtn extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     width: 60,
-                    child: ProfilePicture(uri: uri, name: text),
+                    child: ProfilePicture(
+                        uri: uri, name: text, withListenerEventOnChange: true),
                   ),
                 ),
               ],

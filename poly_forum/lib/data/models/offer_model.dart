@@ -12,6 +12,7 @@ class Offer {
   List<String> links;
   List<String> tags;
   final DateTime createdAt;
+  final String logoUri;
 
   Offer({
     required this.id,
@@ -27,6 +28,7 @@ class Offer {
     required this.links,
     required this.tags,
     required this.createdAt,
+    required this.logoUri,
   });
 
   factory Offer.fromJson(Map<String, dynamic> json) {
@@ -53,6 +55,7 @@ class Offer {
       email: json['email'] ?? '',
       links: links,
       tags: tags,
+      logoUri: json['company_profile']?['logo'] ?? '',
       createdAt: DateTime.parse(json['createdAt']),
     );
   }

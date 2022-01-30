@@ -5,15 +5,9 @@ import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/company_wish.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
-import 'package:poly_forum/data/models/planning_model.dart';
-import 'package:poly_forum/data/models/slot_model.dart';
-import 'package:poly_forum/data/models/wish_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:poly_forum/data/models/company_detail_model.dart';
 import 'package:poly_forum/data/models/company_model.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:mime/mime.dart';
 
 class CompanyRepository {
   Future<List<CandidateUser>> getCandidateList() async {
@@ -123,37 +117,6 @@ class CompanyRepository {
         throw const NetworkException("Une erreur est survenue.");
       }
     } on Exception catch (e) {
-      throw NetworkException("Une erreur est survenue: ${e.toString()}");
-    }
-  }
-
-  Future<String> uploadLogo(PlatformFile file, CompanyUser company) async {
-    try {
-      await Future.delayed(const Duration(milliseconds: kDelayQuery));
-
-      final uri = Uri.http(kServer, '/api/companies/${company.id}/uploadLogo');
-
-      var request = http.MultipartRequest('POST', uri);
-
-      request.files.add(
-        http.MultipartFile(
-          'logo',
-          file.readStream!.cast(),
-          file.size,
-          filename: file.name,
-          contentType: MediaType.parse(lookupMimeType(file.name)!),
-        ),
-      );
-      var response = await request.send();
-
-      if (response.statusCode == 200) {
-        return await response.stream.bytesToString();
-      } else {
-        throw NetworkException(
-            "Une erreur est survenue, status code: ${response.statusCode}");
-      }
-    } on Exception catch (e) {
-      print(e.toString());
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
   }

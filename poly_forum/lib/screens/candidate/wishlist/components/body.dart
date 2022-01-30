@@ -8,6 +8,7 @@ import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
+import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -123,9 +124,14 @@ class _BodyState extends State<Body> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            InitialsAvatar(localwishlist[i]
-                                                .offer
-                                                .companyName),
+                                            ProfilePicture(
+                                              uri: localwishlist[i]
+                                                  .offer
+                                                  .logoUri,
+                                              name: localwishlist[i]
+                                                  .offer
+                                                  .companyName,
+                                            ),
                                             const SizedBox(width: 10),
                                             Column(
                                               crossAxisAlignment:

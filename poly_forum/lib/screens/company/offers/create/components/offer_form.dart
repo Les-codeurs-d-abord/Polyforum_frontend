@@ -178,6 +178,7 @@ class _OfferFormState extends State<OfferForm> {
                               tags: tags,
                               id: 0,
                               offerFile: "",
+                              logoUri: companyUser.logo,
                               createdAt: DateTime(2022),
                               companyUserId: companyUser.id,
                             );

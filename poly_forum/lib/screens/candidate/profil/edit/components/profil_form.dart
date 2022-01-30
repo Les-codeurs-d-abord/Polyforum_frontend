@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/screens/candidate/profil/edit/components/profile_links.dart';
-import 'package:poly_forum/screens/candidate/profil/edit/components/profile_tags.dart';
+// import 'package:poly_forum/screens/candidate/profil/edit/components/profile_links.dart';
+// import 'package:poly_forum/screens/candidate/profil/edit/components/profile_tags.dart';
 import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
+import 'package:poly_forum/screens/shared/components/profile/editable_avatar.dart';
+import 'package:poly_forum/screens/shared/components/profile/profile_links.dart';
+import 'package:poly_forum/screens/shared/components/profile/profile_tags.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'custom_drop_zone.dart';
-import 'editable_avatar.dart';
+
+// import 'custom_drop_zone.dart';
+// import 'editable_avatar.dart';
 
 // ignore: must_be_immutable
 class OfferForm extends StatefulWidget {
@@ -58,7 +63,11 @@ class _OfferFormState extends State<OfferForm> {
       key: _formKey,
       child: Column(
         children: [
-          EditableAvatar(widget.user.firstName + " " + widget.user.lastName),
+          EditableAvatar(
+            name: widget.user.firstName + " " + widget.user.lastName,
+            uri: widget.user.logo,
+            user: widget.user,
+          ),
           const SizedBox(height: 15),
           Row(
             mainAxisSize: MainAxisSize.max,
@@ -168,22 +177,21 @@ class _OfferFormState extends State<OfferForm> {
                         //     await _descriptionController.getText();
 
                         CandidateUser updatedUser = CandidateUser(
-                          firstName: _firstNameController.text,
-                          lastName: _lastNameController.text,
-                          phoneNumber: _phoneNumberController.text,
-                          address: _addresController.text,
-                          description: _descriptionController.text,
-                          id: widget.user.id,
-                          candidateId: widget.user.candidateId,
-                          email: _emailController.text,
-                          role: widget.user.role,
-                          links: links,
-                          tags: tags,
-                          logo: widget.user.logo,
-                          status: widget.user.status,
-                          wishesCount: widget.user.wishesCount,
-                          cv: widget.user.cv
-                        );
+                            firstName: _firstNameController.text,
+                            lastName: _lastNameController.text,
+                            phoneNumber: _phoneNumberController.text,
+                            address: _addresController.text,
+                            description: _descriptionController.text,
+                            id: widget.user.id,
+                            candidateId: widget.user.candidateId,
+                            email: _emailController.text,
+                            role: widget.user.role,
+                            links: links,
+                            tags: tags,
+                            logo: widget.user.logo,
+                            status: widget.user.status,
+                            wishesCount: widget.user.wishesCount,
+                            cv: widget.user.cv);
 
                         BlocProvider.of<UpdateCandidateCubit>(context)
                             .updateUserEvent(updatedUser);

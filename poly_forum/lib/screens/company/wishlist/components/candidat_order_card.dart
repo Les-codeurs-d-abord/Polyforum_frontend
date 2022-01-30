@@ -45,7 +45,8 @@ class CandidatOrderCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          ProfilePicture(uri: "", name: candidate.firstName),
+                          ProfilePicture(
+                              uri: candidate.logo, name: candidate.firstName),
                           const SizedBox(width: 10),
                           Text(
                             candidate.firstName + " " + candidate.lastName,

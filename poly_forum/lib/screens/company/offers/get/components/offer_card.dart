@@ -11,6 +11,7 @@ import 'package:poly_forum/screens/company/offers/edit/edit_offer_screen.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
+import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -82,15 +83,14 @@ class OfferCard extends StatelessWidget {
           },
           child: Row(
             children: [
-              CachedNetworkImage(
-                imageUrl: "",
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-                errorWidget: (context, url, error) {
-                  return InitialsAvatar(offer.companyName);
-                },
+              SizedBox(
                 width: 50,
                 height: 50,
+                child: ProfilePicture(
+                  uri: offer.logoUri,
+                  name: offer.companyName,
+                  withListenerEventOnChange: true,
+                ),
               ),
               const SizedBox(width: 10),
               Column(

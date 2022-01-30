@@ -1,38 +1,22 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:poly_forum/cubit/company/company_profile_cubit.dart';
 import 'package:poly_forum/cubit/image_cubit.dart';
-import 'package:poly_forum/data/models/company_user_model.dart';
-import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
+import 'package:poly_forum/data/models/user_model.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:http/http.dart' as http;
-import 'dart:html' as html;
-import 'package:http_parser/http_parser.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 // ignore: must_be_immutable
 class EditableAvatar extends StatefulWidget {
-  String initials = "";
-  final CompanyUser company;
+  final String name;
+  final String uri;
+  final User user;
 
-  EditableAvatar(String text, {required this.company, Key? key})
-      : super(key: key) {
-    var nameparts = text.split(" ");
-    if (nameparts.isNotEmpty) {
-      initials = nameparts[0][0].toUpperCase();
-    }
-    if (nameparts.length > 1) {
-      initials += nameparts[1][0].toUpperCase();
-    }
-  }
+  const EditableAvatar(
+      {required this.name, required this.uri, required this.user, Key? key})
+      : super(key: key);
 
   @override
   State<EditableAvatar> createState() => _EditableAvatarState();
@@ -85,13 +69,15 @@ class _EditableAvatarState extends State<EditableAvatar> {
                     if (state is ImageLoaded) {
                       return ProfilePicture(
                         uri: state.pathLogo,
-                        name: widget.company.companyName,
+                        name: widget.name,
+                        withListenerEventOnChange: true,
                       );
                     }
 
                     return ProfilePicture(
-                      uri: widget.company.logo,
-                      name: widget.company.companyName,
+                      uri: widget.uri,
+                      name: widget.name,
+                      withListenerEventOnChange: true,
                     );
                   },
                 ),
@@ -115,8 +101,8 @@ class _EditableAvatarState extends State<EditableAvatar> {
                           // PlatformFile file = result.files.first;
 
                           if (result.files.single.size < 4000000) {
-                            BlocProvider.of<ImageCubit>(context).uploadLogo(
-                                result.files.single, widget.company);
+                            BlocProvider.of<ImageCubit>(context)
+                                .uploadLogo(result.files.single, widget.user);
                           }
                         }
                       },

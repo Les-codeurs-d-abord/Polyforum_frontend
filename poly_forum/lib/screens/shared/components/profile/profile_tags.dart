@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/screens/candidate/profil/edit/components/sized_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 import 'add_tag_modal.dart';
+import 'sized_btn.dart';
 
 class ProfileTags extends StatefulWidget {
   final int maxTags = 10;

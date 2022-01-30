@@ -84,8 +84,9 @@ class _ProfileFormState extends State<ProfileForm> {
           child: Column(
             children: [
               EditableAvatar(
-                user.companyName,
-                company: user,
+                name: user.companyName,
+                user: user,
+                uri: user.logo,
               ),
               const SizedBox(height: 30),
               Row(
@@ -107,12 +108,6 @@ class _ProfileFormState extends State<ProfileForm> {
                     minCharacters: 10,
                     isNumeric: true,
                   ),
-                  // CustomTextField(
-                  //   text: "Adress",
-                  //   icon: Icons.person_outline,
-                  //   controller: _addresController,
-                  //   isLocked: false,
-                  // )
                 ],
               ),
               const SizedBox(height: 15),

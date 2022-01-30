@@ -5,8 +5,10 @@ import 'package:poly_forum/utils/constants.dart';
 class InitialsAvatar extends StatelessWidget {
   String initials = "";
   double fontSize;
+  final Color color;
 
-  InitialsAvatar(String text, {this.fontSize = 24, Key? key})
+  InitialsAvatar(String text,
+      {this.fontSize = 24, this.color = kButtonColor, Key? key})
       : super(key: key) {
     if (text.trim().isNotEmpty) {
       var nameparts = text.split(" ");
@@ -23,7 +25,7 @@ class InitialsAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: kButtonColor,
+      backgroundColor: color,
       child: Text(
         initials,
         style: TextStyle(

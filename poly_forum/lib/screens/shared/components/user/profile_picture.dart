@@ -1,54 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/image_cubit.dart';
+import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePicture extends StatelessWidget {
   final String uri;
   final String name;
+  final bool withListenerEventOnChange;
 
   const ProfilePicture({
     Key? key,
     required this.uri,
     required this.name,
+    this.withListenerEventOnChange = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ImageCubit, ImageState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        if (state is ImageLoading) {
-          return const CircularProgressIndicator();
-        } else if (state is ImageLoaded) {
-          // print("http://" + kServer + "/api/res/" + state.pathLogo);
-          return CircleAvatar(
-            backgroundColor: Colors.transparent,
-            backgroundImage: NetworkImage(
-                "http://" + kServer + "/api/res/" + state.pathLogo),
-          );
-        }
+    if (withListenerEventOnChange) {
+      return BlocConsumer<ImageCubit, ImageState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is ImageLoading) {
+            return const CircularProgressIndicator();
+          } else if (state is ImageLoaded) {
+            return CircleAvatar(
+              backgroundColor: Colors.transparent,
+              backgroundImage: NetworkImage(
+                  "http://" + kServer + "/api/res/" + state.pathLogo),
+            );
+          }
 
-        if (uri.isEmpty) {
-          return CircleAvatar(
-            child: Text(
+          if (uri.isEmpty) {
+            return InitialsAvatar(
               name,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-                color: Colors.white,
-              ),
-            ),
-          );
-        } else {
-          return CircleAvatar(
-            backgroundColor: Colors.transparent,
-            backgroundImage:
-                NetworkImage("http://" + kServer + "/api/res/" + uri),
-          );
-        }
-      },
-    );
+              color: kPrimaryColor!,
+              fontSize: 24,
+            );
+          } else {
+            return CircleAvatar(
+              backgroundColor: Colors.transparent,
+              backgroundImage:
+                  NetworkImage("http://" + kServer + "/api/res/" + uri),
+            );
+          }
+        },
+      );
+    } else {
+      if (uri.isEmpty) {
+        return InitialsAvatar(
+          name,
+          color: kPrimaryColor!,
+          fontSize: 24,
+        );
+      } else {
+        return CircleAvatar(
+          backgroundColor: Colors.transparent,
+          backgroundImage:
+              NetworkImage("http://" + kServer + "/api/res/" + uri),
+        );
+      }
+    }
+
     // return CachedNetworkImage(
     //   imageUrl: uri.isNotEmpty ? 'http://$kServer/api/res/$uri' : '',
     //   placeholder: (context, url) => Row(

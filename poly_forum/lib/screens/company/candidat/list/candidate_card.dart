@@ -5,6 +5,7 @@ import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart'
 import 'package:poly_forum/cubit/company/wishlist/company_check_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_get_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_wishlist_cubit.dart';
+import 'package:poly_forum/cubit/image_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/resources/candidate_repository.dart';
@@ -15,6 +16,7 @@ import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 
 class CandidateCard extends StatelessWidget {
   final CandidateUser candidate;
@@ -59,17 +61,13 @@ class CandidateCard extends StatelessWidget {
       children: [
         Row(
           children: [
-            CachedNetworkImage(
-              imageUrl: "",
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) {
-                return InitialsAvatar(
-                  candidate.firstName + " " + candidate.lastName,
-                  fontSize: 22,
-                );
-              },
+            SizedBox(
               width: 50,
               height: 50,
+              child: ProfilePicture(
+                uri: candidate.logo,
+                name: candidate.firstName + " " + candidate.lastName,
+              ),
             ),
             const SizedBox(width: 15),
             Text(

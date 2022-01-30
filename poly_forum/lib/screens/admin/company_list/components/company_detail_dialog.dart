@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
+import 'package:poly_forum/cubit/image_cubit.dart';
 import 'package:poly_forum/data/models/company_detail_model.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -102,10 +103,13 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
                                       SizedBox(
                                         width: 100,
                                         height: 100,
-                                        child: ProfilePicture(
-                                          uri: companyDetail?.logo ?? '',
-                                          name:
-                                              companyDetail?.companyName ?? '',
+                                        child: BlocProvider(
+                                          create: (context) => ImageCubit(),
+                                          child: ProfilePicture(
+                                            uri: companyDetail?.logo ?? '',
+                                            name: companyDetail?.companyName ??
+                                                '',
+                                          ),
                                         ),
                                       ),
                                       Container(
