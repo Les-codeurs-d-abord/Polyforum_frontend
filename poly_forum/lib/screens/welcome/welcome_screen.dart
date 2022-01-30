@@ -121,7 +121,7 @@ class WelcomeScreen extends StatelessWidget {
                 const SizedBox(height: 40),
                 Center(
                   child: Text(
-                    "Etape actuelle",
+                    "Étape actuelle",
                     style: Theme.of(context).textTheme.headline1,
                   ),
                 ),

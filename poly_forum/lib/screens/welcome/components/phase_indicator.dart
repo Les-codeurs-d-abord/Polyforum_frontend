@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PhaseIndicator extends StatelessWidget {
   const PhaseIndicator({Key? key}) : super(key: key);
@@ -12,6 +16,7 @@ class PhaseIndicator extends StatelessWidget {
           context,
           "1",
           "Inscription",
+          BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.inscription,
           const BorderRadius.only(
             topLeft: Radius.circular(20),
             bottomLeft: Radius.circular(20),
@@ -22,6 +27,7 @@ class PhaseIndicator extends StatelessWidget {
           context,
           "2",
           "Vœux",
+          BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.wish,
           const BorderRadius.all(Radius.zero),
         ),
         const SizedBox(width: 5),
@@ -29,6 +35,7 @@ class PhaseIndicator extends StatelessWidget {
           context,
           "3",
           "Planning",
+          BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.planning,
           const BorderRadius.only(
             topRight: Radius.circular(20),
             bottomRight: Radius.circular(20),
@@ -39,12 +46,12 @@ class PhaseIndicator extends StatelessWidget {
   }
 
   Widget buildItem(
-      BuildContext context, String nb, String text, BorderRadius borderRadius) {
+      BuildContext context, String nb, String text, bool active, BorderRadius borderRadius) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
-          color: kPrimaryColor,
+          color: active ? kBlue : Colors.white,
           border: Border.all(color: Colors.black),
           borderRadius: borderRadius,
         ),
@@ -67,10 +74,10 @@ class PhaseIndicator extends StatelessWidget {
             Flexible(
               child: Text(
                 text,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    color: active ? Colors.white : Colors.black,
+                    fontWeight: active ? FontWeight.bold : FontWeight.normal
+                ),
                 overflow: TextOverflow.ellipsis,
               ),
             )
