@@ -8,7 +8,7 @@ import 'package:poly_forum/cubit/admin/dashboard/dashboard_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
-import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
+import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/list/search_bar.dart';
 import 'package:poly_forum/screens/shared/components/list/sort_button.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
@@ -231,7 +231,7 @@ class _BodyState extends State<Body> {
                                                   },
                                                   barrierDismissible: false
                                               ).then((value) {
-                                                if (value == FormReturn.confirm) {
+                                                if (value == ModalReturn.confirm) {
                                                   BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
                                                   BlocProvider.of<DashboardCubit>(context).fetchDashboardData();
                                                 }
@@ -371,7 +371,7 @@ class _BodyState extends State<Body> {
                     },
                     barrierDismissible: false
                 ).then((value) {
-                  if (value == FormReturn.confirm) {
+                  if (value == ModalReturn.confirm) {
                     BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
                   }
                 });

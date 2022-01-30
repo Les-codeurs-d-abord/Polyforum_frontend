@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_offers_list_dialog_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
+import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/user/small_tag.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';

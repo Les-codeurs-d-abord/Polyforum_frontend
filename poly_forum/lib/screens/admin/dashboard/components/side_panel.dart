@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:poly_forum/cubit/admin/dashboard/side_panel_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/screens/admin/dashboard/components/survey_link_dialog.dart';
-import 'package:poly_forum/screens/shared/components/form/form_return_enum.dart';
+import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/utils/constants.dart';
@@ -289,7 +289,7 @@ class _SidePanelState extends State<SidePanel> {
               },
               barrierDismissible: true
           ).then((value) {
-            if (value == FormReturn.confirm) {
+            if (value == ModalReturn.confirm) {
               BlocProvider.of<SidePanelCubit>(context).sendSatisfactionSurvey(_surveyLinkController.text).then((value) {
                 showTopSnackBar(
                   context,

@@ -1,4 +1,4 @@
-enum FormReturn {
+enum ModalReturn {
   confirm,
   cancel
 }
