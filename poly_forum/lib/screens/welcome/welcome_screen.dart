@@ -25,12 +25,14 @@ class WelcomeScreen extends StatelessWidget {
                   child: Text(
                     "Déroulement du forum d'entreprise",
                     style: Theme.of(context).textTheme.headline1,
+                    textAlign: TextAlign.justify,
                   ),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "Cette application a pour objectif d’organisation des rencontrent entres les futurs apprentis de Polytech et des entreprises prêtent à recruter. Afin que ces rencontres soient efficaces, à travers l’application les entreprises pourront décider de quels candidats les intéressent et les candidats pourront en faire de même avec les entreprises. A la suite de cela, un planning sera généré permettant aux candidats et entreprises de savoir où et quand la rencontre va se faire !",
+                  "Cette application a pour objectif l’organisation des rencontres entre les futurs apprentis de Polytech et des entreprises prêtes à recruter. Afin que ces rencontres soient efficaces, les entreprises pourront, grâce à l'application, décider quels candidats les intéressent et les candidats pourront en faire de même avec les entreprises. À la suite de cela, un planning sera généré et permettra aux candidats et entreprises de savoir où et quand la rencontre va se faire !",
                   style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 40),
                 Text(
@@ -39,6 +41,7 @@ class WelcomeScreen extends StatelessWidget {
                       .textTheme
                       .bodyText1!
                       .copyWith(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -60,6 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                       child: Text(
                         "Etape d’inscription : les candidats et entreprises renseignent les informations demandées",
                         style: Theme.of(context).textTheme.bodyText1,
+                        textAlign: TextAlign.justify,
                       ),
                     )
                   ],
@@ -84,6 +88,7 @@ class WelcomeScreen extends StatelessWidget {
                       child: Text(
                         "Etape de renseignement des vœux : les candidats et entreprises ne pourront plus changer les informations personnelles entrées et pourront renseigner leurs vœux",
                         style: Theme.of(context).textTheme.bodyText1,
+                        textAlign: TextAlign.justify,
                       ),
                     )
                   ],
@@ -106,8 +111,9 @@ class WelcomeScreen extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        "Etape de planning : les candidats et entreprises ne pourront plus changer leurs vœux et auront accès à leurs planning des rencontrent de la journée du forum",
+                        "Etape de planning : les candidats et entreprises ne pourront plus changer leurs vœux et auront accès à leur planning des rencontres de la journée du forum",
                         style: Theme.of(context).textTheme.bodyText1,
+                        textAlign: TextAlign.justify,
                       ),
                     )
                   ],
@@ -159,7 +165,7 @@ class WelcomeScreen extends StatelessWidget {
                             img: "images/v.png",
                             title: "La vie étudiante",
                             text:
-                                "Polytech Lyon fait partie du réseau Polytech ; elle est l’école d’ingénieur interne de l’Université Claude Bernard Lyon 1. Elle propose différentes formations réparties en 6 départements, dont le département Informatique. La formation d’ingénieur informatique est réalisable en cursus initial et en cursus par apprentissage",
+                                "Être étudiant.e à l'université Claude Bernard Lyon1, c'est avoir accès au nécessaire pour réussir ses études. Des restaurants universitaires multiples, des logements proches du campus, des bibliothèques dans lesquelles vous pourrez travailler en toute tranquilité... Le campus de la Doua saura vous accueillir !",
                             link:
                                 "https://polytech.univ-lyon1.fr/vie-etudiante/vie-pratique",
                           ),

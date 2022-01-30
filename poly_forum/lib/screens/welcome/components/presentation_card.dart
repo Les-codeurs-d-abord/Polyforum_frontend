@@ -50,6 +50,7 @@ class PresentationCard extends StatelessWidget {
                             .textTheme
                             .headline1!
                             .copyWith(fontWeight: FontWeight.normal),
+                        textAlign: TextAlign.justify,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -57,6 +58,7 @@ class PresentationCard extends StatelessWidget {
                       child: Text(
                         text,
                         style: Theme.of(context).textTheme.bodyText2,
+                        textAlign: TextAlign.justify,
                       ),
                     ),
                   ],
