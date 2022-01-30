@@ -2,17 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_offers_list_dialog_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
 import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/user/small_tag.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CompanyOffersList extends StatefulWidget {
+  final Phase currentPhase;
   final List<Offer> offersList;
 
-  const CompanyOffersList({this.offersList = const [], Key? key}) : super(key: key);
+  const CompanyOffersList({
+    required this.currentPhase,
+    this.offersList = const [],
+    Key? key
+  }) : super(key: key);
 
   @override
   _CompanyOffersListState createState() => _CompanyOffersListState();
@@ -384,48 +391,50 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                         ]
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 5),
-                    child: const Divider(
-                      thickness: 1,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      MaterialButton(
-                        padding: const EdgeInsets.all(15),
-                        color: kDarkBlue,
-                        disabledColor: kDisabledButtonColor,
-                        shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5))
-                        ),
-                        child: const Text(
-                          "Supprimer",
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18
-                          ),
-                        ),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return ConfirmationModal(
-                                title: "Suppression d'une offre",
-                                description: "Vous-êtes sur le point de supprimer l'offre ${offer.name}, en êtes-vous sûr ?",
-                              );
-                            },
-                          ).then((value) {
-                            if (value == ModalReturn.confirm) {
-                              BlocProvider.of<CompanyOffersListDialogCubit>(context).deleteOffer(offer);
-                            }
-                          });
-                        },
+                  if (widget.currentPhase != Phase.planning)
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      child: const Divider(
+                        thickness: 1,
                       ),
-                    ],
-                  )
+                    ),
+                  if (widget.currentPhase != Phase.planning)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        MaterialButton(
+                          padding: const EdgeInsets.all(15),
+                          color: kDarkBlue,
+                          disabledColor: kDisabledButtonColor,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5))
+                          ),
+                          child: const Text(
+                            "Supprimer",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18
+                            ),
+                          ),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ConfirmationModal(
+                                  title: "Suppression d'une offre",
+                                  description: "Vous-êtes sur le point de supprimer l'offre ${offer.name}, en êtes-vous sûr ?",
+                                );
+                              },
+                            ).then((value) {
+                              if (value == ModalReturn.confirm) {
+                                BlocProvider.of<CompanyOffersListDialogCubit>(context).deleteOffer(offer);
+                              }
+                            });
+                          },
+                        ),
+                      ],
+                    )
                 ],
               ),
             ),

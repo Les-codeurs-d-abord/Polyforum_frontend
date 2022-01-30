@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_offers_list_dialog_cubit.dart';
 import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -11,9 +12,10 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'company_offers_list.dart';
 
 class CompanyOffersListDialog extends StatefulWidget {
+  final Phase currentPhase;
   final Company company;
 
-  const CompanyOffersListDialog(this.company, {Key? key}) : super(key: key);
+  const CompanyOffersListDialog(this.currentPhase, this.company, {Key? key}) : super(key: key);
 
   @override
   _CompanyOffersListDialogState createState() => _CompanyOffersListDialogState();
@@ -114,7 +116,10 @@ class _CompanyOffersListDialogState extends State<CompanyOffersListDialog> {
           SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(5.0),
-              child: CompanyOffersList(offersList: offersList),
+              child: CompanyOffersList(
+                currentPhase: widget.currentPhase,
+                offersList: offersList,
+              ),
             ),
           )
       ),

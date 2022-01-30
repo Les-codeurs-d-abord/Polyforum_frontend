@@ -350,7 +350,10 @@ class _BodyState extends State<Body> {
                     builder: (BuildContext context) {
                       return BlocProvider(
                         create: (context) => CompanyOffersListDialogCubit(CompanyRepository()),
-                        child: CompanyOffersListDialog(company),
+                        child: CompanyOffersListDialog(
+                            currentPhase,
+                            company
+                        ),
                       );
                     },
                     barrierDismissible: false
