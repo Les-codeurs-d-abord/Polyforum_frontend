@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/candidate/candidate_offer_screen_cubit.dart';
-import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/candidate/offers/components/offer_card.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Body extends StatefulWidget {
@@ -19,11 +20,13 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  late final Phase currentPhase;
   List<Offer> offerListSaved = [];
 
   @override
   void initState() {
     super.initState();
+    currentPhase = BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
     BlocProvider.of<CandidateOfferScreenCubit>(context).offerListEvent();
   }
 
@@ -128,7 +131,7 @@ class _BodyState extends State<Body> {
       child: offerList.isNotEmpty
           ? Column(
               children: [
-                for (var offer in offerList) OfferCard(offer, widget.user),
+                for (var offer in offerList) OfferCard(offer, widget.user, currentPhase),
               ],
             )
           : const Padding(

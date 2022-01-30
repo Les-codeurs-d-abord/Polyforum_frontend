@@ -7,7 +7,7 @@ part 'phase_state.dart';
 
 class PhaseCubit extends Cubit<PhaseState> {
   final PhasesRepository _phasesRepository;
-  late Phase currentPhase;
+  late final Phase currentPhase;
 
   PhaseCubit(this._phasesRepository) : super(PhaseInitial());
 

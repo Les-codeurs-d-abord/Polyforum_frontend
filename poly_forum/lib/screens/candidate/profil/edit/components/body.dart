@@ -15,7 +15,7 @@ class Body extends StatelessWidget {
     return BaseScreen(
       child: BlocProvider(
         create: (context) => UpdateCandidateCubit(),
-        child: OfferForm(user: user),
+        child: ProfileForm(user: user),
       ),
       width: 1200,
     );

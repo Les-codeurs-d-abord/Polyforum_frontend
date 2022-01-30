@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/screens/candidate/profil/edit/components/profile_links.dart';
 import 'package:poly_forum/screens/candidate/profil/edit/components/profile_tags.dart';
 import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -13,17 +15,18 @@ import 'custom_drop_zone.dart';
 import 'editable_avatar.dart';
 
 // ignore: must_be_immutable
-class OfferForm extends StatefulWidget {
+class ProfileForm extends StatefulWidget {
   CandidateUser user;
 
-  OfferForm({required this.user, Key? key}) : super(key: key);
+  ProfileForm({required this.user, Key? key}) : super(key: key);
 
   @override
-  _OfferFormState createState() => _OfferFormState();
+  _ProfileFormState createState() => _ProfileFormState();
 }
 
-class _OfferFormState extends State<OfferForm> {
+class _ProfileFormState extends State<ProfileForm> {
   final _formKey = GlobalKey<FormState>();
+  late final Phase currentPhase;
 
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -39,6 +42,8 @@ class _OfferFormState extends State<OfferForm> {
   @override
   void initState() {
     super.initState();
+    currentPhase = BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
+
     // _descriptionController.reloadWeb();
     _firstNameController.text = widget.user.firstName;
     _lastNameController.text = widget.user.lastName;
@@ -87,7 +92,7 @@ class _OfferFormState extends State<OfferForm> {
                 text: "Numéro de téléphone",
                 icon: Icons.phone_outlined,
                 controller: _phoneNumberController,
-                isLocked: false,
+                isLocked: currentPhase != Phase.inscription,
                 maxCharacters: 10,
                 minCharacters: 10,
                 isNumeric: true,
@@ -124,7 +129,7 @@ class _OfferFormState extends State<OfferForm> {
           //   ],
           // ),
           const SizedBox(height: 15),
-          const CustomDropZone(),
+          CustomDropZone(disabled: currentPhase != Phase.inscription),
           const SizedBox(height: 15),
           // HTMLDescription(descriptionController: _descriptionController),
           SizedBox(
@@ -135,7 +140,7 @@ class _OfferFormState extends State<OfferForm> {
                   text: "Courte présentation",
                   icon: Icons.article_outlined,
                   controller: _descriptionController,
-                  isLocked: false,
+                  isLocked: currentPhase != Phase.inscription,
                   maxCharacters: 500,
                   maxLines: 10,
                 ),
@@ -146,12 +151,12 @@ class _OfferFormState extends State<OfferForm> {
           IntrinsicHeight(
             child: Row(
               children: [
-                ProfileTags(tags: tags),
+                ProfileTags(tags: tags, disabled: currentPhase != Phase.inscription),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: VerticalDivider(color: Colors.black, thickness: 1),
                 ),
-                ProfileLinks(links: links),
+                ProfileLinks(links: links, disabled: currentPhase != Phase.inscription),
               ],
             ),
           ),
@@ -161,8 +166,8 @@ class _OfferFormState extends State<OfferForm> {
               Expanded(
                 child: SizedBox(
                   height: 50,
-                  child: TextButton(
-                    onPressed: () async {
+                  child: MaterialButton(
+                    onPressed: currentPhase != Phase.inscription ? null : () async {
                       if (_formKey.currentState!.validate()) {
                         // String description =
                         //     await _descriptionController.getText();
@@ -189,11 +194,9 @@ class _OfferFormState extends State<OfferForm> {
                             .updateUserEvent(updatedUser);
                       }
                     },
-                    style: TextButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: kButtonColor,
-                      onSurface: Colors.grey,
-                    ),
+                    textColor: Colors.white,
+                    color: kButtonColor,
+                    disabledColor: kDisabledButtonColor,
                     child: BlocConsumer<UpdateCandidateCubit,
                         UpdateCandidateState>(
                       listener: (context, state) {

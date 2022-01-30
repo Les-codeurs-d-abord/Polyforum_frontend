@@ -1,26 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/cubit/candidate/wishlist/candidate_get_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/candidate/wishlist/candidate_wishlist_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
-import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/screens/admin/company_list/components/company_detail_dialog.dart';
 import 'package:poly_forum/screens/candidate/offers/components/add_wishlist_btn.dart';
-import 'package:poly_forum/screens/company/Util/show_company_detail_dialog.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OfferCard extends StatelessWidget {
   final Offer offer;
   final CandidateUser user;
+  final Phase currentPhase;
 
-  const OfferCard(this.offer, this.user, {Key? key}) : super(key: key);
+  const OfferCard(this.offer, this.user, this.currentPhase, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class OfferCard extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 3,
-                        child: buildBody(),
+                        child: buildBody(context),
                       ),
                       const VerticalDivider(
                         color: Colors.black,
@@ -86,7 +86,7 @@ class OfferCard extends StatelessWidget {
               CachedNetworkImage(
                 imageUrl: "",
                 placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
+                const CircularProgressIndicator(),
                 errorWidget: (context, url, error) {
                   return InitialsAvatar(offer.companyName);
                 },
@@ -125,7 +125,7 @@ class OfferCard extends StatelessWidget {
     );
   }
 
-  Widget buildBody() {
+  Widget buildBody(BuildContext context) {
     return Column(
       children: [
         Container(
@@ -137,21 +137,23 @@ class OfferCard extends StatelessWidget {
             style: const TextStyle(),
           ),
         ),
-        const Spacer(),
-        MultiBlocProvider(
-          providers: [
-            BlocProvider<CandidateWishlistCubit>(
-              create: (context) => CandidateWishlistCubit(),
+        if (currentPhase == Phase.wish)
+          const Spacer(),
+        if (currentPhase == Phase.wish)
+          MultiBlocProvider(
+            providers: [
+              BlocProvider<CandidateWishlistCubit>(
+                create: (context) => CandidateWishlistCubit(),
+              ),
+              BlocProvider<CandidateGetWishlistCubit>(
+                create: (context) => CandidateGetWishlistCubit(),
+              ),
+            ],
+            child: AddWishlistBtn(
+              offer: offer,
+              user: user,
             ),
-            BlocProvider<CandidateGetWishlistCubit>(
-              create: (context) => CandidateGetWishlistCubit(),
-            ),
-          ],
-          child: AddWishlistBtn(
-            offer: offer,
-            user: user,
           ),
-        ),
       ],
     );
   }
@@ -225,60 +227,60 @@ class OfferCard extends StatelessWidget {
           const SizedBox(height: 20),
           offer.links.isNotEmpty
               ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Liens",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 5),
+              for (var link in offer.links)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Liens",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    const Icon(
+                      Icons.link_outlined,
+                      size: 25,
                     ),
-                    const SizedBox(height: 5),
-                    for (var link in offer.links)
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.link_outlined,
-                            size: 25,
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: InkWell(
-                              child: Text(
-                                link,
-                                style: const TextStyle(color: Colors.blue),
-                              ),
-                              onTap: () => launch(link),
-                            ),
-                          )
-                        ],
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: InkWell(
+                        child: Text(
+                          link,
+                          style: const TextStyle(color: Colors.blue),
+                        ),
+                        onTap: () => launch(link),
                       ),
+                    )
                   ],
-                )
+                ),
+            ],
+          )
               : const SizedBox(),
           const SizedBox(height: 20),
           offer.tags.isNotEmpty
               ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Tags",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Wrap(
-                      direction: Axis.horizontal,
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: [
-                        for (var tag in offer.tags) Tags(text: tag),
-                      ],
-                    ),
-                  ],
-                )
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Tags",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Wrap(
+                direction: Axis.horizontal,
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  for (var tag in offer.tags) Tags(text: tag),
+                ],
+              ),
+            ],
+          )
               : const SizedBox(),
         ],
       ),

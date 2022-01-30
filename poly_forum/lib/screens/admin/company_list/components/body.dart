@@ -35,7 +35,7 @@ class _BodyState extends State<Body> {
 
   List<Company> companyListInitial = [];
   List<Company> companyList = [];
-  late Phase currentPhase;
+  late final Phase currentPhase;
 
   @override
   void initState() {

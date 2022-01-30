@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/candidate/candidate_choices_save_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/data/models/wish_model.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/utils/constants.dart';
-
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/tap_bounce_container.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class SaveWishlistBtn extends StatelessWidget {
@@ -26,16 +25,14 @@ class SaveWishlistBtn extends StatelessWidget {
           Expanded(
             child: SizedBox(
               height: 50,
-              child: TextButton(
-                onPressed: () {
+              child: MaterialButton(
+                onPressed: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.planning ? null : () {
                   BlocProvider.of<CandidateChoicesSaveCubit>(context)
                       .saveOfferChoicesEvent(user, wishlist);
                 },
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: kButtonColor,
-                  onSurface: Colors.grey,
-                ),
+                textColor: Colors.white,
+                color: kButtonColor,
+                disabledColor: kDisabledButtonColor,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: BlocConsumer<CandidateChoicesSaveCubit,
