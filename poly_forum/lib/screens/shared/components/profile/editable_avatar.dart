@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:poly_forum/cubit/image_cubit.dart';
 import 'package:poly_forum/data/models/user_model.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
@@ -24,6 +25,7 @@ class EditableAvatar extends StatefulWidget {
 
 class _EditableAvatarState extends State<EditableAvatar> {
   bool isErrorFileToBig = false;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -57,9 +59,8 @@ class _EditableAvatarState extends State<EditableAvatar> {
                         context,
                         Padding(
                           padding: kTopSnackBarPadding,
-                          child: const CustomSnackBar.error(
-                            message:
-                                "Un problème est survenue, la sauvegarde ne s'est pas effectuée...",
+                          child: CustomSnackBar.error(
+                            message: "Un problème est survenue: ${state.msg}",
                           ),
                         ),
                       );
@@ -68,7 +69,7 @@ class _EditableAvatarState extends State<EditableAvatar> {
                   builder: (context, state) {
                     if (state is ImageLoaded) {
                       return ProfilePicture(
-                        uri: state.pathLogo,
+                        uri: state.uri,
                         name: widget.name,
                         withListenerEventOnChange: true,
                       );
@@ -89,21 +90,14 @@ class _EditableAvatarState extends State<EditableAvatar> {
                     color: kButtonColor,
                     child: InkWell(
                       onTap: () async {
-                        FilePickerResult? result =
-                            await FilePicker.platform.pickFiles(
-                          withReadStream: true,
-                          type: FileType.custom,
-                          allowedExtensions: ['png', 'jpeg', 'jpg'],
-                          withData: true,
+                        final XFile? imageFile = await _picker.pickImage(
+                          source: ImageSource.gallery,
                         );
 
-                        if (result != null) {
-                          // PlatformFile file = result.files.first;
-
-                          if (result.files.single.size < 4000000) {
-                            BlocProvider.of<ImageCubit>(context)
-                                .uploadLogo(result.files.single, widget.user);
-                          }
+                        if (imageFile != null) {
+                          var file = await imageFile.readAsBytes();
+                          BlocProvider.of<ImageCubit>(context)
+                              .uploadLogo(file, imageFile.name, widget.user);
                         }
                       },
                       child: const SizedBox(

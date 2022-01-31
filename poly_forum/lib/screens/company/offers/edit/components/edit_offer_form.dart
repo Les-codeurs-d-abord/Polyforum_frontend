@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
+import 'package:poly_forum/cubit/file_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
+import 'package:poly_forum/screens/shared/components/profile/custom_drop_zone.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import 'custom_drop_zone.dart';
 import '../../../../shared/components/custom_text_field.dart';
 import '../../../../shared/components/profile/profile_links.dart';
 import '../../../../shared/components/profile/profile_tags.dart';
@@ -51,18 +52,26 @@ class _EditOfferFormState extends State<EditOfferForm> {
     return BlocConsumer<CompanyOfferCubit, CompanyOfferState>(
       listener: (context, state) {
         if (state is CompanyOfferLoaded) {
-          BlocProvider.of<CompanyGetOfferCubit>(context)
-              .updateLocalOffer(widget.offer);
+          BlocProvider.of<FileCubit>(context)
+              .uploadCV(widget.offer)
+              .then((value) {
+            if (value != null) {
+              widget.offer.offerFile = value;
 
-          showTopSnackBar(
-            context,
-            Padding(
-              padding: kTopSnackBarPadding,
-              child: const CustomSnackBar.success(
-                message: "Sauvegarde effectuée avec succès !",
-              ),
-            ),
-          );
+              BlocProvider.of<CompanyGetOfferCubit>(context)
+                  .updateLocalOffer(widget.offer);
+
+              showTopSnackBar(
+                context,
+                Padding(
+                  padding: kTopSnackBarPadding,
+                  child: const CustomSnackBar.success(
+                    message: "Sauvegarde effectuée avec succès !",
+                  ),
+                ),
+              );
+            }
+          });
         } else if (state is CompanyOfferError) {
           showTopSnackBar(
             context,
@@ -121,7 +130,7 @@ class _EditOfferFormState extends State<EditOfferForm> {
                 ],
               ),
               const SizedBox(height: 15),
-              const CustomDropZone(),
+              CustomDropZone(text: "Document", uri: widget.offer.offerFile),
               const SizedBox(height: 15),
               SizedBox(
                 width: 700,
@@ -160,18 +169,35 @@ class _EditOfferFormState extends State<EditOfferForm> {
                       child: TextButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            widget.offer.name = _nameController.text;
-                            widget.offer.description =
-                                _descriptionController.text;
-                            widget.offer.phoneNumber =
-                                _phoneNumberController.text;
-                            widget.offer.email = _emailController.text;
-                            widget.offer.address = _addresController.text;
-                            widget.offer.links = links;
-                            widget.offer.tags = tags;
+                            FileDataModel? fileDataModel =
+                                BlocProvider.of<FileCubit>(context)
+                                    .fileDataModel;
 
-                            BlocProvider.of<CompanyOfferCubit>(context)
-                                .updateOffer(widget.offer);
+                            if (widget.offer.offerFile.isEmpty &&
+                                fileDataModel == null) {
+                              showTopSnackBar(
+                                context,
+                                Padding(
+                                  padding: kTopSnackBarPadding,
+                                  child: const CustomSnackBar.error(
+                                    message: "Veuillez renseigner un CV.",
+                                  ),
+                                ),
+                              );
+                            } else {
+                              widget.offer.name = _nameController.text;
+                              widget.offer.description =
+                                  _descriptionController.text;
+                              widget.offer.phoneNumber =
+                                  _phoneNumberController.text;
+                              widget.offer.email = _emailController.text;
+                              widget.offer.address = _addresController.text;
+                              widget.offer.links = links;
+                              widget.offer.tags = tags;
+
+                              BlocProvider.of<CompanyOfferCubit>(context)
+                                  .updateOffer(widget.offer);
+                            }
                           }
                         },
                         style: TextButton.styleFrom(

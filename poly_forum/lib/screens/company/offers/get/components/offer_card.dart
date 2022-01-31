@@ -29,12 +29,15 @@ class OfferCard extends StatelessWidget {
       child: Card(
         elevation: 20,
         child: InkWell(
-          onTap: () {
-            launch("http://localhost:8080/api/res/${offer.offerFile}");
-          },
+          onTap: offer.offerFile.isNotEmpty
+              ? () {
+                  launch("http://localhost:8080/api/res/${offer.offerFile}");
+                }
+              : null,
           child: Container(
             padding: const EdgeInsets.all(15),
             width: 1000,
+            // height: 400,
             child: Column(
               children: [
                 buildHeader(context),
@@ -113,11 +116,29 @@ class OfferCard extends StatelessWidget {
             ],
           ),
         ),
-        const Spacer(),
-        const Text(
-          "Ouvrir l'offre",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        // const Spacer(),
+        offer.offerFile.isNotEmpty
+            ? const Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "Ouvrir l'offre",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+            : const Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "Cette offre ne contient aucun document à afficher",
+                    style: TextStyle(
+                      color: Colors.red,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+              ),
         const SizedBox(width: 10),
         const Icon(Icons.arrow_forward_outlined),
       ],

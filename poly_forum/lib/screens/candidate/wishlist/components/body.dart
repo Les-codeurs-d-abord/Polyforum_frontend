@@ -157,27 +157,34 @@ class _BodyState extends State<Body> {
                                           ],
                                         ),
                                         const Divider(),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Wrap(
-                                            direction: Axis.horizontal,
-                                            spacing: 10,
-                                            runSpacing: 10,
-                                            children: <Widget>[
-                                              for (int index = 0;
-                                                  index <
-                                                      localwishlist[i]
+                                        SizedBox(
+                                          height: 50,
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: ListView(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              children: <Widget>[
+                                                for (int index = 0;
+                                                    index <
+                                                        localwishlist[i]
+                                                            .offer
+                                                            .tags
+                                                            .length;
+                                                    index++)
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10),
+                                                    child: Tags(
+                                                      text: localwishlist[i]
                                                           .offer
-                                                          .tags
-                                                          .length;
-                                                  index++)
-                                                Tags(
-                                                  text: localwishlist[i]
-                                                      .offer
-                                                      .tags[index],
-                                                ),
-                                            ],
+                                                          .tags[index],
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],

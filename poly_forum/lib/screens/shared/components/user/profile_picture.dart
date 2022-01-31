@@ -27,8 +27,8 @@ class ProfilePicture extends StatelessWidget {
           } else if (state is ImageLoaded) {
             return CircleAvatar(
               backgroundColor: Colors.transparent,
-              backgroundImage: NetworkImage(
-                  "http://" + kServer + "/api/res/" + state.pathLogo),
+              backgroundImage:
+                  NetworkImage("http://" + kServer + "/api/res/" + state.uri),
             );
           }
 

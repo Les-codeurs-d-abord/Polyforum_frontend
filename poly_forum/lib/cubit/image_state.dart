@@ -8,8 +8,8 @@ class ImageInitial extends ImageState {}
 class ImageLoading extends ImageState {}
 
 class ImageLoaded extends ImageState {
-  final String pathLogo;
-  ImageLoaded(this.pathLogo);
+  final String uri;
+  ImageLoaded(this.uri);
 }
 
 class ImageError extends ImageState {

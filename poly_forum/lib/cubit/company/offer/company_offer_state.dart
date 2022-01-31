@@ -7,7 +7,10 @@ class CompanyOfferInitial extends CompanyOfferState {}
 
 class CompanyOfferLoading extends CompanyOfferState {}
 
-class CompanyOfferLoaded extends CompanyOfferState {}
+class CompanyOfferLoaded extends CompanyOfferState {
+  final Offer offer;
+  CompanyOfferLoaded(this.offer);
+}
 
 class CompanyOfferError extends CompanyOfferState {
   final String msg;

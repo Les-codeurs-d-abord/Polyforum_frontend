@@ -2,7 +2,7 @@ class Offer {
   final int id;
   String name;
   String description;
-  final String offerFile;
+  String offerFile;
   String phoneNumber;
   String address;
   String email;
