@@ -1,9 +1,7 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
-import 'package:poly_forum/routes/application.dart';
-import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
 import 'package:poly_forum/screens/company/candidat/list/candidat_list.dart';
 import 'package:poly_forum/screens/company/company_navigation/components/tab_navigation_item_list.dart';
@@ -14,11 +12,8 @@ import 'package:poly_forum/screens/company/planning/planning_screen.dart';
 import 'package:poly_forum/screens/company/profile/edit/company_profil_screen.dart';
 import 'package:poly_forum/screens/company/wishlist/wishlist_screen.dart';
 import 'package:poly_forum/screens/password/change_password_screen.dart';
-import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
-import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'company_nav_bar.dart';
 
@@ -95,7 +90,7 @@ class CompanyWebBody extends StatelessWidget {
                                       },
                                     ),
                                     const CompanyProfileScreen(), //profil
-                                    ChangePasswordScreen(),
+                                    ChangePasswordScreen(BlocProvider.of<CompanyGetUserCubit>(context).getUser()),
                                     if (selectedIndex == 9)
                                       const EditOfferScreen(),
                                   ],

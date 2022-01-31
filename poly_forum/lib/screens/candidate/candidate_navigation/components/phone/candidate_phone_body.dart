@@ -95,7 +95,7 @@ class CandidatePhoneBody extends StatelessWidget {
                   },
                 ),
                 CandidateProfilScreen(candidateUser: candidateUser),
-                ChangePasswordScreen(),
+                ChangePasswordScreen(BlocProvider.of<CandidateGetUserCubit>(context).getUser()),
               ],
             ),
           ),

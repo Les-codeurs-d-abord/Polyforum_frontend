@@ -1,22 +1,16 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/candidate/navigation/candidate_get_user_cubit.dart';
 import 'package:poly_forum/cubit/candidate/navigation/candidate_navigation_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poly_forum/routes/application.dart';
-import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/offers/offers_screen.dart';
 import 'package:poly_forum/screens/candidate/planning/planning_screen.dart';
 import 'package:poly_forum/screens/candidate/profil/edit/candidate_profil_screen.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
 import 'package:poly_forum/screens/candidate/wishlist/choices_screen.dart';
 import 'package:poly_forum/screens/password/change_password_screen.dart';
-import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
-import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../tab_navigation_item_list.dart';
 import 'candidate_nav_bar.dart';
@@ -97,7 +91,7 @@ class CandidateWebBody extends StatelessWidget {
                                     ),
                                     CandidateProfilScreen(
                                         candidateUser: candidateUser),
-                                    ChangePasswordScreen(),
+                                    ChangePasswordScreen(BlocProvider.of<CandidateGetUserCubit>(context).getUser()),
                                   ],
                                 ),
                               ),
