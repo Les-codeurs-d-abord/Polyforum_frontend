@@ -37,6 +37,8 @@ const kSavePwd = "save_password";
 
 const kDelayQuery = 100;
 
+const kPasswordMaxLength = 25;
+
 EdgeInsetsGeometry kTopSnackBarPadding =
     const EdgeInsets.only(left: 300, right: 10);
 

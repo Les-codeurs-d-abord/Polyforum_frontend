@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/cubit/candidate/navigation/candidate_navigation_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
@@ -12,10 +12,7 @@ import 'package:poly_forum/screens/company/profile/edit/company_profil_screen.da
 import 'package:poly_forum/screens/company/wishlist/wishlist_screen.dart';
 import 'package:poly_forum/screens/password/change_password_screen.dart';
 import 'package:poly_forum/screens/shared/components/nav_bar_profil_btn.dart';
-import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
-import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
 import 'package:poly_forum/screens/welcome/welcome_screen.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../tab_navigation_item_list.dart';
 
@@ -103,7 +100,7 @@ class CompanyPhoneBody extends StatelessWidget {
                   },
                 ),
                 const CompanyProfileScreen(), //profil
-                ChangePasswordScreen(),
+                ChangePasswordScreen(BlocProvider.of<CompanyGetUserCubit>(context).getUser()),
                 if (selectedIndex == 9) const EditOfferScreen(),
               ],
             ),
