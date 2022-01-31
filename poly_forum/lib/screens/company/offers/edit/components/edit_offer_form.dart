@@ -133,7 +133,7 @@ class _EditOfferFormState extends State<EditOfferForm> {
               CustomDropZone(
                 text: "Document",
                 uri: widget.offer.offerFile,
-                isEnable: true,
+                isDisabled: false,
               ),
               const SizedBox(height: 15),
               SizedBox(

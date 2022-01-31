@@ -32,7 +32,7 @@ class WelcomeScreen extends StatelessWidget {
                 Text(
                   "Cette application a pour objectif l’organisation des rencontres entre les futurs apprentis de Polytech et des entreprises prêtes à recruter."
                       "Afin que ces rencontres soient efficaces, les entreprises pourront, grâce à l'application, décider quels candidats les intéressent et les candidats pourront faire de même avec les entreprises. "
-                      "À la suite de cela, un planning sera généré et permettra aux candidats et entreprises de savoir où et quand la rencontre se fera",
+                      "À la suite de cela, un planning sera généré et permettra aux candidats et entreprises de savoir où et quand la rencontre se fera.",
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.justify,
                 ),
@@ -63,7 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        "Étape d’inscription : les candidats et entreprises renseignent les informations requises",
+                        "Étape d’inscription : les candidats et entreprises renseignent les informations requises.",
                         style: Theme.of(context).textTheme.bodyText1,
                         textAlign: TextAlign.justify,
                       ),
@@ -88,7 +88,7 @@ class WelcomeScreen extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        "Étape de renseignement des vœux : les candidats et entreprises ne pourront plus changer les informations personnelles entrées et pourront renseigner leurs vœux",
+                        "Étape de renseignement des vœux : les candidats et entreprises ne pourront plus changer les informations personnelles entrées et pourront renseigner leurs vœux.",
                         style: Theme.of(context).textTheme.bodyText1,
                         textAlign: TextAlign.justify,
                       ),
@@ -113,7 +113,7 @@ class WelcomeScreen extends StatelessWidget {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        "Étape de planning : les candidats et entreprises ne pourront plus changer leurs vœux et auront accès à leur planning des rencontres de la journée du forum",
+                        "Étape de planning : les candidats et entreprises ne pourront plus changer leurs vœux et auront accès à leur planning des rencontres de la journée du forum.",
                         style: Theme.of(context).textTheme.bodyText1,
                         textAlign: TextAlign.justify,
                       ),

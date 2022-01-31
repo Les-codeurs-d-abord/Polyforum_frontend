@@ -150,6 +150,7 @@ class OfferCard extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Text(
             offer.description,
+            textAlign: TextAlign.justify,
             overflow: TextOverflow.ellipsis,
             maxLines: 7,
             style: const TextStyle(),
@@ -215,8 +216,13 @@ class OfferCard extends StatelessWidget {
                   size: 25,
                 ),
                 const SizedBox(width: 10),
-                Expanded(
-                  child: Text(offer.email),
+                Flexible(
+                  child: TextButton(
+                    child: Text(offer.email),
+                    onPressed: () {
+                      launch("mailto:${offer.email}");
+                    },
+                  ),
                 )
               ],
             ),

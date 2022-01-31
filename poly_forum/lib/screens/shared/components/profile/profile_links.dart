@@ -41,7 +41,7 @@ class _ProfilTagsState extends State<ProfileLinks> {
           const SizedBox(height: 10),
           for (var link in widget.links)
             Padding(
-              padding: EdgeInsets.symmetric(vertical: widget.disabled ? 3.0 : 0.0),
+              padding: EdgeInsets.symmetric(vertical: widget.disabled ? 8.0 : 0.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

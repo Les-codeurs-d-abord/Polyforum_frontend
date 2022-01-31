@@ -14,6 +14,7 @@ class CustomTextField extends StatefulWidget {
   final int minCharacters;
   final int maxLines;
   final bool isPassword;
+  final TextAlign textAlign;
   final String? Function(String)? validator;
 
   const CustomTextField({
@@ -29,6 +30,7 @@ class CustomTextField extends StatefulWidget {
     this.minCharacters = 0,
     this.maxLines = 1,
     this.isPassword = false,
+    this.textAlign = TextAlign.start,
     this.validator,
     Key? key
   }) : super(key: key);
@@ -81,6 +83,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             maxLength: widget.maxCharacters,
             maxLengthEnforcement: MaxLengthEnforcement.enforced,
             maxLines: widget.maxLines,
+            textAlign: widget.textAlign,
             obscureText: _obscureText,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),

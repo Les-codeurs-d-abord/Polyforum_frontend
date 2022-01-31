@@ -59,9 +59,9 @@ class _BodyState extends State<Body> {
       children: [
         !isLoading
             ? BlocProvider(
-                create: (context) => CandidateChoicesSaveCubit(),
-                child: SaveWishlistBtn(user: widget.user, wishlist: wishlist!),
-              )
+          create: (context) => CandidateChoicesSaveCubit(),
+          child: SaveWishlistBtn(user: widget.user, wishlist: wishlist!),
+        )
             : const SizedBox(height: 15),
         isLoading ? buildloading() : buildList(),
       ],
@@ -98,167 +98,137 @@ class _BodyState extends State<Body> {
     List<Wish> localwishlist = wishlist ?? [];
     return localwishlist.isNotEmpty
         ? IgnorePointer(
-            ignoring: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
-                Phase.planning,
-            child: ReorderableListView(
-              shrinkWrap: true,
-              primary: false,
-              children: <Widget>[
-                for (int i = 0; i < localwishlist.length; i++)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    key: Key('$i'),
-                    child: Card(
-                      elevation: 15,
-                      child: InkWell(
-                        onTap: () {},
-                        child: ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.only(right: 30, top: 5),
-                            child: SizedBox(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 30),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              InitialsAvatar(localwishlist[i]
+      ignoring: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
+          Phase.planning,
+      child: ReorderableListView(
+        shrinkWrap: true,
+        primary: false,
+        children: <Widget>[
+          for (int i = 0; i < localwishlist.length; i++)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              key: Key('$i'),
+              child: Card(
+                elevation: 15,
+                child: InkWell(
+                  onTap: () {},
+                  child: ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.only(right: 30, top: 5),
+                      child: SizedBox(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 30),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      // TODO nom de l'entreprise en petit grisé en dessous + nom de l'offre en grand
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        ProfilePicture(
+                                            uri: localwishlist[i]
+                                                .offer
+                                                .logoUri,
+                                            name: localwishlist[i]
+                                                .offer
+                                                .companyName
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              localwishlist[i]
                                                   .offer
-                                                  .companyName),
-                                              const SizedBox(width: 10),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  ProfilePicture(
-                                                    uri: localwishlist[i]
-                                                        .offer
-                                                        .logoUri,
-                                                    name: localwishlist[i]
-                                                        .offer
-                                                        .companyName,
-                                                  ),
-                                                  const SizedBox(width: 10),
-                                                  Text(
-                                                    localwishlist[i]
-                                                        .offer
-                                                        .companyName,
-                                                    style: const TextStyle(
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                ],
+                                                  .name,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 22,
                                               ),
-                                              const Divider(),
-                                              SizedBox(
-                                                height: 50,
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 10),
-                                                  child: ListView(
-                                                    shrinkWrap: true,
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    children: <Widget>[
-                                                      for (int index = 0;
-                                                          index <
-                                                              localwishlist[i]
-                                                                  .offer
-                                                                  .tags
-                                                                  .length;
-                                                          index++)
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  right: 10),
-                                                          child: Tags(
-                                                            text: localwishlist[
-                                                                    i]
-                                                                .offer
-                                                                .tags[index],
-                                                          ),
-                                                        ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const Divider(),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            child: Wrap(
-                                              direction: Axis.horizontal,
-                                              spacing: 10,
-                                              runSpacing: 10,
-                                              children: <Widget>[
-                                                for (int index = 0;
-                                                    index <
-                                                        localwishlist[i]
-                                                            .offer
-                                                            .tags
-                                                            .length;
-                                                    index++)
-                                                  Tags(
-                                                    text: localwishlist[i]
-                                                        .offer
-                                                        .tags[index],
-                                                  ),
-                                              ],
                                             ),
-                                          ),
+                                            Text(
+                                              localwishlist[i]
+                                                  .offer
+                                                  .companyName,
+                                              style: const TextStyle(
+                                                color: Colors.grey,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    const Divider(),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: Wrap(
+                                        direction: Axis.horizontal,
+                                        spacing: 10,
+                                        runSpacing: 10,
+                                        children: <Widget>[
+                                          for (int index = 0;
+                                          index <
+                                              localwishlist[i]
+                                                  .offer
+                                                  .tags
+                                                  .length;
+                                          index++)
+                                            Tags(
+                                              text: localwishlist[i]
+                                                  .offer
+                                                  .tags[index],
+                                            ),
                                         ],
                                       ),
                                     ),
-                                  ),
-                                  CircleAvatar(
-                                    backgroundColor: kSecondaryColor,
-                                    radius: 25,
-                                    child: Text(
-                                      "${i + 1}",
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 26,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
+                            CircleAvatar(
+                              backgroundColor: kSecondaryColor,
+                              radius: 25,
+                              child: Text(
+                                "${i + 1}",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-              ],
-              onReorder: (int oldIndex, int newIndex) {
-                setState(() {
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  final Wish item = wishlist!.removeAt(oldIndex);
-                  wishlist!.insert(newIndex, item);
-                });
-              },
-            ),
-          )
-        : const Padding(
-            padding: EdgeInsets.symmetric(vertical: 100),
-            child: Center(
-              child: Icon(
-                Icons.search_off,
-                size: 200,
+                ),
               ),
             ),
-          );
+        ],
+        onReorder: (int oldIndex, int newIndex) {
+          setState(() {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+            final Wish item = wishlist!.removeAt(oldIndex);
+            wishlist!.insert(newIndex, item);
+          });
+        },
+      ),
+    )
+        : const Padding(
+      padding: EdgeInsets.symmetric(vertical: 100),
+      child: Center(
+        child: Icon(
+          Icons.search_off,
+          size: 200,
+        ),
+      ),
+    );
   }
 }
