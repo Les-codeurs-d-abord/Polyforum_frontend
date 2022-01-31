@@ -29,7 +29,12 @@ class FileDataModel {
 }
 
 class CustomDropZone extends StatefulWidget {
-  const CustomDropZone({Key? key}) : super(key: key);
+  final bool disabled; // TODO handle disabled state
+
+  const CustomDropZone({
+    required this.disabled,
+    Key? key
+  }) : super(key: key);
 
   @override
   State<CustomDropZone> createState() => _CustomDropZoneState();

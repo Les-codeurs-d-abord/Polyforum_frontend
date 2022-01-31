@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/company/candidat/company_candidat_list_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'candidate_card.dart';
@@ -15,9 +17,12 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  late final Phase currentPhase;
+
   @override
   void initState() {
     super.initState();
+    currentPhase = BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
     BlocProvider.of<CompanyCandidatListCubit>(context).getCandidateList();
   }
 
@@ -108,7 +113,7 @@ class _BodyState extends State<Body> {
                   runSpacing: 20,
                   children: [
                     for (var candidate in candidateList)
-                      CandidateCard(candidate),
+                      CandidateCard(candidate, currentPhase),
                   ],
                 )
               : const Padding(

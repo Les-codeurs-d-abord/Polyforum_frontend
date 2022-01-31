@@ -27,8 +27,9 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
 
-    BlocProvider.of<PhaseCubit>(context).fetchCurrentPhase();
-    BlocProvider.of<AdminGetUserCubit>(context).getAdminFromLocalToken();
+    BlocProvider.of<PhaseCubit>(context).fetchCurrentPhase().then((value) =>
+        BlocProvider.of<AdminGetUserCubit>(context).getAdminFromLocalToken(),
+    );
   }
 
   @override

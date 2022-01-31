@@ -35,7 +35,7 @@ class _BodyState extends State<Body> {
 
   List<Company> companyListInitial = [];
   List<Company> companyList = [];
-  late Phase currentPhase;
+  late final Phase currentPhase;
 
   @override
   void initState() {
@@ -350,7 +350,10 @@ class _BodyState extends State<Body> {
                     builder: (BuildContext context) {
                       return BlocProvider(
                         create: (context) => CompanyOffersListDialogCubit(CompanyRepository()),
-                        child: CompanyOffersListDialog(company),
+                        child: CompanyOffersListDialog(
+                            currentPhase,
+                            company
+                        ),
                       );
                     },
                     barrierDismissible: false

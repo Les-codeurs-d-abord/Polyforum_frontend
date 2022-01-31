@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poly_forum/screens/company/offers/edit/edit_offer_screen.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -21,9 +22,12 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  late final Phase currentPhase;
+
   @override
   void initState() {
     super.initState();
+    currentPhase = BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
     CompanyUser user = BlocProvider.of<CompanyGetUserCubit>(context).getUser();
     BlocProvider.of<CompanyGetOfferCubit>(context).getOfferList(user);
   }
@@ -117,27 +121,28 @@ class _BodyState extends State<Body> {
         Container(
           child: offerList.isNotEmpty
               ? Column(
-                  children: [
-                    for (var offer in offerList) OfferCard(offer),
-                  ],
-                )
+            children: [
+              for (var offer in offerList) OfferCard(offer, currentPhase),
+            ],
+          )
               : const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 100),
-                  child: Center(
-                    child: Icon(
-                      Icons.search_off,
-                      size: 200,
-                    ),
-                  ),
-                ),
+            padding: EdgeInsets.symmetric(vertical: 100),
+            child: Center(
+              child: Icon(
+                Icons.search_off,
+                size: 200,
+              ),
+            ),
+          ),
         ),
         const SizedBox(height: 30),
-        RowBtn(
-          text: "Ajouter une offre",
-          onPressed: () {
-            BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(2);
-          },
-        ),
+        if (currentPhase == Phase.inscription)
+          RowBtn(
+            text: "Ajouter une offre",
+            onPressed: () {
+              BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(2);
+            },
+          ),
       ],
     );
   }

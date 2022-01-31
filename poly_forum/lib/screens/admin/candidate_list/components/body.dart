@@ -34,7 +34,7 @@ class _BodyState extends State<Body> {
   List<CandidateUser> candidateListInitial = [];
   List<CandidateUser> candidateList = [];
 
-  late Phase currentPhase;
+  late final Phase currentPhase;
 
   @override
   void initState() {

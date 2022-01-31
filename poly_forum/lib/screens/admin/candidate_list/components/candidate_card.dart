@@ -88,7 +88,7 @@ class CandidateCard extends StatelessWidget {
                       itemBuilder: (context) => [
                         PopupMenuItem(
                           value: 0,
-                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.inscription,
+                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() != Phase.planning,
                           child: Row(
                             children: const [
                               Icon(Icons.edit),

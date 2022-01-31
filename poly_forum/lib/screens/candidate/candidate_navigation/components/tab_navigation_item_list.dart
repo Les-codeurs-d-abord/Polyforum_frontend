@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/candidate/navigation/candidate_navigation_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_child_navigation_item.dart';
 import 'package:poly_forum/screens/shared/components/navigation/tab_navigation_item.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 
 class TabNavigationItemList extends StatelessWidget {
   final int selectedIndex;
 
-  const TabNavigationItemList({required this.selectedIndex, Key? key})
-      : super(key: key);
+  const TabNavigationItemList({required this.selectedIndex, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,42 +49,52 @@ class TabNavigationItemList extends StatelessWidget {
           },
         ),
         const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 1,
-          selectedIndex: selectedIndex,
-          text: "Les offres",
-          iconSelected: Icons.local_offer,
-          iconNonSelected: Icons.local_offer_outlined,
-          onPressed: () {
-            BlocProvider.of<CandidateNavigationCubit>(context)
-                .setSelectedItem(1);
-          },
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 2,
-          selectedIndex: selectedIndex,
-          text: "Mes voeux",
-          iconSelected: Icons.bookmark_outlined,
-          iconNonSelected: Icons.bookmark_border,
-          onPressed: () {
-            BlocProvider.of<CandidateNavigationCubit>(context)
-                .setSelectedItem(2);
-          },
-        ),
-        const SizedBox(height: 20),
-        TabNavigationItem(
-          index: 3,
-          selectedIndex: selectedIndex,
-          text: "Mon planning",
-          iconSelected: Icons.today,
-          iconNonSelected: Icons.today_outlined,
-          onPressed: () {
-            BlocProvider.of<CandidateNavigationCubit>(context)
-                .setSelectedItem(3);
-          },
-        ),
-        const SizedBox(height: 20),
+        if (BlocProvider.of<PhaseCubit>(context).getCurrentPhase() != Phase.inscription)
+          Column(
+              children: [
+                TabNavigationItem(
+                  index: 1,
+                  selectedIndex: selectedIndex,
+                  text: "Les offres",
+                  iconSelected: Icons.local_offer,
+                  iconNonSelected: Icons.local_offer_outlined,
+                  onPressed: () {
+                    BlocProvider.of<CandidateNavigationCubit>(context)
+                        .setSelectedItem(1);
+                  },
+                ),
+                const SizedBox(height: 20),
+                TabNavigationItem(
+                  index: 2,
+                  selectedIndex: selectedIndex,
+                  text: "Mes voeux",
+                  iconSelected: Icons.bookmark_outlined,
+                  iconNonSelected: Icons.bookmark_border,
+                  onPressed: () {
+                    BlocProvider.of<CandidateNavigationCubit>(context)
+                        .setSelectedItem(2);
+                  },
+                ),
+                const SizedBox(height: 20),
+              ]
+          ),
+        if (BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.planning)
+          Column(
+            children: [
+              TabNavigationItem(
+                index: 3,
+                selectedIndex: selectedIndex,
+                text: "Mon planning",
+                iconSelected: Icons.today,
+                iconNonSelected: Icons.today_outlined,
+                onPressed: () {
+                  BlocProvider.of<CandidateNavigationCubit>(context)
+                      .setSelectedItem(3);
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         TabNavigationItem(
           index: 4,
           selectedIndex: selectedIndex,
