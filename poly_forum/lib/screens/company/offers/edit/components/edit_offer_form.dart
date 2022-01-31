@@ -130,7 +130,11 @@ class _EditOfferFormState extends State<EditOfferForm> {
                 ],
               ),
               const SizedBox(height: 15),
-              CustomDropZone(text: "Document", uri: widget.offer.offerFile),
+              CustomDropZone(
+                text: "Document",
+                uri: widget.offer.offerFile,
+                isEnable: true,
+              ),
               const SizedBox(height: 15),
               SizedBox(
                 width: 700,
@@ -151,7 +155,10 @@ class _EditOfferFormState extends State<EditOfferForm> {
               IntrinsicHeight(
                 child: Row(
                   children: [
-                    ProfileTags(tags: tags),
+                    ProfileTags(
+                      tags: tags,
+                      isDisable: false,
+                    ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: VerticalDivider(color: Colors.black, thickness: 1),

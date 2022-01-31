@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
 import 'package:poly_forum/cubit/file_cubit.dart';
-import 'package:poly_forum/data/models/user_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -11,8 +10,10 @@ import 'package:url_launcher/url_launcher.dart';
 class CustomDropZone extends StatefulWidget {
   final String uri;
   final String text;
+  final bool isEnable;
 
-  const CustomDropZone({required this.text, required this.uri, Key? key})
+  const CustomDropZone(
+      {required this.text, required this.uri, required this.isEnable, Key? key})
       : super(key: key);
 
   @override

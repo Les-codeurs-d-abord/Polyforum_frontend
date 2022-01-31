@@ -7,7 +7,10 @@ import 'sized_btn.dart';
 class ProfileTags extends StatefulWidget {
   final int maxTags = 10;
   final List<String> tags;
-  const ProfileTags({required this.tags, Key? key}) : super(key: key);
+  final bool isDisable;
+
+  const ProfileTags({required this.tags, required this.isDisable, Key? key})
+      : super(key: key);
 
   @override
   _ProfilTagsState createState() => _ProfilTagsState();

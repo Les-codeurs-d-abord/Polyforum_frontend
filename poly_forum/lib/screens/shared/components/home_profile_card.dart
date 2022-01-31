@@ -56,13 +56,14 @@ class HomeProfileCard extends StatelessWidget {
                   ],
                 ),
                 const Divider(),
-                Text(
-                  text,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 7,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
+                Expanded(
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ],
