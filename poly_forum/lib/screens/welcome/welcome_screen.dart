@@ -31,7 +31,7 @@ class WelcomeScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   "Cette application a pour objectif l’organisation des rencontres entre les futurs apprentis de Polytech et des entreprises prêtes à recruter."
-                      "Afin que ces rencontres soient efficaces, les entreprises pourront, grâce à l'application, décider quels candidats les intéressent et les candidats pourront faire de même avec les entreprises."
+                      "Afin que ces rencontres soient efficaces, les entreprises pourront, grâce à l'application, décider quels candidats les intéressent et les candidats pourront faire de même avec les entreprises. "
                       "À la suite de cela, un planning sera généré et permettra aux candidats et entreprises de savoir où et quand la rencontre se fera",
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.justify,

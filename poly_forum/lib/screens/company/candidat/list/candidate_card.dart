@@ -1,25 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
-import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_check_wishlist_cubit.dart';
-import 'package:poly_forum/cubit/company/wishlist/company_get_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_wishlist_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/resources/candidate_repository.dart';
 import 'package:poly_forum/screens/admin/candidate_list/components/candidate_detail_dialog.dart';
 import 'package:poly_forum/screens/company/candidat/list/add_candidate.dart';
-import 'package:poly_forum/screens/company/candidat/offer_list/offer_list_dialog.dart';
-import 'package:poly_forum/screens/shared/components/row_btn.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CandidateCard extends StatelessWidget {
   final CandidateUser candidate;
+  final Phase currentPhase;
 
-  const CandidateCard(this.candidate, {Key? key}) : super(key: key);
+  const CandidateCard(this.candidate, this.currentPhase, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +107,10 @@ class CandidateCard extends StatelessWidget {
                   ],
                 )
               : const SizedBox(),
-          const Spacer(),
-          MultiBlocProvider(
+          if (currentPhase == Phase.wish)
+            const Spacer(),
+          if (currentPhase == Phase.wish)
+            MultiBlocProvider(
             providers: [
               BlocProvider<CompanyWishlistCubit>(
                 create: (context) => CompanyWishlistCubit(),

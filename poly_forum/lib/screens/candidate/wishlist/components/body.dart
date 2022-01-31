@@ -55,13 +55,13 @@ class _BodyState extends State<Body> {
   Widget buildLoaded(bool isLoading) {
     Widget child = Column(
       children: [
-        isLoading ? buildloading() : buildList(),
         !isLoading
             ? BlocProvider(
-          create: (context) => CandidateChoicesSaveCubit(),
-          child: SaveWishlistBtn(user: widget.user, wishlist: wishlist!),
-        )
+                create: (context) => CandidateChoicesSaveCubit(),
+                child: SaveWishlistBtn(user: widget.user, wishlist: wishlist!),
+              )
             : const SizedBox(height: 15),
+        isLoading ? buildloading() : buildList(),
       ],
     );
 

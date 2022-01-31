@@ -120,40 +120,6 @@ class CandidateWebBody extends StatelessWidget {
               ),
             ],
           ),
-          Positioned(
-            bottom: 1,
-            left: 1,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, bottom: 50),
-              child: TextButton(
-                onPressed: () {
-                  SharedPreferences.getInstance()
-                      .then((value) => value.setString(kTokenPref, ""));
-                  Application.router.navigateTo(
-                    context,
-                    Routes.signInScreen,
-                    clearStack: true,
-                    transition: TransitionType.fadeIn,
-                  );
-                },
-                child: Row(
-                  children: const [
-                    Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      "Se déconnecter",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );

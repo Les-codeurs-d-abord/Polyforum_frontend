@@ -29,7 +29,7 @@ class FileDataModel {
 }
 
 class CustomDropZone extends StatefulWidget {
-  final bool disabled;
+  final bool disabled; // TODO handle disabled state
 
   const CustomDropZone({
     required this.disabled,

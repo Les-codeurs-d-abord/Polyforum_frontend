@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/company/company_profile_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
-import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
-import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
-import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/profile/profile_links.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -32,12 +31,14 @@ class _ProfileFormState extends State<ProfileForm> {
   List<String> links = [];
   List<String> tags = [];
 
+  late Phase currentPhase;
   late CompanyUser user;
 
   @override
   void initState() {
     super.initState();
 
+    currentPhase =  BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
     user = BlocProvider.of<CompanyGetUserCubit>(context).getUser();
 
     _nameController.text = user.companyName;
@@ -98,7 +99,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     text: "Numéro de téléphone",
                     icon: Icons.phone_outlined,
                     controller: _phoneNumberController,
-                    isLocked: false,
+                    isLocked: currentPhase != Phase.inscription,
                     maxCharacters: 10,
                     minCharacters: 10,
                     isNumeric: true,
@@ -121,7 +122,7 @@ class _ProfileFormState extends State<ProfileForm> {
                     isLocked: true,
                   ),
                   const SizedBox(width: 100),
-                  ProfileLinks(links: links),
+                  ProfileLinks(links: links, disabled: currentPhase != Phase.inscription),
                 ],
               ),
               const SizedBox(height: 15),
@@ -133,7 +134,7 @@ class _ProfileFormState extends State<ProfileForm> {
                       text: "Courte présentation",
                       icon: Icons.article_outlined,
                       controller: _descriptionController,
-                      isLocked: false,
+                      isLocked: currentPhase != Phase.inscription,
                       maxCharacters: 500,
                       maxLines: 10,
                     ),
@@ -146,8 +147,8 @@ class _ProfileFormState extends State<ProfileForm> {
                   Expanded(
                     child: SizedBox(
                       height: 50,
-                      child: TextButton(
-                        onPressed: () async {
+                      child: MaterialButton(
+                        onPressed: currentPhase != Phase.inscription ? null : () async {
                           if (_formKey.currentState!.validate()) {
                             user.description = _descriptionController.text;
                             user.phoneNumber = _phoneNumberController.text;
@@ -157,11 +158,9 @@ class _ProfileFormState extends State<ProfileForm> {
                                 .updateCompany(user);
                           }
                         },
-                        style: TextButton.styleFrom(
-                          primary: Colors.white,
-                          backgroundColor: kButtonColor,
-                          onSurface: Colors.grey,
-                        ),
+                        textColor: Colors.white,
+                        color: kButtonColor,
+                        disabledColor: kDisabledButtonColor,
                         child: BlocConsumer<CompanyProfileCubit,
                             CompanyProfileState>(
                           listener: (context, state) {},

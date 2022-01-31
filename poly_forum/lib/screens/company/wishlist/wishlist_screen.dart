@@ -3,15 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_get_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_wishlist_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/company_wish.dart';
 import 'package:poly_forum/screens/company/wishlist/components/candidat_order_card.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/shimmer_loading.dart';
-import 'package:poly_forum/screens/shared/components/tags.dart';
-import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
-import 'package:poly_forum/utils/constants.dart';
 
 import 'components/save_choices_offer_btn.dart';
 
@@ -53,15 +52,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
   Widget buildLoaded(List<CompanyWish> wishlist, bool isLoading) {
     Widget child = Column(
       children: [
-        isLoading
-            ? const ShimmerLoading(nbBlock: 10, nbLine: 7)
-            : buildList(wishlist),
         !isLoading
             ? BlocProvider(
                 create: (context) => CompanyWishlistCubit(),
                 child: SaveWishlistBtn(company: company, wishlist: wishlist),
-              )
+            )
             : const SizedBox(height: 15),
+        isLoading
+            ? const ShimmerLoading(nbBlock: 10, nbLine: 7)
+            : buildList(wishlist),
       ],
     );
 
@@ -69,39 +68,42 @@ class _WishlistScreenState extends State<WishlistScreen> {
   }
 
   Widget buildList(List<CompanyWish> wishlist) {
-    return wishlist.isNotEmpty
-        ? ReorderableListView(
-            shrinkWrap: true,
-            primary: false,
-            children: <Widget>[
-              for (int i = 0; i < wishlist.length; i++)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  key: Key('$i'),
-                  child: CandidatOrderCard(
-                    candidate: wishlist[i].candidate,
-                    rank: i,
-                  ),
-                ),
-            ],
-            onReorder: (int oldIndex, int newIndex) {
-              setState(() {
-                if (oldIndex < newIndex) {
-                  newIndex -= 1;
-                }
-                final CompanyWish item = wishlist.removeAt(oldIndex);
-                wishlist.insert(newIndex, item);
-              });
-            },
-          )
-        : const Padding(
-            padding: EdgeInsets.symmetric(vertical: 100),
-            child: Center(
-              child: Icon(
-                Icons.search_off,
-                size: 200,
+    return wishlist.isNotEmpty ?
+    IgnorePointer(
+      ignoring: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.planning,
+      child: ReorderableListView(
+        shrinkWrap: true,
+        primary: false,
+        children: <Widget>[
+          for (int i = 0; i < wishlist.length; i++)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              key: Key('$i'),
+              child: CandidatOrderCard(
+                candidate: wishlist[i].candidate,
+                rank: i,
               ),
             ),
-          );
+        ],
+        onReorder: (int oldIndex, int newIndex) {
+          setState(() {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+            final CompanyWish item = wishlist.removeAt(oldIndex);
+            wishlist.insert(newIndex, item);
+          });
+        },
+      ),
+    )
+        : const Padding(
+      padding: EdgeInsets.symmetric(vertical: 100),
+      child: Center(
+        child: Icon(
+          Icons.search_off,
+          size: 200,
+        ),
+      ),
+    );
   }
 }
