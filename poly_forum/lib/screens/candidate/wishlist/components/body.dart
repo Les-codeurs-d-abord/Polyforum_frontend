@@ -126,7 +126,6 @@ class _BodyState extends State<Body> {
                                   CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      // TODO nom de l'entreprise en petit grisé en dessous + nom de l'offre en grand
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         ProfilePicture(

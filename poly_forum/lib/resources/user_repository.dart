@@ -153,6 +153,27 @@ class UserRepository {
 
     throw const NetworkException("Une erreur est survenue.");
   }
+
+  Future<void> resetForgottenPassword(String email) async {
+    final body = {
+      'email': email,
+    };
+
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
+
+    final uri = Uri.http(kServer, '/api/users/resetForgottenPassword');
+    final response = await http.put(uri, body: body).onError((error, stackTrace) {
+      throw const NetworkException("Le serveur est injoignable");
+    });
+
+    if (response.statusCode != 200) {
+      if (response.statusCode == 404) {
+        throw UnknowUserException(response.body);
+      } else {
+        throw const NetworkException("Le serveur a rencontré un problème");
+      }
+    }
+  }
 }
 
 class NetworkException implements Exception {
