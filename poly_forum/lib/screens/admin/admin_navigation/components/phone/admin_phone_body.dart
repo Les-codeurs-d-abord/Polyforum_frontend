@@ -14,6 +14,7 @@ import 'package:poly_forum/screens/welcome/welcome_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../tab_navigation_item_list.dart';
+import '../admin_profil_btn.dart';
 
 class AdminPhoneBody extends StatelessWidget {
   const AdminPhoneBody({Key? key}) : super(key: key);
@@ -65,13 +66,8 @@ class AdminPhoneBody extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(Icons.notifications),
           ),
-          NavBarProfilBtn(
-            text: user.email,
-            textTypeUser: "Amin",
-            onProfileSelected: () {
-              BlocProvider.of<CompanyNavigationCubit>(context)
-                  .setSelectedItem(6);
-            },
+          AdminProfilBtn(
+            user: user,
           ),
         ],
       ),

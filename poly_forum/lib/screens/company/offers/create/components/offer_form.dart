@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
+import 'package:poly_forum/cubit/file_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
+import 'package:poly_forum/screens/shared/components/profile/custom_drop_zone.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import 'custom_drop_zone.dart';
 import '../../../../shared/components/custom_text_field.dart';
 import '../../../../shared/components/profile/profile_links.dart';
 import '../../../../shared/components/profile/profile_tags.dart';
@@ -48,27 +49,33 @@ class _OfferFormState extends State<OfferForm> {
     return BlocConsumer<CompanyOfferCubit, CompanyOfferState>(
       listener: (context, state) {
         if (state is CompanyOfferLoaded) {
-          _nameController.clear();
-          _descriptionController.clear();
-          _phoneNumberController.clear();
-          _emailController.clear();
-          _addresController.clear();
+          BlocProvider.of<FileCubit>(context)
+              .uploadCV(state.offer)
+              .then((value) {
+            if (value != null) {
+              BlocProvider.of<CompanyGetOfferCubit>(context)
+                  .getOfferList(companyUser);
 
-          links.clear();
-          tags.clear();
+              showTopSnackBar(
+                context,
+                Padding(
+                  padding: kTopSnackBarPadding,
+                  child: const CustomSnackBar.success(
+                    message: "Sauvegarde effectuée avec succès !",
+                  ),
+                ),
+              );
+            }
 
-          BlocProvider.of<CompanyGetOfferCubit>(context)
-              .getOfferList(companyUser);
+            _nameController.clear();
+            _descriptionController.clear();
+            _phoneNumberController.clear();
+            _emailController.clear();
+            _addresController.clear();
 
-          showTopSnackBar(
-            context,
-            Padding(
-              padding: kTopSnackBarPadding,
-              child: const CustomSnackBar.success(
-                message: "Sauvegarde effectuée avec succès !",
-              ),
-            ),
-          );
+            links.clear();
+            tags.clear();
+          });
         } else if (state is CompanyOfferError) {
           showTopSnackBar(
             context,
@@ -127,7 +134,11 @@ class _OfferFormState extends State<OfferForm> {
                 ],
               ),
               const SizedBox(height: 15),
-              const CustomDropZone(),
+              const CustomDropZone(
+                text: "Offre",
+                uri: "",
+                isEnable: true,
+              ),
               const SizedBox(height: 15),
               SizedBox(
                 width: 700,
@@ -148,7 +159,10 @@ class _OfferFormState extends State<OfferForm> {
               IntrinsicHeight(
                 child: Row(
                   children: [
-                    ProfileTags(tags: tags),
+                    ProfileTags(
+                      tags: tags,
+                      isDisable: false,
+                    ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: VerticalDivider(color: Colors.black, thickness: 1),
@@ -166,24 +180,42 @@ class _OfferFormState extends State<OfferForm> {
                       child: TextButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            Offer offer = Offer(
-                              companyId: companyUser.campanyProfileId,
-                              companyName: companyUser.companyName,
-                              address: _addresController.text,
-                              description: _descriptionController.text,
-                              email: _emailController.text,
-                              name: _nameController.text,
-                              phoneNumber: _phoneNumberController.text,
-                              links: links,
-                              tags: tags,
-                              id: 0,
-                              offerFile: "",
-                              candidatesWishesCount: 0,
-                              companyUserId: companyUser.id,
-                            );
+                            FileDataModel? fileDataModel =
+                                BlocProvider.of<FileCubit>(context)
+                                    .fileDataModel;
+                            if (fileDataModel == null) {
+                              showTopSnackBar(
+                                context,
+                                Padding(
+                                  padding: kTopSnackBarPadding,
+                                  child: const CustomSnackBar.error(
+                                    message:
+                                        "Veuillez renseigner un document présentant votre offre.",
+                                  ),
+                                ),
+                              );
+                            } else {
+                              Offer offer = Offer(
+                                companyId: companyUser.campanyProfileId,
+                                companyName: companyUser.companyName,
+                                address: _addresController.text,
+                                description: _descriptionController.text,
+                                email: _emailController.text,
+                                name: _nameController.text,
+                                phoneNumber: _phoneNumberController.text,
+                                links: links,
+                                tags: tags,
+                                id: 0,
+                                offerFile: "",
+                                logoUri: companyUser.logo,
+                                createdAt: DateTime(2022),
+                                companyUserId: companyUser.id,
+                                candidatesWishesCount: 0,
+                              );
 
-                            BlocProvider.of<CompanyOfferCubit>(context)
-                                .createOffer(offer);
+                              BlocProvider.of<CompanyOfferCubit>(context)
+                                  .createOffer(offer);
+                            }
                           }
                         },
                         style: TextButton.styleFrom(

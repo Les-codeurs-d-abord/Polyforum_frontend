@@ -7,6 +7,7 @@ import 'package:poly_forum/cubit/candidate/candidate_offer_screen_cubit.dart';
 import 'package:poly_forum/cubit/candidate/navigation/candidate_get_user_cubit.dart';
 import 'package:poly_forum/cubit/candidate/navigation/candidate_navigation_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
+import 'package:poly_forum/cubit/image_cubit.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/candidate/candidate_navigation/components/phone/candidate_phone_body.dart';
@@ -26,8 +27,8 @@ class _BodyState extends State<Body> {
     super.initState();
 
     BlocProvider.of<PhaseCubit>(context).fetchCurrentPhase().then((value) =>
-        BlocProvider.of<CandidateGetUserCubit>(context).getCandidateFromLocalToken()
-    );
+        BlocProvider.of<CandidateGetUserCubit>(context)
+            .getCandidateFromLocalToken());
   }
 
   @override
@@ -75,6 +76,9 @@ class _BodyState extends State<Body> {
         ),
         BlocProvider(
           create: (context) => CandidateOfferScreenCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ImageCubit(),
         ),
       ],
       child: LayoutBuilder(builder: (context, constraints) {

@@ -34,11 +34,13 @@ class OfferSelectedCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  ProfilePicture(
-                    uri: "",
-                    defaultText: offer.companyName,
-                    height: 50,
-                    width: 50,
+                  SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: ProfilePicture(
+                      uri: "",
+                      name: offer.companyName,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Column(

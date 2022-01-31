@@ -6,6 +6,7 @@ import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
+import 'package:poly_forum/screens/shared/components/profile/editable_avatar.dart';
 import 'package:poly_forum/screens/shared/components/profile/profile_links.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -38,7 +39,7 @@ class _ProfileFormState extends State<ProfileForm> {
   void initState() {
     super.initState();
 
-    currentPhase =  BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
+    currentPhase = BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
     user = BlocProvider.of<CompanyGetUserCubit>(context).getUser();
 
     _nameController.text = user.companyName;
@@ -85,6 +86,12 @@ class _ProfileFormState extends State<ProfileForm> {
           key: _formKey,
           child: Column(
             children: [
+              EditableAvatar(
+                name: user.companyName,
+                user: user,
+                uri: user.logo,
+              ),
+              const SizedBox(height: 30),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -104,12 +111,6 @@ class _ProfileFormState extends State<ProfileForm> {
                     minCharacters: 10,
                     isNumeric: true,
                   ),
-                  // CustomTextField(
-                  //   text: "Adress",
-                  //   icon: Icons.person_outline,
-                  //   controller: _addresController,
-                  //   isLocked: false,
-                  // )
                 ],
               ),
               const SizedBox(height: 15),
@@ -122,7 +123,9 @@ class _ProfileFormState extends State<ProfileForm> {
                     isLocked: true,
                   ),
                   const SizedBox(width: 100),
-                  ProfileLinks(links: links, disabled: currentPhase != Phase.inscription),
+                  ProfileLinks(
+                      links: links,
+                      disabled: currentPhase != Phase.inscription),
                 ],
               ),
               const SizedBox(height: 15),
@@ -148,16 +151,20 @@ class _ProfileFormState extends State<ProfileForm> {
                     child: SizedBox(
                       height: 50,
                       child: MaterialButton(
-                        onPressed: currentPhase != Phase.inscription ? null : () async {
-                          if (_formKey.currentState!.validate()) {
-                            user.description = _descriptionController.text;
-                            user.phoneNumber = _phoneNumberController.text;
-                            user.links = links;
+                        onPressed: currentPhase != Phase.inscription
+                            ? null
+                            : () async {
+                                if (_formKey.currentState!.validate()) {
+                                  user.description =
+                                      _descriptionController.text;
+                                  user.phoneNumber =
+                                      _phoneNumberController.text;
+                                  user.links = links;
 
-                            BlocProvider.of<CompanyProfileCubit>(context)
-                                .updateCompany(user);
-                          }
-                        },
+                                  BlocProvider.of<CompanyProfileCubit>(context)
+                                      .updateCompany(user);
+                                }
+                              },
                         textColor: Colors.white,
                         color: kButtonColor,
                         disabledColor: kDisabledButtonColor,

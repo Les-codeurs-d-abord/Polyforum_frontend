@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
+import 'package:poly_forum/cubit/file_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
@@ -23,7 +24,10 @@ class EditOfferScreen extends StatelessWidget {
           width: 1000,
           child: Padding(
             padding: const EdgeInsets.all(20),
-            child: EditOfferForm(offer: offer!),
+            child: BlocProvider(
+              create: (context) => FileCubit(),
+              child: EditOfferForm(offer: offer!),
+            ),
           ),
         ),
       ),

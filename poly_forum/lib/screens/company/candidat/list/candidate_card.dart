@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
@@ -10,13 +9,14 @@ import 'package:poly_forum/screens/admin/candidate_list/components/candidate_det
 import 'package:poly_forum/screens/company/candidat/list/add_candidate.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
-import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
+import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 
 class CandidateCard extends StatelessWidget {
   final CandidateUser candidate;
   final Phase currentPhase;
 
-  const CandidateCard(this.candidate, this.currentPhase, {Key? key}) : super(key: key);
+  const CandidateCard(this.candidate, this.currentPhase, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +56,13 @@ class CandidateCard extends StatelessWidget {
       children: [
         Row(
           children: [
-            CachedNetworkImage(
-              imageUrl: "",
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) {
-                return InitialsAvatar(
-                  candidate.firstName + " " + candidate.lastName,
-                  fontSize: 22,
-                );
-              },
+            SizedBox(
               width: 50,
               height: 50,
+              child: ProfilePicture(
+                uri: candidate.logo,
+                name: candidate.firstName + " " + candidate.lastName,
+              ),
             ),
             const SizedBox(width: 15),
             Text(
@@ -107,25 +103,24 @@ class CandidateCard extends StatelessWidget {
                   ],
                 )
               : const SizedBox(),
-          if (currentPhase == Phase.wish)
-            const Spacer(),
+          if (currentPhase == Phase.wish) const Spacer(),
           if (currentPhase == Phase.wish)
             MultiBlocProvider(
-            providers: [
-              BlocProvider<CompanyWishlistCubit>(
-                create: (context) => CompanyWishlistCubit(),
-              ),
-              // BlocProvider<CompanyGetWishlistCubit>(
-              //   create: (context) => CompanyGetWishlistCubit(),
-              // ),
-            ],
-            child: BlocProvider(
-              create: (context) => CompanyCheckWishlistCubit(),
-              child: AddCandidate(
-                candidate: candidate,
+              providers: [
+                BlocProvider<CompanyWishlistCubit>(
+                  create: (context) => CompanyWishlistCubit(),
+                ),
+                // BlocProvider<CompanyGetWishlistCubit>(
+                //   create: (context) => CompanyGetWishlistCubit(),
+                // ),
+              ],
+              child: BlocProvider(
+                create: (context) => CompanyCheckWishlistCubit(),
+                child: AddCandidate(
+                  candidate: candidate,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

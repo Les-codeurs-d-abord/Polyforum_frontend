@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/screens/candidate/profil/edit/components/sized_btn.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'add_link_modal.dart';
+import 'sized_btn.dart';
 
 class ProfileLinks extends StatefulWidget {
   final int maxLinks = 6;

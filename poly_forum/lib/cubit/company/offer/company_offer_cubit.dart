@@ -18,7 +18,7 @@ class CompanyOfferCubit extends Cubit<CompanyOfferState> {
 
       await repository.deleteOffer(offer);
 
-      emit(CompanyOfferLoaded());
+      emit(CompanyOfferLoaded(offer));
     } on NetworkException catch (exception) {
       emit(CompanyOfferError(exception.message));
     }
@@ -28,9 +28,9 @@ class CompanyOfferCubit extends Cubit<CompanyOfferState> {
     try {
       emit(CompanyOfferLoading());
 
-      await repository.createOffer(offer);
+      Offer offerResult = await repository.createOffer(offer);
 
-      emit(CompanyOfferLoaded());
+      emit(CompanyOfferLoaded(offerResult));
     } on NetworkException catch (exception) {
       emit(CompanyOfferError(exception.message));
     }
@@ -40,9 +40,9 @@ class CompanyOfferCubit extends Cubit<CompanyOfferState> {
     try {
       emit(CompanyOfferLoading());
 
-      await repository.updateOffer(offer);
+      Offer offerResult = await repository.updateOffer(offer);
 
-      emit(CompanyOfferLoaded());
+      emit(CompanyOfferLoaded(offerResult));
     } on NetworkException catch (exception) {
       emit(CompanyOfferError(exception.message));
     }

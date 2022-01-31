@@ -60,6 +60,7 @@ class CandidateNavBar extends StatelessWidget {
                 icon: const Icon(Icons.notifications),
               ),
               NavBarProfilBtn(
+                uri: user.logo,
                 text: user.firstName + " " + user.lastName,
                 textTypeUser: "Candidat",
                 onProfileSelected: onProfileSelected,

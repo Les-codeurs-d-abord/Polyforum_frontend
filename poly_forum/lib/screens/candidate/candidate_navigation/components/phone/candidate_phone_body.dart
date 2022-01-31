@@ -64,6 +64,7 @@ class CandidatePhoneBody extends StatelessWidget {
             icon: const Icon(Icons.notifications),
           ),
           NavBarProfilBtn(
+            uri: candidateUser.logo,
             text: candidateUser.firstName + " " + candidateUser.lastName,
             textTypeUser: "Candidat",
             onProfileSelected: () {

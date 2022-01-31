@@ -196,7 +196,7 @@ class CompanyRepository {
     }
   }
 
-  Future<void> createOffer(Offer offer) async {
+  Future<Offer> createOffer(Offer offer) async {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
@@ -211,7 +211,10 @@ class CompanyRepository {
         throw const NetworkException("Le serveur est injoignable");
       });
 
-      if (response.statusCode != 200) {
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return Offer.fromJson(data);
+      } else {
         throw NetworkException(
             "Une erreur est survenue, status code: ${response.statusCode}");
       }
@@ -238,7 +241,7 @@ class CompanyRepository {
     }
   }
 
-  Future<void> updateOffer(Offer offer) async {
+  Future<Offer> updateOffer(Offer offer) async {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
@@ -250,8 +253,12 @@ class CompanyRepository {
       final uri = Uri.http(kServer, '/api/offer/${offer.id}');
       final response = await http.put(uri, body: body);
 
-      if (response.statusCode != 200) {
-        throw const NetworkException("Une erreur est survenue.");
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return Offer.fromJson(data);
+      } else {
+        throw NetworkException(
+            "Une erreur est survenue, status code: ${response.statusCode}");
       }
     } on Exception catch (e) {
       throw NetworkException("Une erreur est survenue: ${e.toString()}");

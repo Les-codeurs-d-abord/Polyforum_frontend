@@ -80,11 +80,13 @@ class SlotPlanning extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(3.0),
-            child: ProfilePicture(
-              uri: slot.logo ?? '',
-              defaultText: slot.companyName ?? '?',
+            child: SizedBox(
               width: 40,
               height: 40,
+              child: ProfilePicture(
+                uri: slot.logo ?? '',
+                name: slot.companyName ?? '?',
+              ),
             ),
           ),
           Expanded(

@@ -35,22 +35,22 @@ class CompanyCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ProfilePicture(
-                  uri: company.logo ?? '',
-                  defaultText: company.companyName,
+                SizedBox(
                   width: 50,
                   height: 50,
+                  child: ProfilePicture(
+                    uri: company.logo ?? '',
+                    name: company.companyName,
+                  ),
                 ),
                 const Spacer(),
                 Expanded(
                   flex: 3,
-                  child: Text(
-                      company.companyName,
+                  child: Text(company.companyName,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 20,
-                      )
-                  ),
+                      )),
                 ),
                 const Spacer(),
                 Expanded(
@@ -98,7 +98,9 @@ class CompanyCard extends StatelessWidget {
                         const PopupMenuDivider(),
                         PopupMenuItem(
                           value: 1,
-                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() != Phase.planning,
+                          enabled: BlocProvider.of<PhaseCubit>(context)
+                                  .getCurrentPhase() !=
+                              Phase.planning,
                           child: Row(
                             children: const [
                               Icon(Icons.edit),
@@ -110,7 +112,9 @@ class CompanyCard extends StatelessWidget {
                         const PopupMenuDivider(),
                         PopupMenuItem(
                           value: 2,
-                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() != Phase.planning,
+                          enabled: BlocProvider.of<PhaseCubit>(context)
+                                  .getCurrentPhase() !=
+                              Phase.planning,
                           child: Row(
                             children: const [
                               Icon(Icons.close),
@@ -121,7 +125,7 @@ class CompanyCard extends StatelessWidget {
                         ),
                       ],
                       onSelected: (value) {
-                        switch(value) {
+                        switch (value) {
                           case 0:
                             return offersEvent(company);
                           case 1:
@@ -133,8 +137,7 @@ class CompanyCard extends StatelessWidget {
                       tooltip: "Actions",
                       child: Container(
                           padding: const EdgeInsets.all(7),
-                          child: const Icon(Icons.more_horiz)
-                      ),
+                          child: const Icon(Icons.more_horiz)),
                     ),
                   ),
                 ),

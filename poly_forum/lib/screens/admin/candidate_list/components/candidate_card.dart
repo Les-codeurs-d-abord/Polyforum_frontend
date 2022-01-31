@@ -34,22 +34,22 @@ class CandidateCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ProfilePicture(
-                  uri: candidate.logo,
-                  defaultText: candidate.lastName + " " + candidate.firstName,
+                SizedBox(
                   width: 50,
                   height: 50,
+                  child: ProfilePicture(
+                    uri: candidate.logo,
+                    name: candidate.lastName + " " + candidate.firstName,
+                  ),
                 ),
                 const Spacer(),
                 Expanded(
                   flex: 3,
-                  child: Text(
-                      candidate.lastName + " " + candidate.firstName,
+                  child: Text(candidate.lastName + " " + candidate.firstName,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 20,
-                      )
-                  ),
+                      )),
                 ),
                 const Spacer(),
                 Expanded(
@@ -64,8 +64,7 @@ class CandidateCard extends StatelessWidget {
                           size: 15,
                         ),
                       ],
-                    )
-                ),
+                    )),
                 const Spacer(),
                 Expanded(
                     flex: 3,
@@ -77,8 +76,7 @@ class CandidateCard extends StatelessWidget {
                         fontSize: 15,
                         overflow: TextOverflow.ellipsis,
                       ),
-                    )
-                ),
+                    )),
                 const Spacer(),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25),
@@ -88,7 +86,9 @@ class CandidateCard extends StatelessWidget {
                       itemBuilder: (context) => [
                         PopupMenuItem(
                           value: 0,
-                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() != Phase.planning,
+                          enabled: BlocProvider.of<PhaseCubit>(context)
+                                  .getCurrentPhase() !=
+                              Phase.planning,
                           child: Row(
                             children: const [
                               Icon(Icons.edit),
@@ -100,7 +100,9 @@ class CandidateCard extends StatelessWidget {
                         const PopupMenuDivider(),
                         PopupMenuItem(
                           value: 1,
-                          enabled: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() != Phase.planning,
+                          enabled: BlocProvider.of<PhaseCubit>(context)
+                                  .getCurrentPhase() !=
+                              Phase.planning,
                           child: Row(
                             children: const [
                               Icon(Icons.close),
@@ -111,7 +113,7 @@ class CandidateCard extends StatelessWidget {
                         ),
                       ],
                       onSelected: (value) {
-                        switch(value) {
+                        switch (value) {
                           case 0:
                             return editEvent(candidate);
                           case 1:
@@ -121,8 +123,7 @@ class CandidateCard extends StatelessWidget {
                       tooltip: "Actions",
                       child: Container(
                           padding: const EdgeInsets.all(7),
-                          child: const Icon(Icons.more_horiz)
-                      ),
+                          child: const Icon(Icons.more_horiz)),
                     ),
                   ),
                 ),

@@ -2,7 +2,7 @@ class Offer {
   final int id;
   String name;
   String description;
-  final String offerFile;
+  String offerFile;
   String phoneNumber;
   String address;
   String email;
@@ -12,6 +12,8 @@ class Offer {
   List<String> links;
   List<String> tags;
   int candidatesWishesCount;
+  final DateTime createdAt;
+  final String logoUri;
 
   Offer({
     required this.id,
@@ -27,6 +29,8 @@ class Offer {
     required this.links,
     required this.tags,
     required this.candidatesWishesCount,
+    required this.createdAt,
+    required this.logoUri,
   });
 
   factory Offer.fromJson(Map<String, dynamic> json) {
@@ -54,6 +58,8 @@ class Offer {
       links: links,
       tags: tags,
       candidatesWishesCount: json['candidatesWishesCount'] ?? 0,
+      logoUri: json['company_profile']?['logo'] ?? '',
+      createdAt: DateTime.parse(json['createdAt']),
     );
   }
 

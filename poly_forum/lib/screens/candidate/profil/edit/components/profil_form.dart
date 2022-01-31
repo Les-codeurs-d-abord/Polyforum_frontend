@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
+import 'package:poly_forum/cubit/file_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
-import 'package:poly_forum/screens/candidate/profil/edit/components/profile_links.dart';
-import 'package:poly_forum/screens/candidate/profil/edit/components/profile_tags.dart';
+// import 'package:poly_forum/screens/candidate/profil/edit/components/profile_links.dart';
+// import 'package:poly_forum/screens/candidate/profil/edit/components/profile_tags.dart';
 import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
+import 'package:poly_forum/screens/shared/components/profile/custom_drop_zone.dart';
+import 'package:poly_forum/screens/shared/components/profile/editable_avatar.dart';
+import 'package:poly_forum/screens/shared/components/profile/profile_links.dart';
+import 'package:poly_forum/screens/shared/components/profile/profile_tags.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import 'custom_drop_zone.dart';
-import 'editable_avatar.dart';
+// import 'custom_drop_zone.dart';
+// import 'editable_avatar.dart';
 
 // ignore: must_be_immutable
 class ProfileForm extends StatefulWidget {
@@ -63,7 +68,11 @@ class _ProfileFormState extends State<ProfileForm> {
       key: _formKey,
       child: Column(
         children: [
-          EditableAvatar(widget.user.firstName + " " + widget.user.lastName),
+          EditableAvatar(
+            name: widget.user.firstName + " " + widget.user.lastName,
+            uri: widget.user.logo,
+            user: widget.user,
+          ),
           const SizedBox(height: 15),
           Row(
             mainAxisSize: MainAxisSize.max,
@@ -129,7 +138,11 @@ class _ProfileFormState extends State<ProfileForm> {
           //   ],
           // ),
           const SizedBox(height: 15),
-          CustomDropZone(disabled: currentPhase != Phase.inscription),
+          CustomDropZone(
+            text: "CV",
+            uri: widget.user.cv,
+            isEnable: currentPhase != Phase.inscription,
+          ),
           const SizedBox(height: 15),
           // HTMLDescription(descriptionController: _descriptionController),
           SizedBox(
@@ -151,12 +164,14 @@ class _ProfileFormState extends State<ProfileForm> {
           IntrinsicHeight(
             child: Row(
               children: [
-                ProfileTags(tags: tags, disabled: currentPhase != Phase.inscription),
+                ProfileTags(
+                    tags: tags, isDisable: currentPhase != Phase.inscription),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: VerticalDivider(color: Colors.black, thickness: 1),
                 ),
-                ProfileLinks(links: links, disabled: currentPhase != Phase.inscription),
+                ProfileLinks(
+                    links: links, disabled: currentPhase != Phase.inscription),
               ],
             ),
           ),
@@ -167,33 +182,47 @@ class _ProfileFormState extends State<ProfileForm> {
                 child: SizedBox(
                   height: 50,
                   child: MaterialButton(
-                    onPressed: currentPhase != Phase.inscription ? null : () async {
-                      if (_formKey.currentState!.validate()) {
-                        // String description =
-                        //     await _descriptionController.getText();
+                    onPressed: currentPhase != Phase.inscription
+                        ? null
+                        : () async {
+                            if (_formKey.currentState!.validate()) {
+                              FileDataModel? fileDataModel =
+                                  BlocProvider.of<FileCubit>(context)
+                                      .fileDataModel;
+                              if (widget.user.cv.isEmpty &&
+                                  fileDataModel == null) {
+                                showTopSnackBar(
+                                  context,
+                                  Padding(
+                                    padding: kTopSnackBarPadding,
+                                    child: const CustomSnackBar.error(
+                                      message: "Veuillez renseigner un CV.",
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                CandidateUser updatedUser = CandidateUser(
+                                    firstName: _firstNameController.text,
+                                    lastName: _lastNameController.text,
+                                    phoneNumber: _phoneNumberController.text,
+                                    address: _addresController.text,
+                                    description: _descriptionController.text,
+                                    id: widget.user.id,
+                                    candidateId: widget.user.candidateId,
+                                    email: _emailController.text,
+                                    role: widget.user.role,
+                                    links: links,
+                                    tags: tags,
+                                    logo: widget.user.logo,
+                                    status: widget.user.status,
+                                    wishesCount: widget.user.wishesCount,
+                                    cv: widget.user.cv);
 
-                        CandidateUser updatedUser = CandidateUser(
-                          firstName: _firstNameController.text,
-                          lastName: _lastNameController.text,
-                          phoneNumber: _phoneNumberController.text,
-                          address: _addresController.text,
-                          description: _descriptionController.text,
-                          id: widget.user.id,
-                          candidateId: widget.user.candidateId,
-                          email: _emailController.text,
-                          role: widget.user.role,
-                          links: links,
-                          tags: tags,
-                          logo: widget.user.logo,
-                          status: widget.user.status,
-                          wishesCount: widget.user.wishesCount,
-                          cv: widget.user.cv
-                        );
-
-                        BlocProvider.of<UpdateCandidateCubit>(context)
-                            .updateUserEvent(updatedUser);
-                      }
-                    },
+                                BlocProvider.of<UpdateCandidateCubit>(context)
+                                    .updateUserEvent(updatedUser);
+                              }
+                            }
+                          },
                     textColor: Colors.white,
                     color: kButtonColor,
                     disabledColor: kDisabledButtonColor,
@@ -202,15 +231,23 @@ class _ProfileFormState extends State<ProfileForm> {
                       listener: (context, state) {
                         if (state is UpdateCandidateLoaded) {
                           widget.user = state.user;
-                          showTopSnackBar(
-                            context,
-                            Padding(
-                              padding: kTopSnackBarPadding,
-                              child: const CustomSnackBar.success(
-                                message: "Sauvegarde effectuée avec succès !",
-                              ),
-                            ),
-                          );
+
+                          BlocProvider.of<FileCubit>(context)
+                              .uploadCV(widget.user)
+                              .then((value) {
+                            if (value != null) {
+                              showTopSnackBar(
+                                context,
+                                Padding(
+                                  padding: kTopSnackBarPadding,
+                                  child: const CustomSnackBar.success(
+                                    message:
+                                        "Sauvegarde effectuée avec succès !",
+                                  ),
+                                ),
+                              );
+                            }
+                          });
                         } else if (state is UpdateCandidateError) {
                           showTopSnackBar(
                             context,

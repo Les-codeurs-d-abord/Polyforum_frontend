@@ -1,10 +1,13 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/image_cubit.dart';
 import 'package:poly_forum/routes/application.dart';
 import 'package:poly_forum/routes/routes.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
+import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PopupItem {
   int value;
@@ -15,12 +18,14 @@ class PopupItem {
 class NavBarProfilBtn extends StatelessWidget {
   final String text;
   final String textTypeUser;
+  final String uri;
   final Function onProfileSelected;
 
   const NavBarProfilBtn(
       {required this.text,
       required this.textTypeUser,
       required this.onProfileSelected,
+      required this.uri,
       Key? key})
       : super(key: key);
 
@@ -75,7 +80,8 @@ class NavBarProfilBtn extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     width: 60,
-                    child: InitialsAvatar(text),
+                    child: ProfilePicture(
+                        uri: uri, name: text, withListenerEventOnChange: true),
                   ),
                 ),
               ],
