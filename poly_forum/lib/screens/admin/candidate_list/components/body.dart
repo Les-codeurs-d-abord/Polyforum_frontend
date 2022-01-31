@@ -81,7 +81,7 @@ class _BodyState extends State<Body> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const SizedBox(width: 60),
+                                  const SizedBox(width: 55),
                                   const Spacer(),
                                   Expanded(
                                     flex: 3,
@@ -113,7 +113,7 @@ class _BodyState extends State<Body> {
                                     ),
                                   ),
                                   const Spacer(),
-                                  const SizedBox(width: 50),
+                                  const SizedBox(width: 55),
                                 ],
                               ),
                             ),
