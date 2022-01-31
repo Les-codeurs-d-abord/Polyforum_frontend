@@ -137,7 +137,7 @@ class _OfferFormState extends State<OfferForm> {
               const CustomDropZone(
                 text: "Offre",
                 uri: "",
-                isEnable: true,
+                isDisabled: false,
               ),
               const SizedBox(height: 15),
               SizedBox(

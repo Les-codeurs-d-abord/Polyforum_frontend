@@ -135,6 +135,7 @@ class _ProfileFormState extends State<ProfileForm> {
                   children: [
                     CustomTextField(
                       text: "Courte présentation",
+                      textAlign: TextAlign.justify,
                       icon: Icons.article_outlined,
                       controller: _descriptionController,
                       isLocked: currentPhase != Phase.inscription,

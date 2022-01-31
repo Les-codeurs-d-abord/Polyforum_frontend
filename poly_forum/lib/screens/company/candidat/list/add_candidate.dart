@@ -13,8 +13,13 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class AddCandidate extends StatefulWidget {
   final CandidateUser candidate;
+  final bool isDisabled;
 
-  const AddCandidate({required this.candidate, Key? key}) : super(key: key);
+  const AddCandidate({
+    required this.candidate,
+    this.isDisabled = false,
+    Key? key
+  }) : super(key: key);
 
   @override
   _AddCandidateState createState() => _AddCandidateState();
@@ -64,7 +69,7 @@ class _AddCandidateState extends State<AddCandidate> {
               padding: kTopSnackBarPadding,
               child: const CustomSnackBar.error(
                 message:
-                    "Un problème est survenue, la sauvegarde pas été effectuée...",
+                "Un problème est survenue, la sauvegarde pas été effectuée...",
               ),
             ),
           );
@@ -87,10 +92,11 @@ class _AddCandidateState extends State<AddCandidate> {
       },
       builder: (context, state) {
         if (state is CompanyWishlistLoading) {
-          return const RowBtn(
+          return RowBtn(
             text: "",
             onPressed: null,
             isLoading: true,
+            isDisabled: widget.isDisabled,
           );
         }
 
@@ -102,6 +108,7 @@ class _AddCandidateState extends State<AddCandidate> {
                   .removeWish(company, widget.candidate);
             },
             color: Colors.red,
+            isDisabled: widget.isDisabled,
           );
         } else {
           return RowBtn(
@@ -110,6 +117,7 @@ class _AddCandidateState extends State<AddCandidate> {
               BlocProvider.of<CompanyWishlistCubit>(context)
                   .addWish(company, widget.candidate);
             },
+            isDisabled: widget.isDisabled,
           );
         }
       },

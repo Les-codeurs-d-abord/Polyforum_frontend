@@ -10,6 +10,7 @@ import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
+import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'delete_offer_btn.dart';
@@ -29,8 +30,8 @@ class OfferCard extends StatelessWidget {
         child: InkWell(
           onTap: offer.offerFile.isNotEmpty
               ? () {
-                  launch("http://localhost:8080/api/res/${offer.offerFile}");
-                }
+            launch("http://$kServer/api/res/${offer.offerFile}");
+          }
               : null,
           child: Container(
             padding: const EdgeInsets.all(15),
@@ -117,26 +118,26 @@ class OfferCard extends StatelessWidget {
         // const Spacer(),
         offer.offerFile.isNotEmpty
             ? const Expanded(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "Ouvrir l'offre",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              )
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              "Ouvrir l'offre",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        )
             : const Expanded(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "Cette offre ne contient aucun document à afficher",
-                    style: TextStyle(
-                      color: Colors.red,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              "Cette offre ne contient aucun document à afficher",
+              style: TextStyle(
+                color: Colors.red,
+                overflow: TextOverflow.ellipsis,
               ),
+            ),
+          ),
+        ),
         const SizedBox(width: 10),
         const Icon(Icons.arrow_forward_outlined),
       ],
@@ -150,6 +151,7 @@ class OfferCard extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Text(
             offer.description,
+            textAlign: TextAlign.justify,
             overflow: TextOverflow.ellipsis,
             maxLines: 7,
             style: const TextStyle(),
@@ -251,60 +253,60 @@ class OfferCard extends StatelessWidget {
           const SizedBox(height: 20),
           offer.links.isNotEmpty
               ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Liens",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 5),
+              for (var link in offer.links)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Liens",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    const Icon(
+                      Icons.link_outlined,
+                      size: 25,
                     ),
-                    const SizedBox(height: 5),
-                    for (var link in offer.links)
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.link_outlined,
-                            size: 25,
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: InkWell(
-                              child: Text(
-                                link,
-                                style: const TextStyle(color: Colors.blue),
-                              ),
-                              onTap: () => launch(link),
-                            ),
-                          )
-                        ],
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: InkWell(
+                        child: Text(
+                          link,
+                          style: const TextStyle(color: Colors.blue),
+                        ),
+                        onTap: () => launch(link),
                       ),
+                    )
                   ],
-                )
+                ),
+            ],
+          )
               : const SizedBox(),
           const SizedBox(height: 20),
           offer.tags.isNotEmpty
               ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Tags",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Wrap(
-                      direction: Axis.horizontal,
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: [
-                        for (var tag in offer.tags) Tags(text: tag),
-                      ],
-                    ),
-                  ],
-                )
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Tags",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Wrap(
+                direction: Axis.horizontal,
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  for (var tag in offer.tags) Tags(text: tag),
+                ],
+              ),
+            ],
+          )
               : const SizedBox(),
         ],
       ),

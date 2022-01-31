@@ -37,61 +37,67 @@ class _ProfilTagsState extends State<ProfileTags> {
           ),
           const SizedBox(height: 10),
           for (var tag in widget.tags)
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(Icons.tag_outlined),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      color: kSecondaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      tag,
-                      style: const TextStyle(color: Colors.white),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: widget.isDisable ? 5.0 : 0.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(Icons.tag_outlined),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: kSecondaryColor,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        tag,
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      widget.tags.remove(tag);
-                    });
-                  },
-                  icon: const Icon(Icons.delete_outline),
-                  tooltip: 'Supprimer le lien',
-                ),
-              ],
+                  if (!widget.isDisable)
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.tags.remove(tag);
+                        });
+                      },
+                      icon: const Icon(Icons.delete_outline),
+                      tooltip: 'Supprimer le lien',
+                    ),
+                ],
+              ),
             ),
-          SizedBox(height: widget.tags.isNotEmpty ? 20 : 0),
-          Center(
-            child: SizedBtn(
-              text: "Ajouter un tag",
-              fontSize: 14,
-              onPressed: widget.tags.length < widget.maxTags
-                  ? () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AddTagModal(tags: widget.tags);
-                        },
-                      ).then(
+          if (!widget.isDisable)
+            SizedBox(height: widget.tags.isNotEmpty ? 20 : 0),
+          if (!widget.isDisable)
+            Center(
+              child: SizedBtn(
+                text: "Ajouter un tag",
+                fontSize: 14,
+                onPressed: widget.tags.length < widget.maxTags
+                    ? () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AddTagModal(tags: widget.tags);
+                    },
+                  ).then(
                         (value) {
-                          if (value != null) {
-                            setState(() {
-                              widget.tags.add(value);
-                            });
-                          }
-                        },
-                      );
-                    }
-                  : null,
+                      if (value != null) {
+                        setState(() {
+                          widget.tags.add(value);
+                        });
+                      }
+                    },
+                  );
+                }
+                    : null,
+              ),
             ),
-          ),
         ],
       ),
     );

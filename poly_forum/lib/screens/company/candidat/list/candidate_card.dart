@@ -37,7 +37,7 @@ class CandidateCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(15),
           width: 400,
-          height: 200,
+          height: 210,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -93,34 +93,44 @@ class CandidateCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          candidate.tags.isNotEmpty
-              ? Wrap(
-                  direction: Axis.horizontal,
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: [
-                    for (var tag in candidate.tags) Tags(text: tag),
-                  ],
-                )
-              : const SizedBox(),
-          if (currentPhase == Phase.wish) const Spacer(),
-          if (currentPhase == Phase.wish)
-            MultiBlocProvider(
-              providers: [
-                BlocProvider<CompanyWishlistCubit>(
-                  create: (context) => CompanyWishlistCubit(),
-                ),
-                // BlocProvider<CompanyGetWishlistCubit>(
-                //   create: (context) => CompanyGetWishlistCubit(),
-                // ),
-              ],
-              child: BlocProvider(
-                create: (context) => CompanyCheckWishlistCubit(),
-                child: AddCandidate(
+          candidate.tags.isNotEmpty ?
+          SizedBox(
+            height: 60,
+            child: ListView(
+                primary: false,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Wrap(
+                      direction: Axis.horizontal,
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        for (var tag in candidate.tags) Tags(text: tag),
+                      ],
+                    ),
+                  )
+                ]
+            ),
+          ) : const SizedBox(),
+          const Spacer(),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider<CompanyWishlistCubit>(
+                create: (context) => CompanyWishlistCubit(),
+              ),
+              // BlocProvider<CompanyGetWishlistCubit>(
+              //   create: (context) => CompanyGetWishlistCubit(),
+              // ),
+            ],
+            child: BlocProvider(
+              create: (context) => CompanyCheckWishlistCubit(),
+              child: AddCandidate(
                   candidate: candidate,
-                ),
+                  isDisabled: currentPhase != Phase.wish
               ),
             ),
+          ),
         ],
       ),
     );

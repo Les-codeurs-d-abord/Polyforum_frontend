@@ -10,11 +10,14 @@ import 'package:url_launcher/url_launcher.dart';
 class CustomDropZone extends StatefulWidget {
   final String uri;
   final String text;
-  final bool isEnable;
+  final bool isDisabled;
 
-  const CustomDropZone(
-      {required this.text, required this.uri, required this.isEnable, Key? key})
-      : super(key: key);
+  const CustomDropZone({
+    required this.text,
+    required this.uri,
+    required this.isDisabled,
+    Key? key
+  }) : super(key: key);
 
   @override
   State<CustomDropZone> createState() => _CustomDropZoneState();
@@ -154,8 +157,8 @@ class _CustomDropZoneState extends State<CustomDropZone> {
                       ),
                     ),
               const SizedBox(height: 10),
-              TextButton(
-                onPressed: !highlighted
+              MaterialButton(
+                onPressed: !highlighted && !widget.isDisabled
                     ? () async {
                         final events = await controller.pickFiles(mime: [
                           'image/jpeg',
@@ -167,11 +170,9 @@ class _CustomDropZoneState extends State<CustomDropZone> {
                             .setCV(controller, events.first);
                       }
                     : null,
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: kButtonColor,
-                  onSurface: Colors.grey,
-                ),
+                textColor: Colors.white,
+                color: kButtonColor,
+                disabledColor: kDisabledButtonColor,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Row(
@@ -213,8 +214,8 @@ class _CustomDropZoneState extends State<CustomDropZone> {
                 ],
               ),
               const SizedBox(height: 10),
-              TextButton(
-                onPressed: !highlighted
+              MaterialButton(
+                onPressed: !highlighted && !widget.isDisabled
                     ? () async {
                         final events = await controller.pickFiles(mime: [
                           'image/jpeg',
@@ -226,11 +227,9 @@ class _CustomDropZoneState extends State<CustomDropZone> {
                             .setCV(controller, events.first);
                       }
                     : null,
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: kButtonColor,
-                  onSurface: Colors.grey,
-                ),
+                textColor: Colors.white,
+                color: kButtonColor,
+                disabledColor: kDisabledButtonColor,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Row(

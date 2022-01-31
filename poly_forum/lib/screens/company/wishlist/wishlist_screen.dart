@@ -52,9 +52,6 @@ class _WishlistScreenState extends State<WishlistScreen> {
   Widget buildLoaded(List<CompanyWish> wishlist, bool isLoading) {
     Widget child = Column(
       children: [
-        isLoading
-            ? const ShimmerLoading(nbBlock: 2, nbLine: 4)
-            : buildList(wishlist),
         !isLoading
             ? BlocProvider(
                 create: (context) => CompanyWishlistCubit(),
