@@ -12,17 +12,21 @@ class TabNavigationItem extends StatefulWidget {
   final IconData iconSelected;
   final IconData iconNonSelected;
   final String text;
+  final bool isEnable;
+  final String messageToolTipOnLock;
 
-  TabNavigationItem({
-    Key? key,
-    required this.onPressed,
-    required this.index,
-    required this.selectedIndex,
-    required this.text,
-    required this.iconSelected,
-    required this.iconNonSelected,
-    this.children = const [],
-  }) : super(key: key);
+  TabNavigationItem(
+      {Key? key,
+      required this.onPressed,
+      required this.index,
+      required this.selectedIndex,
+      required this.text,
+      required this.iconSelected,
+      required this.iconNonSelected,
+      this.children = const [],
+      this.isEnable = true,
+      this.messageToolTipOnLock = "Cet onglet n'est pas encore valide."})
+      : super(key: key);
 
   @override
   State<TabNavigationItem> createState() => _TabNavigationItemState();
@@ -59,7 +63,7 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
               isHovering = false;
             }),
             child: GestureDetector(
-              onTap: widget.onPressed != null
+              onTap: widget.onPressed != null && widget.isEnable
                   ? () {
                       widget.onPressed!();
                       if (!kIsWebVersion) Navigator.of(context).pop();
@@ -67,7 +71,7 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
                   : null,
               child: Container(
                 height: 60,
-                decoration: isHovering | isSelected
+                decoration: (isHovering | isSelected) && widget.isEnable
                     ? BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: Colors.white.withAlpha(60),
@@ -90,35 +94,60 @@ class _TabNavigationItemState extends State<TabNavigationItem> {
                     const SizedBox(width: 10),
                     Icon(
                       isSelected ? widget.iconSelected : widget.iconNonSelected,
-                      color: Colors.white,
+                      color: widget.isEnable
+                          ? Colors.white
+                          : Colors.white.withAlpha(150),
                     ),
                     const SizedBox(width: 15),
                     Text(
                       widget.text,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: widget.isEnable
+                            ? Colors.white
+                            : Colors.white.withAlpha(150),
                         fontWeight:
                             isSelected ? FontWeight.bold : FontWeight.normal,
                         fontSize: 22,
                       ),
                     ),
                     const Spacer(),
-                    widget.children.isEmpty
-                        ? isSelected
-                            ? const Icon(
-                                Icons.arrow_right_outlined,
-                                color: Colors.white,
-                              )
-                            : const SizedBox.shrink()
-                        : isSelected
-                            ? const Icon(
-                                Icons.arrow_right_outlined,
-                                color: Colors.white,
-                              )
-                            : const Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.white,
-                              ),
+                    !widget.isEnable
+                        ? Tooltip(
+                            message: widget.messageToolTipOnLock,
+                            textStyle: const TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.lock,
+                                  color: Colors.white.withAlpha(200),
+                                ),
+                                const SizedBox(width: 5),
+                                Icon(
+                                  Icons.help,
+                                  color: Colors.white.withAlpha(200),
+                                ),
+                              ],
+                            ),
+                          )
+                        : widget.children.isEmpty
+                            ? isSelected
+                                ? const Icon(
+                                    Icons.arrow_right_outlined,
+                                    color: Colors.white,
+                                  )
+                                : const SizedBox.shrink()
+                            : isSelected
+                                ? const Icon(
+                                    Icons.arrow_right_outlined,
+                                    color: Colors.white,
+                                  )
+                                : const Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.white,
+                                  ),
                   ],
                 ),
               ),
