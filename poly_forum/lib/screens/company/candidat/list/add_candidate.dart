@@ -101,7 +101,7 @@ class _AddCandidateState extends State<AddCandidate> {
               BlocProvider.of<CompanyWishlistCubit>(context)
                   .removeWish(company, widget.candidate);
             },
-            color: Colors.red,
+            color: kdeleteColorButton,
           );
         } else {
           return RowBtn(

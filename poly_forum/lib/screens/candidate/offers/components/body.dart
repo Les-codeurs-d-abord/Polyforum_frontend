@@ -38,15 +38,6 @@ class _BodyState extends State<Body> {
           offerListSaved = state.offerList;
         }
       },
-      // buildWhen: (previous, current) {
-      //   print(previous);
-      //   print(current);
-      //   if (previous is CandidateOfferScreenLoaded &&
-      //       current is CandidateOfferScreenLoading) {
-      //     return false;
-      //   }
-      //   return true;
-      // },
       builder: (context, state) {
         if (state is CandidateOfferScreenLoaded) {
           return buildLoaded(state.offerList, false);
@@ -131,7 +122,8 @@ class _BodyState extends State<Body> {
       child: offerList.isNotEmpty
           ? Column(
               children: [
-                for (var offer in offerList) OfferCard(offer, widget.user, currentPhase),
+                for (var offer in offerList)
+                  OfferCard(offer, widget.user, currentPhase),
               ],
             )
           : const Padding(

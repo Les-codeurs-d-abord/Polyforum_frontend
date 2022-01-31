@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_offers_list_dialog_cubit.dart';
-import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
 import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
-import 'package:poly_forum/screens/shared/components/user/small_tag.dart';
+import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,19 +14,19 @@ class CompanyOffersList extends StatefulWidget {
   final Phase currentPhase;
   final List<Offer> offersList;
 
-  const CompanyOffersList({
-    required this.currentPhase,
-    this.offersList = const [],
-    Key? key
-  }) : super(key: key);
+  const CompanyOffersList(
+      {required this.currentPhase, this.offersList = const [], Key? key})
+      : super(key: key);
 
   @override
   _CompanyOffersListState createState() => _CompanyOffersListState();
 }
 
 class _CompanyOffersListState extends State<CompanyOffersList> {
-  late List <Offer> offersList = widget.offersList;
-  late final Map<Offer, bool> offerExpanded = { for (var offer in widget.offersList) offer : false };
+  late List<Offer> offersList = widget.offersList;
+  late final Map<Offer, bool> offerExpanded = {
+    for (var offer in widget.offersList) offer: false
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +65,9 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                             style: const TextStyle(
                               color: Colors.grey,
                               fontStyle: FontStyle.italic,
-                            )
-                        ),
+                            )),
                       ),
-                    ]
-                ),
+                    ]),
               );
             },
             body: Padding(
@@ -89,104 +86,99 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                               children: [
                                 Container(
                                   margin: const EdgeInsets.only(top: 8.0),
-                                  child: const Text(
-                                      "Informations",
-                                      style: TextStyle(
-                                          fontSize: 18
-                                      )
-                                  ),
+                                  child: const Text("Informations",
+                                      style: TextStyle(fontSize: 18)),
                                 ),
                                 Row(
                                   children: [
                                     const Padding(
                                         padding: EdgeInsets.all(10),
-                                        child: Icon(Icons.home)
-                                    ),
+                                        child: Icon(Icons.home)),
                                     Expanded(
-                                        child: (offer.address.isNotEmpty) ?
-                                        Text(offer.address) :
-                                        const Text(
-                                          'Non renseigné',
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontSize: 15,
-                                            color: Colors.grey,
-                                          ),
-                                        )
-                                    )
+                                        child: (offer.address.isNotEmpty)
+                                            ? Text(offer.address)
+                                            : const Text(
+                                                'Non renseigné',
+                                                style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  fontSize: 15,
+                                                  color: Colors.grey,
+                                                ),
+                                              ))
                                   ],
                                 ),
                                 Row(
                                   children: [
                                     const Padding(
                                         padding: EdgeInsets.all(10),
-                                        child: Icon(Icons.mail_outline)
-                                    ),
+                                        child: Icon(Icons.mail_outline)),
                                     Expanded(
-                                        child: (offer.email.isNotEmpty) ?
-                                        Text(offer.email) :
-                                        const Text(
-                                          'Non renseigné',
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontSize: 15,
-                                            color: Colors.grey,
-                                          ),
-                                        )
-                                    )
+                                        child: (offer.email.isNotEmpty)
+                                            ? Text(offer.email)
+                                            : const Text(
+                                                'Non renseigné',
+                                                style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  fontSize: 15,
+                                                  color: Colors.grey,
+                                                ),
+                                              ))
                                   ],
                                 ),
                                 Row(
                                   children: [
                                     const Padding(
                                         padding: EdgeInsets.all(10),
-                                        child: Icon(Icons.phone)
-                                    ),
+                                        child: Icon(Icons.phone)),
                                     Expanded(
-                                        child: (offer.phoneNumber.isNotEmpty) ?
-                                        Text(offer.phoneNumber) :
-                                        const Text(
-                                          'Non renseigné',
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontSize: 15,
-                                            color: Colors.grey,
-                                          ),
-                                        )
-                                    )
+                                        child: (offer.phoneNumber.isNotEmpty)
+                                            ? Text(offer.phoneNumber)
+                                            : const Text(
+                                                'Non renseigné',
+                                                style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  fontSize: 15,
+                                                  color: Colors.grey,
+                                                ),
+                                              ))
                                   ],
                                 ),
                                 Row(
                                   children: [
                                     const Padding(
                                         padding: EdgeInsets.all(10),
-                                        child: Icon(Icons.sticky_note_2_outlined)
-                                    ),
+                                        child:
+                                            Icon(Icons.sticky_note_2_outlined)),
                                     Flexible(
                                         fit: FlexFit.loose,
-                                        child: (offer.offerFile.isNotEmpty) ?
-                                        OutlinedButton(
-                                          child: const Text("Document disponible"),
-                                          style: ButtonStyle(
-                                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
-                                          ),
-                                          onPressed: () {
-                                            launch("http://$kServer/api/res/${offer.offerFile}");
-                                          },
-                                        ) :
-                                        const Text(
-                                          "Document indisponible",
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontSize: 15,
-                                            color: Colors.grey,
-                                          ),
-                                        )
-                                    )
+                                        child: (offer.offerFile.isNotEmpty)
+                                            ? OutlinedButton(
+                                                child: const Text(
+                                                    "Document disponible"),
+                                                style: ButtonStyle(
+                                                  shape: MaterialStateProperty
+                                                      .all(RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      30.0))),
+                                                ),
+                                                onPressed: () {
+                                                  launch(
+                                                      "http://$kServer/api/res/${offer.offerFile}");
+                                                },
+                                              )
+                                            : const Text(
+                                                "Document indisponible",
+                                                style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  fontSize: 15,
+                                                  color: Colors.grey,
+                                                ),
+                                              ))
                                   ],
                                 ),
-                              ]
-                          ),
+                              ]),
                         ),
                         const VerticalDivider(
                           thickness: 1,
@@ -203,15 +195,13 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                                   Row(
                                     children: const [
                                       Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 5),
-                                          child: Icon(Icons.notes)
-                                      ),
-                                      Text(
-                                          "Description",
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          child: Icon(Icons.notes)),
+                                      Text("Description",
                                           style: TextStyle(
                                             fontSize: 18,
-                                          )
-                                      ),
+                                          )),
                                     ],
                                   ),
                                   Container(
@@ -231,10 +221,8 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                                           offer.description,
                                           textAlign: TextAlign.justify,
                                         ),
-                                      )
-                                  ),
-                                ]
-                            ),
+                                      )),
+                                ]),
                           ),
                         ),
                       ],
@@ -260,25 +248,22 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     const Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 5),
-                                        child: Icon(Icons.tag)
-                                    ),
-                                    const Text(
-                                        "Tags",
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 5),
+                                        child: Icon(Icons.tag)),
+                                    const Text("Tags",
                                         style: TextStyle(
                                           fontSize: 18,
-                                        )
-                                    ),
+                                        )),
                                     if (offer.tags.isNotEmpty)
                                       Padding(
                                         padding: const EdgeInsets.only(left: 5),
-                                        child: Text(
-                                            offer.tags.length.toString(),
-                                            style: const TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.grey,
-                                            )
-                                        ),
+                                        child:
+                                            Text(offer.tags.length.toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.grey,
+                                                )),
                                       )
                                   ],
                                 ),
@@ -286,25 +271,25 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                                   Container(
                                     margin: const EdgeInsets.only(top: 10),
                                     child: Wrap(
-                                        alignment: WrapAlignment.center,
+                                        // alignment: WrapAlignment.center,
                                         spacing: 10,
                                         runSpacing: 2,
                                         children: [
                                           for (var tag in offer.tags)
-                                            SmallTag(tag)
-                                        ]
-                                    ),
-                                  ) else Container(
-                                  margin: const EdgeInsets.only(left: 10, top: 5),
-                                  child: const Text(
-                                      "Aucun tag",
-                                      style: TextStyle(
-                                        fontStyle: FontStyle.italic,
-                                        fontSize: 15,
-                                        color: Colors.grey,
-                                      )
-                                  ),
-                                )
+                                            Tags(text: tag)
+                                        ]),
+                                  )
+                                else
+                                  Container(
+                                    margin:
+                                        const EdgeInsets.only(left: 10, top: 5),
+                                    child: const Text("Aucun tag",
+                                        style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          fontSize: 15,
+                                          color: Colors.grey,
+                                        )),
+                                  )
                               ],
                             ),
                           ),
@@ -320,76 +305,69 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       const Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 5),
-                                          child: Icon(Icons.link)
-                                      ),
-                                      const Text(
-                                          "Liens",
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          child: Icon(Icons.link)),
+                                      const Text("Liens",
                                           style: TextStyle(
                                             fontSize: 18,
-                                          )
-                                      ),
+                                          )),
                                       if (offer.links.isNotEmpty)
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 5),
+                                          padding:
+                                              const EdgeInsets.only(left: 5),
                                           child: Text(
                                               offer.links.length.toString(),
                                               style: const TextStyle(
                                                 fontSize: 15,
                                                 color: Colors.grey,
-                                              )
-                                          ),
+                                              )),
                                         )
                                     ],
                                   ),
                                   Container(
                                       margin: const EdgeInsets.only(top: 5),
-                                      child: (offer.links.isNotEmpty == true) ?
-                                      Column(
-                                          children: [
-                                            for (var link in offer.links)
-                                              Padding(
-                                                padding: const EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                        child: Row(
-                                                            children: [
-                                                              const Icon(Icons.arrow_right),
-                                                              Flexible(
-                                                                child: TextButton(
-                                                                  child: Text(link),
-                                                                  onPressed: () {
-                                                                    launch(link);
-                                                                  },
-                                                                ),
-                                                              ),
-                                                            ]
-                                                        )
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                          ]
-                                      ) :
-                                      Container(
-                                        margin: const EdgeInsets.only(left: 10),
-                                        child: const Text(
-                                            "Aucun lien",
-                                            style: TextStyle(
-                                              fontStyle: FontStyle.italic,
-                                              fontSize: 15,
-                                              color: Colors.grey,
-                                            )
-                                        ),
-                                      )
-                                  )
+                                      child: (offer.links.isNotEmpty == true)
+                                          ? Column(children: [
+                                              for (var link in offer.links)
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 5),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Row(children: [
+                                                        const Icon(
+                                                            Icons.arrow_right),
+                                                        Flexible(
+                                                          child: TextButton(
+                                                            child: Text(link),
+                                                            onPressed: () {
+                                                              launch(link);
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ]))
+                                                    ],
+                                                  ),
+                                                )
+                                            ])
+                                          : Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: const Text("Aucun lien",
+                                                  style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    fontSize: 15,
+                                                    color: Colors.grey,
+                                                  )),
+                                            ))
                                 ],
                               ),
                             ),
                           )
-                        ]
-                    ),
+                        ]),
                   ),
                   if (widget.currentPhase != Phase.planning)
                     Container(
@@ -407,15 +385,12 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                           color: kDarkBlue,
                           disabledColor: kDisabledButtonColor,
                           shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5))
-                          ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
                           child: const Text(
                             "Supprimer",
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18
-                            ),
+                            style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           onPressed: () {
                             showDialog(
@@ -423,12 +398,15 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                               builder: (BuildContext context) {
                                 return ConfirmationModal(
                                   title: "Suppression d'une offre",
-                                  description: "Vous-êtes sur le point de supprimer l'offre ${offer.name}, en êtes-vous sûr ?",
+                                  description:
+                                      "Vous-êtes sur le point de supprimer l'offre ${offer.name}, en êtes-vous sûr ?",
                                 );
                               },
                             ).then((value) {
                               if (value == ModalReturn.confirm) {
-                                BlocProvider.of<CompanyOffersListDialogCubit>(context).deleteOffer(offer);
+                                BlocProvider.of<CompanyOffersListDialogCubit>(
+                                        context)
+                                    .deleteOffer(offer);
                               }
                             });
                           },

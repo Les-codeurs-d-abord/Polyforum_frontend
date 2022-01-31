@@ -30,19 +30,11 @@ class BaseScreen extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              child: Material(
-                color: Colors.grey[50],
-                borderRadius: BorderRadius.circular(20),
-                elevation: 5,
-                child: SizedBox(
-                  width: width,
-                  child: Padding(
-                    padding: childPadding,
-                    child: child,
-                  ),
-                ),
+            SizedBox(
+              width: width,
+              child: Padding(
+                padding: childPadding,
+                child: child,
               ),
             ),
           ],
@@ -55,14 +47,11 @@ class BaseScreen extends StatelessWidget {
     return SingleChildScrollView(
       primary: false,
       child: Center(
-        child: Container(
-          color: Colors.grey[50],
-          child: SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: childPadding,
-              child: child,
-            ),
+        child: SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: childPadding,
+            child: child,
           ),
         ),
       ),

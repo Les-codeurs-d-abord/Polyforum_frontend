@@ -90,7 +90,10 @@ class CompanyWebBody extends StatelessWidget {
                                       },
                                     ),
                                     const CompanyProfileScreen(), //profil
-                                    ChangePasswordScreen(BlocProvider.of<CompanyGetUserCubit>(context).getUser()),
+                                    ChangePasswordScreen(
+                                        BlocProvider.of<CompanyGetUserCubit>(
+                                                context)
+                                            .getUser()),
                                     if (selectedIndex == 9)
                                       const EditOfferScreen(),
                                   ],

@@ -7,6 +7,7 @@ import 'package:poly_forum/data/models/wish_model.dart';
 import 'package:poly_forum/screens/candidate/wishlist/components/save_choices_offer_btn.dart';
 import 'package:poly_forum/screens/error/error_screen.dart';
 import 'package:poly_forum/screens/shared/components/base_screen.dart';
+import 'package:poly_forum/screens/shared/components/modals/offer_detail_dialog.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/initials_avatar.dart';
@@ -111,7 +112,14 @@ class _BodyState extends State<Body> {
                     child: Card(
                       elevation: 15,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return OfferDetailDialog(
+                                    offer: localwishlist[i].offer);
+                              });
+                        },
                         child: ListTile(
                           title: Padding(
                             padding: const EdgeInsets.only(right: 30, top: 5),

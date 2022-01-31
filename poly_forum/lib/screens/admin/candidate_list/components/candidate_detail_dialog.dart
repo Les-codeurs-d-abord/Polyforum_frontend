@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
 import 'package:poly_forum/data/models/candidate_detail_model.dart';
+import 'package:poly_forum/screens/shared/components/tags.dart';
 import 'package:poly_forum/screens/shared/components/user/profile_picture.dart';
-import 'package:poly_forum/screens/shared/components/user/small_tag.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -56,9 +56,24 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
       title: Row(
         children: [
           Expanded(
-            child: Text(
-              "Détail du candidat ${candidateDetail?.lastName ?? ''} ${candidateDetail?.firstName ?? ''}",
-              style: const TextStyle(fontSize: 22),
+            child: RichText(
+              text: TextSpan(
+                  text: "Détail du candidat: ",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text:
+                          "${candidateDetail?.lastName ?? ''} ${candidateDetail?.firstName ?? ''}",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ]),
             ),
           ),
           InkResponse(
@@ -90,6 +105,7 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
                       style: const TextStyle(color: Colors.red, fontSize: 18),
                     )
                   : SingleChildScrollView(
+                      primary: false,
                       child: Column(
                         children: [
                           IntrinsicHeight(
@@ -292,6 +308,7 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
                                                     BorderRadius.circular(5),
                                               ),
                                               child: SingleChildScrollView(
+                                                primary: false,
                                                 child: Text(
                                                   candidateDetail
                                                           ?.description ??
@@ -364,7 +381,7 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
                                                       in candidateDetail
                                                               ?.tags ??
                                                           [])
-                                                    SmallTag(tag)
+                                                    Tags(text: tag)
                                                 ]),
                                           )
                                         else

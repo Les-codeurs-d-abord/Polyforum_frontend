@@ -12,35 +12,57 @@ class PhaseIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        buildItem(
-          context,
-          "1",
-          "Inscription",
-          BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
-              Phase.inscription,
-          const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            bottomLeft: Radius.circular(20),
+        Expanded(
+          child: Column(
+            children: [
+              buildItem(
+                context,
+                "1",
+                "Inscription",
+                BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
+                    Phase.inscription,
+                const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                ),
+              ),
+              buildInfoNotification(context, "Le profil a été complété", true),
+            ],
           ),
         ),
         const SizedBox(width: 5),
-        buildItem(
-          context,
-          "2",
-          "Vœux",
-          BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.wish,
-          const BorderRadius.all(Radius.zero),
+        Expanded(
+          child: Column(
+            children: [
+              buildItem(
+                context,
+                "2",
+                "Vœux",
+                BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
+                    Phase.wish,
+                const BorderRadius.all(Radius.zero),
+              ),
+              buildInfoNotification(context, "Les vœux ont été fait", false),
+            ],
+          ),
         ),
         const SizedBox(width: 5),
-        buildItem(
-          context,
-          "3",
-          "Planning",
-          BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
-              Phase.planning,
-          const BorderRadius.only(
-            topRight: Radius.circular(20),
-            bottomRight: Radius.circular(20),
+        Expanded(
+          child: Column(
+            children: [
+              buildItem(
+                context,
+                "3",
+                "Planning",
+                BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
+                    Phase.planning,
+                const BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+              ),
+              buildInfoNotification(context, "Le planning a été généré", false),
+            ],
           ),
         ),
       ],
@@ -49,41 +71,67 @@ class PhaseIndicator extends StatelessWidget {
 
   Widget buildItem(BuildContext context, String nb, String text, bool active,
       BorderRadius borderRadius) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        decoration: BoxDecoration(
-          color: active ? kPrimaryColor : Colors.white,
-          border: Border.all(color: Colors.black),
-          borderRadius: borderRadius,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              backgroundColor: kButtonColor,
-              radius: 20,
-              child: Text(
-                nb,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      height: 80,
+      decoration: BoxDecoration(
+        color: active ? kPrimaryColor : Colors.white,
+        border: Border.all(color: Colors.black),
+        borderRadius: borderRadius,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            backgroundColor: kButtonColor,
+            radius: 20,
+            child: Text(
+              nb,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
               ),
             ),
-            const SizedBox(width: 10),
-            Flexible(
-              child: Text(
-                text,
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    color: active ? Colors.white : Colors.black,
-                    fontWeight: active ? FontWeight.bold : FontWeight.normal),
-                overflow: TextOverflow.ellipsis,
-              ),
-            )
-          ],
-        ),
+          ),
+          const SizedBox(width: 10),
+          Flexible(
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  color: active ? Colors.white : Colors.black,
+                  fontWeight: active ? FontWeight.bold : FontWeight.normal),
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildInfoNotification(BuildContext context, String text, bool isOk) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          isOk
+              ? const Icon(
+                  Icons.check_circle,
+                  color: Colors.green,
+                )
+              : const Icon(
+                  Icons.cancel,
+                  color: Colors.red,
+                ),
+          const SizedBox(width: 10),
+          Text(
+            text,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          )
+        ],
       ),
     );
   }
