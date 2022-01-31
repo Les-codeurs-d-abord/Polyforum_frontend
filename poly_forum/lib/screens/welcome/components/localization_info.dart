@@ -30,15 +30,15 @@ class LocalizationInfo extends StatelessWidget {
                 "https://www.google.fr/maps/place/15+Bd+Andr%C3%A9+Latarjet,+69100+Villeurbanne/@45.7792134,4.8661922,16z/data=!4m5!3m4!1s0x47f4ea98fe122a47:0x32c97ce90d0cf86!8m2!3d45.7792637!4d4.868203?hl=fr"),
           ),
         ),
-        Container(
+        SizedBox(
           height: 300,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(20),
               bottomRight: Radius.circular(20),
             ),
+            child: getMap(),
           ),
-          child: getMap(),
         ),
       ],
     );
@@ -47,20 +47,22 @@ class LocalizationInfo extends StatelessWidget {
   Widget getMap() {
     return FlutterMap(
       options: MapOptions(
-        center: LatLng(45.7793547429481, 4.868299882162529),
-        zoom: 17.0,
-        enableMultiFingerGestureRace: false,
-        enableScrollWheel: false,
-        plugins: [
-          ZoomButtonsPlugin(),
-        ]
-      ),
+          center: LatLng(45.7793547429481, 4.868299882162529),
+          zoom: 17.0,
+          enableMultiFingerGestureRace: false,
+          enableScrollWheel: false,
+          plugins: [
+            ZoomButtonsPlugin(),
+          ]),
       layers: [
         TileLayerOptions(
           urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           subdomains: ['a', 'b', 'c'],
           attributionBuilder: (_) {
-            return Text("© OpenStreetMap contributors");
+            return const Padding(
+              padding: EdgeInsets.only(right: 15),
+              child: Text("© OpenStreetMap contributors"),
+            );
           },
         ),
         ZoomButtonsPluginOption(

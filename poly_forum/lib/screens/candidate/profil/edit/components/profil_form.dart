@@ -236,6 +236,7 @@ class _ProfileFormState extends State<ProfileForm> {
                               .uploadCV(widget.user)
                               .then((value) {
                             if (value != null) {
+                              widget.user.cv = value;
                               showTopSnackBar(
                                 context,
                                 Padding(

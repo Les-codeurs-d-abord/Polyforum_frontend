@@ -9,62 +9,57 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
   Future<User> fetchUser(String mail, String password) async {
-    try {
-      final body = {
-        'email': mail,
-        'password': password,
-      };
+    final body = {
+      'email': mail,
+      'password': password,
+    };
 
-      final uri = Uri.http(kServer, '/api/login/signin');
-      final response = await http.post(uri, body: body);
+    final uri = Uri.http(kServer, '/api/login/signin');
+    final response = await http.post(uri, body: body);
 
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        var jsonUser = jsonResponse["payload"];
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      var jsonUser = jsonResponse["payload"];
 
-        SharedPreferences.getInstance().then(
-            (value) => value.setString(kTokenPref, jsonResponse['token']));
+      SharedPreferences.getInstance()
+          .then((value) => value.setString(kTokenPref, jsonResponse['token']));
 
-        switch (jsonUser["role"]) {
-          case "CANDIDAT":
-            final uriCandidate = Uri.http(
-              kServer,
-              "/api/candidates/${jsonUser["id"]}",
-            );
-            final resCandidate = await http.get(uriCandidate);
-            if (resCandidate.statusCode == 200) {
-              var jsonCandidate =
-                  jsonDecode(resCandidate.body) as Map<String, dynamic>;
+      switch (jsonUser["role"]) {
+        case "CANDIDAT":
+          final uriCandidate = Uri.http(
+            kServer,
+            "/api/candidates/${jsonUser["id"]}",
+          );
+          final resCandidate = await http.get(uriCandidate);
+          if (resCandidate.statusCode == 200) {
+            var jsonCandidate =
+                jsonDecode(resCandidate.body) as Map<String, dynamic>;
 
-              return CandidateUser.fromJson(jsonCandidate);
-            }
-            break;
-          case "ENTREPRISE":
-            final uriCompany = Uri.http(
-              kServer,
-              "/api/companies/${jsonUser["id"]}",
-            );
-            final resCompany = await http.get(uriCompany);
-            if (resCompany.statusCode == 200) {
-              var jsonCompany =
-                  jsonDecode(resCompany.body) as Map<String, dynamic>;
+            return CandidateUser.fromJson(jsonCandidate);
+          }
+          break;
+        case "ENTREPRISE":
+          final uriCompany = Uri.http(
+            kServer,
+            "/api/companies/${jsonUser["id"]}",
+          );
+          final resCompany = await http.get(uriCompany);
+          if (resCompany.statusCode == 200) {
+            var jsonCompany =
+                jsonDecode(resCompany.body) as Map<String, dynamic>;
 
-              return CompanyUser.fromJson(jsonCompany);
-            }
-            break;
-          case "ADMIN":
-            return AdminUser.fromJson(jsonUser);
-          default:
-        }
-      } else if (response.statusCode == 401) {
-        throw const UnknowUserException("Identifiants incorrects.");
+            return CompanyUser.fromJson(jsonCompany);
+          }
+          break;
+        case "ADMIN":
+          return AdminUser.fromJson(jsonUser);
+        default:
       }
-
-      throw const NetworkException("Une erreur est survenue.");
-    } on Exception catch (e) {
-      print(e);
-      throw NetworkException("Une erreur est survenue: ${e.toString()}");
+    } else if (response.statusCode == 401) {
+      throw const UnknowUserException("Identifiants incorrects.");
     }
+
+    throw const NetworkException("Une erreur est survenue.");
   }
 
   Future<CandidateUser> getCandidateFromLocalToken() async {

@@ -1,12 +1,7 @@
 part of 'sign_in_screen_cubit.dart';
 
 @immutable
-abstract class SignInScreenState extends Equatable {
-  const SignInScreenState();
-
-  @override
-  List<Object> get props => [];
-}
+abstract class SignInScreenState {}
 
 class SignInScreenInitial extends SignInScreenState {}
 
@@ -15,10 +10,7 @@ class SignInScreenLoading extends SignInScreenState {}
 class SignInScreenLoaded extends SignInScreenState {
   final User user;
 
-  const SignInScreenLoaded(this.user);
-
-  @override
-  List<Object> get props => [user];
+  SignInScreenLoaded(this.user);
 
   @override
   String toString() => "{ User: ${user.toString()} }";
@@ -26,16 +18,10 @@ class SignInScreenLoaded extends SignInScreenState {
 
 class SignInScreenInvalidUserError extends SignInScreenState {
   final String message;
-  const SignInScreenInvalidUserError(this.message);
-
-  @override
-  List<Object> get props => [message];
+  SignInScreenInvalidUserError(this.message);
 }
 
 class SignInScreenError extends SignInScreenState {
   final String message;
-  const SignInScreenError(this.message);
-
-  @override
-  List<Object> get props => [message];
+  SignInScreenError(this.message);
 }

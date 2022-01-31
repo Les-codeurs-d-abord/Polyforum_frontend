@@ -91,7 +91,10 @@ class CandidateWebBody extends StatelessWidget {
                                     ),
                                     CandidateProfilScreen(
                                         candidateUser: candidateUser),
-                                    ChangePasswordScreen(BlocProvider.of<CandidateGetUserCubit>(context).getUser()),
+                                    ChangePasswordScreen(
+                                        BlocProvider.of<CandidateGetUserCubit>(
+                                                context)
+                                            .getUser()),
                                   ],
                                 ),
                               ),

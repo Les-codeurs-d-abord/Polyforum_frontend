@@ -12,6 +12,8 @@ import 'package:poly_forum/screens/sign_in/components/pwd_forget.dart';
 import 'package:poly_forum/screens/sign_in/components/pwd_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/screens/sign_in/components/pwd_save.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class SignForm extends StatefulWidget {
   const SignForm({Key? key}) : super(key: key);
@@ -29,16 +31,19 @@ class _SignFormState extends State<SignForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<SignInScreenCubit, SignInScreenState>(
       listener: (context, state) {
+        print(state);
         if (state is SignInScreenError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
+          showTopSnackBar(
+            context,
+            const CustomSnackBar.error(
+              message: "Une erreur est survenue.",
             ),
           );
         } else if (state is SignInScreenInvalidUserError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
+          showTopSnackBar(
+            context,
+            const CustomSnackBar.error(
+              message: "Identifiants incorrects",
             ),
           );
         } else if (state is SignInScreenLoaded) {
@@ -107,15 +112,7 @@ class _SignFormState extends State<SignForm> {
             PwdFormField(_passwordController),
             const SizedBox(height: 10),
             const PwdSave(),
-            isError
-                ? const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Text(
-                      "Identifiants invalides",
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  )
-                : const SizedBox(height: 30),
+            const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
               height: 60,
@@ -153,7 +150,6 @@ class _SignFormState extends State<SignForm> {
                               ),
                             ),
                           ),
-                          // Icon(Icons.arrow_forward_outlined),
                         ],
                       ),
               ),

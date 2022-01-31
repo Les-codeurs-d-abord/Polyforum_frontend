@@ -16,7 +16,8 @@ class PhaseIndicator extends StatelessWidget {
           context,
           "1",
           "Inscription",
-          BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.inscription,
+          BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
+              Phase.inscription,
           const BorderRadius.only(
             topLeft: Radius.circular(20),
             bottomLeft: Radius.circular(20),
@@ -35,7 +36,8 @@ class PhaseIndicator extends StatelessWidget {
           context,
           "3",
           "Planning",
-          BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.planning,
+          BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
+              Phase.planning,
           const BorderRadius.only(
             topRight: Radius.circular(20),
             bottomRight: Radius.circular(20),
@@ -45,13 +47,13 @@ class PhaseIndicator extends StatelessWidget {
     );
   }
 
-  Widget buildItem(
-      BuildContext context, String nb, String text, bool active, BorderRadius borderRadius) {
+  Widget buildItem(BuildContext context, String nb, String text, bool active,
+      BorderRadius borderRadius) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
-          color: active ? kBlue : Colors.white,
+          color: active ? kPrimaryColor : Colors.white,
           border: Border.all(color: Colors.black),
           borderRadius: borderRadius,
         ),
@@ -76,8 +78,7 @@ class PhaseIndicator extends StatelessWidget {
                 text,
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     color: active ? Colors.white : Colors.black,
-                    fontWeight: active ? FontWeight.bold : FontWeight.normal
-                ),
+                    fontWeight: active ? FontWeight.bold : FontWeight.normal),
                 overflow: TextOverflow.ellipsis,
               ),
             )

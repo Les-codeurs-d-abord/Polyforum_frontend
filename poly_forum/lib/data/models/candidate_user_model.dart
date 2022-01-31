@@ -14,7 +14,7 @@ class CandidateUser extends User {
   final List<String> links;
   final List<String> tags;
   final int wishesCount;
-  final String cv;
+  String cv;
 
   CandidateUser({
     required this.firstName,

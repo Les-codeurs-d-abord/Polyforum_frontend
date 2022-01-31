@@ -13,7 +13,7 @@ class Body extends StatelessWidget {
   Widget buildInitialScreen(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > 1080) {
+        if (constraints.maxWidth > 1100) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -26,7 +26,7 @@ class Body extends StatelessWidget {
               Expanded(
                 flex: 5,
                 child: Container(
-                  color: kSecondaryColor,
+                  color: kPrimaryColor,
                   child: Center(
                     child: Image.asset(
                       "images/interview_1.png",

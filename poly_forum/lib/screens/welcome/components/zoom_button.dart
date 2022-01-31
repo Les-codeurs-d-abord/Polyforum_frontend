@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:poly_forum/utils/constants.dart';
 
 class ZoomButtonsPluginOption extends LayerOptions {
   final double minZoom;
@@ -61,19 +62,15 @@ class ZoomButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: zoomButtonsOpts.alignment,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(
-                left: zoomButtonsOpts.padding,
-                top: zoomButtonsOpts.padding,
-                right: zoomButtonsOpts.padding),
-            child: FloatingActionButton(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            FloatingActionButton(
               heroTag: 'zoomInButton',
               mini: zoomButtonsOpts.mini,
-              backgroundColor:
-                  zoomButtonsOpts.zoomInColor ?? Theme.of(context).primaryColor,
+              backgroundColor: kPrimaryColor,
               onPressed: () {
                 var bounds = map.getBounds();
                 var centerZoom = map.getBoundsCenterZoom(bounds, options);
@@ -84,18 +81,16 @@ class ZoomButtons extends StatelessWidget {
                 map.move(centerZoom.center, zoom,
                     source: MapEventSource.custom);
               },
-              child: Icon(zoomButtonsOpts.zoomInIcon,
-                  color: zoomButtonsOpts.zoomInColorIcon ??
-                      IconTheme.of(context).color),
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(zoomButtonsOpts.padding),
-            child: FloatingActionButton(
+            const SizedBox(height: 10),
+            FloatingActionButton(
               heroTag: 'zoomOutButton',
               mini: zoomButtonsOpts.mini,
-              backgroundColor: zoomButtonsOpts.zoomOutColor ??
-                  Theme.of(context).primaryColor,
+              backgroundColor: kPrimaryColor,
               onPressed: () {
                 var bounds = map.getBounds();
                 var centerZoom = map.getBoundsCenterZoom(bounds, options);
@@ -106,12 +101,13 @@ class ZoomButtons extends StatelessWidget {
                 map.move(centerZoom.center, zoom,
                     source: MapEventSource.custom);
               },
-              child: Icon(zoomButtonsOpts.zoomOutIcon,
-                  color: zoomButtonsOpts.zoomOutColorIcon ??
-                      IconTheme.of(context).color),
+              child: const Icon(
+                Icons.remove,
+                color: Colors.white,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
