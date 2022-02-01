@@ -31,16 +31,27 @@ class PlanningRepository {
   }
 
   Future<List<CompanyMinimal>> fetchFreeCompaniesRequestAtGivenPeriod(
-      period) async {
+      period, userId) async {
+    print('dans le repo');
+    print(period);
+    print(userId);
     try {
-      if (period == null) {
-        throw const PlanningException("Une période est requise");
+      if (period == null || userId == null) {
+        throw const PlanningException(
+            "Une période et un utilisateur sont requis");
       }
 
-      String uriLink = 'api/planning/freecompanies/$period';
+      final values = {"period": period, "userId": userId};
+      String json = jsonEncode(values);
+      final body = {
+        "data": json,
+      };
+
+      String uriLink = 'api/planning/freecompanies';
 
       final uri = Uri.http(kServer, uriLink);
-      final response = await http.get(uri).timeout(const Duration(seconds: 2));
+      final response =
+          await http.post(uri, body: body).timeout(const Duration(seconds: 2));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
