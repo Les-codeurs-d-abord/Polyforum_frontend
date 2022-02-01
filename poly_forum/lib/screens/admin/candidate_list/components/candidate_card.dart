@@ -64,7 +64,8 @@ class CandidateCard extends StatelessWidget {
                           size: 15,
                         ),
                       ],
-                    )),
+                    ),
+                ),
                 const Spacer(),
                 Expanded(
                     flex: 3,

@@ -82,10 +82,10 @@ class _BodyState extends State<Body> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const SizedBox(width: 60),
+                                  const SizedBox(width: 55),
                                   const Spacer(),
                                   Expanded(
-                                    flex: 3,
+                                    flex: 12,
                                     child: SortButton(
                                         label: "Raison sociale",
                                         sortCallback: (ascending) {
@@ -95,7 +95,17 @@ class _BodyState extends State<Body> {
                                   ),
                                   const Spacer(),
                                   Expanded(
-                                    flex: 3,
+                                    flex: 10,
+                                    child: SortButton(
+                                        label: "Complétion",
+                                        sortCallback: (ascending) {
+                                          BlocProvider.of<CompanyListScreenCubit>(context).sortCompanyListByCompletionEvent(companyListInitial, companyList, ascending);
+                                        }
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Expanded(
+                                    flex: 10,
                                     child: SortButton(
                                         label: "Nb d'offres",
                                         sortCallback: (ascending) {
@@ -105,7 +115,7 @@ class _BodyState extends State<Body> {
                                   ),
                                   const Spacer(),
                                   Expanded(
-                                    flex: 3,
+                                    flex: 10,
                                     child: SortButton(
                                         label: "Nb de voeux",
                                         sortCallback: (ascending) {
@@ -114,7 +124,7 @@ class _BodyState extends State<Body> {
                                     ),
                                   ),
                                   const Spacer(),
-                                  const SizedBox(width: 50),
+                                  const SizedBox(width: 55),
                                 ],
                               ),
                             ),
@@ -287,24 +297,102 @@ class _BodyState extends State<Body> {
                                               });
                                             },
                                           )
-                                      )
+                                      ),
                                     ]
                                 )
                             ),
-                            // Container(
-                            //     height: 100,
-                            //     width: double.infinity,
-                            //     decoration: BoxDecoration(
-                            //         borderRadius: const BorderRadius.all(Radius.circular(5)),
-                            //         border: Border.all(
-                            //           width: 1,
-                            //           color: Colors.grey,
-                            //         )
-                            //     ),
-                            //     margin: const EdgeInsets.only(top: 30),
-                            //     padding: const EdgeInsets.all(10),
-                            //     child: const Text("Chiffres clés")
-                            // )
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.grey,
+                                    )
+                                ),
+                                margin: const EdgeInsets.only(top: 30),
+                                padding: const EdgeInsets.all(15),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(bottom: 8.0),
+                                      child: Text(
+                                          "Légende",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            // fontWeight: FontWeight.bold,
+                                          )
+                                      ),
+                                    ),
+                                    Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.circle,
+                                            color: Colors.green,
+                                            size: 15,
+                                          ),
+                                          Flexible(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(left: 5),
+                                                child: Text(
+                                                  "Profil complet",
+                                                  style: TextStyle(
+                                                    color: Colors.green,
+                                                    fontSize: 15,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              )
+                                          )
+                                        ]
+                                    ),
+                                    Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.circle,
+                                            color: Colors.orange,
+                                            size: 15,
+                                          ),
+                                          Flexible(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(left: 5),
+                                                child: Text(
+                                                  "Profil incomplet",
+                                                  style: TextStyle(
+                                                    color: Colors.orange,
+                                                    fontSize: 15,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              )
+                                          )
+                                        ]
+                                    ),
+                                    Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.circle,
+                                            color: Colors.red,
+                                            size: 15,
+                                          ),
+                                          Flexible(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(left: 5),
+                                                child: Text(
+                                                  "Jamais connecté",
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 15,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              )
+                                          )
+                                        ]
+                                    ),
+                                  ],
+                                )
+                            ),
                           ],
                         )
                     )

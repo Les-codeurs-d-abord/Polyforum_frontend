@@ -45,7 +45,7 @@ class CompanyCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Expanded(
-                  flex: 3,
+                  flex: 12,
                   child: Text(company.companyName,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
@@ -54,7 +54,22 @@ class CompanyCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Expanded(
-                  flex: 3,
+                    flex: 10,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          color: getColorByStatus(company.status),
+                          size: 15,
+                        ),
+                      ],
+                    )
+                ),
+                const Spacer(),
+                Expanded(
+                  flex: 10,
                   child: Text(
                     company.offersCount.toString(),
                     textAlign: TextAlign.center,
@@ -67,7 +82,7 @@ class CompanyCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Expanded(
-                  flex: 3,
+                  flex: 10,
                   child: Text(
                     company.wishesCount.toString(),
                     textAlign: TextAlign.center,
@@ -147,5 +162,18 @@ class CompanyCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color getColorByStatus(String status) {
+    switch (status) {
+      case "Jamais connecté":
+        return Colors.red;
+      case "Incomplet":
+        return Colors.orange;
+      case "Complet":
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
   }
 }

@@ -3,6 +3,7 @@ class Company {
   final String companyName;
   final String? logo;
   final String email;
+  final String status;
   final int offersCount;
   final int wishesCount;
 
@@ -11,18 +12,20 @@ class Company {
     required this.companyName,
     required this.logo,
     required this.email,
+    required this.status,
     required this.offersCount,
     required this.wishesCount,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
-      id: json['user']['id'],
-      companyName: json['companyName'],
-      logo: json['logo'],
-      email: json['user']['email'],
-      offersCount: json['offersCount'],
-      wishesCount: json['wishesCount'],
+      id: json['user']['id'] ?? 0,
+      companyName: json['companyName'] ?? '',
+      logo: json['logo'] ?? '',
+      email: json['user']['email'] ?? '',
+      status: json['status'] ?? '',
+      offersCount: json['offersCount'] ?? 0,
+      wishesCount: json['wishesCount'] ?? 0,
     );
   }
 
@@ -31,7 +34,6 @@ class Company {
     "companyName": companyName,
     "logo": logo,
     "email": email,
-    "offersCount": offersCount
   };
 
   @override

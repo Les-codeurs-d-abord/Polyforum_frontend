@@ -49,7 +49,7 @@ class CompanyRepository {
 
     final uri = Uri.http(kServer, '/api/companies/');
     final response =
-        await http.post(uri, body: body).onError((error, stackTrace) {
+    await http.post(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -71,7 +71,7 @@ class CompanyRepository {
 
     final uri = Uri.http(kServer, '/api/users/${company.id}');
     final response =
-        await http.put(uri, body: body).onError((error, stackTrace) {
+    await http.put(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -207,7 +207,7 @@ class CompanyRepository {
 
       final uri = Uri.http(kServer, '/api/offer');
       final response =
-          await http.post(uri, body: body).onError((error, stackTrace) {
+      await http.post(uri, body: body).onError((error, stackTrace) {
         throw const NetworkException("Le serveur est injoignable");
       });
 
@@ -290,7 +290,7 @@ class CompanyRepository {
 
       final uri = Uri.http(kServer, '/api/wishcompany');
       final response =
-          await http.post(uri, body: body).onError((error, stackTrace) {
+      await http.post(uri, body: body).onError((error, stackTrace) {
         print(error);
         throw const NetworkException("Le serveur est injoignable");
       });
@@ -315,7 +315,7 @@ class CompanyRepository {
 
       final uri = Uri.http(kServer, '/api/wishcompany');
       final response =
-          await http.delete(uri, body: body).onError((error, stackTrace) {
+      await http.delete(uri, body: body).onError((error, stackTrace) {
         throw const NetworkException("Le serveur est injoignable");
       });
 
@@ -343,13 +343,15 @@ class CompanyRepository {
       });
 
       if (response.statusCode == 200) {
-        return true;
+        final data = json.decode(response.body);
+        if (data['check'] is bool) {
+          return data['check'];
+        }
       } else if (response.statusCode == 404) {
         return false;
-      } else {
-        throw NetworkException(
-            "Une erreur est survenue, status code: ${response.statusCode}");
       }
+      throw NetworkException(
+          "Une erreur est survenue, status code: ${response.statusCode}");
     } on Exception catch (e) {
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
@@ -360,7 +362,7 @@ class CompanyRepository {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
       final uri =
-          Uri.http(kServer, '/api/wishcompany/${company.campanyProfileId}');
+      Uri.http(kServer, '/api/wishcompany/${company.campanyProfileId}');
       final response = await http.get(uri).onError((error, stackTrace) {
         print(error);
         throw const NetworkException("Le serveur est injoignable");
@@ -373,7 +375,7 @@ class CompanyRepository {
 
         for (Map<String, dynamic> i in data) {
           CandidateUser candidateUser =
-              CandidateUser.fromJson(i['candidate_profile'] ?? '');
+          CandidateUser.fromJson(i['candidate_profile'] ?? '');
           wishlist.add(CompanyWish.fromJson(i, candidateUser));
         }
 
@@ -404,7 +406,7 @@ class CompanyRepository {
         };
 
         final uri =
-            Uri.http(kServer, '/api/wishcompany/${company.campanyProfileId}');
+        Uri.http(kServer, '/api/wishcompany/${company.campanyProfileId}');
         final response = await http.put(uri, body: body);
 
         if (response.statusCode != 200) {
