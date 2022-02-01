@@ -71,7 +71,10 @@ class CandidateWebBody extends StatelessWidget {
                                 child: IndexedStack(
                                   index: selectedIndex,
                                   children: <Widget>[
-                                    const WelcomeScreen(),
+                                    WelcomeScreen(
+                                        user: BlocProvider.of<
+                                                CandidateGetUserCubit>(context)
+                                            .user),
                                     OffersScreen(user: candidateUser),
                                     ChoicesScreen(user: candidateUser),
                                     PlanningScreen(user: candidateUser),

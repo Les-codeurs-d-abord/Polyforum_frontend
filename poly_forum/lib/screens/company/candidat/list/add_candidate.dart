@@ -4,8 +4,11 @@ import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart'
 import 'package:poly_forum/cubit/company/wishlist/company_check_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_get_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_wishlist_cubit.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -15,11 +18,9 @@ class AddCandidate extends StatefulWidget {
   final CandidateUser candidate;
   final bool isDisabled;
 
-  const AddCandidate({
-    required this.candidate,
-    this.isDisabled = false,
-    Key? key
-  }) : super(key: key);
+  const AddCandidate(
+      {required this.candidate, this.isDisabled = false, Key? key})
+      : super(key: key);
 
   @override
   _AddCandidateState createState() => _AddCandidateState();
@@ -69,11 +70,16 @@ class _AddCandidateState extends State<AddCandidate> {
               padding: kTopSnackBarPadding,
               child: const CustomSnackBar.error(
                 message:
-                "Un problème est survenue, la sauvegarde pas été effectuée...",
+                    "Un problème est survenue, la sauvegarde pas été effectuée...",
               ),
             ),
           );
         } else if (state is CompanyWishlistLoaded) {
+          Phase currentPhase =
+              BlocProvider.of<PhaseCubit>(context).currentPhase;
+          BlocProvider.of<InfoPhaseCubit>(context)
+              .initInfoPhaseCompany(company, currentPhase);
+
           showTopSnackBar(
             context,
             Padding(
@@ -107,8 +113,8 @@ class _AddCandidateState extends State<AddCandidate> {
               BlocProvider.of<CompanyWishlistCubit>(context)
                   .removeWish(company, widget.candidate);
             },
-            color: Colors.red,
             isDisabled: widget.isDisabled,
+            color: kdeleteColorButton,
           );
         } else {
           return RowBtn(

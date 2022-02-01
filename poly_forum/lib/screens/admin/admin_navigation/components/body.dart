@@ -6,6 +6,7 @@ import 'package:poly_forum/cubit/admin/company_list/company_list_screen_cubit.da
 import 'package:poly_forum/cubit/admin/dashboard/dashboard_cubit.dart';
 import 'package:poly_forum/cubit/admin/navigation/admin_get_user_cubit.dart';
 import 'package:poly_forum/cubit/admin/navigation/admin_navigation_cubit.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/resources/candidate_repository.dart';
 import 'package:poly_forum/resources/company_repository.dart';
@@ -27,9 +28,10 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
 
-    BlocProvider.of<PhaseCubit>(context).fetchCurrentPhase().then((value) =>
-        BlocProvider.of<AdminGetUserCubit>(context).getAdminFromLocalToken(),
-    );
+    BlocProvider.of<PhaseCubit>(context).fetchCurrentPhase().then(
+          (value) => BlocProvider.of<AdminGetUserCubit>(context)
+              .getAdminFromLocalToken(),
+        );
   }
 
   @override
@@ -84,6 +86,9 @@ class _BodyState extends State<Body> {
         ),
         BlocProvider(
           create: (context) => CandidateListScreenCubit(candidateRepository),
+        ),
+        BlocProvider(
+          create: (context) => InfoPhaseCubit(),
         ),
       ],
       child: LayoutBuilder(builder: (context, constraints) {

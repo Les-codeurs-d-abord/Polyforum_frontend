@@ -30,7 +30,7 @@ class ProfilePicture extends StatelessWidget {
             return CircleAvatar(
               backgroundColor: Colors.transparent,
               backgroundImage:
-                  NetworkImage("http://" + kServer + "/api/res/" + state.uri),
+                  NetworkImage("http://$kServer/api/res/${state.uri}"),
             );
           }
 
@@ -44,7 +44,7 @@ class ProfilePicture extends StatelessWidget {
             return CircleAvatar(
               backgroundColor: Colors.transparent,
               backgroundImage:
-                  NetworkImage("http://" + kServer + "/api/res/" + uri),
+                  NetworkImage("http://$kServer/api/res/$uri"),
             );
           }
         },
@@ -60,7 +60,7 @@ class ProfilePicture extends StatelessWidget {
         return CircleAvatar(
           backgroundColor: Colors.transparent,
           backgroundImage:
-              NetworkImage("http://" + kServer + "/api/res/" + uri),
+              NetworkImage("http://$kServer/api/res/$uri"),
         );
       }
     }

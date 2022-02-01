@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:poly_forum/screens/shared/components/base_screen.dart';
+import 'package:poly_forum/data/models/user_model.dart';
 import 'package:poly_forum/screens/welcome/components/localization_info.dart';
 import 'package:poly_forum/screens/welcome/components/phase_indicator.dart';
 import 'package:poly_forum/screens/welcome/components/presentation_card.dart';
 import 'package:poly_forum/utils/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  final User user;
+  const WelcomeScreen({required this.user, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BaseScreen(
-      width: double.infinity,
-      childPadding: const EdgeInsets.all(0),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 50),
-            child: Column(
+    return SingleChildScrollView(
+      primary: false,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+        child: Column(
+          children: [
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
@@ -31,8 +30,8 @@ class WelcomeScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   "Cette application a pour objectif l’organisation des rencontres entre les futurs apprentis de Polytech et des entreprises prêtes à recruter."
-                      "Afin que ces rencontres soient efficaces, les entreprises pourront, grâce à l'application, décider quels candidats les intéressent et les candidats pourront faire de même avec les entreprises. "
-                      "À la suite de cela, un planning sera généré et permettra aux candidats et entreprises de savoir où et quand la rencontre se fera.",
+                  "Afin que ces rencontres soient efficaces, les entreprises pourront, grâce à l'application, décider quels candidats les intéressent et les candidats pourront faire de même avec les entreprises. "
+                  "À la suite de cela, un planning sera généré et permettra aux candidats et entreprises de savoir où et quand la rencontre se fera.",
                   style: Theme.of(context).textTheme.bodyText1,
                   textAlign: TextAlign.justify,
                 ),
@@ -128,7 +127,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const PhaseIndicator(),
+                PhaseIndicator(user: user),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Divider(),
@@ -144,6 +143,7 @@ class WelcomeScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Wrap(
+                        runSpacing: 50,
                         alignment: WrapAlignment.spaceEvenly,
                         children: const [
                           PresentationCard(
@@ -178,9 +178,10 @@ class WelcomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          const LocalizationInfo(),
-        ],
+            const SizedBox(height: 30),
+            const LocalizationInfo(),
+          ],
+        ),
       ),
     );
   }

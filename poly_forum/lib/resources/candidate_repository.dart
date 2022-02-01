@@ -17,7 +17,7 @@ class CandidateRepository {
 
     final uri = Uri.http(kServer, '/api/candidates');
     final response =
-        await http.post(uri, body: body).onError((error, stackTrace) {
+    await http.post(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -39,7 +39,7 @@ class CandidateRepository {
 
     final uri = Uri.http(kServer, '/api/users/${candidate.id}');
     final response =
-        await http.put(uri, body: body).onError((error, stackTrace) {
+    await http.put(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -191,7 +191,7 @@ class CandidateRepository {
 
       final uri = Uri.http(kServer, '/api/wishcandidate');
       final response =
-          await http.post(uri, body: body).onError((error, stackTrace) {
+      await http.post(uri, body: body).onError((error, stackTrace) {
         print(error);
         throw const NetworkException("Le serveur est injoignable");
       });
@@ -216,7 +216,7 @@ class CandidateRepository {
 
       final uri = Uri.http(kServer, '/api/wishcandidate');
       final response =
-          await http.delete(uri, body: body).onError((error, stackTrace) {
+      await http.delete(uri, body: body).onError((error, stackTrace) {
         throw const NetworkException("Le serveur est injoignable");
       });
 
@@ -243,13 +243,15 @@ class CandidateRepository {
       });
 
       if (response.statusCode == 200) {
-        return true;
+        final data = json.decode(response.body);
+        if (data['check'] is bool) {
+          return data['check'];
+        }
       } else if (response.statusCode == 404) {
         return false;
-      } else {
-        throw NetworkException(
-            "Une erreur est survenue, status code: ${response.statusCode}");
       }
+      throw NetworkException(
+          "Une erreur est survenue, status code: ${response.statusCode}");
     } on Exception catch (e) {
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }

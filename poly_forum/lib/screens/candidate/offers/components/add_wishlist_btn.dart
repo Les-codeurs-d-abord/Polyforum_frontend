@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/candidate/candidate_choices_cubit.dart';
-import 'package:poly_forum/cubit/candidate/candidate_offer_screen_cubit.dart';
 import 'package:poly_forum/cubit/candidate/wishlist/candidate_get_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/candidate/wishlist/candidate_wishlist_cubit.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -69,6 +71,11 @@ class _AddWishlistBtnState extends State<AddWishlistBtn> {
             ),
           );
         } else if (state is CandidateWishlistLoaded) {
+          Phase currentPhase =
+              BlocProvider.of<PhaseCubit>(context).currentPhase;
+          BlocProvider.of<InfoPhaseCubit>(context)
+              .initInfoPhaseCandidat(widget.user, currentPhase);
+
           showTopSnackBar(
             context,
             Padding(
@@ -102,7 +109,7 @@ class _AddWishlistBtnState extends State<AddWishlistBtn> {
               BlocProvider.of<CandidateWishlistCubit>(context)
                   .removeWish(widget.offer, widget.user);
             },
-            color: Colors.red,
+            color: kdeleteColorButton,
           );
         } else {
           return RowBtn(

@@ -77,7 +77,8 @@ class AdminPhoneBody extends StatelessWidget {
             child: IndexedStack(
               index: selectedIndex,
               children: <Widget>[
-                const WelcomeScreen(),
+                WelcomeScreen(
+                    user: BlocProvider.of<AdminGetUserCubit>(context).user),
                 const DashboardScreen(),
                 const CompanyListScreen(),
                 const CandidateListScreen(),
