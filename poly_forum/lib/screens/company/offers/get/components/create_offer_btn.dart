@@ -64,7 +64,7 @@ class CreateOfferBtn extends StatelessWidget {
           onPressed: () {
             BlocProvider.of<CompanyOfferCubit>(context).deleteOffer(offer);
           },
-          color: kRedButton,
+          color: kdeleteColorButton,
         );
       },
     );

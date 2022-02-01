@@ -101,7 +101,7 @@ class _AddWishlistBtnState extends State<AddWishlistBtn> {
               BlocProvider.of<CandidateWishlistCubit>(context)
                   .removeWish(widget.offer, widget.user);
             },
-            color: Colors.red,
+            color: kdeleteColorButton,
           );
         } else {
           return RowBtn(

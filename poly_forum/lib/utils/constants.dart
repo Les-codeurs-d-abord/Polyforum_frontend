@@ -42,7 +42,7 @@ const kPasswordMaxLength = 25;
 EdgeInsetsGeometry kTopSnackBarPadding =
     const EdgeInsets.only(left: 300, right: 10);
 
-const kRedButton = Colors.red;
+final kdeleteColorButton = Colors.grey[600]!;
 
 const kWidthBuildWebVersion = 1100;
 var kIsWebVersion = false;

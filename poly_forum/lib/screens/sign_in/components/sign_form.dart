@@ -31,7 +31,6 @@ class _SignFormState extends State<SignForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<SignInScreenCubit, SignInScreenState>(
       listener: (context, state) {
-        print(state);
         if (state is SignInScreenError) {
           showTopSnackBar(
             context,

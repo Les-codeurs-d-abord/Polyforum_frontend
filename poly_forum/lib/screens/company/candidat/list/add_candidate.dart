@@ -15,11 +15,9 @@ class AddCandidate extends StatefulWidget {
   final CandidateUser candidate;
   final bool isDisabled;
 
-  const AddCandidate({
-    required this.candidate,
-    this.isDisabled = false,
-    Key? key
-  }) : super(key: key);
+  const AddCandidate(
+      {required this.candidate, this.isDisabled = false, Key? key})
+      : super(key: key);
 
   @override
   _AddCandidateState createState() => _AddCandidateState();
@@ -69,7 +67,7 @@ class _AddCandidateState extends State<AddCandidate> {
               padding: kTopSnackBarPadding,
               child: const CustomSnackBar.error(
                 message:
-                "Un problème est survenue, la sauvegarde pas été effectuée...",
+                    "Un problème est survenue, la sauvegarde pas été effectuée...",
               ),
             ),
           );
@@ -107,8 +105,8 @@ class _AddCandidateState extends State<AddCandidate> {
               BlocProvider.of<CompanyWishlistCubit>(context)
                   .removeWish(company, widget.candidate);
             },
-            color: Colors.red,
             isDisabled: widget.isDisabled,
+            color: kdeleteColorButton,
           );
         } else {
           return RowBtn(

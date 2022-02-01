@@ -38,7 +38,8 @@ class DeleteOfferBtn extends StatelessWidget {
             ),
           );
         } else if (state is CompanyOfferLoaded) {
-          BlocProvider.of<CompanyGetOfferCubit>(context).deleteLocalOffer(offer);
+          BlocProvider.of<CompanyGetOfferCubit>(context)
+              .deleteLocalOffer(offer);
           showTopSnackBar(
             context,
             Padding(
@@ -67,16 +68,15 @@ class DeleteOfferBtn extends StatelessWidget {
                 builder: (BuildContext context) {
                   return ConfirmationModal(
                       title: "Supprimer une offre",
-                      description: "Vous êtes sur le point de supprimer l'offre ${offer.name}, en êtes-vous sûr ?"
-                  );
-                }
-            ).then((value) {
+                      description:
+                          "Vous êtes sur le point de supprimer l'offre ${offer.name}, en êtes-vous sûr ?");
+                }).then((value) {
               if (value == ModalReturn.confirm) {
                 BlocProvider.of<CompanyOfferCubit>(context).deleteOffer(offer);
               }
             });
           },
-          color: kRedButton,
+          color: kdeleteColorButton,
         );
       },
     );

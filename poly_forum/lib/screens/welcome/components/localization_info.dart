@@ -3,8 +3,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:latlong2/latlong.dart';
 import './zoom_button.dart';
-import 'dart:ui' as ui;
-import 'dart:html';
 
 class LocalizationInfo extends StatelessWidget {
   const LocalizationInfo({Key? key}) : super(key: key);
@@ -33,9 +31,8 @@ class LocalizationInfo extends StatelessWidget {
         SizedBox(
           height: 300,
           child: ClipRRect(
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(15),
             ),
             child: getMap(),
           ),

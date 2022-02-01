@@ -14,6 +14,7 @@ class TabNavigationItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Phase currentPhase = BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
     return Column(
       children: [
         const SizedBox(height: 20),
@@ -28,7 +29,7 @@ class TabNavigationItemList extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             const Text(
-              "PolyForum",
+              "Poly Forum",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 26,
@@ -59,73 +60,82 @@ class TabNavigationItemList extends StatelessWidget {
             BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(1);
           },
           children: [
-            if (BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.inscription)
-              TabChildNavigationItem(
-                index: 2,
-                selectedIndex: selectedIndex,
-                text: "Créer une offre",
-                onPressed: () {
-                  BlocProvider.of<CompanyNavigationCubit>(context)
-                      .setSelectedItem(2);
-                },
-              ),
-            if (BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.inscription)
-              TabChildNavigationItem(
-                index: 9,
-                selectedIndex: selectedIndex,
-                text: "Modifier une offre",
-                onPressed: selectedIndex == 9
-                    ? () {
-                  BlocProvider.of<CompanyNavigationCubit>(context)
-                      .setSelectedItem(9);
-                }
-                    : null,
-              ),
+            TabChildNavigationItem(
+              index: 2,
+              selectedIndex: selectedIndex,
+              text: "Créer une offre",
+              onPressed: () {
+                BlocProvider.of<CompanyNavigationCubit>(context)
+                    .setSelectedItem(2);
+              },
+            ),
+            TabChildNavigationItem(
+              index: 9,
+              selectedIndex: selectedIndex,
+              text: "Modifier une offre",
+              onPressed: selectedIndex == 9
+                  ? () {
+                      BlocProvider.of<CompanyNavigationCubit>(context)
+                          .setSelectedItem(9);
+                    }
+                  : null,
+            ),
           ],
         ),
         const SizedBox(height: 20),
-        if (BlocProvider.of<PhaseCubit>(context).getCurrentPhase() != Phase.inscription)
-          Column(
-            children: [
-              TabNavigationItem(
-                index: 3,
-                selectedIndex: selectedIndex,
-                text: "Les candidats",
-                iconSelected: Icons.school,
-                iconNonSelected: Icons.school_outlined,
-                onPressed: () {
-                  BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(3);
-                },
-              ),
-              const SizedBox(height: 20),
-              TabNavigationItem(
-                index: 4,
-                selectedIndex: selectedIndex,
-                text: "Mes voeux",
-                iconSelected: Icons.bookmark_outlined,
-                iconNonSelected: Icons.bookmark_border,
-                onPressed: () {
-                  BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(4);
-                },
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        if (BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.planning)
-          Column(
-            children: [TabNavigationItem(
+        Column(
+          children: [
+            TabNavigationItem(
+              index: 3,
+              selectedIndex: selectedIndex,
+              text: "Les candidats",
+              iconSelected: Icons.school,
+              iconNonSelected: Icons.school_outlined,
+              isEnable: currentPhase != Phase.inscription,
+              messageToolTipOnLock:
+                  "Cet onglet n'est pas disponible durant la première phase: Inscription",
+              onPressed: () {
+                BlocProvider.of<CompanyNavigationCubit>(context)
+                    .setSelectedItem(3);
+              },
+            ),
+            const SizedBox(height: 20),
+            TabNavigationItem(
+              index: 4,
+              selectedIndex: selectedIndex,
+              text: "Mes voeux",
+              iconSelected: Icons.bookmark_outlined,
+              iconNonSelected: Icons.bookmark_border,
+              isEnable: currentPhase != Phase.inscription,
+              messageToolTipOnLock:
+                  "Cet onglet n'est pas disponible durant la première phase: Inscription",
+              onPressed: () {
+                BlocProvider.of<CompanyNavigationCubit>(context)
+                    .setSelectedItem(4);
+              },
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+        Column(
+          children: [
+            TabNavigationItem(
               index: 5,
               selectedIndex: selectedIndex,
               text: "Mon planning",
               iconSelected: Icons.today,
               iconNonSelected: Icons.today_outlined,
+              isEnable: currentPhase == Phase.planning,
+              messageToolTipOnLock:
+                  "Cet onglet est disponible durant la troisième phase: Génération du planning",
               onPressed: () {
-                BlocProvider.of<CompanyNavigationCubit>(context).setSelectedItem(5);
+                BlocProvider.of<CompanyNavigationCubit>(context)
+                    .setSelectedItem(5);
               },
             ),
-              const SizedBox(height: 20),
-            ],
-          ),
+            const SizedBox(height: 20),
+          ],
+        ),
         TabNavigationItem(
           index: 6,
           selectedIndex: selectedIndex,

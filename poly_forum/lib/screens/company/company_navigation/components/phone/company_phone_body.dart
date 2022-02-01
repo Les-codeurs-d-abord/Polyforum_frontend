@@ -83,7 +83,8 @@ class CompanyPhoneBody extends StatelessWidget {
             child: IndexedStack(
               index: selectedIndex,
               children: <Widget>[
-                const WelcomeScreen(),
+                WelcomeScreen(
+                    user: BlocProvider.of<CompanyGetUserCubit>(context).user),
                 const OffersScreen(),
                 const CreateOfferScreen(),
                 const CandidatList(),
@@ -100,7 +101,8 @@ class CompanyPhoneBody extends StatelessWidget {
                   },
                 ),
                 const CompanyProfileScreen(), //profil
-                ChangePasswordScreen(BlocProvider.of<CompanyGetUserCubit>(context).getUser()),
+                ChangePasswordScreen(
+                    BlocProvider.of<CompanyGetUserCubit>(context).getUser()),
                 if (selectedIndex == 9) const EditOfferScreen(),
               ],
             ),

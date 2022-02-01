@@ -54,9 +54,23 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
       title: Row(
         children: [
           Expanded(
-            child: Text(
-              "Détail de l'entreprise ${companyDetail?.companyName}",
-              style: const TextStyle(fontSize: 22),
+            child: RichText(
+              text: TextSpan(
+                  text: "Détail de l'entreprise: ",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: companyDetail?.companyName,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ]),
             ),
           ),
           InkResponse(
@@ -88,6 +102,7 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
                       style: const TextStyle(color: Colors.red, fontSize: 18),
                     )
                   : SingleChildScrollView(
+                      primary: false,
                       child: IntrinsicHeight(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,6 +233,7 @@ class _CompanyDetailDialogState extends State<CompanyDetailDialog> {
                                                 BorderRadius.circular(5),
                                           ),
                                           child: SingleChildScrollView(
+                                            primary: false,
                                             child: Text(
                                               companyDetail?.description ?? '',
                                               textAlign: TextAlign.justify,
