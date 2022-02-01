@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
+import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
 import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -40,6 +45,15 @@ class DeleteOfferBtn extends StatelessWidget {
         } else if (state is CompanyOfferLoaded) {
           BlocProvider.of<CompanyGetOfferCubit>(context)
               .deleteLocalOffer(offer);
+
+          Phase currentPhase =
+              BlocProvider.of<PhaseCubit>(context).currentPhase;
+
+          CompanyUser company =
+              BlocProvider.of<CompanyGetUserCubit>(context).getUser();
+
+          BlocProvider.of<InfoPhaseCubit>(context)
+              .initInfoPhaseCompany(company, currentPhase);
           showTopSnackBar(
             context,
             Padding(

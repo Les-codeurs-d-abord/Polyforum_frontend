@@ -7,6 +7,7 @@ import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dar
 import 'package:poly_forum/cubit/company/offer/company_get_offer_cubit.dart';
 import 'package:poly_forum/cubit/company/offer/company_offer_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_get_wishlist_cubit.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/cubit/image_cubit.dart';
 import 'package:poly_forum/routes/application.dart';
@@ -86,6 +87,9 @@ class _BodyState extends State<Body> {
         ),
         BlocProvider(
           create: (context) => ImageCubit(),
+        ),
+        BlocProvider(
+          create: (context) => InfoPhaseCubit(),
         ),
       ],
       child: LayoutBuilder(builder: (context, constraints) {

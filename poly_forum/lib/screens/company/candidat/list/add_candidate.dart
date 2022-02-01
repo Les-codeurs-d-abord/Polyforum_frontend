@@ -4,8 +4,11 @@ import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart'
 import 'package:poly_forum/cubit/company/wishlist/company_check_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_get_wishlist_cubit.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_wishlist_cubit.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
+import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
+import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/row_btn.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -72,6 +75,11 @@ class _AddCandidateState extends State<AddCandidate> {
             ),
           );
         } else if (state is CompanyWishlistLoaded) {
+          Phase currentPhase =
+              BlocProvider.of<PhaseCubit>(context).currentPhase;
+          BlocProvider.of<InfoPhaseCubit>(context)
+              .initInfoPhaseCompany(company, currentPhase);
+
           showTopSnackBar(
             context,
             Padding(

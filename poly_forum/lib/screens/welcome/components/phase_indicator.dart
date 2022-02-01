@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/info_phase_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/user_model.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/utils/constants.dart';
@@ -20,7 +21,7 @@ class PhaseIndicator extends StatefulWidget {
 
 class _PhaseIndicatorState extends State<PhaseIndicator> {
   late Phase currentPhase;
-  HashMap<int, Info> infos = HashMap<int, Info>();
+  HashMap<int, List<Info>> infos = HashMap<int, List<Info>>();
 
   @override
   void initState() {
@@ -31,6 +32,9 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
     if (widget.user is CandidateUser) {
       BlocProvider.of<InfoPhaseCubit>(context)
           .initInfoPhaseCandidat(widget.user as CandidateUser, currentPhase);
+    } else if (widget.user is CompanyUser) {
+      BlocProvider.of<InfoPhaseCubit>(context)
+          .initInfoPhaseCompany(widget.user as CompanyUser, currentPhase);
     }
   }
 
@@ -48,6 +52,7 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
         }
 
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Column(
@@ -63,7 +68,8 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
                     ),
                   ),
                   if (infos.containsKey(0))
-                    buildInfoNotification(context, infos[0]!),
+                    for (var info in infos[0]!)
+                      buildInfoNotification(context, info),
                 ],
               ),
             ),
@@ -79,7 +85,8 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
                     const BorderRadius.all(Radius.zero),
                   ),
                   if (infos.containsKey(1))
-                    buildInfoNotification(context, infos[1]!),
+                    for (var info in infos[1]!)
+                      buildInfoNotification(context, info),
                 ],
               ),
             ),
@@ -98,7 +105,8 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
                     ),
                   ),
                   if (infos.containsKey(2))
-                    buildInfoNotification(context, infos[2]!),
+                    for (var info in infos[2]!)
+                      buildInfoNotification(context, info),
                 ],
               ),
             ),
@@ -150,10 +158,11 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
 
   Widget buildInfoNotification(BuildContext context, Info info) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(width: 30),
           info.isValid
               ? const Icon(
                   Icons.check_circle,

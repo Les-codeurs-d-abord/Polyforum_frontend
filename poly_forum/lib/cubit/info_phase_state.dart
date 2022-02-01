@@ -8,7 +8,7 @@ class InfoPhaseInitial extends InfoPhaseState {}
 class InfoPhaseLoading extends InfoPhaseState {}
 
 class InfoPhaseLoaded extends InfoPhaseState {
-  final HashMap<int, Info> infos;
+  final HashMap<int, List<Info>> infos;
   InfoPhaseLoaded(this.infos);
 }
 

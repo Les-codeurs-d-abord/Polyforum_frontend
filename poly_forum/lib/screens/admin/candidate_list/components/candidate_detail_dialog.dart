@@ -373,7 +373,7 @@ class _CandidateDetailDialogState extends State<CandidateDetailDialog> {
                                             margin:
                                                 const EdgeInsets.only(top: 10),
                                             child: Wrap(
-                                                alignment: WrapAlignment.center,
+                                                /*  alignment: WrapAlignment.center, */
                                                 spacing: 10,
                                                 runSpacing: 2,
                                                 children: [

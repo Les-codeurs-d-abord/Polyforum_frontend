@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/company/wishlist/company_wishlist_cubit.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/company_wish.dart';
@@ -28,10 +29,14 @@ class SaveWishlistBtn extends StatelessWidget {
             child: SizedBox(
               height: 50,
               child: MaterialButton(
-                onPressed: BlocProvider.of<PhaseCubit>(context).getCurrentPhase() == Phase.planning ? null : () {
-                  BlocProvider.of<CompanyWishlistCubit>(context)
-                      .updateWishlist(company, wishlist);
-                },
+                onPressed:
+                    BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
+                            Phase.planning
+                        ? null
+                        : () {
+                            BlocProvider.of<CompanyWishlistCubit>(context)
+                                .updateWishlist(company, wishlist);
+                          },
                 textColor: Colors.white,
                 color: kButtonColor,
                 disabledColor: kDisabledButtonColor,
@@ -41,6 +46,11 @@ class SaveWishlistBtn extends StatelessWidget {
                       BlocConsumer<CompanyWishlistCubit, CompanyWishlistState>(
                     listener: (context, state) {
                       if (state is CompanyWishlistLoaded) {
+                        Phase currentPhase =
+                            BlocProvider.of<PhaseCubit>(context).currentPhase;
+                        BlocProvider.of<InfoPhaseCubit>(context)
+                            .initInfoPhaseCompany(company, currentPhase);
+
                         showTopSnackBar(
                           context,
                           Padding(
