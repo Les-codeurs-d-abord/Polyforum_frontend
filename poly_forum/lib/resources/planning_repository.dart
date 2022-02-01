@@ -161,14 +161,8 @@ class PlanningRepository {
         throw const NetworkException("Le serveur a rencontré un problème");
       }
     } else {
-      var result = "";
-
-      for (var i = 0; i < response.bodyBytes.length; i++) {
-        result += String.fromCharCode(response.bodyBytes[i]);
-      }
-      final body = jsonDecode(result);
-
-      for (var element in body) {
+      final data = json.decode(response.body);
+      for (var element in data) {
         CandidateMinimal candidate = CandidateMinimal.fromJson(element);
         candidates.add(candidate);
       }
