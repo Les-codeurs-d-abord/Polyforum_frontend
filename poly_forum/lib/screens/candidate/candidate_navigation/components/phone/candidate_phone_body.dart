@@ -80,7 +80,8 @@ class CandidatePhoneBody extends StatelessWidget {
             child: IndexedStack(
               index: selectedIndex,
               children: <Widget>[
-                const WelcomeScreen(),
+                WelcomeScreen(
+                    user: BlocProvider.of<CandidateGetUserCubit>(context).user),
                 OffersScreen(user: candidateUser),
                 ChoicesScreen(user: candidateUser),
                 PlanningScreen(user: candidateUser),
@@ -95,7 +96,8 @@ class CandidatePhoneBody extends StatelessWidget {
                   },
                 ),
                 CandidateProfilScreen(candidateUser: candidateUser),
-                ChangePasswordScreen(BlocProvider.of<CandidateGetUserCubit>(context).getUser()),
+                ChangePasswordScreen(
+                    BlocProvider.of<CandidateGetUserCubit>(context).getUser()),
               ],
             ),
           ),

@@ -11,6 +11,5 @@ class PhaseLoaded extends PhaseState {}
 
 class PhaseError extends PhaseState {
   final String errorMessage;
-
   PhaseError(this.errorMessage);
 }

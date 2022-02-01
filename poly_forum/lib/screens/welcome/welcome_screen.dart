@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:poly_forum/data/models/user_model.dart';
 import 'package:poly_forum/screens/welcome/components/localization_info.dart';
 import 'package:poly_forum/screens/welcome/components/phase_indicator.dart';
 import 'package:poly_forum/screens/welcome/components/presentation_card.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+  final User user;
+  const WelcomeScreen({required this.user, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +127,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const PhaseIndicator(),
+                PhaseIndicator(user: user),
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
                   child: Divider(),

@@ -1,71 +1,110 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
+import 'package:poly_forum/data/models/candidate_user_model.dart';
+import 'package:poly_forum/data/models/user_model.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PhaseIndicator extends StatelessWidget {
-  const PhaseIndicator({Key? key}) : super(key: key);
+class PhaseIndicator extends StatefulWidget {
+  final User user;
+  const PhaseIndicator({required this.user, Key? key}) : super(key: key);
+
+  @override
+  State<PhaseIndicator> createState() => _PhaseIndicatorState();
+}
+
+class _PhaseIndicatorState extends State<PhaseIndicator> {
+  late Phase currentPhase;
+  HashMap<int, Info> infos = HashMap<int, Info>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    currentPhase = BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
+
+    if (widget.user is CandidateUser) {
+      BlocProvider.of<InfoPhaseCubit>(context)
+          .initInfoPhaseCandidat(widget.user as CandidateUser, currentPhase);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            children: [
-              buildItem(
-                context,
-                "1",
-                "Inscription",
-                BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
-                    Phase.inscription,
-                const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                ),
+    return BlocConsumer<InfoPhaseCubit, InfoPhaseState>(
+      listener: (context, state) {
+        if (state is InfoPhaseLoaded) {
+          infos = state.infos;
+        }
+      },
+      builder: (context, state) {
+        if (state is InfoPhaseLoaded) {
+          infos = state.infos;
+        }
+
+        return Row(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  buildItem(
+                    context,
+                    "1",
+                    "Inscription",
+                    currentPhase == Phase.inscription,
+                    const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    ),
+                  ),
+                  if (infos.containsKey(0))
+                    buildInfoNotification(context, infos[0]!),
+                ],
               ),
-              buildInfoNotification(context, "Le profil a été complété", true),
-            ],
-          ),
-        ),
-        const SizedBox(width: 5),
-        Expanded(
-          child: Column(
-            children: [
-              buildItem(
-                context,
-                "2",
-                "Vœux",
-                BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
-                    Phase.wish,
-                const BorderRadius.all(Radius.zero),
+            ),
+            const SizedBox(width: 5),
+            Expanded(
+              child: Column(
+                children: [
+                  buildItem(
+                    context,
+                    "2",
+                    "Vœux",
+                    currentPhase == Phase.wish,
+                    const BorderRadius.all(Radius.zero),
+                  ),
+                  if (infos.containsKey(1))
+                    buildInfoNotification(context, infos[1]!),
+                ],
               ),
-              buildInfoNotification(context, "Les vœux ont été fait", false),
-            ],
-          ),
-        ),
-        const SizedBox(width: 5),
-        Expanded(
-          child: Column(
-            children: [
-              buildItem(
-                context,
-                "3",
-                "Planning",
-                BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
-                    Phase.planning,
-                const BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
-                ),
+            ),
+            const SizedBox(width: 5),
+            Expanded(
+              child: Column(
+                children: [
+                  buildItem(
+                    context,
+                    "3",
+                    "Planning",
+                    currentPhase == Phase.planning,
+                    const BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                  ),
+                  if (infos.containsKey(2))
+                    buildInfoNotification(context, infos[2]!),
+                ],
               ),
-              buildInfoNotification(context, "Le planning a été généré", false),
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -109,13 +148,13 @@ class PhaseIndicator extends StatelessWidget {
     );
   }
 
-  Widget buildInfoNotification(BuildContext context, String text, bool isOk) {
+  Widget buildInfoNotification(BuildContext context, Info info) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          isOk
+          info.isValid
               ? const Icon(
                   Icons.check_circle,
                   color: Colors.green,
@@ -126,7 +165,7 @@ class PhaseIndicator extends StatelessWidget {
                 ),
           const SizedBox(width: 10),
           Text(
-            text,
+            info.text,
             style: const TextStyle(
               fontSize: 16,
             ),

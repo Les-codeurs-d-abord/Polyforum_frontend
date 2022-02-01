@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_navigation_cubit.dart';
+import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/screens/candidate/profil/home/home_profile_screen.dart';
 import 'package:poly_forum/screens/company/candidat/list/candidat_list.dart';
 import 'package:poly_forum/screens/company/company_navigation/components/tab_navigation_item_list.dart';
@@ -71,7 +72,10 @@ class CompanyWebBody extends StatelessWidget {
                                 child: IndexedStack(
                                   index: selectedIndex,
                                   children: <Widget>[
-                                    const WelcomeScreen(),
+                                    WelcomeScreen(
+                                        user: BlocProvider.of<
+                                                CompanyGetUserCubit>(context)
+                                            .user),
                                     const OffersScreen(),
                                     const CreateOfferScreen(),
                                     const CandidatList(),
