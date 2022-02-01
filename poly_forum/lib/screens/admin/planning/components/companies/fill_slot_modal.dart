@@ -25,7 +25,7 @@ class _FillSlotModalState extends State<FillSlotModal> {
   void initState() {
     super.initState();
     BlocProvider.of<AdminFillSlotModalCubit>(context)
-        .fetchFreeCandidatesRequestAtGivenPeriod(widget.period);
+        .fetchFreeCandidatesRequestAtGivenPeriod(widget.period, widget.userId);
   }
 
   @override
