@@ -12,6 +12,8 @@ import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'info_phase.dart';
+
 class PhaseIndicator extends StatefulWidget {
   final User user;
   const PhaseIndicator({required this.user, Key? key}) : super(key: key);
@@ -72,7 +74,7 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
                   ),
                   if (infos.containsKey(0))
                     for (var info in infos[0]!)
-                      buildInfoNotification(context, info),
+                      InfoPhase(context: context, info: info),
                 ],
               ),
             ),
@@ -89,7 +91,7 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
                   ),
                   if (infos.containsKey(1))
                     for (var info in infos[1]!)
-                      buildInfoNotification(context, info),
+                      InfoPhase(context: context, info: info),
                 ],
               ),
             ),
@@ -110,7 +112,7 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
                   ),
                   if (infos.containsKey(2))
                     for (var info in infos[2]!)
-                      buildInfoNotification(context, info),
+                      InfoPhase(context: context, info: info),
                 ],
               ),
             ),
@@ -157,33 +159,6 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
           )
         ],
       ),
-    );
-  }
-
-  Widget buildInfoNotification(BuildContext context, Info info) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        info.isValid
-            ? const Icon(
-                Icons.check_circle,
-                color: Colors.green,
-              )
-            : const Icon(
-                Icons.cancel,
-                color: Colors.red,
-              ),
-        const SizedBox(width: 10),
-        Flexible(
-          child: Text(
-            info.text,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-        )
-      ],
     );
   }
 }

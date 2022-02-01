@@ -15,6 +15,7 @@ import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.d
 import 'package:poly_forum/screens/shared/components/modals/error_modal.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
 import 'package:poly_forum/screens/shared/components/shimmer_loading.dart';
+import 'package:poly_forum/screens/shared/components/shimmer_loading.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';

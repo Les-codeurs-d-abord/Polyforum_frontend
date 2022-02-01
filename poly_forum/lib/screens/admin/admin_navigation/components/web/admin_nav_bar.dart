@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
 import 'package:poly_forum/data/models/admin_model.dart';
+import 'package:poly_forum/screens/welcome/components/info_phase.dart';
 import 'package:poly_forum/utils/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../admin_profil_btn.dart';
 
@@ -52,9 +55,28 @@ class AdminNavBar extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.notifications),
+              BlocConsumer<InfoPhaseCubit, InfoPhaseState>(
+                listener: (context, state) {
+                  // TODO: implement listener
+                },
+                builder: (context, state) {
+                  if (state is InfoPhaseLoaded) {
+                    return PopupMenuButton<int>(
+                      itemBuilder: (context) => [
+                        if (state.infos.containsKey(0))
+                          for (var info in state.infos[0]!)
+                            PopupMenuItem(
+                              value: 0,
+                              child: InfoPhase(context: context, info: info),
+                            ),
+                      ],
+                      tooltip: "Notifications",
+                      child: const Icon(Icons.notifications),
+                    );
+                  }
+
+                  return const CircularProgressIndicator();
+                },
               ),
               AdminProfilBtn(
                 user: user,
