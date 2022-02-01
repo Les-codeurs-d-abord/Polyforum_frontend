@@ -11,12 +11,12 @@ class AdminFillSlotModalCubit extends Cubit<AdminFillSlotModalState> {
   AdminFillSlotModalCubit() : super(AdminFillSlotModalInitial());
 
   Future<List<CandidateMinimal>?> fetchFreeCandidatesRequestAtGivenPeriod(
-      period) async {
+      period, userId) async {
     try {
       emit(AdminFillSlotModalLoading());
 
-      final listCandidates =
-          await repository.fetchFreeCandidatesRequestAtGivenPeriod(period);
+      final listCandidates = await repository
+          .fetchFreeCandidatesRequestAtGivenPeriod(period, userId);
 
       emit(AdminFillSlotModalLoaded(listCandidates));
     } on NetworkException catch (exception) {
