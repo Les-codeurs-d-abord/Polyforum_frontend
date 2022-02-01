@@ -162,7 +162,8 @@ class UserRepository {
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
     final uri = Uri.http(kServer, '/api/users/resetForgottenPassword');
-    final response = await http.put(uri, body: body).onError((error, stackTrace) {
+    final response =
+        await http.put(uri, body: body).onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 

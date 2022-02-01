@@ -15,6 +15,7 @@ class TabNavigationItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentPhase = BlocProvider.of<PhaseCubit>(context).getCurrentPhase();
     return Column(
       children: [
         const SizedBox(height: 20),
@@ -83,38 +84,39 @@ class TabNavigationItemList extends StatelessWidget {
           },
         ),
         const SizedBox(height: 20),
-        if (BlocProvider.of<PhaseCubit>(context).getCurrentPhase() ==
-            Phase.planning)
-          TabNavigationItem(
-            index: 4,
-            selectedIndex: selectedIndex,
-            text: "Planning",
-            iconSelected: Icons.today,
-            iconNonSelected: Icons.today_outlined,
-            onPressed: () {
-              BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(4);
-            },
-            children: [
-              TabChildNavigationItem(
-                index: 5,
-                selectedIndex: selectedIndex,
-                text: "Entreprises",
-                onPressed: () {
-                  BlocProvider.of<AdminNavigationCubit>(context)
-                      .setSelectedItem(5);
-                },
-              ),
-              TabChildNavigationItem(
-                index: 6,
-                selectedIndex: selectedIndex,
-                text: "Candidats",
-                onPressed: () {
-                  BlocProvider.of<AdminNavigationCubit>(context)
-                      .setSelectedItem(6);
-                },
-              ),
-            ],
-          ),
+        TabNavigationItem(
+          index: 4,
+          selectedIndex: selectedIndex,
+          text: "Planning",
+          iconSelected: Icons.today,
+          iconNonSelected: Icons.today_outlined,
+          isEnable: currentPhase == Phase.planning,
+          messageToolTipOnLock:
+              "Cet onglet sera disponible durant la troisième phase: Génération du planning",
+          onPressed: () {
+            BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(4);
+          },
+          children: [
+            TabChildNavigationItem(
+              index: 5,
+              selectedIndex: selectedIndex,
+              text: "Entreprises",
+              onPressed: () {
+                BlocProvider.of<AdminNavigationCubit>(context)
+                    .setSelectedItem(5);
+              },
+            ),
+            TabChildNavigationItem(
+              index: 6,
+              selectedIndex: selectedIndex,
+              text: "Candidats",
+              onPressed: () {
+                BlocProvider.of<AdminNavigationCubit>(context)
+                    .setSelectedItem(6);
+              },
+            ),
+          ],
+        ),
       ],
     );
   }

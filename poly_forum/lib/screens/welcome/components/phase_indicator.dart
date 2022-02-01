@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_forum/cubit/info_phase_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
+import 'package:poly_forum/data/models/admin_model.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/user_model.dart';
@@ -35,6 +36,8 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
     } else if (widget.user is CompanyUser) {
       BlocProvider.of<InfoPhaseCubit>(context)
           .initInfoPhaseCompany(widget.user as CompanyUser, currentPhase);
+    } else if (widget.user is AdminUser) {
+      BlocProvider.of<InfoPhaseCubit>(context).initInfoPhaseAdmin(currentPhase);
     }
   }
 
@@ -93,6 +96,7 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
             const SizedBox(width: 5),
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   buildItem(
                     context,
@@ -157,30 +161,29 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
   }
 
   Widget buildInfoNotification(BuildContext context, Info info) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(width: 30),
-          info.isValid
-              ? const Icon(
-                  Icons.check_circle,
-                  color: Colors.green,
-                )
-              : const Icon(
-                  Icons.cancel,
-                  color: Colors.red,
-                ),
-          const SizedBox(width: 10),
-          Text(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        info.isValid
+            ? const Icon(
+                Icons.check_circle,
+                color: Colors.green,
+              )
+            : const Icon(
+                Icons.cancel,
+                color: Colors.red,
+              ),
+        const SizedBox(width: 10),
+        Flexible(
+          child: Text(
             info.text,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 16,
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }

@@ -39,11 +39,13 @@ class InfoPhaseCubit extends Cubit<InfoPhaseState> {
     ];
     infos[1] = [
       Info(currentPhase != Phase.inscription && currentPhase != Phase.wish,
-          "Phase de vœux terminé")
+          "Phase de vœux terminée")
     ];
     infos[2] = [
       Info(currentPhase == Phase.planning, "Le planning a été généré")
     ];
+
+    emit(InfoPhaseLoaded(infos));
   }
 
   Future<void> initInfoPhaseCandidat(
