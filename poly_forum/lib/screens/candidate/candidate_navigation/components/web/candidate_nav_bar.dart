@@ -116,13 +116,13 @@ class CandidateNavBar extends StatelessWidget {
                             tooltip: "Notifications",
                             child: const Icon(
                               Icons.notifications,
-                              size: 40,
+                              size: 25,
                             ),
                           ),
                           notif
                               ? const IgnorePointer(
                                   child: Icon(Icons.circle,
-                                      color: Colors.red, size: 25))
+                                      color: Colors.red, size: 10))
                               : const SizedBox.shrink(),
                         ],
                       ),
@@ -131,7 +131,7 @@ class CandidateNavBar extends StatelessWidget {
                     return const SizedBox.shrink();
                   }
 
-                  return const CircularProgressIndicator();
+                  return Container();
                 },
               ),
               NavBarProfilBtn(

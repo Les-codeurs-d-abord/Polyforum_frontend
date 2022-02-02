@@ -92,7 +92,7 @@ class TabNavigationItemList extends StatelessWidget {
           iconNonSelected: Icons.today_outlined,
           isEnable: currentPhase == Phase.planning,
           messageToolTipOnLock:
-              "Cet onglet sera disponible durant la troisième phase: Génération du planning",
+              "Cet onglet sera disponible durant la troisième phase : Génération du planning",
           onPressed: () {
             BlocProvider.of<AdminNavigationCubit>(context).setSelectedItem(4);
           },

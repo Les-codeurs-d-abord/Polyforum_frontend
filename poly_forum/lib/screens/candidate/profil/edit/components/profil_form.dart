@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/candidate/update_candidate_cubit.dart';
 import 'package:poly_forum/cubit/file_cubit.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
 // import 'package:poly_forum/screens/candidate/profil/edit/components/profile_links.dart';
@@ -237,6 +238,9 @@ class _ProfileFormState extends State<ProfileForm> {
                               .then((value) {
                             if (value != null) {
                               widget.user.cv = value;
+
+                              BlocProvider.of<InfoPhaseCubit>(context).initInfoPhaseCandidat(widget.user, currentPhase);
+
                               showTopSnackBar(
                                 context,
                                 Padding(

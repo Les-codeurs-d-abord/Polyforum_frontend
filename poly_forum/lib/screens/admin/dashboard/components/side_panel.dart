@@ -109,7 +109,7 @@ class _SidePanelState extends State<SidePanel> {
         children: [
           const Flexible(
             child: Text(
-              "Période courante : Réalisation des voeux ",
+              "Période courante : Saisie des voeux ",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,

@@ -93,7 +93,7 @@ class TabNavigationItemList extends StatelessWidget {
               iconNonSelected: Icons.school_outlined,
               isEnable: currentPhase != Phase.inscription,
               messageToolTipOnLock:
-                  "Cet onglet n'est pas disponible durant la première phase: Inscription",
+                  "Cet onglet sera disponible durant la deuxième phase : Saisie des voeux",
               onPressed: () {
                 BlocProvider.of<CompanyNavigationCubit>(context)
                     .setSelectedItem(3);
@@ -108,7 +108,7 @@ class TabNavigationItemList extends StatelessWidget {
               iconNonSelected: Icons.bookmark_border,
               isEnable: currentPhase != Phase.inscription,
               messageToolTipOnLock:
-                  "Cet onglet n'est pas disponible durant la première phase: Inscription",
+                  "Cet onglet sera disponible durant la deuxième phase : Saisie des voeux",
               onPressed: () {
                 BlocProvider.of<CompanyNavigationCubit>(context)
                     .setSelectedItem(4);
@@ -127,7 +127,7 @@ class TabNavigationItemList extends StatelessWidget {
               iconNonSelected: Icons.today_outlined,
               isEnable: currentPhase == Phase.planning,
               messageToolTipOnLock:
-                  "Cet onglet est disponible durant la troisième phase: Génération du planning",
+                  "Cet onglet sera disponible durant la troisième phase : Génération du planning",
               onPressed: () {
                 BlocProvider.of<CompanyNavigationCubit>(context)
                     .setSelectedItem(5);

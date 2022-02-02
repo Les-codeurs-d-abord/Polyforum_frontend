@@ -28,7 +28,7 @@ class InfoPhase extends StatelessWidget {
         Flexible(
           child: Text(
             info.text,
-            overflow: TextOverflow.ellipsis,
+            // overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 16,
             ),

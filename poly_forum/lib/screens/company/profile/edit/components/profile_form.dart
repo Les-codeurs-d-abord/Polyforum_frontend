@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/company/company_profile_cubit.dart';
 import 'package:poly_forum/cubit/company/navigation/company_get_user_cubit.dart';
+import 'package:poly_forum/cubit/info_phase_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/screens/shared/components/custom_text_field.dart';
@@ -58,6 +59,7 @@ class _ProfileFormState extends State<ProfileForm> {
           BlocProvider.of<CompanyGetUserCubit>(context).setUser(user);
 
           // BlocProvider.of<CompanyGetOfferCubit>(context).getOfferList(user);
+          BlocProvider.of<InfoPhaseCubit>(context).initInfoPhaseCompany(user, currentPhase);
 
           showTopSnackBar(
             context,

@@ -63,13 +63,13 @@ class InfoPhaseCubit extends Cubit<InfoPhaseState> {
     try {
       List<Wish> wishlist = await candidateRepository.getWishlist(candidate);
       wishCount = wishlist.length;
-      infos[0] = [Info(isProfileValid, "Le profil a été complété")];
+      infos[0] = [Info(isProfileValid, isProfileValid ? "Votre profil est complet" : "Votre profil est incomplet")];
       infos[1] = [
         Info(wishCount > 0 && currentPhase != Phase.inscription,
-            "Les vœux ont été fait")
+            wishCount > 0 && currentPhase != Phase.inscription ? "Vous avez renseigné des voeux" : "Vous n'avez renseigné aucun voeux")
       ];
       infos[2] = [
-        Info(currentPhase == Phase.planning, "Le planning a été généré")
+        Info(currentPhase == Phase.planning, currentPhase == Phase.planning ? "Votre planning est disponible" : "Planning indisponible")
       ];
 
       emit(InfoPhaseLoaded(infos));
@@ -98,15 +98,15 @@ class InfoPhaseCubit extends Cubit<InfoPhaseState> {
       offerCount = offers.length;
 
       infos[0] = [
-        Info(isProfileValid, "Le profil a été complété"),
-        Info(offerCount > 0, "Au moins une offre créée"),
+        Info(isProfileValid, isProfileValid ? "Votre profil est complet" : "Votre profil est incomplet"),
+        Info(offerCount > 0, offerCount > 0 ? "Vous avez renseigné des offres" : "Vous n'avez renseigné aucune offre"),
       ];
       infos[1] = [
         Info(wishCount > 0 && currentPhase != Phase.inscription,
-            "Les vœux ont été fait")
+            wishCount > 0 && currentPhase != Phase.inscription ? "Vous avez renseigné des voeux" : "Vous n'avez renseigné aucun voeux")
       ];
       infos[2] = [
-        Info(currentPhase == Phase.planning, "Le planning a été généré")
+        Info(currentPhase == Phase.planning, currentPhase == Phase.planning ? "Votre planning est disponible" : "Planning indisponible")
       ];
 
       emit(InfoPhaseLoaded(infos));
