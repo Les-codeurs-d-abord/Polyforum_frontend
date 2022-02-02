@@ -55,29 +55,6 @@ class AdminNavBar extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              BlocConsumer<InfoPhaseCubit, InfoPhaseState>(
-                listener: (context, state) {
-                  // TODO: implement listener
-                },
-                builder: (context, state) {
-                  if (state is InfoPhaseLoaded) {
-                    return PopupMenuButton<int>(
-                      itemBuilder: (context) => [
-                        if (state.infos.containsKey(0))
-                          for (var info in state.infos[0]!)
-                            PopupMenuItem(
-                              value: 0,
-                              child: InfoPhase(context: context, info: info),
-                            ),
-                      ],
-                      tooltip: "Notifications",
-                      child: const Icon(Icons.notifications),
-                    );
-                  }
-
-                  return const CircularProgressIndicator();
-                },
-              ),
               AdminProfilBtn(
                 user: user,
               ),

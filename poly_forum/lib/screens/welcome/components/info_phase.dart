@@ -13,32 +13,28 @@ class InfoPhase extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          info.isValid
-              ? const Icon(
-                  Icons.check_circle,
-                  color: Colors.green,
-                )
-              : const Icon(
-                  Icons.cancel,
-                  color: Colors.red,
-                ),
-          const SizedBox(width: 10),
-          Flexible(
-            child: Text(
-              info.text,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 16,
+    return Row(
+      children: [
+        info.isValid
+            ? const Icon(
+                Icons.check_circle,
+                color: Colors.green,
+              )
+            : const Icon(
+                Icons.cancel,
+                color: Colors.red,
               ),
+        const SizedBox(width: 10),
+        Flexible(
+          child: Text(
+            info.text,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 16,
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }

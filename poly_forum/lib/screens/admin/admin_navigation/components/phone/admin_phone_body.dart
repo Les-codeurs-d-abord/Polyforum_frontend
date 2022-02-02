@@ -57,15 +57,11 @@ class AdminPhoneBody extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        title: const Text(
-          "PolyForum",
-          style: TextStyle(color: Colors.black),
+        title: Text(
+          getTitle(selectedIndex),
+          style: const TextStyle(color: Colors.black),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-          ),
           AdminProfilBtn(
             user: user,
           ),
@@ -100,5 +96,35 @@ class AdminPhoneBody extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String getTitle(int selectedIndex) {
+    String title = "";
+
+    switch (selectedIndex) {
+      case 0:
+        title = "Le forum";
+        break;
+      case 1:
+        title = "Tableau de bord";
+        break;
+      case 2:
+        title = "Liste des entreprises";
+        break;
+      case 3:
+        title = "Liste des candidats";
+        break;
+      case 4:
+        title = "Accès aux plannings";
+        break;
+      case 5:
+        title = "Planning des entreprises";
+        break;
+      case 6:
+        title = "Planning des candidats";
+        break;
+    }
+
+    return title;
   }
 }

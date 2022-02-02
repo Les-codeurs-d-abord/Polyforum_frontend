@@ -38,9 +38,10 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
     } else if (widget.user is CompanyUser) {
       BlocProvider.of<InfoPhaseCubit>(context)
           .initInfoPhaseCompany(widget.user as CompanyUser, currentPhase);
-    } else if (widget.user is AdminUser) {
-      BlocProvider.of<InfoPhaseCubit>(context).initInfoPhaseAdmin(currentPhase);
     }
+    /*   else if (widget.user is AdminUser) {
+      BlocProvider.of<InfoPhaseCubit>(context).initInfoPhaseAdmin(currentPhase);
+    } */
   }
 
   @override
@@ -72,6 +73,7 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
                       bottomLeft: Radius.circular(20),
                     ),
                   ),
+                  const SizedBox(height: 10),
                   if (infos.containsKey(0))
                     for (var info in infos[0]!)
                       InfoPhase(context: context, info: info),
@@ -89,6 +91,7 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
                     currentPhase == Phase.wish,
                     const BorderRadius.all(Radius.zero),
                   ),
+                  const SizedBox(height: 10),
                   if (infos.containsKey(1))
                     for (var info in infos[1]!)
                       InfoPhase(context: context, info: info),
@@ -110,6 +113,7 @@ class _PhaseIndicatorState extends State<PhaseIndicator> {
                       bottomRight: Radius.circular(20),
                     ),
                   ),
+                  const SizedBox(height: 10),
                   if (infos.containsKey(2))
                     for (var info in infos[2]!)
                       InfoPhase(context: context, info: info),
