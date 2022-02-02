@@ -79,7 +79,7 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          flex: 1,
+                          flex: 3,
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,7 +185,7 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                           endIndent: 10,
                         ),
                         Expanded(
-                          flex: 2,
+                          flex: 5,
                           child: Container(
                             margin: const EdgeInsets.only(left: 20),
                             padding: const EdgeInsets.all(8.0),
@@ -404,9 +404,7 @@ class _CompanyOffersListState extends State<CompanyOffersList> {
                               },
                             ).then((value) {
                               if (value == ModalReturn.confirm) {
-                                BlocProvider.of<CompanyOffersListDialogCubit>(
-                                        context)
-                                    .deleteOffer(offer);
+                                BlocProvider.of<CompanyOffersListDialogCubit>(context).deleteOffer(offer);
                               }
                             });
                           },

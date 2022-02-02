@@ -24,8 +24,8 @@ class PresentationCard extends StatelessWidget {
           launch(link);
         },
         child: Container(
-          width: 400,
-          height: 400,
+          width: 350,
+          height: 420,
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [

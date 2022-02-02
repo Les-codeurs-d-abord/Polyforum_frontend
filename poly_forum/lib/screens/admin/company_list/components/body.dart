@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poly_forum/cubit/admin/candidate_list/candidate_list_screen_cubit.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_list_screen_cubit.dart';
 import 'package:poly_forum/cubit/admin/company_list/company_offers_list_dialog_cubit.dart';
@@ -8,13 +9,12 @@ import 'package:poly_forum/cubit/admin/dashboard/dashboard_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/company_model.dart';
 import 'package:poly_forum/resources/company_repository.dart';
-import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/list/search_bar.dart';
 import 'package:poly_forum/screens/shared/components/list/sort_button.dart';
 import 'package:poly_forum/screens/shared/components/modals/confirmation_modal.dart';
 import 'package:poly_forum/screens/shared/components/modals/error_modal.dart';
+import 'package:poly_forum/screens/shared/components/modals/modal_return_enum.dart';
 import 'package:poly_forum/screens/shared/components/phase.dart';
-import 'package:poly_forum/screens/shared/components/shimmer_loading.dart';
 import 'package:poly_forum/screens/shared/components/shimmer_loading.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -81,7 +81,7 @@ class _BodyState extends State<Body> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const SizedBox(width: 55),
+                              const SizedBox(width: 60),
                               const Spacer(),
                               Expanded(
                                 flex: 12,
@@ -139,7 +139,7 @@ class _BodyState extends State<Body> {
                                     }),
                               ),
                               const Spacer(),
-                              const SizedBox(width: 55),
+                              const SizedBox(width: 45),
                             ],
                           ),
                         ),
@@ -462,8 +462,9 @@ class _BodyState extends State<Body> {
                         barrierDismissible: false)
                     .then((deleteCount) {
                   if (deleteCount > 0) {
-                    BlocProvider.of<DashboardCubit>(context)
-                        .fetchDashboardData();
+                    BlocProvider.of<DashboardCubit>(context).fetchDashboardData();
+                    BlocProvider.of<CompanyListScreenCubit>(context).fetchCompanyList();
+                    BlocProvider.of<CandidateListScreenCubit>(context).fetchCandidateList();
                   }
                 });
               },
@@ -500,6 +501,8 @@ class _BodyState extends State<Body> {
                     BlocProvider.of<CompanyListScreenCubit>(context)
                         .deleteCompany(company)
                         .then((value) {
+                      BlocProvider.of<CandidateListScreenCubit>(context)
+                          .fetchCandidateList();
                       BlocProvider.of<DashboardCubit>(context)
                           .fetchDashboardData();
                     });

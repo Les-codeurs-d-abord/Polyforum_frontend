@@ -4,6 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_form_cubit.dart';
 import 'package:poly_forum/cubit/admin/candidate_list/candidate_list_screen_cubit.dart';
+import 'package:poly_forum/cubit/admin/company_list/company_list_screen_cubit.dart';
 import 'package:poly_forum/cubit/admin/dashboard/dashboard_cubit.dart';
 import 'package:poly_forum/cubit/phase_cubit.dart';
 import 'package:poly_forum/data/models/candidate_user_model.dart';
@@ -81,7 +82,7 @@ class _BodyState extends State<Body> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const SizedBox(width: 55),
+                              const SizedBox(width: 60),
                               const Spacer(),
                               Expanded(
                                 flex: 3,
@@ -125,7 +126,7 @@ class _BodyState extends State<Body> {
                                     }),
                               ),
                               const Spacer(),
-                              const SizedBox(width: 55),
+                              const SizedBox(width: 45),
                             ],
                           ),
                         ),
@@ -244,18 +245,12 @@ class _BodyState extends State<Body> {
                                                                 const CandidateCreateFormDialog(),
                                                           );
                                                         },
-                                                        barrierDismissible:
-                                                            false)
-                                                    .then((value) {
-                                                  if (value ==
-                                                      ModalReturn.confirm) {
-                                                    BlocProvider.of<
-                                                                CandidateListScreenCubit>(
-                                                            context)
+                                                        barrierDismissible: false
+                                                ).then((value) {
+                                                  if (value == ModalReturn.confirm) {
+                                                    BlocProvider.of<CandidateListScreenCubit>(context)
                                                         .fetchCandidateList();
-                                                    BlocProvider.of<
-                                                                DashboardCubit>(
-                                                            context)
+                                                    BlocProvider.of<DashboardCubit>(context)
                                                         .fetchDashboardData();
                                                   }
                                                 });
@@ -468,6 +463,8 @@ class _BodyState extends State<Body> {
                     BlocProvider.of<CandidateListScreenCubit>(context)
                         .deleteCandidate(candidate)
                         .then((value) {
+                      BlocProvider.of<CompanyListScreenCubit>(context)
+                          .fetchCompanyList();
                       BlocProvider.of<DashboardCubit>(context)
                           .fetchDashboardData();
                     });
