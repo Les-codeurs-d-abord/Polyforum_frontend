@@ -23,6 +23,9 @@ class _BodyState extends State<Body> {
   int companyWishesCount = 0;
   int offersCount = 0;
   int companiesWithNoOfferCount = 0;
+  int idleCompaniesCount = 0;
+  int incompleteCompaniesCount = 0;
+  int completeCompaniesCount = 0;
 
   int candidatesCount = 0;
   int candidateWishesCount = 0;
@@ -135,6 +138,21 @@ class _BodyState extends State<Body> {
                         value: companiesWithNoOfferCount,
                         text: "Entreprises sans offre",
                         color: kLightGrey,
+                      ),
+                      LargeDataTile(
+                        width: 310,
+                        height: 150,
+                        color: kLightGrey,
+                        values: [
+                          completeCompaniesCount,
+                          incompleteCompaniesCount,
+                          idleCompaniesCount,
+                        ],
+                        texts: const [
+                          " entreprises au profil complet",
+                          " entreprises au profil incomplet",
+                          " entreprises jamais connectées",
+                        ],
                       )
                     ]
                 )
@@ -176,7 +194,7 @@ class _BodyState extends State<Body> {
                       texts: const [
                         " candidats au profil complet",
                         " candidats au profil incomplet",
-                        " candidats sans informations",
+                        " candidats jamais connectés",
                       ],
                     )
                   ]
@@ -215,6 +233,15 @@ class _BodyState extends State<Body> {
         .fold(0, (sum, offersCount) => sum + offersCount);
     companiesWithNoOfferCount = state.companies
         .where((company) => company.offersCount == 0)
+        .length;
+    idleCompaniesCount = state.companies
+        .where((company) => company.status == "Jamais connecté")
+        .length;
+    incompleteCompaniesCount = state.companies
+        .where((company) => company.status == "Incomplet")
+        .length;
+    completeCompaniesCount = state.companies
+        .where((company) => company.status == "Complet")
         .length;
 
     candidatesCount = state.candidates.length;
