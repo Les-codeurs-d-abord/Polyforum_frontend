@@ -9,6 +9,7 @@ import 'package:poly_forum/data/models/company_user_model.dart';
 import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:poly_forum/utils/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ResRepository {
   Future<String> uploadCVCandidate(
@@ -28,6 +29,12 @@ class ResRepository {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
+      final pref = await SharedPreferences.getInstance();
+      final token = pref.getString(kTokenPref);
+      Map<String, String> requestHeaders = {
+        'Authorization': "Bearer $token",
+      };
+
       final uri = Uri.http(kServer, unencodedPath);
       var request = http.MultipartRequest('POST', uri);
       request.files.add(
@@ -38,6 +45,7 @@ class ResRepository {
           contentType: MediaType.parse(lookupMimeType(fileName)!),
         ),
       );
+      request.headers.addAll(requestHeaders);
 
       var streamedResponse = await request.send();
 
@@ -72,6 +80,12 @@ class ResRepository {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
+      final pref = await SharedPreferences.getInstance();
+      final token = pref.getString(kTokenPref);
+      Map<String, String> requestHeaders = {
+        'Authorization': "Bearer $token",
+      };
+
       final uri = Uri.http(kServer, unencodedPath);
       var request = http.MultipartRequest('POST', uri);
       request.files.add(
@@ -82,6 +96,8 @@ class ResRepository {
           contentType: MediaType.parse(lookupMimeType(filename)!),
         ),
       );
+
+      request.headers.addAll(requestHeaders);
 
       var streamedResponse = await request.send();
 
@@ -98,39 +114,6 @@ class ResRepository {
       throw NetworkException("Une erreur est survenue: ${e.toString()}");
     }
   }
-
-  // Future<String> uploadLogo(PlatformFile file, String unencodedPath) async {
-  //   try {
-  //     await Future.delayed(const Duration(milliseconds: kDelayQuery));
-
-  //     final uri = Uri.http(kServer, unencodedPath);
-
-  //     var request = http.MultipartRequest('POST', uri);
-
-  //     request.files.add(
-  //       http.MultipartFile(
-  //         'logo',
-  //         file.readStream!.cast(),
-  //         file.size,
-  //         filename: file.name,
-  //         contentType: MediaType.parse(lookupMimeType(file.name)!),
-  //       ),
-  //     );
-  //     var response = await request.send();
-
-  //     if (response.statusCode == 200) {
-  //       return await response.stream.bytesToString();
-  //     } else if (response.statusCode == 400) {
-  //       throw const FileToBigException(
-  //           "Le fichier envoyé est trop volumineux.");
-  //     } else {
-  //       throw NetworkException(
-  //           "Une erreur est survenue, status code: ${response.statusCode}");
-  //     }
-  //   } on Exception catch (e) {
-  //     throw NetworkException("Une erreur est survenue: ${e.toString()}");
-  //   }
-  // }
 }
 
 class NetworkException implements Exception {

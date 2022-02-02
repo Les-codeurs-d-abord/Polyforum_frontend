@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:poly_forum/data/models/planning_model.dart';
 import 'package:poly_forum/data/models/slot_model.dart';
 import 'dart:convert';
-
 import 'package:poly_forum/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PlanningRepository {
   Future<Planning> fetchPlanningWithUserId(int userId) async {
@@ -149,8 +149,15 @@ class PlanningRepository {
   }
 
   Future<List<CandidateMinimal>> getCandidates() async {
+    final pref = await SharedPreferences.getInstance();
+    Map<String, String> requestHeaders = {
+      'Authorization': "Bearer ${pref.getString(kTokenPref)}",
+    };
+
     final uri = Uri.http(kServer, '/api/candidates');
-    final response = await http.get(uri).timeout(const Duration(seconds: 2));
+    final response = await http
+        .get(uri, headers: requestHeaders)
+        .timeout(const Duration(seconds: 2));
 
     List<CandidateMinimal> candidates = [];
 
@@ -180,8 +187,15 @@ class PlanningRepository {
   Future<List<CompanyMinimal>> getCompanies() async {
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
+    final pref = await SharedPreferences.getInstance();
+    Map<String, String> requestHeaders = {
+      'Authorization': "Bearer ${pref.getString(kTokenPref)}",
+    };
+
     final uri = Uri.http(kServer, '/api/companies');
-    final response = await http.get(uri).onError((error, stackTrace) {
+    final response = await http
+        .get(uri, headers: requestHeaders)
+        .onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 

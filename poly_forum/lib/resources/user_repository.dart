@@ -21,8 +21,14 @@ class UserRepository {
       var jsonResponse = jsonDecode(response.body);
       var jsonUser = jsonResponse["payload"];
 
-      SharedPreferences.getInstance()
-          .then((value) => value.setString(kTokenPref, jsonResponse['token']));
+      final pref = await SharedPreferences.getInstance();
+
+      pref.setString(kTokenPref, jsonResponse['token']);
+
+      final token = pref.getString(kTokenPref);
+      Map<String, String> requestHeaders = {
+        'Authorization': "Bearer $token",
+      };
 
       switch (jsonUser["role"]) {
         case "CANDIDAT":
@@ -30,7 +36,8 @@ class UserRepository {
             kServer,
             "/api/candidates/${jsonUser["id"]}",
           );
-          final resCandidate = await http.get(uriCandidate);
+          final resCandidate =
+              await http.get(uriCandidate, headers: requestHeaders);
           if (resCandidate.statusCode == 200) {
             var jsonCandidate =
                 jsonDecode(resCandidate.body) as Map<String, dynamic>;
@@ -43,7 +50,8 @@ class UserRepository {
             kServer,
             "/api/companies/${jsonUser["id"]}",
           );
-          final resCompany = await http.get(uriCompany);
+          final resCompany =
+              await http.get(uriCompany, headers: requestHeaders);
           if (resCompany.statusCode == 200) {
             var jsonCompany =
                 jsonDecode(resCompany.body) as Map<String, dynamic>;

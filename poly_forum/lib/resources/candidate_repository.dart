@@ -5,7 +5,7 @@ import 'package:poly_forum/data/models/offer_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:poly_forum/data/models/wish_model.dart';
 import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:poly_forum/utils/constants.dart';
 
 class CandidateRepository {
@@ -15,9 +15,15 @@ class CandidateRepository {
 
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
+    final pref = await SharedPreferences.getInstance();
+    Map<String, String> requestHeaders = {
+      'Authorization': "Bearer ${pref.getString(kTokenPref)}",
+    };
+
     final uri = Uri.http(kServer, '/api/candidates');
-    final response =
-    await http.post(uri, body: body).onError((error, stackTrace) {
+    final response = await http
+        .post(uri, body: body, headers: requestHeaders)
+        .onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -37,9 +43,15 @@ class CandidateRepository {
 
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
+    final pref = await SharedPreferences.getInstance();
+    Map<String, String> requestHeaders = {
+      'Authorization': "Bearer ${pref.getString(kTokenPref)}",
+    };
+
     final uri = Uri.http(kServer, '/api/users/${candidate.id}');
-    final response =
-    await http.put(uri, body: body).onError((error, stackTrace) {
+    final response = await http
+        .put(uri, body: body, headers: requestHeaders)
+        .onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -53,8 +65,18 @@ class CandidateRepository {
   }
 
   Future<void> deleteCandidate(CandidateUser candidate) async {
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
+
     final uri = Uri.http(kServer, '/api/candidates/${candidate.id}');
-    final response = await http.delete(uri).onError((error, stackTrace) {
+
+    final pref = await SharedPreferences.getInstance();
+    Map<String, String> requestHeaders = {
+      'Authorization': "Bearer ${pref.getString(kTokenPref)}",
+    };
+
+    final response = await http
+        .delete(uri, headers: requestHeaders)
+        .onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -70,8 +92,15 @@ class CandidateRepository {
   Future<List<CandidateUser>> fetchCandidateList() async {
     await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
+    final pref = await SharedPreferences.getInstance();
+    Map<String, String> requestHeaders = {
+      'Authorization': "Bearer ${pref.getString(kTokenPref)}",
+    };
+
     final uri = Uri.http(kServer, '/api/candidates');
-    final response = await http.get(uri).onError((error, stackTrace) {
+    final response = await http
+        .get(uri, headers: requestHeaders)
+        .onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -95,8 +124,18 @@ class CandidateRepository {
   }
 
   Future<CandidateDetail> getCandidateDetail(int id) async {
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
+
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getString(kTokenPref);
+    Map<String, String> requestHeaders = {
+      'Authorization': "Bearer $token",
+    };
+
     final uri = Uri.http(kServer, '/api/candidates/$id');
-    final response = await http.get(uri).onError((error, stackTrace) {
+    final response = await http
+        .get(uri, headers: requestHeaders)
+        .onError((error, stackTrace) {
       throw const NetworkException("Le serveur est injoignable");
     });
 
@@ -113,23 +152,45 @@ class CandidateRepository {
   }
 
   Future<void> sendReminder() async {
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
+
+    final pref = await SharedPreferences.getInstance();
+    final token = pref.getString(kTokenPref);
+    Map<String, String> requestHeaders = {
+      'Authorization': "Bearer $token",
+    };
+
     final uri = Uri.http(kServer, '/api/users/sendRemindersCandidates');
-    final response = await http.post(uri).onError((error, stackTrace) {
-      throw const NetworkException("Le serveur est injoignable, l'envoi des rappels n'a pas pu être effectué");
+    final response = await http
+        .post(uri, headers: requestHeaders)
+        .onError((error, stackTrace) {
+      throw const NetworkException(
+          "Le serveur est injoignable, l'envoi des rappels n'a pas pu être effectué");
     });
 
     if (response.statusCode != 200) {
-      throw const NetworkException("Le serveur a rencontré un problème, l'envoi des rappels n'a pas pu être effectué");
+      throw const NetworkException(
+          "Le serveur a rencontré un problème, l'envoi des rappels n'a pas pu être effectué");
     }
   }
 
   Future<List<Offer>> fetchOfferList() async {
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
+
     try {
+      final pref = await SharedPreferences.getInstance();
+      final token = pref.getString(kTokenPref);
+      Map<String, String> requestHeaders = {
+        'Authorization': "Bearer $token",
+      };
+
       final uri = Uri.http(
         kServer,
         '/api/offer',
       );
-      final response = await http.get(uri).timeout(const Duration(seconds: 2));
+      final response = await http
+          .get(uri, headers: requestHeaders)
+          .timeout(const Duration(seconds: 2));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -159,14 +220,22 @@ class CandidateRepository {
   }
 
   Future<CandidateUser> updateUser(CandidateUser user) async {
+    await Future.delayed(const Duration(milliseconds: kDelayQuery));
+
     try {
+      final pref = await SharedPreferences.getInstance();
+      final token = pref.getString(kTokenPref);
+      Map<String, String> requestHeaders = {
+        'Authorization': "Bearer $token",
+      };
+
       String json = jsonEncode(user.toJson());
       final body = {
         "data": json,
       };
 
       final uri = Uri.http(kServer, '/api/candidates/${user.id}');
-      final response = await http.put(uri, body: body);
+      final response = await http.put(uri, body: body, headers: requestHeaders);
 
       if (response.statusCode == 200) {
         var jsonCandidate = jsonDecode(response.body) as Map<String, dynamic>;
@@ -184,14 +253,17 @@ class CandidateRepository {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
-      final body = {
-        'candidateProfileId': user.candidateId.toString(),
-        'offerId': offer.id.toString()
+      final pref = await SharedPreferences.getInstance();
+      final token = pref.getString(kTokenPref);
+      Map<String, String> requestHeaders = {
+        'Authorization': "Bearer $token",
       };
 
-      final uri = Uri.http(kServer, '/api/wishcandidate');
-      final response =
-      await http.post(uri, body: body).onError((error, stackTrace) {
+      final uri = Uri.http(
+          kServer, '/api/wishcandidate/${user.candidateId}/${offer.id}');
+      final response = await http
+          .post(uri, headers: requestHeaders)
+          .onError((error, stackTrace) {
         print(error);
         throw const NetworkException("Le serveur est injoignable");
       });
@@ -209,14 +281,17 @@ class CandidateRepository {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
-      final body = {
-        'candidateProfileId': user.candidateId.toString(),
-        'offerId': offer.id.toString()
+      final pref = await SharedPreferences.getInstance();
+      final token = pref.getString(kTokenPref);
+      Map<String, String> requestHeaders = {
+        'Authorization': "Bearer $token",
       };
 
-      final uri = Uri.http(kServer, '/api/wishcandidate');
-      final response =
-      await http.delete(uri, body: body).onError((error, stackTrace) {
+      final uri = Uri.http(
+          kServer, '/api/wishcandidate/${user.candidateId}/${offer.id}');
+      final response = await http
+          .delete(uri, headers: requestHeaders)
+          .onError((error, stackTrace) {
         throw const NetworkException("Le serveur est injoignable");
       });
 
@@ -232,13 +307,17 @@ class CandidateRepository {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
-      final params = {
-        'candidateProfileId': user.candidateId.toString(),
-        'offerId': offer.id.toString()
+      final pref = await SharedPreferences.getInstance();
+      final token = pref.getString(kTokenPref);
+      Map<String, String> requestHeaders = {
+        'Authorization': "Bearer $token",
       };
 
-      final uri = Uri.http(kServer, '/api/wishcandidate/check', params);
-      final response = await http.get(uri).onError((error, stackTrace) {
+      final uri = Uri.http(
+          kServer, '/api/wishcandidate/check/${user.candidateId}/${offer.id}');
+      final response = await http
+          .get(uri, headers: requestHeaders)
+          .onError((error, stackTrace) {
         throw const NetworkException("Le serveur est injoignable");
       });
 
@@ -261,8 +340,16 @@ class CandidateRepository {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
+      final pref = await SharedPreferences.getInstance();
+      final token = pref.getString(kTokenPref);
+      Map<String, String> requestHeaders = {
+        'Authorization': "Bearer $token",
+      };
+
       final uri = Uri.http(kServer, '/api/wishcandidate/${user.candidateId}');
-      final response = await http.get(uri).onError((error, stackTrace) {
+      final response = await http
+          .get(uri, headers: requestHeaders)
+          .onError((error, stackTrace) {
         print(error);
         throw const NetworkException("Le serveur est injoignable");
       });
@@ -291,6 +378,12 @@ class CandidateRepository {
     try {
       await Future.delayed(const Duration(milliseconds: kDelayQuery));
 
+      final pref = await SharedPreferences.getInstance();
+      final token = pref.getString(kTokenPref);
+      Map<String, String> requestHeaders = {
+        'Authorization': "Bearer $token",
+      };
+
       try {
         List<int> offerIdList = [];
 
@@ -303,7 +396,8 @@ class CandidateRepository {
         };
 
         final uri = Uri.http(kServer, '/api/wishcandidate/${user.candidateId}');
-        final response = await http.put(uri, body: body);
+        final response =
+            await http.put(uri, body: body, headers: requestHeaders);
 
         if (response.statusCode != 200) {
           throw const NetworkException("Une erreur est survenue.");
