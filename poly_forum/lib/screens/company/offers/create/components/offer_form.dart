@@ -74,16 +74,15 @@ class _OfferFormState extends State<OfferForm> {
                 ),
               );
             }
-
-            _nameController.clear();
-            _descriptionController.clear();
-            _phoneNumberController.clear();
-            _emailController.clear();
-            _addresController.clear();
-
-            links.clear();
-            tags.clear();
           });
+
+          _nameController.clear();
+          _descriptionController.clear();
+          _phoneNumberController.clear();
+          _emailController.clear();
+          _addresController.clear();
+          links.clear();
+          tags.clear();
         } else if (state is CompanyOfferError) {
           showTopSnackBar(
             context,
@@ -142,10 +141,11 @@ class _OfferFormState extends State<OfferForm> {
                 ],
               ),
               const SizedBox(height: 15),
-              const CustomDropZone(
+              CustomDropZone(
                 text: "Offre",
                 uri: "",
                 isDisabled: false,
+                isClearOnUpload: true,
               ),
               const SizedBox(height: 15),
               SizedBox(

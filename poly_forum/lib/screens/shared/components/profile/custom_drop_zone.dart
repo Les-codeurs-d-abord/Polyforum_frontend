@@ -8,16 +8,18 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CustomDropZone extends StatefulWidget {
-  final String uri;
+  String uri;
   final String text;
   final bool isDisabled;
+  final bool isClearOnUpload;
 
-  const CustomDropZone({
-    required this.text,
-    required this.uri,
-    required this.isDisabled,
-    Key? key
-  }) : super(key: key);
+  CustomDropZone(
+      {required this.text,
+      required this.uri,
+      required this.isDisabled,
+      this.isClearOnUpload = false,
+      Key? key})
+      : super(key: key);
 
   @override
   State<CustomDropZone> createState() => _CustomDropZoneState();
@@ -90,6 +92,11 @@ class _CustomDropZoneState extends State<CustomDropZone> {
                       ),
                     ),
                   );
+                } else if (state is FileUploaded) {
+                  if (widget.isClearOnUpload) {
+                    widget.uri = "";
+                    BlocProvider.of<FileCubit>(context).fileDataModel = null;
+                  }
                 }
               },
               builder: (context, state) {
@@ -100,7 +107,7 @@ class _CustomDropZoneState extends State<CustomDropZone> {
                   );
                 } else if (state is FileLoaded) {
                   return buildLoadedContent(context, state.fileDataModel);
-                } else if (state is FileUploaded) {
+                } else if (state is FileUploaded && !widget.isClearOnUpload) {
                   return buildContent(context, state.fileDataModel.uri);
                 }
 
