@@ -12,10 +12,10 @@ class InitialsAvatar extends StatelessWidget {
       : super(key: key) {
     if (text.trim().isNotEmpty) {
       var nameparts = text.split(" ");
-      if (nameparts.isNotEmpty) {
+      if (nameparts.isNotEmpty && nameparts[0].isNotEmpty) {
         initials = nameparts[0][0].toUpperCase();
       }
-      if (nameparts.length > 1) {
+      if (nameparts.length > 1 && nameparts[1].isNotEmpty) {
         initials += nameparts[1][0].toUpperCase();
       }
     }
